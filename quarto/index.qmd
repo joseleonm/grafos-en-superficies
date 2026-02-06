@@ -92,31 +92,6 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
 
 ---
 
-## Flujo del Curso
-
-```mermaid
-graph LR
-    A[1. Sistemas de Rotación] --> B[2. Trazado de Caras]
-    B --> C[3. Invariantes]
-    C --> D[4. Heffter-Edmonds]
-    D --> E[5. Propiedades Avanzadas]
-
-    style A fill:#e3f2fd
-    style B fill:#e8f5e9
-    style C fill:#fff3e0
-    style D fill:#fce4ec
-    style E fill:#f3e5f5
-```
-
-**Progresión natural:**
-1. **Definición** → Permutaciones $(\sigma, \rho)$
-2. **Algoritmo** → Calcular caras con $\varphi = \rho\sigma$
-3. **Invariantes** → Extraer χ, g, componentes de frontera
-4. **Teoría** → Correspondencia biunívoca (Heffter-Edmonds)
-5. **Aplicaciones** → Operaciones y polinomios
-
----
-
 ## Herramientas
 
 Este proyecto utiliza:

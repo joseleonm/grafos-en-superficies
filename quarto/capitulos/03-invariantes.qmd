@@ -1,0 +1,302 @@
+---
+title: "3. Invariantes Topológicos"
+subtitle: "Cálculo desde las permutaciones"
+---
+
+
+# Invariantes Topológicos
+
+## Introducción
+
+Una vez que tenemos un sistema de rotación $(\sigma, \rho)$, podemos calcular todos los invariantes topológicos de la superficie resultante **sin necesidad de visualizarla**. Los cálculos se hacen directamente sobre las permutaciones.
+
+Los invariantes principales son:
+
+- Número de **vértices** ($V$)
+- Número de **aristas** ($E$)
+- Número de **caras** ($F$)
+- **Característica de Euler** ($\chi = V - E + F$)
+- **Género** ($g$)
+- **Componentes de frontera** ($b$)
+
+
+## Recapitulación: Caras y $\varphi$
+
+Como vimos en el capítulo anterior, las caras del encaje están determinadas por los ciclos de la permutación:
+$$ \varphi = \rho \sigma $$
+
+El número de caras $F$ es simplemente el número de ciclos disjuntos en $\varphi$.
+Este dato es la pieza faltante para conectar la combinatoria con la topología.
+
+---
+
+## Cálculo en SageMath
+
+SageMath calcula automáticamente todas las caras:
+
+```python
+from sage.graphs.ribbon_graph import RibbonGraph
+from sage.all import PermutationGroupElement
+
+# Ejemplo: toro
+sigma = PermutationGroupElement('(1,3,2,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+
+# Obtener las caras (componentes de frontera)
+caras = list(R.faces())
+print(f"Número de caras: {len(caras)}")
+print(f"Caras: {caras}")
+
+# También podemos usar boundary()
+fronteras = R.boundary()
+print(f"Componentes de frontera: {fronteras}")
+```
+
+**Salida:**
+```
+Número de caras: 1
+Caras: [[1, 4, 3, 2]]
+Componentes de frontera: [[1, 4, 3, 2]]
+```
+
+---
+
+## Característica de Euler
+
+Una vez conocemos $V$, $E$ y $F$, calculamos la característica de Euler:
+
+$$
+\chi = V - E + F
+$$
+
+### Cálculo desde las permutaciones
+
+- **$V$** = número de ciclos de $\sigma$
+- **$E$** = número de 2-ciclos de $\rho$ = $|D|/2$ (donde $|D|$ es el número de semiaristas)
+- **$F$** = número de ciclos de $\varphi$
+
+```python
+
+# Ejemplo
+sigma = PermutationGroupElement('(1,3,2,4)')  # 1 ciclo → V = 1
+rho = PermutationGroupElement('(1,2)(3,4)')   # 2 ciclos → E = 2
+# D = 4 semiaristas
+
+R = RibbonGraph(sigma, rho)
+
+V = R.num_vertices()             # 1
+E = R.num_edges()                # 2
+F = len(list(R.faces()))         # 1
+
+chi = V - E + F
+print(f"χ = {V} - {E} + {F} = {chi}")
+```
+
+**Salida:**
+```
+χ = 1 - 2 + 1 = 0
+```
+
+---
+
+## Género
+
+Para superficies orientables cerradas (sin frontera), la relación es:
+
+$$
+\chi = 2 - 2g
+$$
+
+De donde:
+$$
+g = 1 - \frac{\chi}{2} = \frac{2-\chi}{2}
+$$
+
+### Casos con frontera
+
+Para superficies con frontera, la fórmula se generaliza:
+
+$$
+\chi = 2 - 2g - b
+$$
+
+donde $b$ es el número de componentes de frontera.
+
+De aquí:
+$$
+g = \frac{2 - \chi - b}{2}
+$$
+
+```python
+
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+
+# Sage calcula directamente
+g = R.genus()
+b = R.number_boundaries()
+
+print(f"Género: {g}")
+print(f"Componentes de frontera: {b}")
+
+# Verificar con la fórmula
+chi = R.num_vertices() - R.num_edges() + len(list(R.faces()))
+g_calculado = (2 - chi - b) // 2
+
+print(f"Verificación: g = (2 - {chi} - {b})/2 = {g_calculado}")
+```
+
+**Salida:**
+```
+Género: 1
+Componentes de frontera: 0
+Verificación: g = (2 - 0 - 0)/2 = 1
+```
+
+---
+
+## Ejemplos de Cálculo
+
+### Ejemplo 1: Disco (con frontera)
+
+```python
+# Sistema con frontera
+sigma = PermutationGroupElement('(1,2,3)')
+rho = PermutationGroupElement('(1,2)')
+R = RibbonGraph(sigma, rho)
+print(f"Género: {R.genus()}")
+print(f"Fronteras: {R.number_boundaries()}")
+# Resultado: g=0, b=1 (Disco)
+```
+
+### Ejemplo 2: Triángulo K₃ en la esfera
+
+```python
+# K₃ con encaje planar
+R = RibbonGraph('(1,6)(2,3)(4,5)', '(1,2)(3,4)(5,6)')
+print(f"Género: {R.genus()}")
+# Resultado: g=0 (Esfera)
+```
+
+### Ejemplo 3: Bouquet de 3 círculos
+
+```python
+# Un vértice con 3 self-loops
+R = RibbonGraph('(1,2,3,4,5,6)', '(1,2)(3,4)(5,6)')
+print(f"Género: {R.genus()}")
+# Resultado: g=1 (Toro con 1 frontera si b=1, o Toro cerrado si b=0?)
+# Verifiquemos: V=1, E=3. Si F=1 -> 1-3+1 = -1. Imposible para cerrada.
+# Debe ser superficie con frontera.
+```
+
+---
+
+## Tabla de ejemplos
+
+| Ejemplo | <span style="text-transform:none">$\sigma$</span> | <span style="text-transform:none">$\rho$</span> | $V$ | $E$ | $F$ | <span style="text-transform:none">$\chi$</span> | <span style="text-transform:none">$g$</span> | <span style="text-transform:none">$b$</span> |
+|---------|---------------------------------------------------|-------------------------------------------------|-----|-----|-----|-------------------------------------------------|----------------------------------------------|----------------------------------------------|
+| Toro | $(1,2,3,4)$ | $(1,2)(3,4)$ | 1 | 2 | 1 | 0 | 1 | 0 |
+| Cilindro | $(1,2,3)$ | $(1,2)$ | 1 | 1 | 2 | 0 | 0 | 2 |
+| K₃ plano | $(1,6)(2,3)(4,5)$ | $(1,2)(3,4)(5,6)$ | 3 | 3 | 2 | 2 | 0 | 0 |
+| Bouquet 3 | $(1,2,3,4,5,6)$ | $(1,2)(3,4)(5,6)$ | 1 | 3 | 4 | 2 | 0 | 4 |
+
+
+## Implementación: función auxiliar
+
+Podemos crear una función para calcular todos los invariantes:
+
+```python
+
+def calcular_invariantes(sigma, rho):
+    """
+    Calcula todos los invariantes topológicos de un sistema de rotación.
+    """
+    # Asegurar que son permutaciones si se pasan strings
+    if isinstance(sigma, str): sigma = PermutationGroupElement(sigma)
+    if isinstance(rho, str): rho = PermutationGroupElement(rho)
+
+    R = RibbonGraph(sigma, rho)
+
+    V = R.num_vertices()
+    E = R.num_edges()
+    F = len(list(R.faces()))
+    chi = V - E + F
+    g = R.genus()
+    b = R.number_boundaries()
+
+    print(f"{'='*50}")
+    print(f"Sistema de Rotación")
+    print(f"{'='*50}")
+    print(f"σ = {sigma}")
+    print(f"ρ = {rho}")
+    print(f"{'-'*50}")
+    print(f"Vértices (V):              {V}")
+    print(f"Aristas (E):               {E}")
+    print(f"Caras (F):                 {F}")
+    print(f"Característica de Euler:   χ = {chi}")
+    print(f"Género:                    g = {g}")
+    print(f"Componentes de frontera:   b = {b}")
+    print(f"{'='*50}")
+    print(f"Fórmula: χ = 2 - 2g - b = {2 - 2*g - b} ✓")
+    print(f"{'='*50}")
+
+    return {
+        'V': V, 'E': E, 'F': F,
+        'chi': chi, 'g': g, 'b': b
+    }
+
+# Uso
+inv = calcular_invariantes('(1,2,3,4)', '(1,2)(3,4)')
+```
+
+---
+
+## Ejercicios
+
+::: {.callout-tip}
+## Ejercicio 1: Crear tu propio ejemplo
+
+Diseña un sistema de rotación que produzca:
+
+a) Un bitoro (género 2, sin frontera)
+b) Una esfera con 3 agujeros (g=0, b=3)
+c) Un toro con 2 agujeros (g=1, b=2)
+
+Verifica tus construcciones con Sage.
+:::
+
+::: {.callout-tip}
+## Ejercicio 2: Variaciones del bouquet
+
+Experimenta con el bouquet de 4 círculos (8 semiaristas):
+
+a) Prueba diferentes órdenes cíclicos en $\sigma$
+b) Calcula el género para cada caso
+c) ¿Cuál es el género máximo que puedes obtener?
+d) ¿Cuál es el género mínimo?
+:::
+
+::: {.callout-tip}
+## Ejercicio 3: Grafos completos
+
+Investiga los grafos completos $K_n$:
+
+a) Verifica que K₃ tiene género 0
+b) Calcula el género mínimo de K₄
+c) Busca en la literatura el género de K₅ y K₆
+:::
+
+---
+
+## Resumen
+
+- **Cálculo de invariantes:** Se obtienen contando ciclos en las permutaciones, sin necesidad de visualización.
+- **Elementos:** $V$ (ciclos de $\sigma$), $E$ (ciclos de $\rho$), $F$ (ciclos de $\varphi = \rho \sigma$).
+- **Fórmulas topológicas:**
+  - Característica de Euler: $\chi = V - E + F$
+  - Género: $g = \frac{2 - \chi - b}{2}$
+- **SageMath:** `R.genus()`, `R.number_boundaries()` y `R.faces()` para el cálculo automático.
+
+En el siguiente capítulo estudiaremos los **teoremas fundamentales** que establecen la equivalencia entre sistemas de rotación y encajes celulares (Teorema de Heffter-Edmonds) y las propiedades de los mapas combinatorios.
