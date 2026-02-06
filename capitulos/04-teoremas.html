@@ -8,7 +8,7 @@
 
 <meta name="author" content="José Luis León">
 
-<title>Sistemas de Rotación y Ribbon Graphs</title>
+<title>4. Teorema de Heffter-Edmonds – Sistemas de Rotación y Ribbon Graphs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,28 +21,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./capitulos/01-sistemas-rotacion.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-679d770d6827919701e3c38c81862786.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-679d770d6827919701e3c38c81862786.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,8 +110,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&amp;family=Fira+Code:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Sistemas de Rotación y Ribbon Graphs">
-<meta property="og:description" content="Teoría de Grafos Topológicos">
+<meta property="og:title" content="4. Teorema de Heffter-Edmonds – Sistemas de Rotación y Ribbon Graphs">
+<meta property="og:description" content="La correspondencia biunívoca entre sistemas de rotación y encajes">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -109,7 +143,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -119,7 +153,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sistemas de Rotación</span>
     </a>
   </div>
@@ -130,12 +164,12 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> <i class="bi bi-house-fill" role="img">
+    <a class="nav-link active" href="../index.html" aria-current="page"> <i class="bi bi-house-fill" role="img">
 </i> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./capitulos/01-sistemas-rotacion.html"> 
+    <a class="nav-link" href="../capitulos/01-sistemas-rotacion.html"> 
 <span class="menu-text">1. Sistemas de Rotación</span></a>
   </li>  
 </ul>
@@ -156,7 +190,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Inicio</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">4. Teorema de Heffter-Edmonds</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -166,7 +200,7 @@ window.Quarto = {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -178,13 +212,13 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Inicio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
+  <a href="../capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Sistemas de Rotación</span></a>
   </div>
 </li>
@@ -193,19 +227,54 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#teoremas-y-propiedades" id="toc-teoremas-y-propiedades" class="nav-link active" data-scroll-target="#teoremas-y-propiedades">Teoremas y Propiedades</a>
+  <ul class="collapse">
+  <li><a href="#el-teorema-de-heffter-edmonds" id="toc-el-teorema-de-heffter-edmonds" class="nav-link" data-scroll-target="#el-teorema-de-heffter-edmonds">El Teorema de Heffter-Edmonds</a>
+  <ul class="collapse">
+  <li><a href="#equivalencia-de-sistemas-de-rotación" id="toc-equivalencia-de-sistemas-de-rotación" class="nav-link" data-scroll-target="#equivalencia-de-sistemas-de-rotación">Equivalencia de Sistemas de Rotación</a></li>
+  <li><a href="#equivalencia-de-encajes" id="toc-equivalencia-de-encajes" class="nav-link" data-scroll-target="#equivalencia-de-encajes">Equivalencia de Encajes</a></li>
+  <li><a href="#enunciado-del-teorema" id="toc-enunciado-del-teorema" class="nav-link" data-scroll-target="#enunciado-del-teorema">Enunciado del Teorema</a></li>
+  <li><a href="#importancia-histórica-y-práctica" id="toc-importancia-histórica-y-práctica" class="nav-link" data-scroll-target="#importancia-histórica-y-práctica">Importancia Histórica y Práctica</a></li>
+  </ul></li>
+  <li><a href="#equivalencia-con-ribbon-graphs" id="toc-equivalencia-con-ribbon-graphs" class="nav-link" data-scroll-target="#equivalencia-con-ribbon-graphs">Equivalencia con ribbon graphs</a>
+  <ul class="collapse">
+  <li><a href="#construcción-directa" id="toc-construcción-directa" class="nav-link" data-scroll-target="#construcción-directa">Construcción directa</a></li>
+  <li><a href="#construcción-inversa" id="toc-construcción-inversa" class="nav-link" data-scroll-target="#construcción-inversa">Construcción inversa</a></li>
+  </ul></li>
+  <li><a href="#propiedades-la-cuestión-de-la-orientabilidad" id="toc-propiedades-la-cuestión-de-la-orientabilidad" class="nav-link" data-scroll-target="#propiedades-la-cuestión-de-la-orientabilidad">Propiedades: La cuestión de la Orientabilidad</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-siempre-obtenemos-una-superficie-orientable" id="toc-por-qué-siempre-obtenemos-una-superficie-orientable" class="nav-link" data-scroll-target="#por-qué-siempre-obtenemos-una-superficie-orientable">¿Por qué siempre obtenemos una superficie orientable?</a></li>
+  <li><a href="#el-caso-no-orientable" id="toc-el-caso-no-orientable" class="nav-link" data-scroll-target="#el-caso-no-orientable">El caso no orientable</a></li>
+  </ul></li>
+  <li><a href="#relación-con-complejos-celulares" id="toc-relación-con-complejos-celulares" class="nav-link" data-scroll-target="#relación-con-complejos-celulares">Relación con complejos celulares</a></li>
+  <li><a href="#ejemplos-de-aplicación" id="toc-ejemplos-de-aplicación" class="nav-link" data-scroll-target="#ejemplos-de-aplicación">Ejemplos de aplicación</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-1-verificar-el-género-de-un-grafo" id="toc-ejemplo-1-verificar-el-género-de-un-grafo" class="nav-link" data-scroll-target="#ejemplo-1-verificar-el-género-de-un-grafo">Ejemplo 1: Verificar el género de un grafo</a></li>
+  <li><a href="#ejemplo-2-construir-un-toro-con-un-grafo-específico" id="toc-ejemplo-2-construir-un-toro-con-un-grafo-específico" class="nav-link" data-scroll-target="#ejemplo-2-construir-un-toro-con-un-grafo-específico">Ejemplo 2: Construir un toro con un grafo específico</a></li>
+  </ul></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sistemas de Rotación y Ribbon Graphs</h1>
-<p class="subtitle lead">Teoría de Grafos Topológicos</p>
+<h1 class="title">4. Teorema de Heffter-Edmonds</h1>
+<p class="subtitle lead">La correspondencia biunívoca entre sistemas de rotación y encajes</p>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta">
 
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
@@ -229,110 +298,205 @@ window.Quarto = {
 </header>
 
 
-<section id="sistemas-de-rotación-y-ribbon-graphs" class="level1 hero">
-<h1>Sistemas de Rotación y Ribbon Graphs</h1>
-<!-- ### *De permutaciones a superficies mediante engrosamiento* -->
-<p>Un enfoque combinatorio para entender encajes de grafos en superficies orientables.</p>
+<section id="teoremas-y-propiedades" class="level1">
+<h1>Teoremas y Propiedades</h1>
+<section id="el-teorema-de-heffter-edmonds" class="level2">
+<h2 class="anchored" data-anchor-id="el-teorema-de-heffter-edmonds">El Teorema de Heffter-Edmonds</h2>
+<p>El <strong>Teorema de Heffter-Edmonds</strong> es la piedra angular de la teoría de grafos topológicos. No solo establece que todo sistema de rotación genera una superficie, sino que la correspondencia es estructuralmente perfecta: clasifica los encajes salvo equivalencia.</p>
+<section id="equivalencia-de-sistemas-de-rotación" class="level3">
+<h3 class="anchored" data-anchor-id="equivalencia-de-sistemas-de-rotación">Equivalencia de Sistemas de Rotación</h3>
+<p>Antes de enunciar el teorema en su forma fuerte, debemos precisar qué significa que dos sistemas sean “el mismo” desde el punto de vista combinatorio.</p>
+<p>Dos sistemas de rotación <span class="math inline">\((\sigma_1, \rho_1)\)</span> sobre un conjunto de semiaristas <span class="math inline">\(D_1\)</span> y <span class="math inline">\((\sigma_2, \rho_2)\)</span> sobre <span class="math inline">\(D_2\)</span> son <strong>equivalentes</strong> (o isomorfos) si existe una biyección <span class="math inline">\(\tau: D_1 \to D_2\)</span> tal que:</p>
+<p><span class="math display">\[
+\sigma_2 = \tau \sigma_1 \tau^{-1} \quad \text{y} \quad \rho_2 = \tau \rho_1 \tau^{-1}
+\]</span></p>
+<p>Esta biyección <span class="math inline">\(\tau\)</span> preserva toda la estructura combinatoria: mapea vértices a vértices (ciclos de <span class="math inline">\(\sigma\)</span>) y aristas a aristas (ciclos de <span class="math inline">\(\rho\)</span>).</p>
 </section>
-<hr>
-<section id="sobre-este-proyecto" class="level2">
-<h2 class="anchored" data-anchor-id="sobre-este-proyecto">Sobre este proyecto</h2>
-<p>Los <strong>sistemas de rotación</strong> son pares de permutaciones <span class="math inline">\((\sigma, \rho)\)</span> que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el <strong>Teorema de Heffter-Edmonds</strong>.</p>
-<section id="idea-principal" class="level3 highlight-box">
-<h3 class="anchored" data-anchor-id="idea-principal">Idea principal</h3>
-<p>Un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span> contiene toda la información necesaria para:</p>
-<ul>
-<li>Reconstruir el grafo subyacente (vértices y aristas)</li>
-<li>Determinar el orden cíclico de semiaristas alrededor de cada vértice</li>
-<li>Calcular las caras mediante la permutación <span class="math inline">\(\varphi = \rho\sigma\)</span></li>
-<li>Obtener invariantes topológicos: género, característica de Euler, fronteras</li>
-<li>Construir la superficie completa mediante engrosamiento (thickening)</li>
-</ul>
-<p><strong>Resultado fundamental:</strong> Álgebra de permutaciones ↔︎ Topología de superficies</p>
+<section id="equivalencia-de-encajes" class="level3">
+<h3 class="anchored" data-anchor-id="equivalencia-de-encajes">Equivalencia de Encajes</h3>
+<p>Geométricamente, dos encajes de grafos <span class="math inline">\(G_1 \subset S_1\)</span> y <span class="math inline">\(G_2 \subset S_2\)</span> son <strong>equivalentes</strong> si existe un homeomorfismo que preserva la orientación <span class="math inline">\(h: S_1 \to S_2\)</span> tal que <span class="math inline">\(h(G_1) = G_2\)</span>. Esto implica que <span class="math inline">\(h\)</span> induce un isomorfismo entre los grafos abstractos subyacentes.</p>
 </section>
-<hr>
-</section>
-<section id="contenido" class="level2">
-<h2 class="anchored" data-anchor-id="contenido">Contenido</h2>
-<section id="sistemas-de-rotación" class="level3">
-<h3 class="anchored" data-anchor-id="sistemas-de-rotación"><a href="./capitulos/01-sistemas-rotacion.html">1. Sistemas de Rotación</a></h3>
-<p>Introducción a los sistemas de rotación como modelo combinatorio de grafos encajados.</p>
-<ul>
-<li>Definición mediante permutaciones <span class="math inline">\(\sigma\)</span> y <span class="math inline">\(\rho\)</span></li>
-<li>Semiaristas (darts) y orden cíclico</li>
-<li>Ejemplos básicos con código SageMath</li>
-<li>Construcción en Sage: <code>RibbonGraph(sigma, rho)</code></li>
-</ul>
-<!--
-### 2. Trazado de Caras *(Próximamente)*
-
-Algoritmo para determinar las caras de un encaje celular mediante sistemas de rotación.
-
-- Permutación de caras $\varphi = \rho\sigma$ (convención SageMath)
-- Algoritmo de trazado (cruzar → girar)
-- Ejemplos: esfera vs. toro
-- Correspondencia caras ↔ fronteras
-- Verificación con código SageMath
-
-### 3. Invariantes Topológicos *(Próximamente)*
-
-Cálculo de invariantes directamente desde las permutaciones.
-
-- Conteo directo: V (ciclos de σ), E (ciclos de ρ), F (ciclos de φ)
-- Característica de Euler: $\chi = V - E + F$
-- Género de superficies: $g = 1 - \frac{\chi + b}{2}$
-- Componentes de frontera y su interpretación
-- Proceso de engrosamiento (thickening)
-- Verificación experimental con Sage
-
-### 4. Teorema de Heffter-Edmonds *(Próximamente)*
-
-El teorema fundamental que establece la correspondencia biunívoca.
-
-- Equivalencia de sistemas de rotación (isomorfismos)
-- Equivalencia de encajes (homeomorfismos)
-- Teorema fuerte: correspondencia 1:1 entre clases de equivalencia
-- Construcción directa: $(\sigma, \rho) \to$ ribbon graph
-- Construcción inversa: ribbon graph $\to (\sigma, \rho)$
-- Orientabilidad y limitaciones del modelo
-
-### 5. Propiedades Adicionales y Polinomios *(Próximamente)*
-
-Operaciones avanzadas y el polinomio de Bollobás-Riordan.
-
-- Operaciones: contracción, reducción, dualidad
-- Herramientas de `RibbonGraph` en Sage
-- Base de homología H₁(superficie)
-- Polinomio de Bollobás-Riordan
-- Implementación en SageMath
--->
-<hr>
-</section>
-</section>
-<section id="herramientas" class="level2">
-<h2 class="anchored" data-anchor-id="herramientas">Herramientas</h2>
-<p>Este proyecto utiliza:</p>
-<ul>
-<li><strong>SageMath 10.7</strong> - Cálculos con <code>RibbonGraph</code>, <code>PermutationGroupElement</code></li>
-<li><strong>Python 3.13</strong> - Scripts de análisis y visualización</li>
-<li><strong>Quarto</strong> - Documentación interactiva con bloques de código ejecutables</li>
-</ul>
-<hr>
-</section>
-<section id="referencias" class="level2">
-<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
-<ul>
-<li>Gross, J. L., &amp; Tucker, T. W. (1987). <em>Topological Graph Theory</em></li>
-<li>Lando, S. K., &amp; Zvonkin, A. K. (2004). <em>Graphs on Surfaces</em></li>
-<li>Edmonds, J. (1960). <em>A combinatorial representation for polyhedral surfaces</em></li>
-<li><a href="https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html">SageMath - Ribbon Graphs Documentation</a></li>
-</ul>
-<hr>
-<div style="text-align: center; margin-top: 3em; color: #64748b;">
-<p>José Luis León • 2026</p>
+<section id="enunciado-del-teorema" class="level3">
+<h3 class="anchored" data-anchor-id="enunciado-del-teorema">Enunciado del Teorema</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema Fuerte de Heffter-Edmonds
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Existe una correspondencia biunívoca natural entre:</p>
+<ol type="1">
+<li>Clases de equivalencia de <strong>sistemas de rotación</strong> <span class="math inline">\((\sigma, \rho)\)</span>.</li>
+<li>Clases de equivalencia de <strong>encajes celulares</strong> de grafos en superficies orientables.</li>
+</ol>
+<p>Esto significa que el álgebra de las permutaciones <span class="math inline">\((\sigma, \rho)\)</span> captura <strong>toda</strong> la información topológica del encaje, sin pérdida ni ambigüedad.</p>
+</div>
+</div>
+</section>
+<section id="importancia-histórica-y-práctica" class="level3">
+<h3 class="anchored" data-anchor-id="importancia-histórica-y-práctica">Importancia Histórica y Práctica</h3>
+<p>Este resultado transforma problemas topológicos en problemas puramente combinatorios:</p>
+<ul>
+<li><strong>Heffter (1891):</strong> Primeros trabajos sobre encajes de grafos en superficies</li>
+<li><strong>Edmonds (1960):</strong> Formulación moderna en términos de permutaciones</li>
+<li>También conocido como el teorema de representación de superficies</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="equivalencia-con-ribbon-graphs" class="level2">
+<h2 class="anchored" data-anchor-id="equivalencia-con-ribbon-graphs">Equivalencia con ribbon graphs</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Proposición fundamental
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Existe una correspondencia biunívoca natural entre:</p>
+<ol type="1">
+<li>Sistemas de rotación <span class="math inline">\((\sigma, \rho)\)</span></li>
+<li>Ribbon graphs</li>
+<li>Encajes celulares en superficies orientables</li>
+</ol>
+<p>Estas tres formas de describir el mismo objeto matemático son completamente equivalentes.</p>
+</div>
+</div>
+<section id="construcción-directa" class="level3">
+<h3 class="anchored" data-anchor-id="construcción-directa">Construcción directa</h3>
+<p>La construcción del <strong>trazado de caras</strong> (capítulo 2) proporciona la transformación explícita:</p>
+<p><span class="math display">\[
+(\sigma, \rho) \quad \xrightarrow{\text{engrosamiento}} \quad \text{Ribbon graph}
+\]</span></p>
+</section>
+<section id="construcción-inversa" class="level3">
+<h3 class="anchored" data-anchor-id="construcción-inversa">Construcción inversa</h3>
+<p>Dado un ribbon graph (superficie con grafo encajado):</p>
+<ol type="1">
+<li>Identificar las semiaristas en el borde de cada vértice</li>
+<li>Leer el orden cíclico <span class="math inline">\(\to\)</span> permutación <span class="math inline">\(\sigma\)</span></li>
+<li>Emparejar semiaristas de cada arista <span class="math inline">\(\to\)</span> permutación <span class="math inline">\(\rho\)</span></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="propiedades-la-cuestión-de-la-orientabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="propiedades-la-cuestión-de-la-orientabilidad">Propiedades: La cuestión de la Orientabilidad</h2>
+<p>Como hemos visto en los capítulos anteriores, el sistema <span class="math inline">\((\sigma, \rho)\)</span> determina completamente el grafo (<span class="math inline">\(V, E\)</span>) y la topología de la superficie (<span class="math inline">\(F, g\)</span>). Sin embargo, hay una propiedad topológica fundamental que está implícita en esta construcción: la <strong>orientabilidad</strong>.</p>
+<section id="por-qué-siempre-obtenemos-una-superficie-orientable" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-siempre-obtenemos-una-superficie-orientable">¿Por qué siempre obtenemos una superficie orientable?</h3>
+<p>Todo sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span> genera necesariamente una superficie <strong>orientable</strong>. Esto no es una coincidencia, sino una consecuencia de la definición misma.</p>
+<ol type="1">
+<li><strong>Orientación Local:</strong> La permutación <span class="math inline">\(\sigma\)</span> define un orden cíclico estricto en cada vértice. Geométricamente, esto equivale a elegir una dirección de “giro” (por ejemplo, antihorario) en el disco que representa cada vértice.</li>
+<li><strong>Consistencia Global:</strong> Al conectar estos vértices mediante aristas (las bandas o <em>ribbons</em>), asumimos implícitamente que no hay torsiones. Conectamos el borde del disco <span class="math inline">\(u\)</span> con el borde del disco <span class="math inline">\(v\)</span> sin voltear la cinta.</li>
+<li><strong>Dos Lados:</strong> Como resultado, la superficie resultante tiene dos lados bien definidos (“arriba” y “abajo”). Es posible pintar un lado de rojo y otro de azul sin que los colores se mezclen, lo cual es la definición intuitiva de orientabilidad.</li>
+</ol>
+</section>
+<section id="el-caso-no-orientable" class="level3">
+<h3 class="anchored" data-anchor-id="el-caso-no-orientable">El caso no orientable</h3>
+<p>Para representar superficies <strong>no orientables</strong> (como la Banda de Möbius o la Botella de Klein), el modelo de permutaciones <span class="math inline">\((\sigma, \rho)\)</span> es insuficiente. Se requiere información adicional:</p>
+<ul>
+<li><strong>Sistemas de rotación con signo:</strong> Se añade una función de firma <span class="math inline">\(\lambda: E \to \{+1, -1\}\)</span>.</li>
+<li>Si una arista tiene signo <span class="math inline">\(-1\)</span>, la cinta se “tuerce” al conectar los vértices, invirtiendo la orientación local.</li>
+</ul>
+<p>Dado que nuestros sistemas de rotación no incluyen esta firma (son “puros”), estamos restringidos exclusivamente al universo de las superficies orientables.</p>
+<hr>
+</section>
+</section>
+<section id="relación-con-complejos-celulares" class="level2">
+<h2 class="anchored" data-anchor-id="relación-con-complejos-celulares">Relación con complejos celulares</h2>
+<p>Un encaje celular de un grafo en una superficie es equivalente a un <strong>complejo celular</strong> 2-dimensional donde:</p>
+<ul>
+<li><strong>0-celdas</strong> = vértices del grafo</li>
+<li><strong>1-celdas</strong> = aristas del grafo</li>
+<li><strong>2-celdas</strong> = caras del encaje</li>
+</ul>
+<p>El sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span> codifica completamente la información combinatoria de este complejo celular.</p>
+<hr>
+</section>
+<section id="ejemplos-de-aplicación" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplos-de-aplicación">Ejemplos de aplicación</h2>
+<section id="ejemplo-1-verificar-el-género-de-un-grafo" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-1-verificar-el-género-de-un-grafo">Ejemplo 1: Verificar el género de un grafo</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Cuál es el género mínimo en el que K₃ se puede encajar?</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(<span class="st">'(1,6)(2,3)(4,5)'</span>, <span class="st">'(1,2)(3,4)(5,6)'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Género de este encaje: </span><span class="sc">{</span>R<span class="sc">.</span>genus()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># K₃ es planar, por lo que g = 0 es posible</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ejemplo-2-construir-un-toro-con-un-grafo-específico" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplo-2-construir-un-toro-con-un-grafo-específico">Ejemplo 2: Construir un toro con un grafo específico</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Queremos género 1 (toro)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos la fórmula: chi = 2 - 2g - b</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Para g=1, b=0: chi = 0</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Necesitamos V - E + F = 0</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: V=1, E=2, F=1</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(<span class="st">'(1,2,3,4)'</span>, <span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"χ = </span><span class="sc">{</span>R<span class="sc">.</span>num_vertices() <span class="op">-</span> R<span class="sc">.</span>num_edges() <span class="op">+</span> <span class="bu">len</span>(<span class="bu">list</span>(R.faces()))<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"g = </span><span class="sc">{</span>R<span class="sc">.</span>genus()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 1: Teorema de Heffter-Edmonds
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considera el sistema <span class="math inline">\(\sigma = (1,2,3)\)</span>, <span class="math inline">\(\rho = (1,2)(3)\)</span>.</p>
+<ol type="a">
+<li>¿Es válido este sistema? (¿<span class="math inline">\(\rho\)</span> tiene solo 2-ciclos?)</li>
+<li>Si no es válido, corrige <span class="math inline">\(\rho\)</span></li>
+<li>Calcula los invariantes del sistema corregido</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 2: Superficies con frontera
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Encuentra sistemas de rotación que produzcan:</p>
+<ol type="a">
+<li>Un anillo (cilindro topológico: g=0, b=2)</li>
+<li>Un toro con un agujero (g=1, b=1)</li>
+<li>Un bitoro con dos agujeros (g=2, b=2)</li>
+</ol>
+</div>
+</div>
+<hr>
+</section>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<ul>
+<li><strong>Teorema de Heffter-Edmonds:</strong> establece la equivalencia entre sistemas de rotación y encajes celulares</li>
+<li><strong>Equivalencia:</strong> sistemas de rotación ↔︎ ribbon graphs ↔︎ encajes celulares</li>
+<li><strong>Propiedades:</strong> determinación del grafo, cálculo de invariantes, orientabilidad</li>
+<li><strong>Clasificación:</strong> superficies orientables compactas caracterizadas por <span class="math inline">\((g, b)\)</span></li>
+</ul>
+<p>En el siguiente capítulo veremos una <strong>galería de ejemplos</strong> clásicos con análisis completo de sus propiedades.</p>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Volver arriba</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reutilización</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
@@ -743,15 +907,6 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
     }
   });
   </script>
-<nav class="page-navigation column-page-right">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./capitulos/01-sistemas-rotacion.html" class="pagination-link" aria-label="1. Sistemas de Rotación">
-        <span class="nav-page-text">1. Sistemas de Rotación</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -770,5 +925,5 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

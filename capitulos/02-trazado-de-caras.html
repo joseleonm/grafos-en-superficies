@@ -8,7 +8,7 @@
 
 <meta name="author" content="José Luis León">
 
-<title>Sistemas de Rotación y Ribbon Graphs</title>
+<title>2. Trazado de Caras – Sistemas de Rotación y Ribbon Graphs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,28 +21,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./capitulos/01-sistemas-rotacion.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-679d770d6827919701e3c38c81862786.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-679d770d6827919701e3c38c81862786.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,8 +110,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&amp;family=Fira+Code:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Sistemas de Rotación y Ribbon Graphs">
-<meta property="og:description" content="Teoría de Grafos Topológicos">
+<meta property="og:title" content="2. Trazado de Caras – Sistemas de Rotación y Ribbon Graphs">
+<meta property="og:description" content="El algoritmo combinatorio">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -109,7 +143,7 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-light">
@@ -119,7 +153,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sistemas de Rotación</span>
     </a>
   </div>
@@ -130,12 +164,12 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> <i class="bi bi-house-fill" role="img">
+    <a class="nav-link active" href="../index.html" aria-current="page"> <i class="bi bi-house-fill" role="img">
 </i> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./capitulos/01-sistemas-rotacion.html"> 
+    <a class="nav-link" href="../capitulos/01-sistemas-rotacion.html"> 
 <span class="menu-text">1. Sistemas de Rotación</span></a>
   </li>  
 </ul>
@@ -156,7 +190,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Inicio</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">2. Trazado de Caras</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -166,7 +200,7 @@ window.Quarto = {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -178,13 +212,13 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Inicio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
+  <a href="../capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1. Sistemas de Rotación</span></a>
   </div>
 </li>
@@ -193,19 +227,39 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#el-algoritmo-de-trazado-de-caras" id="toc-el-algoritmo-de-trazado-de-caras" class="nav-link active" data-scroll-target="#el-algoritmo-de-trazado-de-caras">El Algoritmo de Trazado de Caras</a>
+  <ul class="collapse">
+  <li><a href="#la-permutación-de-caras-varphi" id="toc-la-permutación-de-caras-varphi" class="nav-link" data-scroll-target="#la-permutación-de-caras-varphi">La Permutación de Caras <span class="math inline">\(\varphi\)</span></a></li>
+  <li><a href="#la-receta-geométrica-cruzar-y-girar" id="toc-la-receta-geométrica-cruzar-y-girar" class="nav-link" data-scroll-target="#la-receta-geométrica-cruzar-y-girar">La Receta Geométrica: Cruzar y Girar</a></li>
+  <li><a href="#ejemplo-un-vértice-dos-lazos" id="toc-ejemplo-un-vértice-dos-lazos" class="nav-link" data-scroll-target="#ejemplo-un-vértice-dos-lazos">Ejemplo: Un vértice, dos lazos</a>
+  <ul class="collapse">
+  <li><a href="#caso-a-encaje-en-la-esfera-g0" id="toc-caso-a-encaje-en-la-esfera-g0" class="nav-link" data-scroll-target="#caso-a-encaje-en-la-esfera-g0">Caso A: Encaje en la Esfera (<span class="math inline">\(g=0\)</span>)</a></li>
+  <li><a href="#caso-b-encaje-en-el-toro-g1" id="toc-caso-b-encaje-en-el-toro-g1" class="nav-link" data-scroll-target="#caso-b-encaje-en-el-toro-g1">Caso B: Encaje en el Toro (<span class="math inline">\(g=1\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#propiedad-fundamental" id="toc-propiedad-fundamental" class="nav-link" data-scroll-target="#propiedad-fundamental">Propiedad Fundamental</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sistemas de Rotación y Ribbon Graphs</h1>
-<p class="subtitle lead">Teoría de Grafos Topológicos</p>
+<h1 class="title">2. Trazado de Caras</h1>
+<p class="subtitle lead">El algoritmo combinatorio</p>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta">
 
     <div>
     <div class="quarto-title-meta-heading">Autor/a</div>
@@ -229,110 +283,224 @@ window.Quarto = {
 </header>
 
 
-<section id="sistemas-de-rotación-y-ribbon-graphs" class="level1 hero">
-<h1>Sistemas de Rotación y Ribbon Graphs</h1>
-<!-- ### *De permutaciones a superficies mediante engrosamiento* -->
-<p>Un enfoque combinatorio para entender encajes de grafos en superficies orientables.</p>
-</section>
-<hr>
-<section id="sobre-este-proyecto" class="level2">
-<h2 class="anchored" data-anchor-id="sobre-este-proyecto">Sobre este proyecto</h2>
-<p>Los <strong>sistemas de rotación</strong> son pares de permutaciones <span class="math inline">\((\sigma, \rho)\)</span> que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el <strong>Teorema de Heffter-Edmonds</strong>.</p>
-<section id="idea-principal" class="level3 highlight-box">
-<h3 class="anchored" data-anchor-id="idea-principal">Idea principal</h3>
-<p>Un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span> contiene toda la información necesaria para:</p>
-<ul>
-<li>Reconstruir el grafo subyacente (vértices y aristas)</li>
-<li>Determinar el orden cíclico de semiaristas alrededor de cada vértice</li>
-<li>Calcular las caras mediante la permutación <span class="math inline">\(\varphi = \rho\sigma\)</span></li>
-<li>Obtener invariantes topológicos: género, característica de Euler, fronteras</li>
-<li>Construir la superficie completa mediante engrosamiento (thickening)</li>
-</ul>
-<p><strong>Resultado fundamental:</strong> Álgebra de permutaciones ↔︎ Topología de superficies</p>
-</section>
-<hr>
-</section>
-<section id="contenido" class="level2">
-<h2 class="anchored" data-anchor-id="contenido">Contenido</h2>
-<section id="sistemas-de-rotación" class="level3">
-<h3 class="anchored" data-anchor-id="sistemas-de-rotación"><a href="./capitulos/01-sistemas-rotacion.html">1. Sistemas de Rotación</a></h3>
-<p>Introducción a los sistemas de rotación como modelo combinatorio de grafos encajados.</p>
-<ul>
-<li>Definición mediante permutaciones <span class="math inline">\(\sigma\)</span> y <span class="math inline">\(\rho\)</span></li>
-<li>Semiaristas (darts) y orden cíclico</li>
-<li>Ejemplos básicos con código SageMath</li>
-<li>Construcción en Sage: <code>RibbonGraph(sigma, rho)</code></li>
-</ul>
-<!--
-### 2. Trazado de Caras *(Próximamente)*
-
-Algoritmo para determinar las caras de un encaje celular mediante sistemas de rotación.
-
-- Permutación de caras $\varphi = \rho\sigma$ (convención SageMath)
-- Algoritmo de trazado (cruzar → girar)
-- Ejemplos: esfera vs. toro
-- Correspondencia caras ↔ fronteras
-- Verificación con código SageMath
-
-### 3. Invariantes Topológicos *(Próximamente)*
-
-Cálculo de invariantes directamente desde las permutaciones.
-
-- Conteo directo: V (ciclos de σ), E (ciclos de ρ), F (ciclos de φ)
-- Característica de Euler: $\chi = V - E + F$
-- Género de superficies: $g = 1 - \frac{\chi + b}{2}$
-- Componentes de frontera y su interpretación
-- Proceso de engrosamiento (thickening)
-- Verificación experimental con Sage
-
-### 4. Teorema de Heffter-Edmonds *(Próximamente)*
-
-El teorema fundamental que establece la correspondencia biunívoca.
-
-- Equivalencia de sistemas de rotación (isomorfismos)
-- Equivalencia de encajes (homeomorfismos)
-- Teorema fuerte: correspondencia 1:1 entre clases de equivalencia
-- Construcción directa: $(\sigma, \rho) \to$ ribbon graph
-- Construcción inversa: ribbon graph $\to (\sigma, \rho)$
-- Orientabilidad y limitaciones del modelo
-
-### 5. Propiedades Adicionales y Polinomios *(Próximamente)*
-
-Operaciones avanzadas y el polinomio de Bollobás-Riordan.
-
-- Operaciones: contracción, reducción, dualidad
-- Herramientas de `RibbonGraph` en Sage
-- Base de homología H₁(superficie)
-- Polinomio de Bollobás-Riordan
-- Implementación en SageMath
--->
-<hr>
-</section>
-</section>
-<section id="herramientas" class="level2">
-<h2 class="anchored" data-anchor-id="herramientas">Herramientas</h2>
-<p>Este proyecto utiliza:</p>
-<ul>
-<li><strong>SageMath 10.7</strong> - Cálculos con <code>RibbonGraph</code>, <code>PermutationGroupElement</code></li>
-<li><strong>Python 3.13</strong> - Scripts de análisis y visualización</li>
-<li><strong>Quarto</strong> - Documentación interactiva con bloques de código ejecutables</li>
-</ul>
-<hr>
-</section>
-<section id="referencias" class="level2">
-<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
-<ul>
-<li>Gross, J. L., &amp; Tucker, T. W. (1987). <em>Topological Graph Theory</em></li>
-<li>Lando, S. K., &amp; Zvonkin, A. K. (2004). <em>Graphs on Surfaces</em></li>
-<li>Edmonds, J. (1960). <em>A combinatorial representation for polyhedral surfaces</em></li>
-<li><a href="https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html">SageMath - Ribbon Graphs Documentation</a></li>
-</ul>
-<hr>
-<div style="text-align: center; margin-top: 3em; color: #64748b;">
-<p>José Luis León • 2026</p>
+<section id="el-algoritmo-de-trazado-de-caras" class="level1">
+<h1>El Algoritmo de Trazado de Caras</h1>
+<p>Para determinar las caras de un encaje celular dado por un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span>, utilizamos el algoritmo de trazado de caras (<em>Face Tracing</em>). Este procedimiento nos permite identificar los ciclos de semiaristas que conforman los bordes de las caras.</p>
+<section id="la-permutación-de-caras-varphi" class="level2">
+<h2 class="anchored" data-anchor-id="la-permutación-de-caras-varphi">La Permutación de Caras <span class="math inline">\(\varphi\)</span></h2>
+<p>En la convención de SageMath para ribbon graphs, las caras están determinadas por las órbitas de la permutación <span class="math inline">\(\varphi\)</span>, definida como:</p>
+<p><span class="math display">\[ \varphi = \rho \sigma \]</span></p>
+<p>Esta es la fórmula utilizada internamente por el método <code>boundary()</code> de la clase <code>RibbonGraph</code> en Sage.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Convención de Multiplicación (SageMath)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En este curso y en SageMath, la multiplicación de permutaciones se lee de <strong>izquierda a derecha</strong>. La expresión <span class="math inline">\(\varphi = \rho \sigma\)</span> significa: <strong>primero</strong> aplicamos <span class="math inline">\(\rho\)</span> (cruzar la arista) y <strong>luego</strong> aplicamos <span class="math inline">\(\sigma\)</span> (girar en el vértice en el orden dado).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota sobre Convenciones Alternativas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Algunos textos usan <span class="math inline">\(\varphi = \rho \sigma^{-1}\)</span>, <span class="math inline">\(\varphi = \sigma^{-1} \rho\)</span>, o <span class="math inline">\(\varphi = (\sigma\rho)^{-1}\)</span>. Todas estas convenciones dan el <strong>mismo número</strong> de caras, pero los ciclos específicos pueden diferir. Usamos <span class="math inline">\(\varphi = \rho \sigma\)</span> para coincidir exactamente con la implementación de SageMath y simplificar los cálculos (no hay que invertir σ).</p>
+</div>
+</div>
+</section>
+<section id="la-receta-geométrica-cruzar-y-girar" class="level2">
+<h2 class="anchored" data-anchor-id="la-receta-geométrica-cruzar-y-girar">La Receta Geométrica: Cruzar y Girar</h2>
+<p>El cálculo de <span class="math inline">\(\varphi(d)\)</span> para una semiarista <span class="math inline">\(d\)</span> sigue estos pasos geométricos:</p>
+<ol type="1">
+<li><strong>Cruzar la arista:</strong> Desde <span class="math inline">\(d\)</span>, vamos al otro extremo de la arista aplicando <span class="math inline">\(\rho\)</span>.</li>
+<li><strong>Girar en el vértice:</strong> En el nuevo vértice, tomamos la siguiente semiarista según el orden de rotación <span class="math inline">\(\sigma\)</span>.</li>
+</ol>
+<p>Esto corresponde a recorrer el borde de la cara siguiendo la orientación dada por el ribbon graph.</p>
+</section>
+<section id="ejemplo-un-vértice-dos-lazos" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-un-vértice-dos-lazos">Ejemplo: Un vértice, dos lazos</h2>
+<p>Consideremos el grafo con un vértice y dos lazos (aristas que empiezan y terminan en el mismo vértice). Tenemos 4 semiaristas: <span class="math inline">\(D = \{1, 2, 3, 4\}\)</span>. La permutación de aristas es fija: <span class="math inline">\(\rho = (1, 2)(3, 4)\)</span>.</p>
+<p><img src="../imagenes/grafo8.svg" class="img-fluid" style="width:44.0%"></p>
+<p>Vamos a calcular las caras para dos elecciones distintas de <span class="math inline">\(\sigma\)</span>, mostrando cómo el orden cíclico afecta la topología.</p>
+<section id="caso-a-encaje-en-la-esfera-g0" class="level3">
+<h3 class="anchored" data-anchor-id="caso-a-encaje-en-la-esfera-g0">Caso A: Encaje en la Esfera (<span class="math inline">\(g=0\)</span>)</h3>
+<p>Elegimos el orden cíclico natural: <span class="math display">\[ \sigma = (1, 2, 3, 4) \]</span></p>
+<p>Calculamos <span class="math inline">\(\varphi = \rho \sigma\)</span>:</p>
+<ol type="1">
+<li><strong>Paso a paso (Cruzar <span class="math inline">\(\to\)</span> Girar):</strong>
+<ul>
+<li><span style="color: #D32F2F;"><span class="math inline">\(1 \xrightarrow{\rho} 2 \xrightarrow{\sigma} 3\)</span>. (Sigue <span class="math inline">\(1 \to 3\)</span>)</span></li>
+<li><span style="color: #D32F2F;"><span class="math inline">\(3 \xrightarrow{\rho} 4 \xrightarrow{\sigma} 1\)</span>. (Cierra el ciclo <span class="math inline">\((1, 3)\)</span>)</span></li>
+<li><span style="color: #388E3C;"><span class="math inline">\(2 \xrightarrow{\rho} 1 \xrightarrow{\sigma} 2\)</span>. (Ciclo cerrado <span class="math inline">\((2)\)</span>)</span></li>
+<li><span style="color: #1976D2;"><span class="math inline">\(4 \xrightarrow{\rho} 3 \xrightarrow{\sigma} 4\)</span>. (Ciclo cerrado <span class="math inline">\((4)\)</span>)</span></li>
+</ul></li>
+</ol>
+<p><strong>Resultado:</strong> <span class="math inline">\(\varphi = (1, 3)(2)(4)\)</span>. Tenemos <span class="math inline">\(F=3\)</span> caras (<span style="color: #D32F2F;">Roja</span>, <span style="color: #388E3C;">Verde</span>, <span style="color: #1976D2;">Azul</span>).</p>
+<p><img src="../imagenes/8esfera.svg" class="img-fluid" style="width:44.0%"> <img src="../imagenes/8esferagemini.png" class="img-fluid" style="width:34.0%"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Verificación con SageMath
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2,3,4)'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> rho <span class="op">*</span> sigma  <span class="co"># φ = ρσ</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi)  <span class="co"># (1,3)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))  <span class="co"># [(1, 3), (2,), (4,)]</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.boundary())  <span class="co"># [[1, 2, 3, 4], [2, 1], [4, 3]]</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.number_boundaries())  <span class="co"># 3</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="caso-b-encaje-en-el-toro-g1" class="level3">
+<h3 class="anchored" data-anchor-id="caso-b-encaje-en-el-toro-g1">Caso B: Encaje en el Toro (<span class="math inline">\(g=1\)</span>)</h3>
+<p>Cambiamos el orden cíclico intercalando las semiaristas: <span class="math display">\[ \sigma = (1, 3, 2, 4) \]</span></p>
+<p>Calculamos <span class="math inline">\(\varphi = \rho \sigma\)</span>:</p>
+<ol type="1">
+<li><strong>Paso a paso (Cruzar <span class="math inline">\(\to\)</span> Girar):</strong>
+<ul>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(1 \xrightarrow{\rho} 2 \xrightarrow{\sigma} 4\)</span>.</span></li>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(4 \xrightarrow{\rho} 3 \xrightarrow{\sigma} 2\)</span>.</span><br>
+</li>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(2 \xrightarrow{\rho} 1 \xrightarrow{\sigma} 3\)</span>.</span></li>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(3 \xrightarrow{\rho} 4 \xrightarrow{\sigma} 1\)</span>.</span></li>
+</ul></li>
+</ol>
+<p><strong>Resultado:</strong> <span class="math inline">\(\varphi = (1, 4, 2, 3)\)</span>. Tenemos <span class="math inline">\(F=1\)</span> cara (<span style="color: #7B1FA2;">Morada</span>).</p>
+<p><img src="../imagenes/torusgemini.png" class="img-fluid" style="width:50.0%"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Verificación con SageMath
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,3,2,4)'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> rho <span class="op">*</span> sigma  <span class="co"># φ = ρσ</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi)  <span class="co"># (1,4,2,3)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))  <span class="co"># [(1, 4, 2, 3)]</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.boundary())  <span class="co"># [[1, 2, 4, 3, 2, 1, 3, 4]]</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.number_boundaries())  <span class="co"># 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Superficie Cerrada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Este encaje produce un <strong>toro</strong> (género 1, con una componente de frontera). ¡Una simple transposición en el orden de las semiaristas alrededor del vértice transformó la superficie de tres componentes disjuntas a un toro!</p>
+</div>
+</div>
+</section>
+</section>
+<section id="propiedad-fundamental" class="level2">
+<h2 class="anchored" data-anchor-id="propiedad-fundamental">Propiedad Fundamental</h2>
+<p>El conjunto de órbitas (ciclos disjuntos) de la permutación <span class="math inline">\(\varphi\)</span> es exactamente el conjunto de caras del encaje.</p>
+<p><span class="math display">\[ F = \text{número de ciclos de } \varphi \]</span></p>
+<hr>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 1: Cálculo Manual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Toma el sistema de rotación:</p>
+<ul>
+<li><span class="math inline">\(\sigma = (1,2)(3,4)(5,6)\)</span></li>
+<li><span class="math inline">\(\rho = (1,2)(3,4)(5,6)\)</span></li>
+</ul>
+<p>Calcula manualmente la permutación de caras <span class="math inline">\(\varphi = \rho\sigma\)</span> y determina cuántas caras tiene este encaje.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 2: Exploración Visual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considera el bouquet de 3 círculos: un vértice con 3 self-loops (6 semiaristas). <span class="math inline">\(\rho\)</span> está fijo como <span class="math inline">\((1,2)(3,4)(5,6)\)</span>.</p>
+<ol type="a">
+<li>Usa el visualizador para probar diferentes permutaciones <span class="math inline">\(\sigma\)</span> (por ejemplo, <span class="math inline">\((1,2,3,4,5,6)\)</span> vs <span class="math inline">\((1,6,2,5,3,4)\)</span>).</li>
+<li>Observa cómo cambia la conectividad de las cintas azules.</li>
+<li>¿Puedes encontrar un <span class="math inline">\(\sigma\)</span> que produzca una superficie con solo 1 cara?</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 3: Experimento Computacional con SageMath
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Escribe un script en SageMath para verificar la fórmula de las caras:</p>
+<ol type="1">
+<li>Define un conjunto de semiaristas <span class="math inline">\(D = \{1, \dots, 20\}\)</span>.</li>
+<li>Define un <span class="math inline">\(\rho\)</span> fijo (ej. <code>(1,2)(3,4)...(19,20)</code>).</li>
+<li>Genera un <span class="math inline">\(\sigma\)</span> aleatorio usando <code>SymmetricGroup(20).random_element()</code>.</li>
+<li>Calcula el número de ciclos de <span class="math inline">\(\varphi = \rho\sigma\)</span>.</li>
+<li>Compara este resultado con <code>RibbonGraph(sigma, rho).number_boundaries()</code>.</li>
+</ol>
+<p><em>Reto:</em> Ejecuta este experimento 100 veces en un bucle. ¿Cuál es el número mínimo y máximo de caras que observas?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<ul>
+<li>El <strong>Algoritmo de Trazado de Caras</strong> permite identificar las regiones del encaje mediante recorridos en el grafo.</li>
+<li>La permutación de caras se define como <strong><span class="math inline">\(\varphi = \rho \sigma\)</span></strong> (convención de SageMath).</li>
+<li>La regla geométrica es <strong>“Cruzar y Girar”</strong>: aplicar <span class="math inline">\(\rho\)</span> y luego <span class="math inline">\(\sigma\)</span>.</li>
+<li>El número de caras <span class="math inline">\(F\)</span> es exactamente el número de <strong>ciclos disjuntos</strong> de <span class="math inline">\(\varphi\)</span>.</li>
+<li>El orden cíclico <span class="math inline">\(\sigma\)</span> determina la topología de la superficie (ej. Esfera vs.&nbsp;Toro).</li>
+</ul>
+<p>En el siguiente capítulo utilizaremos este conteo de caras para calcular los <strong>invariantes topológicos</strong> (característica de Euler y género) directamente desde las permutaciones.</p>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Volver arriba</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reutilización</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
@@ -743,15 +911,6 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
     }
   });
   </script>
-<nav class="page-navigation column-page-right">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./capitulos/01-sistemas-rotacion.html" class="pagination-link" aria-label="1. Sistemas de Rotación">
-        <span class="nav-page-text">1. Sistemas de Rotación</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -770,5 +929,5 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

@@ -61,7 +61,7 @@
 body {
   font-family: var(--font-sans);
   color: var(--ribbon-dark);
-  font-size: 18px;  /* Tamaño base explícito para consistencia entre local y GitHub Pages */
+  font-size: 22px;  /* Tamaño base explícito para consistencia entre local y GitHub Pages */
   line-height: 1.7;
   letter-spacing: 0.01em;
 }
@@ -70,6 +70,28 @@ body {
 p {
   font-size: 1.05em;  /* Ligeramente más grande que el texto base */
   margin-bottom: 1em;
+}
+
+/* Menús - Tamaño de fuente aumentado para mejor legibilidad */
+.navbar,
+.navbar-nav,
+.navbar-brand,
+.navbar .navbar-nav .nav-link {
+  font-size: 1em;  /* 22px - mismo tamaño que el texto base */
+}
+
+.sidebar-navigation,
+.sidebar-navigation .sidebar-item,
+.sidebar-navigation a {
+  font-size: 1em;  /* 22px - mismo tamaño que el texto base */
+  line-height: 1.6;  /* Mayor espaciado entre líneas para mejor legibilidad */
+}
+
+#TOC,
+#TOC .nav-link,
+#TOC a {
+  font-size: 1em;  /* 22px - mismo tamaño que el texto base */
+  line-height: 1.7;  /* Espaciado cómodo entre líneas */
 }
 
 /* Selection */
