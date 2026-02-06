@@ -1,0 +1,296 @@
+---
+title: "Tutorial 3: Invariantes Topológicos"
+author: "José Luis"
+date: today
+format:
+  html:
+    code-fold: true
+    toc: true
+execute:
+  eval: false
+---
+
+# Invariantes de Ribbon Graphs
+
+Los **invariantes topológicos** son números que caracterizan la superficie ribbon sin depender de cómo la dibujemos.
+
+## Los 7 Invariantes Principales
+
+```{python}
+#| eval: false
+#| code-fold: false
+load('../scripts/ribbongraph_visualizer.sage')
+
+viz = RibbonGraphVisualizer('(1,2,3)(4,5,6)', '(1,4)(2,5)(3,6)')
+inv = viz.invariantes()
+
+for nombre, valor in inv.items():
+    print(f"{nombre:30s} = {valor}")
+```
+
+```
+genus                          = 1
+caras_mu                       = 1
+vertices                       = 2
+aristas                        = 3
+componentes_frontera           = 1
+euler_char_superficie          = -1
+V-E+F(mu)                      = 0
+```
+
+## 1. Género (g)
+
+El **género** es el número de "agujeros" de la superficie.
+
+::: {.panel-tabset}
+
+### Definición
+
+$$g = \text{número de agujeros}$$
+
+### Interpretación
+
+- g = 0: Esfera (sin agujeros)
+- g = 1: Toro (1 agujero)
+- g = 2: Toro doble (2 agujeros)
+- g ≥ 3: Superficies de género superior
+
+### Cálculo
+
+SageMath calcula el género usando la fórmula de Euler:
+
+$$g = \frac{2 - \chi - b}{2}$$
+
+donde χ = V - E + F y b es el número de fronteras.
+
+:::
+
+## 2. Vértices (V)
+
+Número de vértices del grafo = número de ciclos en σ.
+
+```{python}
+#| eval: false
+#| code-fold: false
+sigma = Permutation('(1,2,3)(4,5,6)')
+V = len(sigma.cycle_tuples())
+print(f"Vértices: {V}")
+# Salida: Vértices: 2
+```
+
+::: {.callout-note}
+Cada ciclo en σ representa un vértice del grafo.
+:::
+
+## 3. Aristas (E)
+
+Número de aristas = número de 2-ciclos en ρ.
+
+```{python}
+#| eval: false
+#| code-fold: false
+rho = Permutation('(1,4)(2,5)(3,6)')
+E = len(rho.cycle_tuples())
+print(f"Aristas: {E}")
+# Salida: Aristas: 3
+```
+
+::: {.callout-important}
+ρ debe ser una **involución** (producto de 2-ciclos disjuntos).
+:::
+
+## 4. Caras (F)
+
+Número de caras = número de ciclos en μ = σ·ρ.
+
+```{python}
+#| eval: false
+#| code-fold: false
+sigma = Permutation('(1,2,3)(4,5,6)')
+rho = Permutation('(1,4)(2,5)(3,6)')
+mu = sigma * rho
+F = len(mu.cycle_tuples())
+print(f"Caras: {F}")
+print(f"μ = {mu}")
+# Salida:
+# Caras: 1
+# μ = (1,5,3,4,2,6)
+```
+
+::: {.callout-tip}
+## Las caras son los "polígonos" de la superficie
+
+Cada ciclo de μ representa una cara. La longitud del ciclo es el número de lados.
+:::
+
+## 5. Componentes de Frontera (b)
+
+Número de "bordes" de la superficie.
+
+```{python}
+#| eval: false
+#| code-fold: false
+viz = RibbonGraphVisualizer('(1,2,3)(4,5,6)', '(1,4)(2,5)(3,6)')
+rg = viz.ribbon_graph
+b = rg.number_boundaries()
+print(f"Fronteras: {b}")
+# Salida: Fronteras: 1
+```
+
+::: {.callout-note}
+Las fronteras se calculan usando el método `boundary()` de SageMath, que devuelve las componentes como listas de dardos.
+:::
+
+## 6. Característica de Euler (χ)
+
+Hay dos formas de calcular χ:
+
+### χ de la Superficie
+
+Para una superficie con frontera:
+
+$$\chi = 2 - 2g - b$$
+
+```{python}
+#| eval: false
+#| code-fold: false
+g = 1  # género
+b = 1  # fronteras
+chi_superficie = 2 - 2*g - b
+print(f"χ (superficie) = {chi_superficie}")
+# Salida: χ (superficie) = -1
+```
+
+### χ del Grafo
+
+Fórmula clásica de Euler:
+
+$$\chi_{grafo} = V - E + F$$
+
+```{python}
+#| eval: false
+#| code-fold: false
+V, E, F = 2, 3, 1
+chi_grafo = V - E + F
+print(f"χ (grafo) = {chi_grafo}")
+# Salida: χ (grafo) = 0
+```
+
+::: {.callout-warning}
+## ¡Son diferentes!
+
+- χ_{superficie} considera la superficie con frontera
+- χ_{grafo} es la característica del grafo embebido
+:::
+
+## Tabla de Ejemplos
+
+| Ejemplo | σ | ρ | V | E | F | g | b | χ |
+|---------|---|---|---|---|---|---|---|---|
+| Toro | (1,2,3)(4,5,6) | (1,4)(2,5)(3,6) | 2 | 3 | 1 | 1 | 1 | -1 |
+| Self-loops | (1,2,3,4) | (1,2)(3,4) | 1 | 2 | 1 | 0 | 3 | -1 |
+| Triángulo | (1,2)(3,4)(5,6) | (1,3)(2,5)(4,6) | 3 | 3 | 2 | 0 | 2 | 0 |
+| Theta | (1,2,3)(4,5,6) | (1,6)(2,4)(3,5) | 2 | 3 | 1 | 1 | 1 | -1 |
+
+## Verificación de Fórmulas
+
+Para cada ribbon graph, podemos verificar:
+
+```{python}
+#| eval: false
+#| code-fold: false
+def verificar_invariantes(sigma_str, rho_str):
+    viz = RibbonGraphVisualizer(sigma_str, rho_str)
+    inv = viz.invariantes()
+
+    # Verificar χ = 2 - 2g - b
+    chi_calc = 2 - 2*inv['genus'] - inv['componentes_frontera']
+    chi_real = inv['euler_char_superficie']
+
+    # Verificar V - E + F
+    vef = inv['V-E+F(mu)']
+
+    print(f"Verificación:")
+    print(f"  χ calculado (2-2g-b): {chi_calc}")
+    print(f"  χ real:               {chi_real}")
+    print(f"  Coinciden: {chi_calc == chi_real}")
+    print(f"  V - E + F:            {vef}")
+
+    return inv
+
+# Probar con ejemplo
+verificar_invariantes('(1,2,3)(4,5,6)', '(1,4)(2,5)(3,6)')
+```
+
+## Relación entre Invariantes
+
+Las relaciones fundamentales:
+
+1. **Fórmula de Euler para superficies con frontera:**
+   $$\chi = 2 - 2g - b$$
+
+2. **Relación con el grafo:**
+   $$\chi_{grafo} = V - E + F$$
+
+3. **Conexión:**
+   $$2 - 2g - b = V - E + F + \text{(términos de ajuste)}$$
+
+::: {.callout-note}
+## La diferencia
+
+La diferencia entre χ_{superficie} y χ_{grafo} depende de cómo se cuentan las fronteras.
+:::
+
+## Ejercicio
+
+::: {.callout-tip icon=false}
+## 📝 Ejercicio 3.1
+
+Para el ribbon graph σ = (1,2,3,4,5,6), ρ = (1,2)(3,4)(5,6):
+
+1. Calcula V, E, F
+2. Calcula g y b
+3. Verifica χ = 2 - 2g - b
+4. Verifica V - E + F
+
+<details>
+<summary>Ver solución</summary>
+
+```sage
+viz = RibbonGraphVisualizer('(1,2,3,4,5,6)', '(1,2)(3,4)(5,6)')
+inv = viz.invariantes()
+
+# 1. V, E, F
+V = inv['vertices']      # 1
+E = inv['aristas']       # 3
+F = inv['caras_mu']      # ?
+
+# 2. g, b
+g = inv['genus']
+b = inv['componentes_frontera']
+
+# 3. Verificar χ = 2 - 2g - b
+chi = 2 - 2*g - b
+print(f"χ = 2 - 2({g}) - {b} = {chi}")
+
+# 4. Verificar V - E + F
+vef = V - E + F
+print(f"V - E + F = {V} - {E} + {F} = {vef}")
+```
+
+Resultado:
+- V = 1, E = 3, F = 1
+- g = 0, b = 4
+- χ = -2
+- V - E + F = -1
+</details>
+:::
+
+## Próximos Pasos
+
+Explora más ejemplos en [Notas: Ejemplos Clásicos](../notas/ejemplos.qmd).
+
+## Referencias
+
+- Gross & Tucker, *Topological Graph Theory* (1987)
+- [Tutorial 1](01-introduccion.qmd) | [Tutorial 2](02-visualizacion.qmd)

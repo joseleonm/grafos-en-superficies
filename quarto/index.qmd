@@ -1,0 +1,141 @@
+---
+title: "Sistemas de Rotación y Ribbon Graphs"
+subtitle: "Teoría de Grafos Topológicos"
+format:
+  html:
+    toc: false
+    page-layout: full
+---
+
+::: {.hero}
+# Sistemas de Rotación y Ribbon Graphs
+
+<!-- ### *De permutaciones a superficies mediante engrosamiento* -->
+
+Un enfoque combinatorio para entender encajes de grafos en superficies orientables.
+:::
+
+---
+
+## Sobre este proyecto
+
+Los **sistemas de rotación** son pares de permutaciones $(\sigma, \rho)$ que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el **Teorema de Heffter-Edmonds**.
+
+::: {.highlight-box}
+### Idea principal
+
+Un sistema de rotación $(\sigma, \rho)$ contiene toda la información necesaria para:
+
+- Reconstruir el grafo subyacente (vértices y aristas)
+- Determinar el orden cíclico de semiaristas alrededor de cada vértice
+- Calcular las caras mediante la permutación $\varphi = \rho\sigma$
+- Obtener invariantes topológicos: género, característica de Euler, fronteras
+- Construir la superficie completa mediante engrosamiento (thickening)
+
+**Resultado fundamental:** Álgebra de permutaciones ↔ Topología de superficies
+:::
+
+---
+
+## Contenido
+
+### [1. Sistemas de Rotación](capitulos/01-sistemas-rotacion.qmd)
+
+Introducción a los sistemas de rotación como modelo combinatorio de grafos encajados.
+
+- Definición mediante permutaciones $\sigma$ y $\rho$
+- Semiaristas (darts) y orden cíclico
+- Ejemplos básicos con código SageMath
+- Construcción en Sage: `RibbonGraph(sigma, rho)`
+
+### [2. Trazado de Caras](capitulos/02-trazado-de-caras.qmd)
+
+Algoritmo para determinar las caras de un encaje celular mediante sistemas de rotación.
+
+- Permutación de caras $\varphi = \rho\sigma$ (convención SageMath)
+- Algoritmo de trazado (cruzar → girar)
+- Ejemplos: esfera vs. toro
+- Correspondencia caras ↔ fronteras
+- Verificación con código SageMath
+
+### [3. Invariantes Topológicos](capitulos/03-invariantes.qmd)
+
+Cálculo de invariantes directamente desde las permutaciones.
+
+- Conteo directo: V (ciclos de σ), E (ciclos de ρ), F (ciclos de φ)
+- Característica de Euler: $\chi = V - E + F$
+- Género de superficies: $g = 1 - \frac{\chi + b}{2}$
+- Componentes de frontera y su interpretación
+- Proceso de engrosamiento (thickening)
+- Verificación experimental con Sage
+
+### [4. Teorema de Heffter-Edmonds](capitulos/04-teoremas.qmd)
+
+El teorema fundamental que establece la correspondencia biunívoca.
+
+- Equivalencia de sistemas de rotación (isomorfismos)
+- Equivalencia de encajes (homeomorfismos)
+- Teorema fuerte: correspondencia 1:1 entre clases de equivalencia
+- Construcción directa: $(\sigma, \rho) \to$ ribbon graph
+- Construcción inversa: ribbon graph $\to (\sigma, \rho)$
+- Orientabilidad y limitaciones del modelo
+
+### [5. Propiedades Adicionales y Polinomios](capitulos/05-ejemplos.qmd)
+
+Operaciones avanzadas y el polinomio de Bollobás-Riordan.
+
+- Operaciones: contracción, reducción, dualidad
+- Herramientas de `RibbonGraph` en Sage
+- Base de homología H₁(superficie)
+- Polinomio de Bollobás-Riordan
+- Implementación en SageMath
+
+---
+
+## Flujo del Curso
+
+```mermaid
+graph LR
+    A[1. Sistemas de Rotación] --> B[2. Trazado de Caras]
+    B --> C[3. Invariantes]
+    C --> D[4. Heffter-Edmonds]
+    D --> E[5. Propiedades Avanzadas]
+
+    style A fill:#e3f2fd
+    style B fill:#e8f5e9
+    style C fill:#fff3e0
+    style D fill:#fce4ec
+    style E fill:#f3e5f5
+```
+
+**Progresión natural:**
+1. **Definición** → Permutaciones $(\sigma, \rho)$
+2. **Algoritmo** → Calcular caras con $\varphi = \rho\sigma$
+3. **Invariantes** → Extraer χ, g, componentes de frontera
+4. **Teoría** → Correspondencia biunívoca (Heffter-Edmonds)
+5. **Aplicaciones** → Operaciones y polinomios
+
+---
+
+## Herramientas
+
+Este proyecto utiliza:
+
+- **SageMath 10.7** - Cálculos con `RibbonGraph`, `PermutationGroupElement`
+- **Python 3.13** - Scripts de análisis y visualización
+- **Quarto** - Documentación interactiva con bloques de código ejecutables
+
+---
+
+## Referencias
+
+- Gross, J. L., & Tucker, T. W. (1987). *Topological Graph Theory*
+- Lando, S. K., & Zvonkin, A. K. (2004). *Graphs on Surfaces*
+- Edmonds, J. (1960). *A combinatorial representation for polyhedral surfaces*
+- [SageMath - Ribbon Graphs Documentation](https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html)
+
+---
+
+::: {style="text-align: center; margin-top: 3em; color: #64748b;"}
+José Luis León • 2026
+:::

@@ -1,0 +1,42 @@
+---
+---
+title: "5. Operaciones y Polinomios"
+subtitle: "Transformaciones y el Polinomio de Bollobás-Riordan"
+---
+
+## Operaciones sobre sistemas de rotación
+
+### Dualidad
+
+La **dual** de un ribbon graph se obtiene intercambiando los roles de vértices y caras.
+
+```python
+R = RibbonGraph('(1,2,3,4)', '(1,2)(3,4)')
+
+# La dual intercambia sigma y phi
+# sigma_dual = phi original
+# rho_dual = rho original (se mantiene)
+# phi_dual = sigma original
+
+print(f"Original - Género: {R.genus()}")
+print(f"Original - V: {R.num_vertices()}, F: {len(list(R.faces()))}")
+
+# Para calcular la dual manualmente:
+# Necesitaríamos calcular phi y luego crear nuevo RibbonGraph
+```
+
+### Contracción de aristas
+
+SageMath permite contraer aristas en un ribbon graph:
+
+```python
+R = RibbonGraph('(1,6)(2,3)(4,5)', '(1,2)(3,4)(5,6)')
+
+# Contraer una arista
+R_contraido = R.contract_edge(1, 2)  # Contrae la arista entre semiaristas 1 y 2
+
+print(f"Antes - V: {R.num_vertices()}, E: {R.num_edges()}")
+print(f"Después - V: {R_contraido.num_vertices()}, E: {R_contraido.num_edges()}")
+```
+
+---
