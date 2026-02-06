@@ -1,0 +1,499 @@
+---
+title: "5. Propiedades Adicionales y Polinomios"
+subtitle: "Operaciones, Invariantes y el Polinomio de Bollobás-Riordan"
+---
+
+
+# Propiedades Adicionales de Sistemas de Rotación
+
+En este capítulo exploramos operaciones avanzadas sobre ribbon graphs, invariantes topológicos adicionales, y culminamos con el estudio del **polinomio de Bollobás-Riordan**, una generalización del polinomio de Tutte para grafos encajados en superficies.
+
+---
+
+## Herramientas de la Clase `RibbonGraph` en Sage
+
+La clase `RibbonGraph` en SageMath proporciona herramientas poderosas para analizar sistemas de rotación:
+
+### Métodos Básicos
+
+```python
+from sage.all import RibbonGraph, PermutationGroupElement
+
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+
+# Acceso a las permutaciones
+print(R.sigma())          # (1,2,3,4)
+print(R.rho())            # (1,2)(3,4)
+
+# Invariantes topológicos
+print(R.genus())          # 0
+print(R.number_boundaries())  # 3
+print(R.boundary())       # Lista de fronteras
+
+# Base de homología
+print(R.homology_basis()) # Ciclos fundamentales
+```
+
+### Métodos Disponibles
+
+| Método | Descripción |
+|--------|-------------|
+| `sigma()` | Devuelve la permutación de vértices |
+| `rho()` | Devuelve la permutación de aristas |
+| `genus()` | Calcula el género de la superficie |
+| `number_boundaries()` | Cuenta componentes de frontera |
+| `boundary()` | Devuelve las secuencias de darts en cada frontera |
+| `homology_basis()` | Base para H₁(superficie) |
+| `contract_edge(d)` | Contrae la arista que contiene el dart d |
+| `reduced()` | Elimina vértices de valencia 1 |
+
+---
+
+## Operaciones sobre Ribbon Graphs
+
+### 1. Contracción de Aristas
+
+La **contracción** de una arista consiste en colapsar la arista a un punto, fusionando sus vértices extremos.
+
+::: {.callout-note}
+## Definición: Contracción
+Dada una arista $e = \{d, \rho(d)\}$ en un ribbon graph, la contracción $G/e$ resulta en:
+- Eliminar la arista $e$
+- Fusionar los vértices en los extremos de $e$
+- Preservar el orden cíclico de las aristas restantes
+:::
+
+**Ejemplo en Sage:**
+
+```python
+# Triángulo K₃ encajado
+sigma = PermutationGroupElement('(1,6)(2,3)(4,5)')
+rho = PermutationGroupElement('(1,2)(3,4)(5,6)')
+R = RibbonGraph(sigma, rho)
+
+print(f"Original: V={len(R.sigma().cycle_tuples(singletons=True))}, "
+      f"E={len(R.rho().cycle_tuples())}, "
+      f"g={R.genus()}")
+
+# Contraer la arista que contiene el dart 1
+R_contraido = R.contract_edge(1)
+print(f"Contraído: V={len(R_contraido.sigma().cycle_tuples(singletons=True))}, "
+      f"E={len(R_contraido.rho().cycle_tuples())}, "
+      f"g={R_contraido.genus()}")
+```
+
+**Propiedades:**
+- La contracción puede cambiar el género
+- $\chi(G/e) = \chi(G) + 1$ si $e$ no es un loop
+- Útil para definir invariantes recursivos (como el polinomio de Tutte)
+
+### 2. Reducción de Ribbon Graphs
+
+El método `reduced()` elimina sistemáticamente vértices de valencia 1:
+
+```python
+# Grafo con un vértice colgante
+sigma = PermutationGroupElement('(1,2,3)(4,5,6)(7,8,9)(10,11,12)(13,14,15)(16,17,18,19)')
+rho = PermutationGroupElement('(1,16)(2,13)(3,10)(4,17)(5,14)(6,11)(7,18)(8,15)(9,12)(19,20)')
+R = RibbonGraph(sigma, rho)
+
+print(f"Original: {len(R.sigma().cycle_tuples(singletons=True))} vértices")
+print(f"          {len(R.rho().cycle_tuples())} aristas")
+
+R_reducido = R.reduced()
+print(f"Reducido: {len(R_reducido.sigma().cycle_tuples(singletons=True))} vértices")
+print(f"          {len(R_reducido.rho().cycle_tuples())} aristas")
+```
+
+::: {.callout-tip}
+## Uso de reduced()
+La reducción es útil para:
+- Simplificar ribbon graphs antes de calcular invariantes
+- Remover "hojas" que no contribuyen a la topología
+- Encontrar el "núcleo" topológico del grafo
+:::
+
+### 3. Dualidad
+
+La **dual** de un ribbon graph intercambia roles entre vértices y caras.
+
+::: {.callout-important}
+## Construcción de la Dual
+Dado un ribbon graph con sistema de rotación $(\sigma, \rho)$:
+- La dual tiene sistema $(\varphi, \rho)$ donde $\varphi = \rho\sigma$ es la permutación de caras
+- Los vértices de la dual corresponden a las caras del original
+- Las aristas se preservan (misma $\rho$)
+- Las caras de la dual corresponden a los vértices del original
+:::
+
+**Implementación manual de la dual:**
+
+```python
+def construir_dual(R):
+    """
+    Construye la dual de un ribbon graph.
+
+    Args:
+        R: RibbonGraph original
+
+    Returns:
+        RibbonGraph dual
+    """
+    # Obtener permutaciones originales
+    sigma = R.sigma()
+    rho = R.rho()
+
+    # Calcular phi = rho * sigma (caras)
+    phi = rho * sigma
+
+    # La dual tiene sigma_dual = phi, rho_dual = rho
+    R_dual = RibbonGraph(phi, rho)
+
+    return R_dual
+
+# Ejemplo: esfera con 3 fronteras
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+
+R_dual = construir_dual(R)
+
+print("Original:")
+print(f"  V = {len(R.sigma().cycle_tuples(singletons=True))}")
+print(f"  E = {len(R.rho().cycle_tuples())}")
+print(f"  F = {len((R.rho() * R.sigma()).cycle_tuples(singletons=True))}")
+print(f"  g = {R.genus()}")
+
+print("\nDual:")
+print(f"  V = {len(R_dual.sigma().cycle_tuples(singletons=True))}")
+print(f"  E = {len(R_dual.rho().cycle_tuples())}")
+print(f"  F = {len((R_dual.rho() * R_dual.sigma()).cycle_tuples(singletons=True))}")
+print(f"  g = {R_dual.genus()}")
+```
+
+**Propiedad fundamental:**
+$$ V^* = F, \quad E^* = E, \quad F^* = V, \quad g^* = g $$
+
+donde $*$ denota la dual.
+
+---
+
+## Base de Homología
+
+El método `homology_basis()` calcula una base para el primer grupo de homología $H_1(S, \mathbb{Z})$ de la superficie:
+
+```python
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho = PermutationGroupElement('(1,2)(3,4)(5,6)')
+R = RibbonGraph(sigma, rho)
+
+print(f"Género: {R.genus()}")
+base = R.homology_basis()
+print(f"Número de ciclos en la base: {len(base)}")
+print(f"Base de homología:")
+for i, ciclo in enumerate(base, 1):
+    print(f"  Ciclo {i}: {ciclo}")
+```
+
+::: {.callout-note}
+## Interpretación
+Para una superficie de género $g$ con $b$ componentes de frontera:
+$$ \text{rank}(H_1(S)) = 2g + b - 1 $$
+
+Cada ciclo en la base representa un "agujero" fundamental en la superficie.
+:::
+
+---
+
+## El Polinomio de Bollobás-Riordan
+
+El **polinomio de Bollobás-Riordan** es una generalización del polinomio de Tutte para grafos encajados en superficies orientables. Codifica información topológica y combinatoria del encaje.
+
+### Definición
+
+::: {.callout-important}
+## Polinomio de Bollobás-Riordan
+Para un ribbon graph $G$ con sistema de rotación $(\sigma, \rho)$, el polinomio de Bollobás-Riordan $R_G(x, y, z)$ satisface:
+
+1. **Caso base:** Si $G$ es un ciclo simple (una frontera):
+   $$ R_G(x, y, z) = y + z $$
+
+2. **Caso base:** Si $G$ consiste solo de loops disjuntos:
+   $$ R_G(x, y, z) = x^k (y+z) $$
+   donde $k$ es el número de loops.
+
+3. **Relación de contracción-borrado:** Para una arista $e$ que no es loop ni istmo:
+   $$ R_G(x,y,z) = R_{G/e}(x,y,z) + R_{G \setminus e}(x,y,z) $$
+
+4. **Para un loop:** Si $e$ es un loop:
+   $$ R_G(x,y,z) = x \cdot R_{G \setminus e}(x,y,z) $$
+
+5. **Para un istmo:** Si $e$ es un istmo (corta una componente de frontera):
+   $$ R_G(x,y,z) = z \cdot R_{G / e}(x,y,z) $$
+:::
+
+### Propiedades Fundamentales
+
+1. **Generaliza el polinomio de Tutte:**
+   - Para grafos planos: $R_G(x, 1, 1) = T_G(x, 1)$
+   - Para grafos en superficies cerradas: codifica información adicional sobre el género
+
+2. **Invariante topológico:**
+   - Depende del encaje, no solo del grafo abstracto
+   - Captura información sobre el género y componentes de frontera
+
+3. **Evaluaciones especiales:**
+   - $R_G(1, 1, 1)$ cuenta spanning subgraphs
+   - Relación con polinomios cromáticos generalizados
+
+### Implementación en Sage
+
+Sage no tiene implementación nativa del polinomio de Bollobás-Riordan para `RibbonGraph`, pero podemos implementarlo nosotros mismos:
+
+```python
+from sage.all import PolynomialRing, QQ
+
+def es_loop(R, dart):
+    """
+    Verifica si un dart pertenece a un loop (self-loop).
+    Un loop conecta un vértice consigo mismo.
+    """
+    rho = R.rho()
+    pareja = rho(dart)
+
+    # Verificar si ambos darts están en el mismo ciclo de sigma
+    sigma = R.sigma()
+    for ciclo in sigma.cycle_tuples():
+        if dart in ciclo and pareja in ciclo:
+            return True
+    return False
+
+def es_istmo(R, dart):
+    """
+    Verifica si un dart pertenece a un istmo (bridge).
+    Un istmo, cuando se elimina, incrementa el número de componentes de frontera.
+    """
+    # Método aproximado: un istmo no puede ser un loop
+    # y al eliminarlo debe aumentar las componentes de frontera
+    if es_loop(R, dart):
+        return False
+
+    # Crear una versión sin esta arista requeriría
+    # manipular las permutaciones manualmente
+    # Por simplicidad, asumimos que no es istmo si no es loop
+    # (una implementación completa requeriría más lógica)
+    return False
+
+def bollobas_riordan(R, x, y, z, memo=None):
+    """
+    Calcula el polinomio de Bollobás-Riordan de un ribbon graph.
+
+    Args:
+        R: RibbonGraph
+        x, y, z: variables del polinomio
+        memo: diccionario para memoización
+
+    Returns:
+        Polinomio en Q[x,y,z]
+    """
+    if memo is None:
+        memo = {}
+
+    # Convertir ribbon graph a una clave hasheable
+    sigma_str = str(R.sigma())
+    rho_str = str(R.rho())
+    clave = (sigma_str, rho_str)
+
+    if clave in memo:
+        return memo[clave]
+
+    # Casos base
+    num_edges = len(R.rho().cycle_tuples())
+    num_boundaries = R.number_boundaries()
+
+    # Caso 1: Sin aristas (solo vértices aislados)
+    if num_edges == 0:
+        # Solo componentes de frontera triviales
+        resultado = (y + z)
+        memo[clave] = resultado
+        return resultado
+
+    # Caso 2: Un ciclo simple (una frontera, una arista)
+    if num_edges == 1 and num_boundaries == 1:
+        resultado = y + z
+        memo[clave] = resultado
+        return resultado
+
+    # Caso recursivo: elegir una arista
+    # Tomamos el primer dart disponible
+    darts = []
+    for ciclo in R.rho().cycle_tuples():
+        darts.extend(ciclo)
+
+    if not darts:
+        resultado = y + z
+        memo[clave] = resultado
+        return resultado
+
+    dart = darts[0]
+
+    # Verificar si es loop
+    if es_loop(R, dart):
+        # R_G = x * R_{G\e}
+        # Para implementar G\e necesitamos remover el ciclo de rho
+        # Esto es complejo, por ahora retornamos una aproximación
+        resultado = x * (y + z)  # Simplificación
+        memo[clave] = resultado
+        return resultado
+
+    # Caso general: contracción-borrado
+    # R_G = R_{G/e} + R_{G\e}
+    try:
+        R_contraido = R.contract_edge(dart)
+        term_contraer = bollobas_riordan(R_contraido, x, y, z, memo)
+    except:
+        term_contraer = 0
+
+    # Para borrar necesitaríamos remover el dart de rho
+    # Implementación simplificada
+    term_borrar = y + z
+
+    resultado = term_contraer + term_borrar
+    memo[clave] = resultado
+    return resultado
+
+# Crear ring de polinomios
+R_poly.<x, y, z> = PolynomialRing(QQ)
+
+# Ejemplo: calcular para un ribbon graph simple
+sigma = PermutationGroupElement('(1,2)')
+rho = PermutationGroupElement('(1,2)')
+R = RibbonGraph(sigma, rho)
+
+print(f"Ribbon graph: sigma={R.sigma()}, rho={R.rho()}")
+print(f"Género: {R.genus()}")
+print(f"Fronteras: {R.number_boundaries()}")
+print()
+
+# Calcular polinomio (versión simplificada)
+poly = bollobas_riordan(R, x, y, z)
+print(f"Polinomio de Bollobás-Riordan (aproximado): {poly}")
+```
+
+::: {.callout-warning}
+## Nota sobre la Implementación
+La implementación completa del polinomio de Bollobás-Riordan requiere:
+1. Manipulación cuidadosa de las permutaciones para borrar aristas
+2. Detección robusta de loops e istmos
+3. Memoización eficiente para evitar recálculos
+4. Manejo de casos especiales (múltiples componentes, etc.)
+
+La versión presentada es una **implementación pedagógica simplificada** que ilustra la estructura recursiva del polinomio.
+:::
+
+### Versión Mejorada con Matrices de Adyacencia
+
+Una implementación más robusta utilizaría representaciones alternativas:
+
+```python
+def ribbon_to_graph_data(R):
+    """
+    Extrae información combinatoria de un ribbon graph.
+
+    Returns:
+        dict con vértices, aristas, género, etc.
+    """
+    sigma_cycles = R.sigma().cycle_tuples(singletons=True)
+    rho_cycles = R.rho().cycle_tuples()
+    phi = R.rho() * R.sigma()
+    phi_cycles = phi.cycle_tuples(singletons=True)
+
+    return {
+        'vertices': len(sigma_cycles),
+        'edges': len(rho_cycles),
+        'faces': len(phi_cycles),
+        'genus': R.genus(),
+        'boundaries': R.number_boundaries(),
+        'euler_char': len(sigma_cycles) - len(rho_cycles) + len(phi_cycles)
+    }
+
+# Ejemplo de uso
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+
+info = ribbon_to_graph_data(R)
+print("Información del ribbon graph:")
+for clave, valor in info.items():
+    print(f"  {clave}: {valor}")
+```
+
+---
+
+## Ejercicios
+
+::: {.callout-tip}
+## Ejercicio 1: Dualidad
+Implementa una función que calcule la dual de un ribbon graph y verifica que:
+1. $(G^*)^* = G$
+2. $V^* = F$ y $F^* = V$
+3. $g^* = g$
+
+Prueba con varios ejemplos: K₃ en la esfera, toro con un vértice, etc.
+:::
+
+::: {.callout-tip}
+## Ejercicio 2: Contracción Iterada
+Toma un grafo completo K₄ encajado en una superficie y:
+1. Contrae aristas una por una
+2. Registra el género después de cada contracción
+3. Analiza cómo evoluciona el género
+
+¿Cuándo la contracción preserva el género? ¿Cuándo lo cambia?
+:::
+
+::: {.callout-tip}
+## Ejercicio 3: Polinomio de Bollobás-Riordan
+Mejora la implementación del polinomio de Bollobás-Riordan para:
+1. Manejar correctamente la operación de borrado de aristas
+2. Detectar loops e istmos de forma robusta
+3. Implementar memoización eficiente
+
+Calcula el polinomio para grafos pequeños (K₃, K₄, bouquet de círculos).
+:::
+
+::: {.callout-tip}
+## Ejercicio 4: Base de Homología
+Para un toro con múltiples vértices:
+1. Calcula la base de homología usando `homology_basis()`
+2. Visualiza los ciclos fundamentales
+3. Verifica que rank(H₁) = 2g + b - 1
+
+Experimenta con diferentes encajes del mismo grafo y compara las bases.
+:::
+
+---
+
+## Resumen
+
+- **Operaciones:** Contracción, reducción y dualidad son transformaciones fundamentales
+- **Herramientas de Sage:** `RibbonGraph` proporciona métodos poderosos para análisis topológico
+- **Homología:** La base de homología captura los "agujeros" de la superficie
+- **Polinomio de Bollobás-Riordan:** Generaliza el polinomio de Tutte a superficies
+- **Implementación:** Requiere manipulación cuidadosa de permutaciones y recursión
+
+El polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a:
+- Teoría de nudos (polinomios de nudos)
+- Física matemática (modelos de Potts)
+- Combinatoria enumerativa
+
+---
+
+## Referencias
+
+- Bollobás, B., & Riordan, O. (2002). "A polynomial of graphs on surfaces". *Mathematische Annalen*.
+- Chmutov, S. (2009). "Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial".
+- Ellis-Monaghan, J. A., & Moffatt, I. (2013). "Graphs on Surfaces: Dualities, Polynomials, and Knots".
+- [SageMath - Ribbon Graphs Documentation](https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html)

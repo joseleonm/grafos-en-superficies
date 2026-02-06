@@ -265,7 +265,7 @@ window.Quarto = {
 </ul>
 </section>
 <section id="trazado-de-caras" class="level3">
-<h3 class="anchored" data-anchor-id="trazado-de-caras"><a href="./capitulos/02-trazado-de-caras.html">2. Trazado de Caras</a></h3>
+<h3 class="anchored" data-anchor-id="trazado-de-caras"><a href="capitulos/02-trazado-de-caras.qmd">2. Trazado de Caras</a></h3>
 <p>Algoritmo para determinar las caras de un encaje celular mediante sistemas de rotación.</p>
 <ul>
 <li>Permutación de caras <span class="math inline">\(\varphi = \rho\sigma\)</span> (convención SageMath)</li>
@@ -276,7 +276,7 @@ window.Quarto = {
 </ul>
 </section>
 <section id="invariantes-topológicos" class="level3">
-<h3 class="anchored" data-anchor-id="invariantes-topológicos"><a href="./capitulos/03-invariantes.html">3. Invariantes Topológicos</a></h3>
+<h3 class="anchored" data-anchor-id="invariantes-topológicos"><a href="capitulos/03-invariantes.qmd">3. Invariantes Topológicos</a></h3>
 <p>Cálculo de invariantes directamente desde las permutaciones.</p>
 <ul>
 <li>Conteo directo: V (ciclos de σ), E (ciclos de ρ), F (ciclos de φ)</li>
@@ -288,7 +288,7 @@ window.Quarto = {
 </ul>
 </section>
 <section id="teorema-de-heffter-edmonds" class="level3">
-<h3 class="anchored" data-anchor-id="teorema-de-heffter-edmonds"><a href="./capitulos/04-teoremas.html">4. Teorema de Heffter-Edmonds</a></h3>
+<h3 class="anchored" data-anchor-id="teorema-de-heffter-edmonds"><a href="capitulos/04-teoremas.qmd">4. Teorema de Heffter-Edmonds</a></h3>
 <p>El teorema fundamental que establece la correspondencia biunívoca.</p>
 <ul>
 <li>Equivalencia de sistemas de rotación (isomorfismos)</li>
@@ -300,7 +300,7 @@ window.Quarto = {
 </ul>
 </section>
 <section id="propiedades-adicionales-y-polinomios" class="level3">
-<h3 class="anchored" data-anchor-id="propiedades-adicionales-y-polinomios"><a href="./capitulos/05-ejemplos.html">5. Propiedades Adicionales y Polinomios</a></h3>
+<h3 class="anchored" data-anchor-id="propiedades-adicionales-y-polinomios"><a href="capitulos/05-ejemplos.qmd">5. Propiedades Adicionales y Polinomios</a></h3>
 <p>Operaciones avanzadas y el polinomio de Bollobás-Riordan.</p>
 <ul>
 <li>Operaciones: contracción, reducción, dualidad</li>
@@ -311,22 +311,6 @@ window.Quarto = {
 </ul>
 <hr>
 </section>
-</section>
-<section id="flujo-del-curso" class="level2">
-<h2 class="anchored" data-anchor-id="flujo-del-curso">Flujo del Curso</h2>
-<pre class="mermaid"><code>graph LR
-    A[1. Sistemas de Rotación] --&gt; B[2. Trazado de Caras]
-    B --&gt; C[3. Invariantes]
-    C --&gt; D[4. Heffter-Edmonds]
-    D --&gt; E[5. Propiedades Avanzadas]
-
-    style A fill:#e3f2fd
-    style B fill:#e8f5e9
-    style C fill:#fff3e0
-    style D fill:#fce4ec
-    style E fill:#f3e5f5</code></pre>
-<p><strong>Progresión natural:</strong> 1. <strong>Definición</strong> → Permutaciones <span class="math inline">\((\sigma, \rho)\)</span> 2. <strong>Algoritmo</strong> → Calcular caras con <span class="math inline">\(\varphi = \rho\sigma\)</span> 3. <strong>Invariantes</strong> → Extraer χ, g, componentes de frontera 4. <strong>Teoría</strong> → Correspondencia biunívoca (Heffter-Edmonds) 5. <strong>Aplicaciones</strong> → Operaciones y polinomios</p>
-<hr>
 </section>
 <section id="herramientas" class="level2">
 <h2 class="anchored" data-anchor-id="herramientas">Herramientas</h2>
@@ -428,7 +412,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/joseleonm\.github\.io\/grafos-en-superficies");
+        var filterRegex = new RegExp("https:\/\/ribbongraphs\.example\.com");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -779,7 +763,7 @@ window.Quarto = {
     </div>   
     <div class="nav-footer-center">
 <p><strong>Sistemas de Rotación y Ribbon Graphs</strong><br> José Luis León • 2026 • Teoría de Grafos Topológicos</p>
-<div class="toc-actions"><ul><li><a href="https://github.com/joseleonm/grafos-en-superficies/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Editar esta página</a></li><li><a href="https://github.com/joseleonm/grafos-en-superficies/issues/new" class="toc-action"><i class="bi empty"></i>Informar sobre problema</a></li></ul></div></div>
+</div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
