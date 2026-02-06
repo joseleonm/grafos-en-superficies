@@ -1,0 +1,123 @@
+project:
+  type: website
+  output-dir: ../outputs/quarto-site
+  render:
+    - index.qmd
+    - capitulos/01-sistemas-rotacion.qmd
+
+website:
+  title: "Sistemas de Rotación y Ribbon Graphs"
+  description: "Teoría de Grafos Topológicos"
+  site-url: https://ribbongraphs.example.com
+
+  page-navigation: true
+  back-to-top-navigation: true
+
+  navbar:
+    background: dark
+    foreground: light
+    title: "Sistemas de Rotación"
+    left:
+      - text: "Inicio"
+        icon: house-fill
+        file: index.qmd
+      - text: "1. Sistemas de Rotación"
+        file: capitulos/01-sistemas-rotacion.qmd
+    right:
+      - icon: github
+        href: https://github.com/
+        aria-label: GitHub
+
+  sidebar:
+    style: "floating"
+    background: light
+    border: true
+    search: true
+    collapse-level: 1
+    contents:
+      - text: "Inicio"
+        file: index.qmd
+      - text: "1. Sistemas de Rotación"
+        file: capitulos/01-sistemas-rotacion.qmd
+
+  page-footer:
+    center: |
+      **Sistemas de Rotación y Ribbon Graphs**<br>
+      José Luis León • 2026 • Teoría de Grafos Topológicos
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+
+
+    # Tabla de contenidos
+    toc: true
+    toc-depth: 3
+    toc-title: "En esta página"
+    toc-location: right
+
+    # Numeración
+    number-sections: false
+    number-depth: 3
+
+    # Código
+    code-fold: false
+    code-copy: true
+    code-overflow: wrap
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    code-tools: false
+    code-link: true
+
+    # Navegación y enlaces
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-icon: true
+    link-external-newwindow: true
+
+    # Hover
+    citations-hover: true
+    footnotes-hover: true
+
+    # Figuras
+    fig-width: 10
+    fig-height: 7
+    fig-align: center
+    fig-cap-location: bottom
+
+    # Resaltado de sintaxis
+    highlight-style: github
+
+    # Tipografía
+    mainfont: "Source Sans Pro"
+    monofont: "Fira Code"
+    fontsize: 1.1em
+    linestretch: 1.6
+
+    # Meta
+    include-in-header:
+      text: |
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+        <meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Sistemas de Rotación y Ribbon Graphs">
+        <meta property="og:description" content="Teoría de grafos topológicos mediante sistemas de rotación">
+
+# Configuración de ejecución
+execute:
+  freeze: auto
+  cache: false
+  warning: false
+  message: false
+  error: false
+  echo: true
+  eval: false
+
+# Metadatos
+lang: es
+author: "José Luis León"
+date: today
+license: "CC BY-NC-SA 4.0"
