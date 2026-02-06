@@ -61,7 +61,7 @@
 body {
   font-family: var(--font-sans);
   color: var(--ribbon-dark);
-  font-size: 18px;  /* Tamaño base explícito para consistencia entre local y GitHub Pages */
+  font-size: 20px;  /* Tamaño base explícito para consistencia entre local y GitHub Pages */
   line-height: 1.7;
   letter-spacing: 0.01em;
 }
