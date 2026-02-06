@@ -1,0 +1,208 @@
+#!/usr/bin/env sage
+# -*- coding: utf-8 -*-
+"""
+Demostración Completa de Ribbon Graphs
+=======================================
+Muestra el proceso completo de engrosamiento en 5 pasos.
+"""
+
+load('ribbongraph_visualizer.sage')
+
+print("\n" + "="*70)
+print("  RIBBON GRAPHS - DEMOSTRACIÓN COMPLETA")
+print("  5 Pasos: Base → Dardos → Engrosamiento → Cintas → Fronteras")
+print("="*70)
+
+# =============================================================================
+# EJEMPLO 1: Ribbon Graph Simple (Toro)
+# =============================================================================
+print("\n" + "="*70)
+print("EJEMPLO 1: Ribbon Graph en Toro (g=1, b=1)")
+print("="*70)
+print("σ = (1,2,3)(4,5,6)  → 2 vértices de grado 3")
+print("ρ = (1,4)(2,5)(3,6) → 3 aristas")
+
+viz1 = crear_ribbon_simple()
+inv1 = viz1.invariantes()
+
+print("\n>>> Invariantes:")
+print(f"  • Género (g):              {inv1['genus']}")
+print(f"  • Vértices (V):            {inv1['vertices']}")
+print(f"  • Aristas (E):             {inv1['aristas']}")
+print(f"  • Caras μ (F):             {inv1['caras_mu']}")
+print(f"  • Componentes frontera:    {inv1['componentes_frontera']}")
+print(f"  • χ (superficie):          {inv1['euler_char_superficie']}")
+print(f"  • V - E + F:               {inv1['V-E+F(mu)']}")
+
+archivos1 = viz1.generar_secuencia_completa(
+    output_dir='../outputs/imagenes',
+    prefix='ejemplo1_'
+)
+
+# =============================================================================
+# EJEMPLO 2: Vértice con Self-loops
+# =============================================================================
+print("\n" + "="*70)
+print("EJEMPLO 2: Vértice con Self-loops (g=0, b=3)")
+print("="*70)
+print("σ = (1,2,3,4)       → 1 vértice de grado 4")
+print("ρ = (1,2)(3,4)      → 2 aristas (ambas self-loops)")
+
+viz2 = crear_ribbon_selfloop()
+inv2 = viz2.invariantes()
+
+print("\n>>> Invariantes:")
+print(f"  • Género (g):              {inv2['genus']}")
+print(f"  • Vértices (V):            {inv2['vertices']}")
+print(f"  • Aristas (E):             {inv2['aristas']}")
+print(f"  • Caras μ (F):             {inv2['caras_mu']}")
+print(f"  • Componentes frontera:    {inv2['componentes_frontera']}")
+print(f"  • χ (superficie):          {inv2['euler_char_superficie']}")
+print(f"  • V - E + F:               {inv2['V-E+F(mu)']}")
+
+archivos2 = viz2.generar_secuencia_completa(
+    output_dir='../outputs/imagenes',
+    prefix='ejemplo2_'
+)
+
+# =============================================================================
+# EJEMPLO 3: Triángulo (K3)
+# =============================================================================
+print("\n" + "="*70)
+print("EJEMPLO 3: Triángulo K3 (g=0, b=2)")
+print("="*70)
+print("σ = (1,2)(3,4)(5,6) → 3 vértices de grado 2")
+print("ρ = (1,3)(2,5)(4,6) → 3 aristas formando triángulo")
+
+viz3 = RibbonGraphVisualizer('(1,2)(3,4)(5,6)', '(1,3)(2,5)(4,6)', phase=0.0)
+inv3 = viz3.invariantes()
+
+print("\n>>> Invariantes:")
+print(f"  • Género (g):              {inv3['genus']}")
+print(f"  • Vértices (V):            {inv3['vertices']}")
+print(f"  • Aristas (E):             {inv3['aristas']}")
+print(f"  • Caras μ (F):             {inv3['caras_mu']}")
+print(f"  • Componentes frontera:    {inv3['componentes_frontera']}")
+print(f"  • χ (superficie):          {inv3['euler_char_superficie']}")
+print(f"  • V - E + F:               {inv3['V-E+F(mu)']}")
+
+archivos3 = viz3.generar_secuencia_completa(
+    output_dir='../outputs/imagenes',
+    prefix='ejemplo3_'
+)
+
+# =============================================================================
+# EJEMPLO 4: Theta Graph (2 vértices, 3 aristas paralelas)
+# =============================================================================
+print("\n" + "="*70)
+print("EJEMPLO 4: Theta Graph (g=2, b=0)")
+print("="*70)
+print("σ = (1,2,3)(4,5,6)  → 2 vértices de grado 3")
+print("ρ = (1,6)(2,4)(3,5) → 3 aristas paralelas")
+
+viz4 = RibbonGraphVisualizer('(1,2,3)(4,5,6)', '(1,6)(2,4)(3,5)', phase=0.3)
+inv4 = viz4.invariantes()
+
+print("\n>>> Invariantes:")
+print(f"  • Género (g):              {inv4['genus']}")
+print(f"  • Vértices (V):            {inv4['vertices']}")
+print(f"  • Aristas (E):             {inv4['aristas']}")
+print(f"  • Caras μ (F):             {inv4['caras_mu']}")
+print(f"  • Componentes frontera:    {inv4['componentes_frontera']}")
+print(f"  • χ (superficie):          {inv4['euler_char_superficie']}")
+print(f"  • V - E + F:               {inv4['V-E+F(mu)']}")
+
+archivos4 = viz4.generar_secuencia_completa(
+    output_dir='../outputs/imagenes',
+    prefix='ejemplo4_'
+)
+
+# =============================================================================
+# RESUMEN
+# =============================================================================
+print("\n" + "="*70)
+print("RESUMEN DE ARCHIVOS GENERADOS")
+print("="*70)
+
+print("\nSe generaron 20 imágenes (4 ejemplos × 5 pasos):\n")
+
+print("EJEMPLO 1: Toro (g=1, b=1)")
+print("  • ejemplo1_paso1_grafo_base.png")
+print("  • ejemplo1_paso2_con_semiaristas.png")
+print("  • ejemplo1_paso3_vertices_engrosados.png")
+print("  • ejemplo1_paso4_ribbon_completo.png")
+print("  • ejemplo1_paso5_fronteras.png          ⭐ NUEVO")
+
+print("\nEJEMPLO 2: Self-loops (g=0, b=3)")
+print("  • ejemplo2_paso1_grafo_base.png")
+print("  • ejemplo2_paso2_con_semiaristas.png")
+print("  • ejemplo2_paso3_vertices_engrosados.png")
+print("  • ejemplo2_paso4_ribbon_completo.png")
+print("  • ejemplo2_paso5_fronteras.png          ⭐ NUEVO")
+
+print("\nEJEMPLO 3: Triángulo K3 (g=0, b=2)")
+print("  • ejemplo3_paso1_grafo_base.png")
+print("  • ejemplo3_paso2_con_semiaristas.png")
+print("  • ejemplo3_paso3_vertices_engrosados.png")
+print("  • ejemplo3_paso4_ribbon_completo.png")
+print("  • ejemplo3_paso5_fronteras.png          ⭐ NUEVO")
+
+print("\nEJEMPLO 4: Theta Graph (g=2, b=0)")
+print("  • ejemplo4_paso1_grafo_base.png")
+print("  • ejemplo4_paso2_con_semiaristas.png")
+print("  • ejemplo4_paso3_vertices_engrosados.png")
+print("  • ejemplo4_paso4_ribbon_completo.png")
+print("  • ejemplo4_paso5_fronteras.png          ⭐ NUEVO")
+
+print("\n" + "="*70)
+print("EXPLICACIÓN DE LOS 5 PASOS")
+print("="*70)
+print("""
+PASO 1: Grafo Base
+  → Muestra el grafo abstracto (vértices = puntos, aristas = líneas)
+  → NO tiene estructura ribbon todavía
+
+PASO 2: División en Semiaristas (Dardos)
+  → Cada arista se divide en 2 dardos (half-edges)
+  → Los dardos se colocan en el BORDE de cada disco de vértice
+  → Los números muestran el orden cíclico dado por σ
+
+PASO 3: Engrosamiento de Vértices
+  → Los vértices se convierten en DISCOS (círculos amarillos)
+  → Los dardos aparecen como puntos rojos en el borde
+  → El orden cíclico alrededor del disco sigue σ
+
+PASO 4: Ribbon Completo (Cintas)
+  → Las aristas se convierten en CINTAS (ribbons azules)
+  → Las cintas conectan pares de dardos según ρ
+  → ¡Esta es la superficie ribbon engrosada!
+
+PASO 5: Componentes de Frontera ⭐ NUEVO
+  → Muestra las componentes de frontera usando boundary()
+  → Las fronteras se dibujan como curvas gruesas
+  → El número de componentes coincide con 'b' en los invariantes
+""")
+
+print("="*70)
+print("Todas las imágenes están en: ../outputs/imagenes/")
+print("="*70)
+
+print("\n" + "="*70)
+print("COMPARACIÓN DE EJEMPLOS")
+print("="*70)
+print("""
+• Ejemplo 1 (Toro):       g=1, b=1  → Superficie con 1 agujero y 1 frontera
+• Ejemplo 2 (Self-loops): g=0, b=3  → Esfera con 3 componentes de frontera
+• Ejemplo 3 (Triángulo):  g=0, b=2  → Esfera con 2 componentes de frontera
+• Ejemplo 4 (Theta):      g=2, b=0  → Superficie cerrada de género 2
+                                      (sin frontera, como un "toro doble")
+""")
+
+print("="*70)
+print("VERIFICACIÓN: Fórmula de Euler χ = 2 - 2g - b")
+print("="*70)
+print(f"Ejemplo 1: χ = 2 - 2({inv1['genus']}) - {inv1['componentes_frontera']} = {inv1['euler_char_superficie']}")
+print(f"Ejemplo 2: χ = 2 - 2({inv2['genus']}) - {inv2['componentes_frontera']} = {inv2['euler_char_superficie']}")
+print(f"Ejemplo 3: χ = 2 - 2({inv3['genus']}) - {inv3['componentes_frontera']} = {inv3['euler_char_superficie']}")
+print(f"Ejemplo 4: χ = 2 - 2({inv4['genus']}) - {inv4['componentes_frontera']} = {inv4['euler_char_superficie']}")
+print("="*70 + "\n")
