@@ -1,1 +1,1 @@
-Sitemap: https://ribbongraphs.example.com/sitemap.xml
+Sitemap: https://joseleonm.github.io/grafos-en-superficies/sitemap.xml
