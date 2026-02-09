@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2. Mapas Combinatorios – Sistemas de Rotación y Ribbon Graphs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/01-sistemas-rotacion.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ded8648ae53d9308d13d3caf4f17f1f4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&amp;family=Fira+Code:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2. Mapas Combinatorios – Sistemas de Rotación y Ribbon Graphs">
+<meta property="og:description" content="De las permutaciones a la Superficie">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sistemas de Rotación</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> <i class="bi bi-house-fill" role="img">
+</i> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../capitulos/01-sistemas-rotacion.html"> 
+<span class="menu-text">1. Sistemas de Rotación</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../capitulos/02-mapas-combinatorios.html"> 
+<span class="menu-text">2. Mapas Combinatorios</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/joseleonm/grafos-en-superficies"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/02-mapas-combinatorios.html">2. Mapas Combinatorios</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inicio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Sistemas de Rotación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-mapas-combinatorios.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">2. Mapas Combinatorios</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">2. Mapas Combinatorios</h1>
+<p class="subtitle lead">De las permutaciones a la Superficie</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>En la sección anterior definimos el sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span>. Es frecuente interpretar estas permutaciones como simples instrucciones para dibujar un grafo preexistente; sin embargo, esa interpretación es parcial.</p>
+<p>En la topología combinatoria (y en el modelo de Mapas de Tutte), el par <span class="math inline">\((\sigma, \rho)\)</span> contiene toda la información topológica. El encaje queda determinado de manera unívoca:</p>
+<ol type="1">
+<li>Las permutaciones definen la conectividad (el grafo).</li>
+<li>Las permutaciones definen las fronteras (las caras).</li>
+<li>Las permutaciones definen la superficie cerrada (el género).</li>
+</ol>
+<p><br></p>
+<section id="axiomática-de-los-mapas-combinatorios" class="level2">
+<h2 class="anchored" data-anchor-id="axiomática-de-los-mapas-combinatorios">Axiomática de los Mapas Combinatorios</h2>
+<p>Hasta ahora nos hemos apoyado en la intuición geométrica de “dibujar grafos”. A continuación formalizamos el encaje para que no dependa de la representación gráfica, sino de reglas combinatorias precisas.</p>
+<section id="los-axiomas-de-tutte" class="level3">
+<h3 class="anchored" data-anchor-id="los-axiomas-de-tutte">Los Axiomas de Tutte</h3>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Mapa Combinatorio (Orientado)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(D\)</span> un conjunto finito de elementos abstractos llamados <strong>dardos</strong> (o semiaristas).</p>
+<p>Un <strong>Mapa Combinatorio</strong> es una terna <span class="math inline">\(M = (D, \sigma, \rho)\)</span> que satisface los siguientes tres axiomas:</p>
+<ol type="1">
+<li><strong>Axioma de la Arista (<span class="math inline">\(\rho\)</span>):</strong> <span class="math inline">\(\rho\)</span> es una permutación de los elementos de <span class="math inline">\(D\)</span> tal que <span class="math inline">\(\rho^2 = \text{id}\)</span> y <span class="math inline">\(\rho(d) \neq d\)</span> para todo <span class="math inline">\(d \in D\)</span>.
+<ul>
+<li><em>Interpretación:</em> <span class="math inline">\(\rho\)</span> empareja los dardos; cada par define una arista.</li>
+</ul></li>
+<li><strong>Axioma del Vértice (<span class="math inline">\(\sigma\)</span>):</strong> <span class="math inline">\(\sigma\)</span> es una permutación arbitraria de <span class="math inline">\(D\)</span>.
+<ul>
+<li><em>Interpretación:</em> Los ciclos de <span class="math inline">\(\sigma\)</span> agrupan los dardos; cada ciclo define un vértice.</li>
+</ul></li>
+<li><strong>Axioma de Conectividad:</strong> El grupo de permutaciones generado por <span class="math inline">\(\langle \sigma, \rho \rangle\)</span> actúa transitivamente sobre <span class="math inline">\(D\)</span>.
+<ul>
+<li><em>Interpretación:</em> La acción transitiva garantiza que la estructura resultante sea conexa.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota: Sistemas de Rotación vs.&nbsp;Mapas Combinatorios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En la sección anterior introdujimos el concepto de <strong>sistema de rotación</strong> como la pareja <span class="math inline">\((\sigma, \rho)\)</span>. En rigor, el conjunto <span class="math inline">\(D\)</span> puede deducirse de los dominios de las permutaciones <span class="math inline">\(\sigma\)</span> y <span class="math inline">\(\rho\)</span>, por lo que especificarlo explícitamente es redundante.</p>
+<p>Por tanto, las siguientes notaciones son equivalentes y se refieren al mismo objeto matemático:</p>
+<ul>
+<li><strong>Sistema de rotación:</strong> <span class="math inline">\((\sigma, \rho)\)</span></li>
+<li><strong>Mapa combinatorio:</strong> <span class="math inline">\((D, \sigma, \rho)\)</span></li>
+</ul>
+<p>En este curso usaremos ambas terminologías indistintamente, siendo conscientes de que describen exactamente la misma estructura.</p>
+</div>
+</div>
+</section>
+<section id="los-elementos-derivados" class="level3">
+<h3 class="anchored" data-anchor-id="los-elementos-derivados">Los Elementos Derivados</h3>
+<p>A partir de estos axiomas, definimos los elementos topológicos. En lugar de depender de la representación visual, usamos una presentación puramente combinatoria inducida por las permutaciones.</p>
+<ul>
+<li><strong>Vértices (<span class="math inline">\(V\)</span>):</strong> El conjunto de vértices <span class="math inline">\(V(M)\)</span> se define como el conjunto de órbitas (ciclos) de la permutación <span class="math inline">\(\sigma\)</span>. <span class="math display">\[V(M) = D / \langle \sigma \rangle\]</span></li>
+<li><strong>Aristas (<span class="math inline">\(E\)</span>):</strong> El conjunto de aristas <span class="math inline">\(E(M)\)</span> se define como el conjunto de órbitas de la permutación <span class="math inline">\(\rho\)</span>. <span class="math display">\[E(M) = D / \langle \rho \rangle\]</span></li>
+<li><strong>Caras (<span class="math inline">\(F\)</span>):</strong> Definimos la permutación de caras <span class="math inline">\(\varphi\)</span> como la composición <span class="math inline">\(\varphi = \rho \sigma\)</span> (en notación de SageMath). El conjunto de caras <span class="math inline">\(F(M)\)</span> se define como el conjunto de órbitas de <span class="math inline">\(\varphi\)</span>. <span class="math display">\[F(M) = D / \langle \varphi \rangle\]</span></li>
+</ul>
+</section>
+<section id="construcción-geométrica-la-receta-de-pegado" class="level3">
+<h3 class="anchored" data-anchor-id="construcción-geométrica-la-receta-de-pegado">Construcción Geométrica: La Receta de Pegado</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema Fundamental de los Mapas Combinatorios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para todo mapa combinatorio <span class="math inline">\(M = (D, \sigma, \rho)\)</span>, existe una única superficie compacta orientable cerrada <span class="math inline">\(S\)</span> (salvo homeomorfismo) y un grafo <span class="math inline">\(G\)</span> encajado celularmente en <span class="math inline">\(S\)</span>, tal que:</p>
+<ol type="1">
+<li>Los vértices, aristas y caras de <span class="math inline">\(M\)</span> corresponden biunívocamente a los de <span class="math inline">\(G \subset S\)</span>.</li>
+<li>El género <span class="math inline">\(g\)</span> de la superficie <span class="math inline">\(S\)</span> está determinado exactamente por la característica de Euler combinatoria: <span class="math display">\[2 - 2g = |V(M)| - |E(M)| + |F(M)|\]</span></li>
+</ol>
+</div>
+</div>
+<p>Más allá del teorema abstracto, la realización topológica es un <strong>manual de instrucciones</strong>. Dado un mapa combinatorio <span class="math inline">\(M = (D, \sigma, \rho)\)</span>, construimos la superficie física paso a paso mediante un proceso de ensamblaje.</p>
+<p>Imagina que estamos armando un rompecabezas tridimensional:</p>
+<p><strong>Paso 1: Los Vértices (Discos)</strong></p>
+<p>Por cada ciclo de la permutación <span class="math inline">\(\sigma\)</span>, recortamos un <strong>disco topológico</strong> (un círculo de material).</p>
+<ul>
+<li>Si el ciclo tiene longitud <span class="math inline">\(k\)</span>, marcamos <span class="math inline">\(k\)</span> <strong>segmentos de arco</strong> en el borde del disco.</li>
+<li>Estos segmentos corresponden a los <strong>dardos</strong>.</li>
+<li>Los etiquetamos siguiendo el orden cíclico que nos dicta <span class="math inline">\(\sigma\)</span> (leyendo, por convención, en sentido antihorario).</li>
+</ul>
+<p><strong>Paso 2: Las Aristas (Cintas)</strong></p>
+<p>Por cada ciclo de la permutación <span class="math inline">\(\rho\)</span> (que siempre es de la forma <span class="math inline">\((d_i, d_j)\)</span>), recortamos una <strong>cinta rectangular</strong> o banda.</p>
+<ul>
+<li>Pegamos un extremo de la cinta en el dardo <span class="math inline">\(d_i\)</span>.</li>
+<li>Pegamos el otro extremo en el dardo <span class="math inline">\(d_j\)</span>.</li>
+<li><strong>Regla de Orientación:</strong> Pegamos la cinta sin torcerla (para superficies orientables), asegurando que la orientación de los discos de los vértices se propague suavemente a través de la arista.</li>
+</ul>
+<p>Al terminar el Paso 2, tenemos lo que llamamos un <strong>Ribbon Graph</strong> (o grafo de cintas): un esqueleto con agujeros.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../imagenes/darts.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Ribbon Graph determinado por el mapa combinatorio <span class="math inline">\(D=\{1,2,3,4,5,6\}\)</span>, <span class="math inline">\(\sigma=(1,3,2)(4,5,6)\)</span>,<br>
+<span class="math inline">\(\rho=(1,4)(2,5)(3,6)\)</span>. La permutación <span class="math inline">\(\rho\sigma\)</span> determina que la superficie resultante es una esfera.</figcaption>
+</figure>
+</div>
+<p><strong>Paso 3: Las Caras (Parches)</strong></p>
+<p>Ahora la superficie tiene “huecos” o fronteras (las regiones negras en la figura). Para cerrarla, necesitamos pegar discos adicionales (las caras). Pero, ¿dónde pegamos estos discos? Aquí entra nuestro algoritmo de trazado.</p>
+</section>
+</section>
+<section id="el-algoritmo-de-trazado-de-caras" class="level2">
+<h2 class="anchored" data-anchor-id="el-algoritmo-de-trazado-de-caras">El Algoritmo de Trazado de Caras</h2>
+<p>Para descubrir la forma de los huecos que debemos parchar, caminamos por el borde del Ribbon Graph que acabamos de construir.</p>
+<p>Imagina que eres un viajero caminando por el engrosamiento del grafo. Tu regla de oro es: <strong>“Mantener siempre el grafo a tu izquierda”</strong>.</p>
+<p>Esto define la <strong>permutación de las caras</strong>, que en nuestra notación es la composición:</p>
+<p><span class="math display">\[ \varphi = \rho \sigma \]</span></p>
+<p>En la convención de SageMath para ribbon graphs, esta es la fórmula utilizada internamente por el método <code>boundary()</code> de la clase <code>RibbonGraph</code>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Convención de Multiplicación (SageMath)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En este curso y en SageMath, la multiplicación de permutaciones se lee de <strong>izquierda a derecha</strong>. La expresión <span class="math inline">\(\varphi = \rho \sigma\)</span> significa: <strong>primero</strong> aplicamos <span class="math inline">\(\rho\)</span> y <strong>luego</strong> aplicamos <span class="math inline">\(\sigma\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota sobre Convenciones Alternativas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Algunos textos usan <span class="math inline">\(\varphi = \rho \sigma^{-1}\)</span>, <span class="math inline">\(\varphi = \sigma^{-1} \rho\)</span>, o <span class="math inline">\(\varphi = (\sigma\rho)^{-1}\)</span>. Todas estas convenciones dan el <strong>mismo número</strong> de caras, pero los ciclos específicos pueden diferir. Usamos <span class="math inline">\(\varphi = \rho \sigma\)</span> para coincidir exactamente con la implementación de SageMath y simplificar los cálculos (no hay que invertir σ).</p>
+</div>
+</div>
+<section id="la-receta-geométrica-cruzar-y-girar" class="level3">
+<h3 class="anchored" data-anchor-id="la-receta-geométrica-cruzar-y-girar">La Receta Geométrica: Cruzar y Girar</h3>
+<p>Para encontrar el ciclo de una cara, partimos de un dardo <span class="math inline">\(d\)</span> y repetimos:</p>
+<ol type="1">
+<li><strong>Cruzar (<span class="math inline">\(\rho\)</span>):</strong> Atravesamos la cinta (arista) para llegar al vértice vecino.
+<ul>
+<li><em>Geométricamente:</em> Viajamos por el borde de la cinta hasta el otro lado.</li>
+</ul></li>
+<li><strong>Girar (<span class="math inline">\(\sigma\)</span>):</strong> Nos movemos a lo largo del borde del vértice hasta el siguiente dardo disponible.
+<ul>
+<li><em>Geométricamente:</em> Seguimos el contorno del disco del vértice.</li>
+</ul></li>
+</ol>
+<p>El camino se cierra cuando volvemos al dardo original. Este ciclo define el <strong>perímetro exacto</strong> donde pegaremos un disco para crear una cara.</p>
+</section>
+</section>
+<section id="la-unicidad-del-encaje" class="level2">
+<h2 class="anchored" data-anchor-id="la-unicidad-del-encaje">La Unicidad del Encaje</h2>
+<p>Una pregunta fundamental en topología es: ¿Podemos dibujar el mismo mapa combinatorio en superficies distintas?</p>
+<p>La respuesta constructiva es <strong>NO</strong>.</p>
+<p>Observa el proceso anterior:</p>
+<ul>
+<li>Los discos de los vértices son fijos (dados por <span class="math inline">\(\sigma\)</span>).</li>
+<li>Las conexiones de las cintas son fijas (dadas por <span class="math inline">\(\rho\)</span>).</li>
+<li>Por tanto, los “huecos” que quedan están rígidamente determinados por la geometría del ensamblaje (<span class="math inline">\(\varphi = \rho \sigma\)</span>).</li>
+</ul>
+<p>Al pegar los discos en los huecos (Paso 3), cerramos la superficie. No hay libertad de elección; el mapa combinatorio es el <strong>plano de construcción</strong> de la superficie.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Conclusión Topológica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El género <span class="math inline">\(g\)</span> de la superficie resultante no es una propiedad que “elegimos”, sino una consecuencia inevitable de las permutaciones. Está forzado por la fórmula de Euler: <span class="math display">\[2 - 2g = |Ciclos(\sigma)| - |Ciclos(\rho)| + |Ciclos(\rho\sigma)|\]</span></p>
+<p>Un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span> pertenece a una y solo una superficie topológica.</p>
+</div>
+</div>
+</section>
+<section id="ejemplo-el-impacto-de-sigma-en-la-topología" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-el-impacto-de-sigma-en-la-topología">Ejemplo: El Impacto de <span class="math inline">\(\sigma\)</span> en la Topología</h2>
+<p>Consideraremos dos mapas combinatorios distintos que comparten el mismo conjunto de dardos y la misma estructura de aristas, pero difieren en su permutación <span class="math inline">\(\sigma\)</span>. Este ejemplo ilustra cómo una pequeña variación en <span class="math inline">\(\sigma\)</span> puede cambiar radicalmente la superficie de encaje.</p>
+<p>Ambos mapas tienen: - Conjunto de dardos: <span class="math inline">\(D = \{1, 2, 3, 4\}\)</span> - Estructura de aristas: <span class="math inline">\(\rho = (1, 2)(3, 4)\)</span> (dos aristas, cada una un lazo)</p>
+<p><img src="../imagenes/grafo8.svg" class="img-fluid" style="width:44.0%"></p>
+<p>La diferencia está en el <strong>orden de rotación</strong> alrededor del único vértice.</p>
+<section id="mapa-a-encaje-en-la-esfera-g0" class="level3">
+<h3 class="anchored" data-anchor-id="mapa-a-encaje-en-la-esfera-g0">Mapa A: Encaje en la Esfera (<span class="math inline">\(g=0\)</span>)</h3>
+<p>Consideremos el mapa combinatorio: <span class="math display">\[ M_A = (D, \sigma_A, \rho) \quad \text{donde} \quad \sigma_A = (1, 2, 3, 4) \]</span></p>
+<p>Calculamos <span class="math inline">\(\varphi_A = \rho \sigma_A\)</span>:</p>
+<ol type="1">
+<li><strong>Paso a paso (Cruzar <span class="math inline">\(\to\)</span> Girar):</strong>
+<ul>
+<li><span style="color: #D32F2F;"><span class="math inline">\(1 \xrightarrow{\rho} 2 \xrightarrow{\sigma} 3\)</span>. (Sigue <span class="math inline">\(1 \to 3\)</span>)</span></li>
+<li><span style="color: #D32F2F;"><span class="math inline">\(3 \xrightarrow{\rho} 4 \xrightarrow{\sigma} 1\)</span>. (Cierra el ciclo <span class="math inline">\((1, 3)\)</span>)</span></li>
+<li><span style="color: #388E3C;"><span class="math inline">\(2 \xrightarrow{\rho} 1 \xrightarrow{\sigma} 2\)</span>. (Ciclo cerrado <span class="math inline">\((2)\)</span>)</span></li>
+<li><span style="color: #1976D2;"><span class="math inline">\(4 \xrightarrow{\rho} 3 \xrightarrow{\sigma} 4\)</span>. (Ciclo cerrado <span class="math inline">\((4)\)</span>)</span></li>
+</ul></li>
+</ol>
+<p><strong>Resultado:</strong> <span class="math inline">\(\varphi = (1, 3)(2)(4)\)</span>. Tenemos <span class="math inline">\(F=3\)</span> caras (<span style="color: #D32F2F;">Roja</span>, <span style="color: #388E3C;">Verde</span>, <span style="color: #1976D2;">Azul</span>).</p>
+<p><img src="../imagenes/8esfera.svg" class="img-fluid" style="width:44.0%"> <img src="../imagenes/8esferagemini.png" class="img-fluid" style="width:34.0%"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Verificación con SageMath
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Puedes verificar estos cálculos en línea usando <a href="https://sagecell.sagemath.org/">SageMathCell</a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2,3,4)'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> rho <span class="op">*</span> sigma  <span class="co"># φ = ρσ</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi)  <span class="co"># (1,3)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))  <span class="co"># [(1, 3), (2,), (4,)]</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.boundary())  <span class="co"># [[1, 2, 3, 4], [2, 1], [4, 3]]</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.number_boundaries())  <span class="co"># 3</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="mapa-b-encaje-en-el-toro-g1" class="level3">
+<h3 class="anchored" data-anchor-id="mapa-b-encaje-en-el-toro-g1">Mapa B: Encaje en el Toro (<span class="math inline">\(g=1\)</span>)</h3>
+<p>Consideremos ahora un mapa combinatorio diferente: <span class="math display">\[ M_B = (D, \sigma_B, \rho) \quad \text{donde} \quad \sigma_B = (1, 3, 2, 4) \]</span></p>
+<p>Notemos que <span class="math inline">\(\sigma_B\)</span> intercala las semiaristas en un orden distinto. Calculamos <span class="math inline">\(\varphi_B = \rho \sigma_B\)</span>:</p>
+<ol type="1">
+<li><strong>Paso a paso (Cruzar <span class="math inline">\(\to\)</span> Girar):</strong>
+<ul>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(1 \xrightarrow{\rho} 2 \xrightarrow{\sigma} 4\)</span>.</span></li>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(4 \xrightarrow{\rho} 3 \xrightarrow{\sigma} 2\)</span>.</span><br>
+</li>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(2 \xrightarrow{\rho} 1 \xrightarrow{\sigma} 3\)</span>.</span></li>
+<li><span style="color: #7B1FA2;"><span class="math inline">\(3 \xrightarrow{\rho} 4 \xrightarrow{\sigma} 1\)</span>.</span></li>
+</ul></li>
+</ol>
+<p><strong>Resultado:</strong> <span class="math inline">\(\varphi = (1, 4, 2, 3)\)</span>. Tenemos <span class="math inline">\(F=1\)</span> cara (<span style="color: #7B1FA2;">Morada</span>).</p>
+<p><img src="../imagenes/torusgemini.png" class="img-fluid" style="width:50.0%"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Verificación con SageMath
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,3,2,4)'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> rho <span class="op">*</span> sigma  <span class="co"># φ = ρσ</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi)  <span class="co"># (1,4,2,3)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(phi.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))  <span class="co"># [(1, 4, 2, 3)]</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.boundary())  <span class="co"># [[1, 2, 4, 3, 2, 1, 3, 4]]</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(R.number_boundaries())  <span class="co"># 1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Conclusión del Ejemplo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Hemos visto <strong>dos mapas combinatorios distintos</strong>:</p>
+<ul>
+<li><strong>Mapa <span class="math inline">\(M_A\)</span>:</strong> <span class="math inline">\((D, \sigma_A=(1,2,3,4), \rho=(1,2)(3,4))\)</span> → Superficie: <strong>Esfera</strong> (<span class="math inline">\(g=0\)</span>, <span class="math inline">\(F=3\)</span> caras)</li>
+<li><strong>Mapa <span class="math inline">\(M_B\)</span>:</strong> <span class="math inline">\((D, \sigma_B=(1,3,2,4), \rho=(1,2)(3,4))\)</span> → Superficie: <strong>Toro</strong> (<span class="math inline">\(g=1\)</span>, <span class="math inline">\(F=1\)</span> cara)</li>
+</ul>
+<p>Aunque comparten el mismo conjunto de dardos <span class="math inline">\(D\)</span> y la misma estructura de aristas <span class="math inline">\(\rho\)</span>, <strong>una ligera variación en el sistema de rotación <span class="math inline">\(\sigma\)</span></strong> (una transposición en el orden cíclico) produce superficies topológicamente distintas.</p>
+<p>Este ejemplo demuestra que <span class="math inline">\(\sigma\)</span> no es simplemente una “forma de dibujar” el grafo, sino que <strong>determina la topología intrínseca</strong> de la superficie de encaje.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 1: El Caso del Segmento (Vértices de Valencia 1)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Este ejercicio explora qué sucede cuando la permutación <span class="math inline">\(\sigma\)</span> tiene puntos fijos (ciclos de longitud 1).</p>
+<p>Considera el mapa combinatorio más simple posible que no es un lazo: un segmento con dos extremos distintos.</p>
+<ul>
+<li><strong>Dardos:</strong> <span class="math inline">\(D = \{1, 2\}\)</span></li>
+<li><strong>Aristas:</strong> <span class="math inline">\(\rho = (1, 2)\)</span> (los dardos 1 y 2 forman la única arista).</li>
+<li><strong>Vértices:</strong> Queremos que el dardo 1 esté en un vértice y el dardo 2 en otro vértice distinto. Por tanto, <span class="math inline">\(\sigma\)</span> debe ser la permutación identidad: <span class="math display">\[\sigma = (1)(2)\]</span> (Nota: Esto significa que <span class="math inline">\(\sigma(1)=1\)</span> y <span class="math inline">\(\sigma(2)=2\)</span>. Geométricamente, son vértices terminales o “hojas”).</li>
+</ul>
+<p><strong>Tarea:</strong> Determine la realización geométrica de este mapa combinatorio.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 2: Cálculo Manual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Toma el sistema de rotación:</p>
+<ul>
+<li><span class="math inline">\(\sigma = (1,3,5,2,4,6)\)</span></li>
+<li><span class="math inline">\(\rho = (1,2)(3,4)(5,6)\)</span></li>
+</ul>
+<p>Calcula manualmente la permutación de caras <span class="math inline">\(\varphi = \rho\sigma\)</span> y determina cuántas caras tiene este encaje.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 3: Exploración Visual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considera el bouquet de 3 círculos: un vértice con 3 self-loops (6 semiaristas). <span class="math inline">\(\rho\)</span> está fijo como <span class="math inline">\((1,2)(3,4)(5,6)\)</span>.</p>
+<ol type="a">
+<li>Usa el visualizador para probar diferentes permutaciones <span class="math inline">\(\sigma\)</span> (por ejemplo, <span class="math inline">\((1,2,3,4,5,6)\)</span> vs <span class="math inline">\((1,6,2,5,3,4)\)</span>).</li>
+<li>Analiza cómo cambia la conectividad de las cintas azules.</li>
+<li>Determina si existe un <span class="math inline">\(\sigma\)</span> que produzca una superficie con solo 1 cara.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 4: El Espectro del Género (SageMath)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Vamos a explorar qué tan “raro” es obtener una esfera cuando conectamos aristas al azar. Considera un grafo con <strong>1 vértice y 5 lazos</strong> (<span class="math inline">\(|D|=10\)</span>).</p>
+<ol type="1">
+<li>Define <span class="math inline">\(\rho = (1,2)(3,4)...(9,10)\)</span>.</li>
+<li>Escribe un script que genere permutaciones <span class="math inline">\(\sigma\)</span> aleatorias que consistan en <strong>un solo ciclo</strong> de longitud 10 (garantizando 1 vértice).
+<ul>
+<li><em>Tip:</em> Puedes generar una lista aleatoria <code>p</code> de números del 1 al 10 y crear el ciclo: <code>sigma = PermutationGroupElement([tuple(p)])</code>.</li>
+</ul></li>
+<li>Ejecuta un bucle de 1000 iteraciones. En cada paso, calcula el género del mapa resultante usando <code>RibbonGraph(sigma, rho).genus()</code>.</li>
+<li><strong>Análisis:</strong>
+<ul>
+<li>¿Cuáles son los géneros mínimo y máximo que observas?</li>
+<li>¿Con qué frecuencia aparece el género 0 (esfera)? ¿Es el caso más común o el más raro?</li>
+</ul></li>
+</ol>
+<p><em>Nota:</em> Este ejercicio demuestra que, combinatoriamente, las superficies de género alto son mucho más abundantes que la esfera.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="resumen" class="level2">
+<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
+<ul>
+<li><strong>Axiomática:</strong> Un mapa combinatorio se define formalmente como una terna <span class="math inline">\((D, \sigma, \rho)\)</span> que satisface axiomas algebraicos precisos, independientes del dibujo.</li>
+<li><strong>Teorema de Realización:</strong> Existe una correspondencia biunívoca entre mapas combinatorios y superficies orientables con grafos encajados.</li>
+<li><strong>Algoritmo de Trazado:</strong> La permutación de caras se calcula como <strong><span class="math inline">\(\varphi = \rho \sigma\)</span></strong> (convención SageMath).</li>
+<li><strong>Interpretación Geométrica:</strong> Las caras se recorren siguiendo la regla <strong>“Cruzar (<span class="math inline">\(\rho\)</span>) y Girar (<span class="math inline">\(\sigma\)</span>)”</strong>.</li>
+<li><strong>Unicidad:</strong> El par <span class="math inline">\((\sigma, \rho)\)</span> determina unívocamente la topología de la superficie (el género es una consecuencia, no una elección).</li>
+</ul>
+<p>En la siguiente sección utilizaremos este conteo de caras para calcular los <strong>invariantes topológicos</strong> (característica de Euler y género) directamente desde las permutaciones.</p>
+</section>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<ul>
+<li><strong>[Tutte1979]</strong> W. T. Tutte, <em>Combinatorial Oriented Maps</em>, Canadian Journal of Mathematics, 31(5):986-1004, 1979. <a href="https://doi.org/10.4153/CJM-1979-091-3">DOI:10.4153/CJM-1979-091-3</a></li>
+</ul>
+<div style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;">
+<p>Publicado el 09 de febrero de 2026</p>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Volver arriba</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reutilización</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/joseleonm\.github\.io\/grafos-en-superficies");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/01-sistemas-rotacion.html" class="pagination-link" aria-label="1. Sistemas de Rotación">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1. Sistemas de Rotación</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p><strong>Sistemas de Rotación y Ribbon Graphs</strong><br> <span style="color: #94a3b8; font-size: 0.9em;">2026 • Teoría de Grafos Topológicos</span></p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
