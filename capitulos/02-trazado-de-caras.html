@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2. Trazado de Caras – Sistemas de Rotación y Ribbon Graphs</title>
+<title>2. Mapas Combinatorios – Sistemas de Rotación y Ribbon Graphs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../capitulos/01-sistemas-rotacion.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -75,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-dc1ea5b7a8322464832b99c8fca3a205.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-679d770d6827919701e3c38c81862786.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,8 +110,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&amp;family=Fira+Code:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
 <meta property="og:type" content="website">
-<meta property="og:title" content="2. Trazado de Caras – Sistemas de Rotación y Ribbon Graphs">
-<meta property="og:description" content="El algoritmo combinatorio">
+<meta property="og:title" content="2. Mapas Combinatorios – Sistemas de Rotación y Ribbon Graphs">
+<meta property="og:description" content="De la Permutación a la Superficie">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -145,7 +146,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
+<body class="nav-sidebar floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -172,7 +173,7 @@ window.Quarto = {
 <span class="menu-text">1. Sistemas de Rotación</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../capitulos/02-mapas-combinatorios.html"> 
+    <a class="nav-link" href="../capitulos/02-trazado-de-caras.html"> 
 <span class="menu-text">2. Mapas Combinatorios</span></a>
   </li>  
 </ul>
@@ -193,7 +194,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">2. Trazado de Caras</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/02-trazado-de-caras.html">2. Mapas Combinatorios</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -205,7 +206,7 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Buscar"></div>
@@ -227,7 +228,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/02-mapas-combinatorios.html" class="sidebar-item-text sidebar-link">
+  <a href="../capitulos/02-trazado-de-caras.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2. Mapas Combinatorios</span></a>
   </div>
 </li>
@@ -236,14 +237,44 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#de-la-permutación-a-la-superficie" id="toc-de-la-permutación-a-la-superficie" class="nav-link active" data-scroll-target="#de-la-permutación-a-la-superficie">De la Permutación a la Superficie</a>
+  <ul class="collapse">
+  <li><a href="#el-algoritmo-de-trazado-face-tracing" id="toc-el-algoritmo-de-trazado-face-tracing" class="nav-link" data-scroll-target="#el-algoritmo-de-trazado-face-tracing">1. El Algoritmo de Trazado (Face Tracing)</a>
+  <ul class="collapse">
+  <li><a href="#definición-algebraica" id="toc-definición-algebraica" class="nav-link" data-scroll-target="#definición-algebraica">Definición Algebraica</a></li>
+  <li><a href="#la-receta-geométrica-cruzar-y-girar" id="toc-la-receta-geométrica-cruzar-y-girar" class="nav-link" data-scroll-target="#la-receta-geométrica-cruzar-y-girar">La Receta Geométrica: Cruzar y Girar</a></li>
+  </ul></li>
+  <li><a href="#la-unicidad-del-encaje-el-punto-crítico" id="toc-la-unicidad-del-encaje-el-punto-crítico" class="nav-link" data-scroll-target="#la-unicidad-del-encaje-el-punto-crítico">2. La Unicidad del Encaje (El punto crítico)</a></li>
+  <li><a href="#axiomática-de-los-mapas-combinatorios" id="toc-axiomática-de-los-mapas-combinatorios" class="nav-link" data-scroll-target="#axiomática-de-los-mapas-combinatorios">3. Axiomática de los Mapas Combinatorios</a>
+  <ul class="collapse">
+  <li><a href="#los-axiomas-de-tutte" id="toc-los-axiomas-de-tutte" class="nav-link" data-scroll-target="#los-axiomas-de-tutte">3.1 Los Axiomas de Tutte</a></li>
+  <li><a href="#los-elementos-derivados" id="toc-los-elementos-derivados" class="nav-link" data-scroll-target="#los-elementos-derivados">3.2 Los Elementos Derivados</a></li>
+  <li><a href="#el-teorema-de-realización-topológica" id="toc-el-teorema-de-realización-topológica" class="nav-link" data-scroll-target="#el-teorema-de-realización-topológica">3.3 El Teorema de Realización Topológica</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-un-vértice-dos-lazos" id="toc-ejemplo-un-vértice-dos-lazos" class="nav-link" data-scroll-target="#ejemplo-un-vértice-dos-lazos">Ejemplo: Un vértice, dos lazos</a>
+  <ul class="collapse">
+  <li><a href="#caso-a-encaje-en-la-esfera-g0" id="toc-caso-a-encaje-en-la-esfera-g0" class="nav-link" data-scroll-target="#caso-a-encaje-en-la-esfera-g0">Caso A: Encaje en la Esfera (<span class="math inline">\(g=0\)</span>)</a></li>
+  <li><a href="#caso-b-encaje-en-el-toro-g1" id="toc-caso-b-encaje-en-el-toro-g1" class="nav-link" data-scroll-target="#caso-b-encaje-en-el-toro-g1">Caso B: Encaje en el Toro (<span class="math inline">\(g=1\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#propiedad-fundamental" id="toc-propiedad-fundamental" class="nav-link" data-scroll-target="#propiedad-fundamental">Propiedad Fundamental</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#resumen" id="toc-resumen" class="nav-link" data-scroll-target="#resumen">Resumen</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2. Trazado de Caras</h1>
-<p class="subtitle lead">El algoritmo combinatorio</p>
+<h1 class="title">2. Mapas Combinatorios</h1>
+<p class="subtitle lead">De la Permutación a la Superficie</p>
 </div>
 
 
@@ -260,14 +291,23 @@ window.Quarto = {
 </header>
 
 
-<section id="el-algoritmo-de-trazado-de-caras" class="level1">
-<h1>El Algoritmo de Trazado de Caras</h1>
-<p>Para determinar las caras de un encaje celular dado por un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span>, utilizamos el algoritmo de trazado de caras (<em>Face Tracing</em>). Este procedimiento nos permite identificar los ciclos de semiaristas que conforman los bordes de las caras.</p>
-<section id="la-permutación-de-caras-varphi" class="level2">
-<h2 class="anchored" data-anchor-id="la-permutación-de-caras-varphi">La Permutación de Caras <span class="math inline">\(\varphi\)</span></h2>
-<p>En la convención de SageMath para ribbon graphs, las caras están determinadas por las órbitas de la permutación <span class="math inline">\(\varphi\)</span>, definida como:</p>
+<section id="de-la-permutación-a-la-superficie" class="level1">
+<h1>De la Permutación a la Superficie</h1>
+<p>En el capítulo anterior definimos el sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span>. Es común pensar que estas permutaciones son solo instrucciones para dibujar un grafo preexistente. Esa intuición es incompleta.</p>
+<p>En la topología combinatoria (y en el modelo de Mapas de Tutte), el par <span class="math inline">\((\sigma, \rho)\)</span> contiene toda la información topológica. No hay ambigüedad ni “opciones” de dibujo:</p>
+<ol type="1">
+<li>Las permutaciones definen la conectividad (el grafo).</li>
+<li>Las permutaciones definen las fronteras (las caras).</li>
+<li>Las permutaciones definen la superficie cerrada (el género).</li>
+</ol>
+<p>Si tienes las permutaciones, tienes la superficie. En este capítulo, aprenderemos a “leer” la superficie oculta en el álgebra usando el algoritmo de trazado de caras.</p>
+<section id="el-algoritmo-de-trazado-face-tracing" class="level2">
+<h2 class="anchored" data-anchor-id="el-algoritmo-de-trazado-face-tracing">1. El Algoritmo de Trazado (Face Tracing)</h2>
+<p>Para encontrar las caras, no necesitamos dibujar. Solo necesitamos calcular una nueva permutación derivada, a la que llamaremos <span class="math inline">\(\varphi\)</span> (phi). Las caras de nuestro mapa son, literalmente, los ciclos disjuntos de esta permutación.</p>
+<section id="definición-algebraica" class="level3">
+<h3 class="anchored" data-anchor-id="definición-algebraica">Definición Algebraica</h3>
 <p><span class="math display">\[ \varphi = \rho \sigma \]</span></p>
-<p>Esta es la fórmula utilizada internamente por el método <code>boundary()</code> de la clase <code>RibbonGraph</code> en Sage.</p>
+<p>En la convención de SageMath para ribbon graphs, esta es la fórmula utilizada internamente por el método <code>boundary()</code> de la clase <code>RibbonGraph</code>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -295,14 +335,107 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="la-receta-geométrica-cruzar-y-girar" class="level2">
-<h2 class="anchored" data-anchor-id="la-receta-geométrica-cruzar-y-girar">La Receta Geométrica: Cruzar y Girar</h2>
+<section id="la-receta-geométrica-cruzar-y-girar" class="level3">
+<h3 class="anchored" data-anchor-id="la-receta-geométrica-cruzar-y-girar">La Receta Geométrica: Cruzar y Girar</h3>
 <p>El cálculo de <span class="math inline">\(\varphi(d)\)</span> para una semiarista <span class="math inline">\(d\)</span> sigue estos pasos geométricos:</p>
 <ol type="1">
 <li><strong>Cruzar la arista:</strong> Desde <span class="math inline">\(d\)</span>, vamos al otro extremo de la arista aplicando <span class="math inline">\(\rho\)</span>.</li>
 <li><strong>Girar en el vértice:</strong> En el nuevo vértice, tomamos la siguiente semiarista según el orden de rotación <span class="math inline">\(\sigma\)</span>.</li>
 </ol>
 <p>Esto corresponde a recorrer el borde de la cara siguiendo la orientación dada por el ribbon graph.</p>
+</section>
+</section>
+<section id="la-unicidad-del-encaje-el-punto-crítico" class="level2">
+<h2 class="anchored" data-anchor-id="la-unicidad-del-encaje-el-punto-crítico">2. La Unicidad del Encaje (El punto crítico)</h2>
+<p>Este es el bloque nuevo que resuelve la duda de tus estudiantes:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>¿Por qué el encaje es único?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Algunos estudiantes preguntan: “¿Puedo tomar este sistema de rotación y dibujarlo en una superficie diferente?”</p>
+<p>La respuesta es <strong>NO</strong>.</p>
+<p>Observa la fórmula <span class="math inline">\(\varphi = \rho \sigma\)</span>.</p>
+<ul>
+<li><span class="math inline">\(\rho\)</span> es fija (definida por las aristas).</li>
+<li><span class="math inline">\(\sigma\)</span> es fija (definida por tu elección de rotación).</li>
+</ul>
+<p>Por lo tanto, el producto <span class="math inline">\(\varphi\)</span> es único y determinista.</p>
+<p>Como <span class="math inline">\(\varphi\)</span> es única, el número de ciclos (caras) <span class="math inline">\(|F|\)</span> es un número fijo.</p>
+<p>Por la fórmula de Euler (<span class="math inline">\(2 - 2g = V - E + F\)</span>), si <span class="math inline">\(V, E\)</span> y <span class="math inline">\(F\)</span> son fijos, el género <span class="math inline">\(g\)</span> es fijo.</p>
+<p><strong>Conclusión:</strong> Un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span> pertenece a una y solo una superficie topológica. No puedes “elegir” dibujarlo en otra superficie sin romper las reglas de adyacencia que definiste en <span class="math inline">\(\sigma\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="axiomática-de-los-mapas-combinatorios" class="level2">
+<h2 class="anchored" data-anchor-id="axiomática-de-los-mapas-combinatorios">3. Axiomática de los Mapas Combinatorios</h2>
+<p>Hasta ahora hemos usado la intuición de “dibujar grafos”. Ahora formalizaremos esto para que el encaje no dependa de nuestra habilidad para dibujar, sino de reglas algebraicas estrictas.</p>
+<section id="los-axiomas-de-tutte" class="level3">
+<h3 class="anchored" data-anchor-id="los-axiomas-de-tutte">3.1 Los Axiomas de Tutte</h3>
+<p>Sea <span class="math inline">\(D\)</span> un conjunto finito de elementos abstractos llamados <strong>dardos</strong> (o semiaristas).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Mapa Combinatorio (Orientado)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un <strong>Mapa Combinatorio</strong> es una terna <span class="math inline">\(M = (D, \sigma, \rho)\)</span> que satisface los siguientes tres axiomas:</p>
+<ol type="1">
+<li><strong>Axioma de la Arista (<span class="math inline">\(\rho\)</span>):</strong> <span class="math inline">\(\rho\)</span> es una permutación de <span class="math inline">\(D\)</span> tal que <span class="math inline">\(\rho^2 = \text{id}\)</span> y <span class="math inline">\(\rho(d) \neq d\)</span> para todo <span class="math inline">\(d \in D\)</span>.
+<ul>
+<li><em>Interpretación:</em> <span class="math inline">\(\rho\)</span> agrupa los dardos en pares disjuntos. Cada par es una “arista”.</li>
+</ul></li>
+<li><strong>Axioma del Vértice (<span class="math inline">\(\sigma\)</span>):</strong> <span class="math inline">\(\sigma\)</span> es una permutación arbitraria de <span class="math inline">\(D\)</span>.
+<ul>
+<li><em>Interpretación:</em> Los ciclos de <span class="math inline">\(\sigma\)</span> definen cómo se conectan los dardos en cada “vértice”.</li>
+</ul></li>
+<li><strong>Axioma de Conectividad:</strong> El grupo de permutaciones generado por <span class="math inline">\(\langle \sigma, \rho \rangle\)</span> actúa transitivamente sobre <span class="math inline">\(D\)</span>.
+<ul>
+<li><em>Interpretación:</em> Podemos viajar de cualquier dardo a cualquier otro aplicando una secuencia de <span class="math inline">\(\sigma\)</span>’s y <span class="math inline">\(\rho\)</span>’s. El grafo es conexo.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="los-elementos-derivados" class="level3">
+<h3 class="anchored" data-anchor-id="los-elementos-derivados">3.2 Los Elementos Derivados</h3>
+<p>A partir de estos axiomas, definimos los elementos topológicos. No son “cosas que vemos”, son subconjuntos de <span class="math inline">\(D\)</span> inducidos por las permutaciones.</p>
+<ul>
+<li><strong>Vértices (<span class="math inline">\(V\)</span>):</strong> El conjunto de vértices <span class="math inline">\(V(M)\)</span> se define como el conjunto de órbitas (ciclos) de la permutación <span class="math inline">\(\sigma\)</span>. <span class="math display">\[V(M) = D / \langle \sigma \rangle\]</span></li>
+<li><strong>Aristas (<span class="math inline">\(E\)</span>):</strong> El conjunto de aristas <span class="math inline">\(E(M)\)</span> se define como el conjunto de órbitas de la permutación <span class="math inline">\(\rho\)</span>. <span class="math display">\[E(M) = D / \langle \rho \rangle\]</span></li>
+<li><strong>Caras (<span class="math inline">\(F\)</span>):</strong> Definimos la permutación de caras <span class="math inline">\(\varphi\)</span> como la composición <span class="math inline">\(\varphi = \rho \sigma\)</span> (en notación de SageMath). El conjunto de caras <span class="math inline">\(F(M)\)</span> se define como el conjunto de órbitas de <span class="math inline">\(\varphi\)</span>. <span class="math display">\[F(M) = D / \langle \varphi \rangle\]</span></li>
+</ul>
+</section>
+<section id="el-teorema-de-realización-topológica" class="level3">
+<h3 class="anchored" data-anchor-id="el-teorema-de-realización-topológica">3.3 El Teorema de Realización Topológica</h3>
+<p>Aquí es donde conectamos el álgebra con la topología. No demostraremos este teorema en detalle (requiere topología de superficies avanzada), pero lo enunciaremos para establecer la equivalencia.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema Fundamental de los Mapas Combinatorios
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para todo mapa combinatorio <span class="math inline">\(M = (D, \sigma, \rho)\)</span>, existe una única superficie compacta orientable cerrada <span class="math inline">\(S\)</span> (salvo homeomorfismo) y un grafo <span class="math inline">\(G\)</span> encajado celularmente en <span class="math inline">\(S\)</span>, tal que:</p>
+<ol type="1">
+<li>Los vértices, aristas y caras de <span class="math inline">\(M\)</span> corresponden biunívocamente a los de <span class="math inline">\(G \subset S\)</span>.</li>
+<li>El género <span class="math inline">\(g\)</span> de la superficie <span class="math inline">\(S\)</span> está determinado exactamente por la característica de Euler combinatoria: <span class="math display">\[2 - 2g = |V(M)| - |E(M)| + |F(M)|\]</span></li>
+</ol>
+</div>
+</div>
+</section>
 </section>
 <section id="ejemplo-un-vértice-dos-lazos" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-un-vértice-dos-lazos">Ejemplo: Un vértice, dos lazos</h2>
@@ -475,6 +608,9 @@ window.Quarto = {
 <li>El orden cíclico <span class="math inline">\(\sigma\)</span> determina la topología de la superficie (ej. Esfera vs.&nbsp;Toro).</li>
 </ul>
 <p>En el siguiente capítulo utilizaremos este conteo de caras para calcular los <strong>invariantes topológicos</strong> (característica de Euler y género) directamente desde las permutaciones.</p>
+<div style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;">
+<p>Publicado el 09 de febrero de 2026</p>
+</div>
 
 
 </section>
@@ -888,6 +1024,15 @@ window.Quarto = {
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/01-sistemas-rotacion.html" class="pagination-link" aria-label="1. Sistemas de Rotación">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1. Sistemas de Rotación</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

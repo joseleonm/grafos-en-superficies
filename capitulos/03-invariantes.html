@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
 <meta property="og:type" content="website">
 <meta property="og:title" content="3. Invariantes Topológicos – Sistemas de Rotación y Ribbon Graphs">
-<meta property="og:description" content="Cálculo desde las permutaciones">
+<meta property="og:description" content="Cálculo computacional con SageMath">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -243,7 +243,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">3. Invariantes Topológicos</h1>
-<p class="subtitle lead">Cálculo desde las permutaciones</p>
+<p class="subtitle lead">Cálculo computacional con SageMath</p>
 </div>
 
 
@@ -260,276 +260,248 @@ window.Quarto = {
 </header>
 
 
-<section id="invariantes-topológicos" class="level1">
-<h1>Invariantes Topológicos</h1>
-<section id="introducción" class="level2">
-<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
-<p>Una vez que tenemos un sistema de rotación <span class="math inline">\((\sigma, \rho)\)</span>, podemos calcular todos los invariantes topológicos de la superficie resultante <strong>sin necesidad de visualizarla</strong>. Los cálculos se hacen directamente sobre las permutaciones.</p>
-<p>Los invariantes principales son:</p>
+<p>Esta sección es práctica: aprenderemos a usar <strong>SageMath</strong> para calcular los <strong>invariantes topológicos</strong> que clasifican la superficie cerrada donde se aloja el grafo:</p>
 <ul>
-<li>Número de <strong>vértices</strong> (<span class="math inline">\(V\)</span>)</li>
-<li>Número de <strong>aristas</strong> (<span class="math inline">\(E\)</span>)</li>
-<li>Número de <strong>caras</strong> (<span class="math inline">\(F\)</span>)</li>
-<li><strong>Característica de Euler</strong> (<span class="math inline">\(\chi = V - E + F\)</span>)</li>
-<li><strong>Género</strong> (<span class="math inline">\(g\)</span>)</li>
-<li><strong>Componentes de frontera</strong> (<span class="math inline">\(b\)</span>)</li>
+<li><strong>Característica de Euler:</strong> <span class="math inline">\(\chi\)</span></li>
+<li><strong>Género:</strong> <span class="math inline">\(g\)</span> (número de agujeros/asas)</li>
 </ul>
-</section>
-<section id="recapitulación-caras-y-varphi" class="level2">
-<h2 class="anchored" data-anchor-id="recapitulación-caras-y-varphi">Recapitulación: Caras y <span class="math inline">\(\varphi\)</span></h2>
-<p>Como vimos en el capítulo anterior, las caras del encaje están determinadas por los ciclos de la permutación: <span class="math display">\[ \varphi = \rho \sigma \]</span></p>
-<p>El número de caras <span class="math inline">\(F\)</span> es simplemente el número de ciclos disjuntos en <span class="math inline">\(\varphi\)</span>. Este dato es la pieza faltante para conectar la combinatoria con la topología.</p>
-<hr>
-</section>
-<section id="cálculo-en-sagemath" class="level2">
-<h2 class="anchored" data-anchor-id="cálculo-en-sagemath">Cálculo en SageMath</h2>
-<p>SageMath calcula automáticamente todas las caras:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sage.graphs.ribbon_graph <span class="im">import</span> RibbonGraph</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sage.<span class="bu">all</span> <span class="im">import</span> PermutationGroupElement</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: toro</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,3,2,4)'</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener las caras (componentes de frontera)</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>caras <span class="op">=</span> <span class="bu">list</span>(R.faces())</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Número de caras: </span><span class="sc">{</span><span class="bu">len</span>(caras)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Caras: </span><span class="sc">{</span>caras<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># También podemos usar boundary()</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>fronteras <span class="op">=</span> R.boundary()</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Componentes de frontera: </span><span class="sc">{</span>fronteras<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Salida:</strong></p>
-<pre><code>Número de caras: 1
-Caras: [[1, 4, 3, 2]]
-Componentes de frontera: [[1, 4, 3, 2]]</code></pre>
-<hr>
-</section>
-<section id="característica-de-euler" class="level2">
-<h2 class="anchored" data-anchor-id="característica-de-euler">Característica de Euler</h2>
-<p>Una vez conocemos <span class="math inline">\(V\)</span>, <span class="math inline">\(E\)</span> y <span class="math inline">\(F\)</span>, calculamos la característica de Euler:</p>
-<p><span class="math display">\[
-\chi = V - E + F
-\]</span></p>
-<section id="cálculo-desde-las-permutaciones" class="level3">
-<h3 class="anchored" data-anchor-id="cálculo-desde-las-permutaciones">Cálculo desde las permutaciones</h3>
+<section id="conteo-de-elementos-v-e-f" class="level2">
+<h2 class="anchored" data-anchor-id="conteo-de-elementos-v-e-f">1. Conteo de Elementos (<span class="math inline">\(V, E, F\)</span>)</h2>
+<p>Recordemos que en un mapa combinatorio:</p>
 <ul>
-<li><strong><span class="math inline">\(V\)</span></strong> = número de ciclos de <span class="math inline">\(\sigma\)</span></li>
-<li><strong><span class="math inline">\(E\)</span></strong> = número de 2-ciclos de <span class="math inline">\(\rho\)</span> = <span class="math inline">\(|D|/2\)</span> (donde <span class="math inline">\(|D|\)</span> es el número de semiaristas)</li>
-<li><strong><span class="math inline">\(F\)</span></strong> = número de ciclos de <span class="math inline">\(\varphi\)</span></li>
+<li><span class="math inline">\(V\)</span>: Ciclos de <span class="math inline">\(\sigma\)</span></li>
+<li><span class="math inline">\(E\)</span>: Ciclos de <span class="math inline">\(\rho\)</span> (o <span class="math inline">\(|D|/2\)</span>)</li>
+<li><span class="math inline">\(F\)</span>: Ciclos de <span class="math inline">\(\varphi = \rho \sigma\)</span></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,3,2,4)'</span>)  <span class="co"># 1 ciclo → V = 1</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)   <span class="co"># 2 ciclos → E = 2</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># D = 4 semiaristas</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> R.num_vertices()             <span class="co"># 1</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>E <span class="op">=</span> R.num_edges()                <span class="co"># 2</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> <span class="bu">len</span>(<span class="bu">list</span>(R.faces()))         <span class="co"># 1</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>chi <span class="op">=</span> V <span class="op">-</span> E <span class="op">+</span> F</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"χ = </span><span class="sc">{</span>V<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>E<span class="sc">}</span><span class="ss"> + </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>chi<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Salida:</strong></p>
-<pre><code>χ = 1 - 2 + 1 = 0</code></pre>
-<hr>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Interpretación: ¿Caras o Fronteras?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En un ribbon graph, los ciclos de la permutación <span class="math inline">\(\varphi\)</span> describen las <strong>componentes de frontera</strong> de la superficie con borde obtenida al engrosar el grafo. Si se <strong>tapan</strong> esas fronteras con discos, esas mismas componentes pasan a ser las <strong>caras</strong> del encaje en la superficie cerrada.</p>
+<p>Por ello, SageMath cuenta estos ciclos con <code>number_boundaries()</code>. En este curso, <span class="math inline">\(b\)</span> denota el número de componentes de frontera y coincide con <span class="math inline">\(F\)</span> cuando interpretamos el mapa sobre la superficie cerrada (<span class="math inline">\(F=b\)</span>).</p>
+</div>
+</div>
+<p>SageMath nos permite extraer estos valores directamente del objeto <code>RibbonGraph</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Verificación con SageMath
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Puedes probar estos cálculos en línea usando <a href="https://sagecell.sagemath.org/">SageMathCell</a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: Un toro (1 vértice, 2 lazos)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,3,2,4)'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Extracción de elementos básicos</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># V = número de ciclos de sigma</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># E = número de ciclos de rho (equivalente a |D|/2)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># F = número de ciclos de φ = ρσ (caras del mapa combinatorio)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> rho <span class="op">*</span> sigma  <span class="co"># φ = ρσ (recuerda: multiplicación de izquierda a derecha en Sage)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> <span class="bu">len</span>(sigma.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>E <span class="op">=</span> <span class="bu">len</span>(rho.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> <span class="bu">len</span>(phi.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Vértices (V): </span><span class="sc">{</span>V<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Aristas  (E): </span><span class="sc">{</span>E<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Caras    (F): </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"φ = ρσ: </span><span class="sc">{</span>phi<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Ciclos de φ: </span><span class="sc">{</span>phi<span class="sc">.</span>cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
 </section>
+<section id="la-característica-de-euler-chi" class="level2">
+<h2 class="anchored" data-anchor-id="la-característica-de-euler-chi">2. La Característica de Euler (<span class="math inline">\(\chi\)</span>)</h2>
+<p>La característica de Euler es el invariante más fundamental. Se define combinatoriamente como:</p>
+<p><span class="math display">\[ \chi = V - E + F \]</span></p>
+<p>Esta es la característica de Euler de la <strong>superficie cerrada</strong> obtenida al pegar discos en todas las fronteras del grafo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>chi <span class="op">=</span> V <span class="op">-</span> E <span class="op">+</span> F</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Característica de Euler (χ): </span><span class="sc">{</span>chi<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Para el toro: 1 - 2 + 1 = 0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="género" class="level2">
-<h2 class="anchored" data-anchor-id="género">Género</h2>
-<p>Para superficies orientables cerradas (sin frontera), la relación es:</p>
-<p><span class="math display">\[
-\chi = 2 - 2g
-\]</span></p>
-<p>De donde: <span class="math display">\[
-g = 1 - \frac{\chi}{2} = \frac{2-\chi}{2}
-\]</span></p>
-<section id="casos-con-frontera" class="level3">
-<h3 class="anchored" data-anchor-id="casos-con-frontera">Casos con frontera</h3>
-<p>Para superficies con frontera, la fórmula se generaliza:</p>
-<p><span class="math display">\[
-\chi = 2 - 2g - b
-\]</span></p>
-<p>donde <span class="math inline">\(b\)</span> es el número de componentes de frontera.</p>
-<p>De aquí: <span class="math display">\[
-g = \frac{2 - \chi - b}{2}
-\]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2,3,4)'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)(3,4)'</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sage calcula directamente</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> R.genus()</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> R.number_boundaries()</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Género: </span><span class="sc">{</span>g<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Componentes de frontera: </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar con la fórmula</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>chi <span class="op">=</span> R.num_vertices() <span class="op">-</span> R.num_edges() <span class="op">+</span> <span class="bu">len</span>(<span class="bu">list</span>(R.faces()))</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>g_calculado <span class="op">=</span> (<span class="dv">2</span> <span class="op">-</span> chi <span class="op">-</span> b) <span class="op">//</span> <span class="dv">2</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Verificación: g = (2 - </span><span class="sc">{</span>chi<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">)/2 = </span><span class="sc">{</span>g_calculado<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Salida:</strong></p>
-<pre><code>Género: 1
-Componentes de frontera: 0
-Verificación: g = (2 - 0 - 0)/2 = 1</code></pre>
-<hr>
+<section id="el-género-g-y-la-frontera-b" class="level2">
+<h2 class="anchored" data-anchor-id="el-género-g-y-la-frontera-b">3. El Género (<span class="math inline">\(g\)</span>) y la Frontera (<span class="math inline">\(b\)</span>)</h2>
+<p>El género <span class="math inline">\(g\)</span> se calcula siempre a partir de la <strong>superficie cerrada</strong> asociada. La cuenta es la misma, solo cambia la interpretación de <span class="math inline">\(F\)</span> y <span class="math inline">\(b\)</span>:</p>
+<ul>
+<li>En el ribbon graph, los ciclos de <span class="math inline">\(\varphi\)</span> son <strong>fronteras</strong>, de modo que <span class="math inline">\(b\)</span> es el número de componentes de frontera.</li>
+<li>Al tapar cada frontera con un disco, esas mismas componentes pasan a ser las <strong>caras</strong> <span class="math inline">\(F\)</span> de la superficie cerrada.</li>
+</ul>
+<p>Por lo tanto, en la superficie cerrada se cumple:</p>
+<p><span class="math display">\[ \chi = V - E + F = V - E + b \quad \Rightarrow \quad g = \frac{2 - (V - E + b)}{2} \]</span></p>
+<p>SageMath detecta automáticamente el número de componentes de frontera (<span class="math inline">\(b\)</span>), y ese mismo valor coincide con <span class="math inline">\(F\)</span> cuando se interpreta el mapa en la superficie cerrada.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Invariantes derivados</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> R.genus()              <span class="co"># Género de la superficie</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Género (g): </span><span class="sc">{</span>g<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificación manual de la fórmula</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>chi <span class="op">=</span> V <span class="op">-</span> E <span class="op">+</span> F</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>g_calc <span class="op">=</span> (<span class="dv">2</span> <span class="op">-</span> chi) <span class="op">//</span> <span class="dv">2</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Verificación de Euler:"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  χ = V - E + F = </span><span class="sc">{</span>V<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>E<span class="sc">}</span><span class="ss"> + </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>chi<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  χ = 2 - 2g = 2 - 2(</span><span class="sc">{</span>g<span class="sc">}</span><span class="ss">) = </span><span class="sc">{</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>g<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  ✓ Fórmula consistente"</span> <span class="cf">if</span> chi <span class="op">==</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>g <span class="cf">else</span> <span class="ss">f"  ✗ Error en cálculo"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Nota sobre <code>number_boundaries()</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En la implementación de <code>RibbonGraph</code> de SageMath, el método <code>number_boundaries()</code> devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras <span class="math inline">\(F\)</span>. La fórmula funciona consistentemente.</p>
+</div>
+</div>
 </section>
+<section id="automatización-una-función-de-análisis" class="level2">
+<h2 class="anchored" data-anchor-id="automatización-una-función-de-análisis">4. Automatización: Una función de análisis</h2>
+<p>Como ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.</p>
+<p>Puedes probar la siguiente función en <a href="https://sagecell.sagemath.org/">SageMathCell</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analizar_topologia(sigma, rho):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Imprime un reporte de los elementos del grafo y sus invariantes básicos.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convertir strings a permutaciones si es necesario</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(sigma, <span class="bu">str</span>): sigma <span class="op">=</span> PermutationGroupElement(sigma)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(rho, <span class="bu">str</span>): rho <span class="op">=</span> PermutationGroupElement(rho)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Contar elementos</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    phi <span class="op">=</span> rho <span class="op">*</span> sigma  <span class="co"># φ = ρσ</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> <span class="bu">len</span>(sigma.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))  <span class="co"># Número de ciclos de sigma</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    E <span class="op">=</span> <span class="bu">len</span>(rho.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))    <span class="co"># Número de ciclos de rho</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> <span class="bu">len</span>(phi.cycle_tuples(singletons<span class="op">=</span><span class="va">True</span>))    <span class="co"># Número de ciclos de φ (caras)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular invariantes</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    chi <span class="op">=</span> V <span class="op">-</span> E <span class="op">+</span> F</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> R.number_boundaries()                      <span class="co"># Componentes de frontera</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> R.genus()                                   <span class="co"># Género</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">55</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Análisis del Mapa Combinatorio"</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">55</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Permutaciones:"</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  σ = </span><span class="sc">{</span>sigma<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  ρ = </span><span class="sc">{</span>rho<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  φ = ρσ = </span><span class="sc">{</span>phi<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'-'</span><span class="op">*</span><span class="dv">55</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Elementos:"</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  V (ciclos de σ) = </span><span class="sc">{</span>V<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  E (ciclos de ρ) = </span><span class="sc">{</span>E<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  F (ciclos de φ) = </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'-'</span><span class="op">*</span><span class="dv">55</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Invariantes Topológicos:"</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Euler: χ = </span><span class="sc">{</span>V<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>E<span class="sc">}</span><span class="ss"> + </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>chi<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Frontera: b = </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Género: g = </span><span class="sc">{</span>g<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'-'</span><span class="op">*</span><span class="dv">55</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Interpretación</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> g <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        nombre <span class="op">=</span> <span class="st">"Esfera"</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> g <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        nombre <span class="op">=</span> <span class="st">"Toro"</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        nombre <span class="op">=</span> <span class="ss">f"Género </span><span class="sc">{</span>g<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> b <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        nombre <span class="op">+=</span> <span class="ss">f" (grafo encajado con </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss"> cara</span><span class="sc">{</span><span class="st">'s'</span> <span class="cf">if</span> F <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">''</span><span class="sc">}</span><span class="ss">)"</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  &gt;&gt; Homeomorfo a: </span><span class="sc">{</span>nombre<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">55</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Probamos con el ejemplo del capítulo anterior (Toro con 1 borde)</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>analizar_topologia(<span class="st">'(1,3,2,4)'</span>, <span class="st">'(1,2)(3,4)'</span>)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Probamos con K3 en la esfera (sin borde)</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>analizar_topologia(<span class="st">'(1,6)(2,3)(4,5)'</span>, <span class="st">'(1,2)(3,4)(5,6)'</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="ejemplos-de-cálculo" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplos-de-cálculo">Ejemplos de Cálculo</h2>
-<section id="ejemplo-1-disco-con-frontera" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-1-disco-con-frontera">Ejemplo 1: Disco (con frontera)</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sistema con frontera</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2,3)'</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> PermutationGroupElement(<span class="st">'(1,2)'</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Género: </span><span class="sc">{</span>R<span class="sc">.</span>genus()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Fronteras: </span><span class="sc">{</span>R<span class="sc">.</span>number_boundaries()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultado: g=0, b=1 (Disco)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="ejemplo-2-triángulo-k₃-en-la-esfera" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-2-triángulo-k₃-en-la-esfera">Ejemplo 2: Triángulo K₃ en la esfera</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># K₃ con encaje planar</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(<span class="st">'(1,6)(2,3)(4,5)'</span>, <span class="st">'(1,2)(3,4)(5,6)'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Género: </span><span class="sc">{</span>R<span class="sc">.</span>genus()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultado: g=0 (Esfera)</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="ejemplo-3-bouquet-de-3-círculos" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-3-bouquet-de-3-círculos">Ejemplo 3: Bouquet de 3 círculos</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Un vértice con 3 self-loops</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> RibbonGraph(<span class="st">'(1,2,3,4,5,6)'</span>, <span class="st">'(1,2)(3,4)(5,6)'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Género: </span><span class="sc">{</span>R<span class="sc">.</span>genus()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultado: g=1 (Toro con 1 frontera si b=1, o Toro cerrado si b=0?)</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifiquemos: V=1, E=3. Si F=1 -&gt; 1-3+1 = -1. Imposible para cerrada.</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Debe ser superficie con frontera.</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-</section>
-<section id="tabla-de-ejemplos" class="level2">
-<h2 class="anchored" data-anchor-id="tabla-de-ejemplos">Tabla de ejemplos</h2>
+<section id="galería-de-ejemplos" class="level2">
+<h2 class="anchored" data-anchor-id="galería-de-ejemplos">5. Galería de Ejemplos</h2>
+<p>Veamos cómo se comportan los invariantes en distintos casos.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 3%">
-<col style="width: 19%">
-<col style="width: 18%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 18%">
 <col style="width: 17%">
-<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Ejemplo</th>
-<th><span style="text-transform:none"><span class="math inline">\(\sigma\)</span></span></th>
-<th><span style="text-transform:none"><span class="math inline">\(\rho\)</span></span></th>
+<th><span class="math inline">\(\sigma\)</span></th>
+<th><span class="math inline">\(\rho\)</span></th>
 <th><span class="math inline">\(V\)</span></th>
 <th><span class="math inline">\(E\)</span></th>
 <th><span class="math inline">\(F\)</span></th>
-<th><span style="text-transform:none"><span class="math inline">\(\chi\)</span></span></th>
-<th><span style="text-transform:none"><span class="math inline">\(g\)</span></span></th>
-<th><span style="text-transform:none"><span class="math inline">\(b\)</span></span></th>
+<th><span class="math inline">\(\chi\)</span></th>
+<th><span class="math inline">\(g\)</span></th>
+<th>Superficie</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Toro</td>
-<td><span class="math inline">\((1,2,3,4)\)</span></td>
-<td><span class="math inline">\((1,2)(3,4)\)</span></td>
-<td>1</td>
-<td>2</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td>Cilindro</td>
-<td><span class="math inline">\((1,2,3)\)</span></td>
-<td><span class="math inline">\((1,2)\)</span></td>
-<td>1</td>
-<td>1</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-<td>2</td>
-</tr>
-<tr class="odd">
-<td>K₃ plano</td>
 <td><span class="math inline">\((1,6)(2,3)(4,5)\)</span></td>
 <td><span class="math inline">\((1,2)(3,4)(5,6)\)</span></td>
-<td>3</td>
-<td>3</td>
-<td>2</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
+<td><span class="math inline">\(3\)</span></td>
+<td><span class="math inline">\(3\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td>Esfera</td>
 </tr>
 <tr class="even">
-<td>Bouquet 3</td>
-<td><span class="math inline">\((1,2,3,4,5,6)\)</span></td>
-<td><span class="math inline">\((1,2)(3,4)(5,6)\)</span></td>
-<td>1</td>
-<td>3</td>
-<td>4</td>
-<td>2</td>
-<td>0</td>
-<td>4</td>
+<td><span class="math inline">\((1,3,2,4)\)</span></td>
+<td><span class="math inline">\((1,2)(3,4)\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td>Toro</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\((1,2)\)</span></td>
+<td><span class="math inline">\((1,2)\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td>Esfera</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\((1,3,2,4,5,7,6,8)\)</span></td>
+<td><span class="math inline">\((1,2)(3,4)(5,6)(7,8)\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(4\)</span></td>
+<td><span class="math inline">\(1\)</span></td>
+<td><span class="math inline">\(-2\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td>Sup. <span class="math inline">\(g=2\)</span></td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="implementación-función-auxiliar" class="level2">
-<h2 class="anchored" data-anchor-id="implementación-función-auxiliar">Implementación: función auxiliar</h2>
-<p>Podemos crear una función para calcular todos los invariantes:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calcular_invariantes(sigma, rho):</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Calcula todos los invariantes topológicos de un sistema de rotación.</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Asegurar que son permutaciones si se pasan strings</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(sigma, <span class="bu">str</span>): sigma <span class="op">=</span> PermutationGroupElement(sigma)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(rho, <span class="bu">str</span>): rho <span class="op">=</span> PermutationGroupElement(rho)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> RibbonGraph(sigma, rho)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    V <span class="op">=</span> R.num_vertices()</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    E <span class="op">=</span> R.num_edges()</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> <span class="bu">len</span>(<span class="bu">list</span>(R.faces()))</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    chi <span class="op">=</span> V <span class="op">-</span> E <span class="op">+</span> F</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> R.genus()</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> R.number_boundaries()</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">50</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Sistema de Rotación"</span>)</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">50</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"σ = </span><span class="sc">{</span>sigma<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"ρ = </span><span class="sc">{</span>rho<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'-'</span><span class="op">*</span><span class="dv">50</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Vértices (V):              </span><span class="sc">{</span>V<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Aristas (E):               </span><span class="sc">{</span>E<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Caras (F):                 </span><span class="sc">{</span>F<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Característica de Euler:   χ = </span><span class="sc">{</span>chi<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Género:                    g = </span><span class="sc">{</span>g<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Componentes de frontera:   b = </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">50</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Fórmula: χ = 2 - 2g - b = </span><span class="sc">{</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>g <span class="op">-</span> b<span class="sc">}</span><span class="ss"> ✓"</span>)</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'='</span><span class="op">*</span><span class="dv">50</span><span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">'V'</span>: V, <span class="st">'E'</span>: E, <span class="st">'F'</span>: F,</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">'chi'</span>: chi, <span class="st">'g'</span>: g, <span class="st">'b'</span>: b</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Uso</span></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>inv <span class="op">=</span> calcular_invariantes(<span class="st">'(1,2,3,4)'</span>, <span class="st">'(1,2)(3,4)'</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
 <section id="ejercicios" class="level2">
@@ -540,17 +512,12 @@ Verificación: g = (2 - 0 - 0)/2 = 1</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejercicio 1: Crear tu propio ejemplo
+<span class="screen-reader-only">Tip</span>Ejercicio 1: Diseñador de Superficies
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Diseña un sistema de rotación que produzca:</p>
-<ol type="a">
-<li>Un bitoro (género 2, sin frontera)</li>
-<li>Una esfera con 3 agujeros (g=0, b=3)</li>
-<li>Un toro con 2 agujeros (g=1, b=2)</li>
-</ol>
-<p>Verifica tus construcciones con Sage.</p>
+<p>Usa la función <code>analizar_topologia</code> para encontrar un sistema de rotación que genere una superficie de <strong>género 2</strong> (Bitoro).</p>
+<p><em>Pista:</em> Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar <span class="math inline">\(\sigma\)</span> en un bouquet de 4 lazos.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -559,55 +526,23 @@ Verificación: g = (2 - 0 - 0)/2 = 1</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejercicio 2: Variaciones del bouquet
+<span class="screen-reader-only">Tip</span>Ejercicio 2: Grafos Completos
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Experimenta con el bouquet de 4 círculos (8 semiaristas):</p>
-<ol type="a">
-<li>Prueba diferentes órdenes cíclicos en <span class="math inline">\(\sigma\)</span></li>
-<li>Calcula el género para cada caso</li>
-<li>¿Cuál es el género máximo que puedes obtener?</li>
-<li>¿Cuál es el género mínimo?</li>
+<p>Investiga el género de los grafos completos <span class="math inline">\(K_n\)</span>.</p>
+<ol type="1">
+<li>Verifica que <span class="math inline">\(K_3\)</span> tiene género 0.</li>
+<li>Construye un sistema de rotación para <span class="math inline">\(K_4\)</span> y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (<span class="math inline">\(g=0\)</span>)?</li>
+<li>¿Cuál es el género mínimo para <span class="math inline">\(K_5\)</span>?</li>
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;">
+<p>Publicado el 09 de febrero de 2026</p>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejercicio 3: Grafos completos
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Investiga los grafos completos <span class="math inline">\(K_n\)</span>:</p>
-<ol type="a">
-<li>Verifica que K₃ tiene género 0</li>
-<li>Calcula el género mínimo de K₄</li>
-<li>Busca en la literatura el género de K₅ y K₆</li>
-</ol>
-</div>
-</div>
-<hr>
-</section>
-<section id="resumen" class="level2">
-<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
-<ul>
-<li><strong>Cálculo de invariantes:</strong> Se obtienen contando ciclos en las permutaciones, sin necesidad de visualización.</li>
-<li><strong>Elementos:</strong> <span class="math inline">\(V\)</span> (ciclos de <span class="math inline">\(\sigma\)</span>), <span class="math inline">\(E\)</span> (ciclos de <span class="math inline">\(\rho\)</span>), <span class="math inline">\(F\)</span> (ciclos de <span class="math inline">\(\varphi = \rho \sigma\)</span>).</li>
-<li><strong>Fórmulas topológicas:</strong>
-<ul>
-<li>Característica de Euler: <span class="math inline">\(\chi = V - E + F\)</span></li>
-<li>Género: <span class="math inline">\(g = \frac{2 - \chi - b}{2}\)</span></li>
-</ul></li>
-<li><strong>SageMath:</strong> <code>R.genus()</code>, <code>R.number_boundaries()</code> y <code>R.faces()</code> para el cálculo automático.</li>
-</ul>
-<p>En el siguiente capítulo estudiaremos los <strong>teoremas fundamentales</strong> que establecen la equivalencia entre sistemas de rotación y encajes celulares (Teorema de Heffter-Edmonds) y las propiedades de los mapas combinatorios.</p>
 
 
-</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Volver arriba</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reutilización</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
