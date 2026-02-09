@@ -52,7 +52,7 @@ Introducción a los sistemas de rotación como modelo combinatorio de grafos enc
 - Ejemplos básicos con código SageMath
 - Construcción en Sage: `RibbonGraph(sigma, rho)`
 
-### 2. Mapas Combinatorios
+### [2. Mapas Combinatorios](capitulos/02-mapas-combinatorios.qmd)
 
 De la intuición geométrica a la formalización algebraica.
 
@@ -61,18 +61,16 @@ De la intuición geométrica a la formalización algebraica.
 - Algoritmo de trazado de caras ($\varphi = \rho\sigma$)
 - Unicidad del encaje y el género como consecuencia
 
+### [3. Invariantes Topológicos](capitulos/03-invariantes.qmd)
+
+Cálculo computacional con SageMath.
+
+- Automatización del cálculo de $V, E, F$
+- Característica de Euler y Género
+- Función de análisis topológico (`analizar_topologia`)
+- Experimentación con grafos completos y superficies de género alto
+
 <!--
-### 3. Invariantes Topológicos *(Próximamente)*
-
-Cálculo de invariantes directamente desde las permutaciones.
-
-- Conteo directo: V (ciclos de σ), E (ciclos de ρ), F (ciclos de φ)
-- Característica de Euler: $\chi = V - E + F$
-- Género de superficies: $g = 1 - \frac{\chi + b}{2}$
-- Componentes de frontera y su interpretación
-- Proceso de engrosamiento (thickening)
-- Verificación experimental con Sage
-
 ### 4. Teorema de Heffter-Edmonds *(Próximamente)*
 
 El teorema fundamental que establece la correspondencia biunívoca.

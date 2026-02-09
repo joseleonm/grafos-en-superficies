@@ -65,7 +65,7 @@ Estas tres formas de describir el mismo objeto matemático son completamente equ
 
 ### Construcción directa
 
-La construcción del **trazado de caras** (capítulo 2) proporciona la transformación explícita:
+La construcción del **trazado de caras** (sección 2) proporciona la transformación explícita:
 
 $$
 (\sigma, \rho) \quad \xrightarrow{\text{engrosamiento}} \quad \text{Ribbon graph}
@@ -83,7 +83,7 @@ Dado un ribbon graph (superficie con grafo encajado):
 
 ## Propiedades: La cuestión de la Orientabilidad
 
-Como hemos visto en los capítulos anteriores, el sistema $(\sigma, \rho)$ determina completamente el grafo ($V, E$) y la topología de la superficie ($F, g$). Sin embargo, hay una propiedad topológica fundamental que está implícita en esta construcción: la **orientabilidad**.
+Como hemos visto en las secciones anteriores, el sistema $(\sigma, \rho)$ determina completamente el grafo ($V, E$) y la topología de la superficie ($F, g$). Sin embargo, hay una propiedad topológica fundamental que está implícita en esta construcción: la **orientabilidad**.
 
 ### ¿Por qué siempre obtenemos una superficie orientable?
 
@@ -175,4 +175,4 @@ c) Un bitoro con dos agujeros (g=2, b=2)
 - **Propiedades:** determinación del grafo, cálculo de invariantes, orientabilidad
 - **Clasificación:** superficies orientables compactas caracterizadas por $(g, b)$
 
-En el siguiente capítulo veremos una **galería de ejemplos** clásicos con análisis completo de sus propiedades.
+En la siguiente sección veremos una **galería de ejemplos** clásicos con análisis completo de sus propiedades.

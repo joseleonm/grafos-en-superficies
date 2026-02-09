@@ -6,7 +6,7 @@ subtitle: "Operaciones, Invariantes y el Polinomio de Bollobás-Riordan"
 
 # Propiedades Adicionales de Sistemas de Rotación
 
-En este capítulo exploramos operaciones avanzadas sobre ribbon graphs, invariantes topológicos adicionales, y culminamos con el estudio del **polinomio de Bollobás-Riordan**, una generalización del polinomio de Tutte para grafos encajados en superficies.
+En esta sección exploramos operaciones avanzadas sobre ribbon graphs, invariantes topológicos adicionales, y culminamos con el estudio del **polinomio de Bollobás-Riordan**, una generalización del polinomio de Tutte para grafos encajados en superficies.
 
 ---
 

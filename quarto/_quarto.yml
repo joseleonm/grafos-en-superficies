@@ -1,9 +1,9 @@
 project:
   type: website
   output-dir: ../outputs/quarto-site
-# # # # # # # # # # # # # # #   render:
-# # # # # # # # # # # # # # #     - index.qmd
-# # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
+# # # # # # # # # # # # # # # # #   render:
+# # # # # # # # # # # # # # # # #     - index.qmd
+# # # # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"

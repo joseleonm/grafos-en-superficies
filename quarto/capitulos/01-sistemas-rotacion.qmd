@@ -345,3 +345,19 @@ d) ¿Qué propiedades del grafo cambian con `normalize()` y cuáles se preservan
 - **[LZ2004]** S. Lando, A. Zvonkine, *Graphs on Surfaces and Their Applications*, Springer-Verlag, 2004.
 - **[Edmonds1960]** J. Edmonds, *A Combinatorial Representation for Polyhedral Surfaces*, Notices Amer. Math. Soc. 7, 1960. (Tesis disponible en [UMD](https://api.drum.lib.umd.edu/server/api/core/bitstreams/31f8e644-51a1-49e0-ae98-aa720eb9bbb2/content))
 - **[Youngs1963]** J. W. T. Youngs, *The Genus of a Graph*, Journal of Mathematics and Mechanics, Vol. 12, No. 2, 1963. [JSTOR](https://www.jstor.org/stable/24900867)
+
+::: {.callout-important}
+## Cambio de Perspectiva: El Mapa es el Territorio
+
+Hasta ahora, hemos hablado de "poner un grafo sobre una superficie". Sin embargo, en la práctica computacional (y en SageMath), el grafo abstracto y la superficie no existen antes de definir las permutaciones.
+
+Es fundamental entender que el par combinatorio $(\sigma, \rho)$ **ES** el objeto.
+
+No "buscamos" un encaje para un sistema de rotación. El sistema de rotación construye su propia superficie única e inevitable.
+
+En la siguiente sección, veremos cómo estas permutaciones "tejen" la superficie automáticamente, sin necesidad de dibujarla.
+:::
+
+::: {style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;"}
+Publicado el 06 de febrero de 2026
+:::
