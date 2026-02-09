@@ -27,6 +27,8 @@ website:
         file: capitulos/01-sistemas-rotacion.qmd
       - text: "2. Mapas Combinatorios"
         file: capitulos/02-mapas-combinatorios.qmd
+      - text: "3. Invariantes topológicos"
+        file: capitulos/03-invariantes-topologicos.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
