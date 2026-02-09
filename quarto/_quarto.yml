@@ -28,7 +28,7 @@ website:
       - text: "2. Mapas Combinatorios"
         file: capitulos/02-mapas-combinatorios.qmd
       - text: "3. Invariantes topológicos"
-        file: capitulos/03-invariantes-topologicos.qmd
+        file: capitulos/03-invariantes.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -47,6 +47,8 @@ website:
         file: capitulos/01-sistemas-rotacion.qmd
       - text: "2. Mapas Combinatorios"
         file: capitulos/02-mapas-combinatorios.qmd
+      - text: "3. Invariantes topológicos"
+        file: capitulos/03-invariantes.qmd
 
   page-footer:
     center: |
@@ -118,6 +120,11 @@ format:
         <meta property="og:type" content="website">
         <meta property="og:title" content="Sistemas de Rotación y Ribbon Graphs">
         <meta property="og:description" content="Teoría de grafos topológicos mediante sistemas de rotación">
+        <style>
+          th {
+            text-transform: none !important;
+          }
+        </style>
 
 # Configuración de ejecución
 execute:
