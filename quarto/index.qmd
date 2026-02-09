@@ -7,6 +7,10 @@ format:
     page-layout: full
 ---
 
+::: {.page-author}
+Autor: José Luis León Medina
+:::
+
 ::: {.hero}
 # Sistemas de Rotación y Ribbon Graphs
 
@@ -48,17 +52,17 @@ Introducción a los sistemas de rotación como modelo combinatorio de grafos enc
 - Ejemplos básicos con código SageMath
 - Construcción en Sage: `RibbonGraph(sigma, rho)`
 
-### [2. Trazado de Caras](capitulos/02-trazado-de-caras.qmd)
+### 2. Mapas Combinatorios
 
-Algoritmo para determinar las caras de un encaje celular mediante sistemas de rotación.
+De la intuición geométrica a la formalización algebraica.
 
-- Permutación de caras $\varphi = \rho\sigma$ (convención SageMath)
-- Algoritmo de trazado (cruzar → girar)
-- Ejemplos: esfera vs. toro
-- Correspondencia caras ↔ fronteras
-- Verificación con código SageMath
+- Axiomática de Tutte: definición formal de mapa combinatorio
+- Teorema de Realización Topológica
+- Algoritmo de trazado de caras ($\varphi = \rho\sigma$)
+- Unicidad del encaje y el género como consecuencia
 
-### [3. Invariantes Topológicos](capitulos/03-invariantes.qmd)
+<!--
+### 3. Invariantes Topológicos *(Próximamente)*
 
 Cálculo de invariantes directamente desde las permutaciones.
 
@@ -69,7 +73,7 @@ Cálculo de invariantes directamente desde las permutaciones.
 - Proceso de engrosamiento (thickening)
 - Verificación experimental con Sage
 
-### [4. Teorema de Heffter-Edmonds](capitulos/04-teoremas.qmd)
+### 4. Teorema de Heffter-Edmonds *(Próximamente)*
 
 El teorema fundamental que establece la correspondencia biunívoca.
 
@@ -80,7 +84,7 @@ El teorema fundamental que establece la correspondencia biunívoca.
 - Construcción inversa: ribbon graph $\to (\sigma, \rho)$
 - Orientabilidad y limitaciones del modelo
 
-### [5. Propiedades Adicionales y Polinomios](capitulos/05-ejemplos.qmd)
+### 5. Propiedades Adicionales y Polinomios *(Próximamente)*
 
 Operaciones avanzadas y el polinomio de Bollobás-Riordan.
 
@@ -89,6 +93,7 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
 - Base de homología H₁(superficie)
 - Polinomio de Bollobás-Riordan
 - Implementación en SageMath
+-->
 
 ---
 
@@ -111,6 +116,6 @@ Este proyecto utiliza:
 
 ---
 
-::: {style="text-align: center; margin-top: 3em; color: #64748b;"}
-José Luis León • 2026
+::: {style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;"}
+2026
 :::

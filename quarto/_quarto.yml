@@ -1,14 +1,16 @@
 project:
   type: website
   output-dir: ../outputs/quarto-site
-  render:
-    - index.qmd
-    - capitulos/01-sistemas-rotacion.qmd
+# # # # # # # # # # # # # # #   render:
+# # # # # # # # # # # # # # #     - index.qmd
+# # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"
   description: "Teoría de Grafos Topológicos"
-  site-url: https://ribbongraphs.example.com
+  site-url: https://joseleonm.github.io/grafos-en-superficies
+  repo-url: https://github.com/joseleonm/grafos-en-superficies
+  # repo-actions: [edit, issue]  # Deshabilitado para ocultar "Editar esta página" e "Informar sobre problema"
 
   page-navigation: true
   back-to-top-navigation: true
@@ -23,13 +25,15 @@ website:
         file: index.qmd
       - text: "1. Sistemas de Rotación"
         file: capitulos/01-sistemas-rotacion.qmd
+      - text: "2. Mapas Combinatorios"
+        file: capitulos/02-mapas-combinatorios.qmd
     right:
       - icon: github
-        href: https://github.com/
+        href: https://github.com/joseleonm/grafos-en-superficies
         aria-label: GitHub
 
   sidebar:
-    style: "floating"
+    style: "docked"
     background: light
     border: true
     search: true
@@ -39,23 +43,31 @@ website:
         file: index.qmd
       - text: "1. Sistemas de Rotación"
         file: capitulos/01-sistemas-rotacion.qmd
+      - text: "2. Mapas Combinatorios"
+        file: capitulos/02-mapas-combinatorios.qmd
 
   page-footer:
     center: |
       **Sistemas de Rotación y Ribbon Graphs**<br>
-      José Luis León • 2026 • Teoría de Grafos Topológicos
+      <span style="color: #94a3b8; font-size: 0.9em;">2026 • Teoría de Grafos Topológicos</span>
 
 format:
   html:
     theme: cosmo
     css: styles.css
 
+    # Layout - Ancho de página optimizado
+    grid:
+      body-width: 1300px
+      sidebar-width: 250px
+      margin-width: 50px
+      gutter-width: 2em
+    max-width: 1900px
+    margin-left: 20px
+    margin-right: 20px
 
     # Tabla de contenidos
-    toc: true
-    toc-depth: 3
-    toc-title: "En esta página"
-    toc-location: right
+    toc: false
 
     # Numeración
     number-sections: false
@@ -92,7 +104,6 @@ format:
     # Tipografía
     mainfont: "Source Sans Pro"
     monofont: "Fira Code"
-    fontsize: 1.1em
     linestretch: 1.6
 
     # Meta
@@ -118,6 +129,4 @@ execute:
 
 # Metadatos
 lang: es
-author: "José Luis León"
-date: today
 license: "CC BY-NC-SA 4.0"

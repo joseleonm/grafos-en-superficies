@@ -1,0 +1,327 @@
+---
+title: "2. Mapas Combinatorios"
+subtitle: "De las permutaciones a la Superficie"
+---
+
+En la sección anterior definimos el sistema de rotación $(\sigma, \rho)$. Es frecuente interpretar estas permutaciones como simples instrucciones para dibujar un grafo preexistente; sin embargo, esa interpretación es parcial.
+
+En la topología combinatoria (y en el modelo de Mapas de Tutte), el par $(\sigma, \rho)$ contiene toda la información topológica. El encaje queda determinado de manera unívoca:
+
+1. Las permutaciones definen la conectividad (el grafo).
+2. Las permutaciones definen las fronteras (las caras).
+3. Las permutaciones definen la superficie cerrada (el género).
+
+<br>
+
+## Axiomática de los Mapas Combinatorios
+
+Hasta ahora nos hemos apoyado en la intuición geométrica de "dibujar grafos". A continuación formalizamos el encaje para que no dependa de la representación gráfica, sino de reglas combinatorias precisas.
+
+### Los Axiomas de Tutte
+
+::: {.callout-note appearance="simple"}
+## Definición: Mapa Combinatorio (Orientado)
+Sea $D$ un conjunto finito de elementos abstractos llamados **dardos** (o semiaristas).
+
+Un **Mapa Combinatorio** es una terna $M = (D, \sigma, \rho)$ que satisface los siguientes tres axiomas:
+
+1.  **Axioma de la Arista ($\rho$):** $\rho$ es una permutación de los elementos de $D$ tal que $\rho^2 = \text{id}$ y $\rho(d) \neq d$ para todo $d \in D$.
+    *   *Interpretación:* $\rho$ empareja los dardos; cada par define una arista.
+2.  **Axioma del Vértice ($\sigma$):** $\sigma$ es una permutación arbitraria de $D$.
+    *   *Interpretación:* Los ciclos de $\sigma$ agrupan los dardos; cada ciclo define un vértice.
+3.  **Axioma de Conectividad:** El grupo de permutaciones generado por $\langle \sigma, \rho \rangle$ actúa transitivamente sobre $D$.
+    *   *Interpretación:* La acción transitiva garantiza que la estructura resultante sea conexa.
+:::
+
+::: {.callout-note}
+## Nota: Sistemas de Rotación vs. Mapas Combinatorios
+
+En la sección anterior introdujimos el concepto de **sistema de rotación** como la pareja $(\sigma, \rho)$. En rigor, el conjunto $D$ puede deducirse de los dominios de las permutaciones $\sigma$ y $\rho$, por lo que especificarlo explícitamente es redundante.
+
+Por tanto, las siguientes notaciones son equivalentes y se refieren al mismo objeto matemático:
+
+- **Sistema de rotación:** $(\sigma, \rho)$
+- **Mapa combinatorio:** $(D, \sigma, \rho)$
+
+En este curso usaremos ambas terminologías indistintamente, siendo conscientes de que describen exactamente la misma estructura.
+:::
+
+### Los Elementos Derivados
+
+A partir de estos axiomas, definimos los elementos topológicos. En lugar de depender de la representación visual, usamos una presentación puramente combinatoria inducida por las permutaciones.
+
+-   **Vértices ($V$):** El conjunto de vértices $V(M)$ se define como el conjunto de órbitas (ciclos) de la permutación $\sigma$.
+    $$V(M) = D / \langle \sigma \rangle$$
+-   **Aristas ($E$):** El conjunto de aristas $E(M)$ se define como el conjunto de órbitas de la permutación $\rho$.
+    $$E(M) = D / \langle \rho \rangle$$
+-   **Caras ($F$):** Definimos la permutación de caras $\varphi$ como la composición $\varphi = \rho \sigma$ (en notación de SageMath). El conjunto de caras $F(M)$ se define como el conjunto de órbitas de $\varphi$.
+    $$F(M) = D / \langle \varphi \rangle$$
+
+### Construcción Geométrica: La Receta de Pegado
+
+::: {.callout-important}
+## Teorema Fundamental de los Mapas Combinatorios
+Para todo mapa combinatorio $M = (D, \sigma, \rho)$, existe una única superficie compacta orientable cerrada $S$ (salvo homeomorfismo) y un grafo $G$ encajado celularmente en $S$, tal que:
+
+1.  Los vértices, aristas y caras de $M$ corresponden biunívocamente a los de $G \subset S$.
+2.  El género $g$ de la superficie $S$ está determinado exactamente por la característica de Euler combinatoria:
+    $$2 - 2g = |V(M)| - |E(M)| + |F(M)|$$
+:::
+
+Más allá del teorema abstracto, la realización topológica es un **manual de instrucciones**. Dado un mapa combinatorio $M = (D, \sigma, \rho)$, construimos la superficie física paso a paso mediante un proceso de ensamblaje.
+
+Imagina que estamos armando un rompecabezas tridimensional:
+
+**Paso 1: Los Vértices (Discos)**
+
+Por cada ciclo de la permutación $\sigma$, recortamos un **disco topológico** (un círculo de material).
+
+- Si el ciclo tiene longitud $k$, marcamos $k$ **segmentos de arco** en el borde del disco.
+- Estos segmentos corresponden a los **dardos**.
+- Los etiquetamos siguiendo el orden cíclico que nos dicta $\sigma$ (leyendo, por convención, en sentido antihorario).
+
+**Paso 2: Las Aristas (Cintas)**
+
+Por cada ciclo de la permutación $\rho$ (que siempre es de la forma $(d_i, d_j)$), recortamos una **cinta rectangular** o banda.
+
+- Pegamos un extremo de la cinta en el dardo $d_i$.
+- Pegamos el otro extremo en el dardo $d_j$.
+- **Regla de Orientación:** Pegamos la cinta sin torcerla (para superficies orientables), asegurando que la orientación de los discos de los vértices se propague suavemente a través de la arista.
+
+Al terminar el Paso 2, tenemos lo que llamamos un **Ribbon Graph** (o grafo de cintas): un esqueleto con agujeros.
+
+![Ribbon Graph determinado por el mapa combinatorio $D=\{1,2,3,4,5,6\}$, $\sigma=(1,3,2)(4,5,6)$,\
+ $\rho=(1,4)(2,5)(3,6)$. La permutación $\rho\sigma$ determina que la superficie resultante es una esfera.](/imagenes/darts.png){width=60%}
+
+**Paso 3: Las Caras (Parches)**
+
+Ahora la superficie tiene "huecos" o fronteras (las regiones negras en la figura). Para cerrarla, necesitamos pegar discos adicionales (las caras). Pero, ¿dónde pegamos estos discos? Aquí entra nuestro algoritmo de trazado.
+
+## El Algoritmo de Trazado de Caras
+
+Para descubrir la forma de los huecos que debemos parchar, caminamos por el borde del Ribbon Graph que acabamos de construir.
+
+Imagina que eres un viajero caminando por el engrosamiento del grafo. Tu regla de oro es: **"Mantener siempre el grafo a tu izquierda"**.
+
+Esto define la **permutación de las caras**, que en nuestra notación es la composición:
+
+$$ \varphi = \rho \sigma $$
+
+En la convención de SageMath para ribbon graphs, esta es la fórmula utilizada internamente por el método `boundary()` de la clase `RibbonGraph`.
+
+::: {.callout-important}
+## Convención de Multiplicación (SageMath)
+En este curso y en SageMath, la multiplicación de permutaciones se lee de **izquierda a derecha**.
+La expresión $\varphi = \rho \sigma$ significa: **primero** aplicamos $\rho$ y **luego** aplicamos $\sigma$.
+:::
+
+::: {.callout-note}
+## Nota sobre Convenciones Alternativas
+Algunos textos usan $\varphi = \rho \sigma^{-1}$, $\varphi = \sigma^{-1} \rho$, o $\varphi = (\sigma\rho)^{-1}$. Todas estas convenciones dan el **mismo número** de caras, pero los ciclos específicos pueden diferir. Usamos $\varphi = \rho \sigma$ para coincidir exactamente con la implementación de SageMath y simplificar los cálculos (no hay que invertir σ).
+:::
+
+### La Receta Geométrica: Cruzar y Girar
+
+Para encontrar el ciclo de una cara, partimos de un dardo $d$ y repetimos:
+
+1.  **Cruzar ($\rho$):** Atravesamos la cinta (arista) para llegar al vértice vecino.
+    *   *Geométricamente:* Viajamos por el borde de la cinta hasta el otro lado.
+
+2.  **Girar ($\sigma$):** Nos movemos a lo largo del borde del vértice hasta el siguiente dardo disponible.
+    *   *Geométricamente:* Seguimos el contorno del disco del vértice.
+
+El camino se cierra cuando volvemos al dardo original. Este ciclo define el **perímetro exacto** donde pegaremos un disco para crear una cara.
+
+## La Unicidad del Encaje
+
+Una pregunta fundamental en topología es: ¿Podemos dibujar el mismo mapa combinatorio en superficies distintas?
+
+La respuesta constructiva es **NO**.
+
+Observa el proceso anterior:
+
+- Los discos de los vértices son fijos (dados por $\sigma$).
+- Las conexiones de las cintas son fijas (dadas por $\rho$).
+- Por tanto, los "huecos" que quedan están rígidamente determinados por la geometría del ensamblaje ($\varphi = \rho \sigma$).
+
+Al pegar los discos en los huecos (Paso 3), cerramos la superficie. No hay libertad de elección; el mapa combinatorio es el **plano de construcción** de la superficie.
+
+::: {.callout-note}
+## Conclusión Topológica
+El género $g$ de la superficie resultante no es una propiedad que "elegimos", sino una consecuencia inevitable de las permutaciones. Está forzado por la fórmula de Euler:
+$$2 - 2g = |Ciclos(\sigma)| - |Ciclos(\rho)| + |Ciclos(\rho\sigma)|$$
+
+Un sistema de rotación $(\sigma, \rho)$ pertenece a una y solo una superficie topológica.
+:::
+
+
+## Ejemplo: El Impacto de $\sigma$ en la Topología
+
+Consideraremos dos mapas combinatorios distintos que comparten el mismo conjunto de dardos y la misma estructura de aristas, pero difieren en su permutación $\sigma$. Este ejemplo ilustra cómo una pequeña variación en $\sigma$ puede cambiar radicalmente la superficie de encaje.
+
+Ambos mapas tienen:
+- Conjunto de dardos: $D = \{1, 2, 3, 4\}$
+- Estructura de aristas: $\rho = (1, 2)(3, 4)$ (dos aristas, cada una un lazo)
+
+![](/imagenes/grafo8.svg){width=44%}
+
+La diferencia está en el **orden de rotación** alrededor del único vértice.
+
+### Mapa A: Encaje en la Esfera ($g=0$)
+
+Consideremos el mapa combinatorio:
+$$ M_A = (D, \sigma_A, \rho) \quad \text{donde} \quad \sigma_A = (1, 2, 3, 4) $$
+
+Calculamos $\varphi_A = \rho \sigma_A$:
+
+1.  **Paso a paso (Cruzar $\to$ Girar):**
+    *   <span style="color: #D32F2F;">$1 \xrightarrow{\rho} 2 \xrightarrow{\sigma} 3$. (Sigue $1 \to 3$)</span>
+    *   <span style="color: #D32F2F;">$3 \xrightarrow{\rho} 4 \xrightarrow{\sigma} 1$. (Cierra el ciclo $(1, 3)$)</span>
+    *   <span style="color: #388E3C;">$2 \xrightarrow{\rho} 1 \xrightarrow{\sigma} 2$. (Ciclo cerrado $(2)$)</span>
+    *   <span style="color: #1976D2;">$4 \xrightarrow{\rho} 3 \xrightarrow{\sigma} 4$. (Ciclo cerrado $(4)$)</span>
+
+**Resultado:** $\varphi = (1, 3)(2)(4)$. Tenemos $F=3$ caras (<span style="color: #D32F2F;">Roja</span>, <span style="color: #388E3C;">Verde</span>, <span style="color: #1976D2;">Azul</span>).
+
+![](/imagenes/8esfera.svg){width=44%} ![](/imagenes/8esferagemini.png){width=34%}
+
+::: {.callout-tip}
+## Verificación con SageMath
+Puedes verificar estos cálculos en línea usando [SageMathCell](https://sagecell.sagemath.org/).
+
+```python
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+phi = rho * sigma  # φ = ρσ
+print(phi)  # (1,3)
+print(phi.cycle_tuples(singletons=True))  # [(1, 3), (2,), (4,)]
+
+R = RibbonGraph(sigma, rho)
+print(R.boundary())  # [[1, 2, 3, 4], [2, 1], [4, 3]]
+print(R.number_boundaries())  # 3
+```
+:::
+
+### Mapa B: Encaje en el Toro ($g=1$)
+
+Consideremos ahora un mapa combinatorio diferente:
+$$ M_B = (D, \sigma_B, \rho) \quad \text{donde} \quad \sigma_B = (1, 3, 2, 4) $$
+
+Notemos que $\sigma_B$ intercala las semiaristas en un orden distinto. Calculamos $\varphi_B = \rho \sigma_B$:
+
+1.  **Paso a paso (Cruzar $\to$ Girar):**
+    *   <span style="color: #7B1FA2;">$1 \xrightarrow{\rho} 2 \xrightarrow{\sigma} 4$.</span>
+    *   <span style="color: #7B1FA2;">$4 \xrightarrow{\rho} 3 \xrightarrow{\sigma} 2$.</span>    
+    *   <span style="color: #7B1FA2;">$2 \xrightarrow{\rho} 1 \xrightarrow{\sigma} 3$.</span>
+    *   <span style="color: #7B1FA2;">$3 \xrightarrow{\rho} 4 \xrightarrow{\sigma} 1$.</span>
+
+
+**Resultado:** $\varphi = (1, 4, 2, 3)$. Tenemos $F=1$ cara (<span style="color: #7B1FA2;">Morada</span>).
+
+![](/imagenes/torusgemini.png){width=50%}
+
+::: {.callout-tip}
+## Verificación con SageMath
+```python
+sigma = PermutationGroupElement('(1,3,2,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+phi = rho * sigma  # φ = ρσ
+print(phi)  # (1,4,2,3)
+print(phi.cycle_tuples(singletons=True))  # [(1, 4, 2, 3)]
+
+R = RibbonGraph(sigma, rho)
+print(R.boundary())  # [[1, 2, 4, 3, 2, 1, 3, 4]]
+print(R.number_boundaries())  # 1
+```
+:::
+
+::: {.callout-important}
+## Conclusión del Ejemplo
+
+Hemos visto **dos mapas combinatorios distintos**:
+
+- **Mapa $M_A$:** $(D, \sigma_A=(1,2,3,4), \rho=(1,2)(3,4))$ → Superficie: **Esfera** ($g=0$, $F=3$ caras)
+- **Mapa $M_B$:** $(D, \sigma_B=(1,3,2,4), \rho=(1,2)(3,4))$ → Superficie: **Toro** ($g=1$, $F=1$ cara)
+
+Aunque comparten el mismo conjunto de dardos $D$ y la misma estructura de aristas $\rho$, **una ligera variación en el sistema de rotación $\sigma$** (una transposición en el orden cíclico) produce superficies topológicamente distintas.
+
+Este ejemplo demuestra que $\sigma$ no es simplemente una "forma de dibujar" el grafo, sino que **determina la topología intrínseca** de la superficie de encaje.
+:::
+
+
+---
+
+## Ejercicios
+
+::: {.callout-tip}
+## Ejercicio 1: El Caso del Segmento (Vértices de Valencia 1)
+
+Este ejercicio explora qué sucede cuando la permutación $\sigma$ tiene puntos fijos (ciclos de longitud 1).
+
+Considera el mapa combinatorio más simple posible que no es un lazo: un segmento con dos extremos distintos.
+
+- **Dardos:** $D = \{1, 2\}$
+- **Aristas:** $\rho = (1, 2)$ (los dardos 1 y 2 forman la única arista).
+- **Vértices:** Queremos que el dardo 1 esté en un vértice y el dardo 2 en otro vértice distinto. Por tanto, $\sigma$ debe ser la permutación identidad:
+  $$\sigma = (1)(2)$$
+  (Nota: Esto significa que $\sigma(1)=1$ y $\sigma(2)=2$. Geométricamente, son vértices terminales o "hojas").
+
+**Tarea:** Determine la realización geométrica de este mapa combinatorio.
+:::
+
+::: {.callout-tip}
+## Ejercicio 2: Cálculo Manual
+Toma el sistema de rotación:
+
+- $\sigma = (1,3,5,2,4,6)$
+- $\rho = (1,2)(3,4)(5,6)$
+
+Calcula manualmente la permutación de caras $\varphi = \rho\sigma$ y determina cuántas caras tiene este encaje.
+:::
+
+::: {.callout-tip}
+## Ejercicio 3: Exploración Visual
+
+Considera el bouquet de 3 círculos: un vértice con 3 self-loops (6 semiaristas).
+$\rho$ está fijo como $(1,2)(3,4)(5,6)$.
+
+a) Usa el visualizador para probar diferentes permutaciones $\sigma$ (por ejemplo, $(1,2,3,4,5,6)$ vs $(1,6,2,5,3,4)$).
+b) Analiza cómo cambia la conectividad de las cintas azules.
+c) Determina si existe un $\sigma$ que produzca una superficie con solo 1 cara.
+:::
+
+::: {.callout-tip}
+## Ejercicio 4: El Espectro del Género (SageMath)
+
+Vamos a explorar qué tan "raro" es obtener una esfera cuando conectamos aristas al azar. Considera un grafo con **1 vértice y 5 lazos** ($|D|=10$).
+
+1.  Define $\rho = (1,2)(3,4)...(9,10)$.
+2.  Escribe un script que genere permutaciones $\sigma$ aleatorias que consistan en **un solo ciclo** de longitud 10 (garantizando 1 vértice).
+    *   *Tip:* Puedes generar una lista aleatoria `p` de números del 1 al 10 y crear el ciclo: `sigma = PermutationGroupElement([tuple(p)])`.
+3.  Ejecuta un bucle de 1000 iteraciones. En cada paso, calcula el género del mapa resultante usando `RibbonGraph(sigma, rho).genus()`.
+4.  **Análisis:**
+    *   ¿Cuáles son los géneros mínimo y máximo que observas?
+    *   ¿Con qué frecuencia aparece el género 0 (esfera)? ¿Es el caso más común o el más raro?
+
+*Nota:* Este ejercicio demuestra que, combinatoriamente, las superficies de género alto son mucho más abundantes que la esfera.
+:::
+
+
+---
+
+## Resumen
+
+- **Axiomática:** Un mapa combinatorio se define formalmente como una terna $(D, \sigma, \rho)$ que satisface axiomas algebraicos precisos, independientes del dibujo.
+- **Teorema de Realización:** Existe una correspondencia biunívoca entre mapas combinatorios y superficies orientables con grafos encajados.
+- **Algoritmo de Trazado:** La permutación de caras se calcula como **$\varphi = \rho \sigma$** (convención SageMath).
+- **Interpretación Geométrica:** Las caras se recorren siguiendo la regla **"Cruzar ($\rho$) y Girar ($\sigma$)"**.
+- **Unicidad:** El par $(\sigma, \rho)$ determina unívocamente la topología de la superficie (el género es una consecuencia, no una elección).
+
+En la siguiente sección utilizaremos este conteo de caras para calcular los **invariantes topológicos** (característica de Euler y género) directamente desde las permutaciones.
+
+## Referencias
+
+- **[Tutte1979]** W. T. Tutte, *Combinatorial Oriented Maps*, Canadian Journal of Mathematics, 31(5):986-1004, 1979. [DOI:10.4153/CJM-1979-091-3](https://doi.org/10.4153/CJM-1979-091-3)
+
+::: {style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;"}
+Publicado el 09 de febrero de 2026
+:::
