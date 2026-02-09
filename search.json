@@ -247,7 +247,7 @@
     "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
     "title": "3. Invariantes Topológicos",
     "section": "5. Galería de Ejemplos",
-    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4,5,7,6,8)\\)\n\\((1,2)(3,4)(5,6)(7,8)\\)\n\\(1\\)\n\\(4\\)\n\\(1\\)\n\\(-2\\)\n\\(2\\)\nSup. \\(g=2\\)",
+    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
     "crumbs": [
       "Inicio",
       "3. Invariantes topológicos"
