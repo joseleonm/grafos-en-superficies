@@ -289,7 +289,7 @@
     "href": "index.html#contenido",
     "title": "Sistemas de Rotación y Ribbon Graphs",
     "section": "Contenido",
-    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)",
+    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)\n\n\n\n2. Mapas Combinatorios\nDe la intuición geométrica a la formalización algebraica.\n\nAxiomática de Tutte: definición formal de mapa combinatorio\nTeorema de Realización Topológica\nAlgoritmo de trazado de caras (\\(\\varphi = \\rho\\sigma\\))\nUnicidad del encaje y el género como consecuencia",
     "crumbs": [
       "Inicio"
     ]
@@ -392,6 +392,17 @@
     ]
   },
   {
+    "objectID": "capitulos/02-mapas-combinatorios.html#referencias",
+    "href": "capitulos/02-mapas-combinatorios.html#referencias",
+    "title": "2. Mapas Combinatorios",
+    "section": "Referencias",
+    "text": "Referencias\n\n[Tutte1979] W. T. Tutte, Combinatorial Oriented Maps, Canadian Journal of Mathematics, 31(5):986-1004, 1979. DOI:10.4153/CJM-1979-091-3\n\n\nPublicado el 09 de febrero de 2026",
+    "crumbs": [
+      "Inicio",
+      "2. Mapas Combinatorios"
+    ]
+  },
+  {
     "objectID": "capitulos/04-teoremas.html",
     "href": "capitulos/04-teoremas.html",
     "title": "4. Teorema de Heffter-Edmonds",
@@ -446,16 +457,5 @@
     "title": "4. Teorema de Heffter-Edmonds",
     "section": "",
     "text": "Teorema de Heffter-Edmonds: establece la equivalencia entre sistemas de rotación y encajes celulares\nEquivalencia: sistemas de rotación ↔︎ ribbon graphs ↔︎ encajes celulares\nPropiedades: determinación del grafo, cálculo de invariantes, orientabilidad\nClasificación: superficies orientables compactas caracterizadas por \\((g, b)\\)\n\nEn la siguiente sección veremos una galería de ejemplos clásicos con análisis completo de sus propiedades."
-  },
-  {
-    "objectID": "capitulos/02-mapas-combinatorios.html#referencias",
-    "href": "capitulos/02-mapas-combinatorios.html#referencias",
-    "title": "2. Mapas Combinatorios",
-    "section": "Referencias",
-    "text": "Referencias\n\n[Tutte1979] W. T. Tutte, Combinatorial Oriented Maps, Canadian Journal of Mathematics, 31(5):986-1004, 1979. DOI:10.4153/CJM-1979-091-3\n\n\nPublicado el 09 de febrero de 2026",
-    "crumbs": [
-      "Inicio",
-      "2. Mapas Combinatorios"
-    ]
   }
 ]

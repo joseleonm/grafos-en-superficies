@@ -3,8 +3,6 @@
    Custom CSS for professional academic presentation
    ============================================================================ */
 
-/*-- scss:rules --*/
-
 /* --------------------------------------------------------------------------
    OCULTAR METADATA DEL AUTOR/FECHA EN PÁGINAS
    -------------------------------------------------------------------------- */
@@ -204,13 +202,19 @@ h4 {
 .math.display,
 div.math.display,
 .katex-display,
-.MathJax_Display {
+.MathJax_Display,
+mjx-container[display="true"],
+.MathJax,
+span.math.display {
   background: transparent !important;
+  background-color: transparent !important;
   border: none !important;
   border-left: none !important;
   border-right: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -276,7 +280,7 @@ div.math.display,
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
   animation: slideInLeft 0.5s ease-out;
-  font-size: 1em !important;  /* Mismo tamaño que el texto base del body */
+  font-size: 24px !important;
 }
 
 .callout:hover {
@@ -288,12 +292,17 @@ div.math.display,
 .callout p,
 .callout li,
 .callout div {
-  font-size: 1em !important;  /* Heredar del callout (tamaño del body) */
+  font-size: 24px !important;
 }
 
 .callout ul,
 .callout ol {
-  font-size: 1em !important;
+  font-size: 24px !important;
+}
+
+.callout .callout-title {
+  font-size: 26px !important;
+  font-weight: 700;
 }
 
 .callout-note {
@@ -468,7 +477,7 @@ figure {
 figcaption {
   margin-top: 1rem;
   color: var(--ribbon-gray);
-  font-size: 0.95em !important;
+  font-size: 22px !important;
   font-style: italic;
   line-height: 1.6;
 }
