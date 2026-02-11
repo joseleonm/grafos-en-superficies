@@ -191,7 +191,7 @@
     "href": "capitulos/04-teorema.html#resumen",
     "title": "4. Teoremas Clave",
     "section": "Resumen",
-    "text": "Resumen\n\nLectura del encaje: desde un dibujo encajado se obtiene \\((\\sigma,\\rho)\\) leyendo el orden cíclico de dardos en cada vértice.\nCorrespondencia fundamental: sistemas de rotación, ribbon graphs y encajes celulares describen el mismo objeto (Teorema de Heffter‑Edmonds).\nVerificación computacional: se calculan \\(V,E,F,\\chi,g\\) con SageMathCell para confirmar el género de ejemplos concretos.\nEquivalencia vs. no equivalencia: se muestran conjugaciones explícitas que identifican encajes y un ejemplo donde la cara exterior distingue dos mapas no equivalentes.\nRigidez en grafos 3‑conexos: se conecta con el Teorema de Whitney para explicar por qué ciertos encajes son únicos salvo equivalencia.\n\nEn la siguiente sección veremos una galería de ejemplos clásicos con análisis completo de sus propiedades.",
+    "text": "Resumen\n\nLectura del encaje: desde un dibujo encajado se obtiene \\((\\sigma,\\rho)\\) leyendo el orden cíclico de dardos en cada vértice.\nCorrespondencia fundamental: sistemas de rotación, ribbon graphs y encajes celulares describen el mismo objeto (Teorema de Heffter‑Edmonds).\nVerificación computacional: se calculan \\(V,E,F,\\chi,g\\) con SageMathCell para confirmar el género de ejemplos concretos.\nEquivalencia vs. no equivalencia: se muestran conjugaciones explícitas que identifican encajes y un ejemplo donde la cara exterior distingue dos mapas no equivalentes.\nRigidez en grafos 3‑conexos: se conecta con el Teorema de Whitney para explicar por qué ciertos encajes son únicos salvo equivalencia.",
     "crumbs": [
       "Inicio",
       "4. Teoremas Clave"
