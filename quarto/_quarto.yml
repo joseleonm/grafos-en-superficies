@@ -1,9 +1,9 @@
 project:
   type: website
   output-dir: ../outputs/quarto-site
-# # # # # # # # # # # # # # # # #   render:
-# # # # # # # # # # # # # # # # #     - index.qmd
-# # # # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #   render:
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - index.qmd
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"
@@ -27,8 +27,10 @@ website:
         file: capitulos/01-sistemas-rotacion.qmd
       - text: "2. Mapas Combinatorios"
         file: capitulos/02-mapas-combinatorios.qmd
-      - text: "3. Invariantes topológicos"
+      - text: "3. Invariantes Topológicos"
         file: capitulos/03-invariantes.qmd
+      - text: "4. Teoremas Clave"
+        file: capitulos/04-teorema.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -42,13 +44,16 @@ website:
     collapse-level: 1
     contents:
       - text: "Inicio"
+        icon: house-fill
         file: index.qmd
       - text: "1. Sistemas de Rotación"
         file: capitulos/01-sistemas-rotacion.qmd
       - text: "2. Mapas Combinatorios"
         file: capitulos/02-mapas-combinatorios.qmd
-      - text: "3. Invariantes topológicos"
+      - text: "3. Invariantes Topológicos"
         file: capitulos/03-invariantes.qmd
+      - text: "4. Teoremas Clave"
+        file: capitulos/04-teorema.qmd
 
   page-footer:
     center: |
@@ -120,11 +125,6 @@ format:
         <meta property="og:type" content="website">
         <meta property="og:title" content="Sistemas de Rotación y Ribbon Graphs">
         <meta property="og:description" content="Teoría de grafos topológicos mediante sistemas de rotación">
-        <style>
-          th {
-            text-transform: none !important;
-          }
-        </style>
 
 # Configuración de ejecución
 execute:

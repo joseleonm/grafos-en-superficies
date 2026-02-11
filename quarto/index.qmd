@@ -70,17 +70,19 @@ Cálculo computacional con SageMath.
 - Función de análisis topológico (`analizar_topologia`)
 - Experimentación con grafos completos y superficies de género alto
 
-<!--
-### 4. Teorema de Heffter-Edmonds *(Próximamente)*
+
+### [4. Teoremas Clave](capitulos/04-teorema.qmd) 
 
 El teorema fundamental que establece la correspondencia biunívoca.
 
-- Equivalencia de sistemas de rotación (isomorfismos)
-- Equivalencia de encajes (homeomorfismos)
-- Teorema fuerte: correspondencia 1:1 entre clases de equivalencia
-- Construcción directa: $(\sigma, \rho) \to$ ribbon graph
-- Construcción inversa: ribbon graph $\to (\sigma, \rho)$
+- Lectura del encaje: obtención de $(\sigma,\rho)$ desde un dibujo encajado
+- Teorema de Heffter‑Edmonds y equivalencia por conjugación
+- Verificación en SageMathCell del género en ejemplos concretos
+- Ejemplos de encajes equivalentes y no equivalentes (criterio por caras)
+- Teorema de Whitney y conectividad 3‑conexa vs. valencia
 - Orientabilidad y limitaciones del modelo
+
+<!--
 
 ### 5. Propiedades Adicionales y Polinomios *(Próximamente)*
 
