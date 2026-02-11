@@ -349,7 +349,7 @@ Ejemplos visuales de grafos 3‑conexos:
 ::: {.callout-tip}
 ## Ejercicio: Calcule el mapa combinatorio del siguiente grafo encajado.
 
-![](/imagenes/esferaPoincare.jpg){width=90%}
+![](/imagenes/esferaPoincare.png){width=90%}
 :::
 
 ---
