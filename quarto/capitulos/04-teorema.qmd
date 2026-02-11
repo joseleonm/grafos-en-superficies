@@ -362,4 +362,3 @@ Ejemplos visuales de grafos 3‑conexos:
 - **Equivalencia vs. no equivalencia:** se muestran conjugaciones explícitas que identifican encajes y un ejemplo donde la cara exterior distingue dos mapas no equivalentes.
 - **Rigidez en grafos 3‑conexos:** se conecta con el Teorema de Whitney para explicar por qué ciertos encajes son únicos salvo equivalencia.
 
-En la siguiente sección veremos una **galería de ejemplos** clásicos con análisis completo de sus propiedades.
