@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-dc1ea5b7a8322464832b99c8fca3a205.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f9c6f0e9917b4ec8832aaecb36f8ee78.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -147,7 +147,11 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./capitulos/04-teorema.html"> 
-<span class="menu-text">4. Teoremas Clave</span></a>
+<span class="menu-text">4. Equivalencia</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./capitulos/05-ejemplos.html"> 
+<span class="menu-text">5. Ejemplos</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -215,7 +219,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/04-teorema.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4. Teoremas Clave</span></a>
+ <span class="menu-text">4. Equivalencia</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulos/05-ejemplos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Ejemplos</span></a>
   </div>
 </li>
     </ul>
@@ -266,7 +276,7 @@ window.Quarto = {
 <li>Reconstruir el grafo subyacente (vértices y aristas)</li>
 <li>Determinar el orden cíclico de semiaristas alrededor de cada vértice</li>
 <li>Calcular las caras mediante la permutación <span class="math inline">\(\varphi = \rho\sigma\)</span></li>
-<li>Obtener invariantes topológicos: género, característica de Euler, fronteras</li>
+<li>Obtener invariantes topológicos: género, característica de Euler, número de caras</li>
 <li>Construir la superficie completa mediante engrosamiento (thickening)</li>
 </ul>
 <p><strong>Resultado fundamental:</strong> Álgebra de permutaciones ↔︎ Topología de superficies</p>
@@ -305,29 +315,39 @@ window.Quarto = {
 <li>Experimentación con grafos completos y superficies de género alto</li>
 </ul>
 </section>
-<section id="teoremas-clave" class="level3">
-<h3 class="anchored" data-anchor-id="teoremas-clave"><a href="./capitulos/04-teorema.html">4. Teoremas Clave</a></h3>
+<section id="equivalencia" class="level3">
+<h3 class="anchored" data-anchor-id="equivalencia"><a href="./capitulos/04-teorema.html">4. Equivalencia</a></h3>
 <p>El teorema fundamental que establece la correspondencia biunívoca.</p>
 <ul>
 <li>Lectura del encaje: obtención de <span class="math inline">\((\sigma,\rho)\)</span> desde un dibujo encajado</li>
 <li>Teorema de Heffter‑Edmonds y equivalencia por conjugación</li>
 <li>Verificación en SageMathCell del género en ejemplos concretos</li>
 <li>Ejemplos de encajes equivalentes y no equivalentes (criterio por caras)</li>
-<li>Teorema de Whitney y conectividad 3‑conexa vs.&nbsp;valencia</li>
+<li>Teorema de Whitney, Steinitz y conectividad 3‑conexa</li>
 <li>Orientabilidad y limitaciones del modelo</li>
 </ul>
-<!--
-
-### 5. Propiedades Adicionales y Polinomios *(Próximamente)*
-
-Operaciones avanzadas y el polinomio de Bollobás-Riordan.
-
-- Operaciones: contracción, reducción, dualidad
-- Herramientas de `RibbonGraph` en Sage
-- Base de homología H₁(superficie)
-- Polinomio de Bollobás-Riordan
-- Implementación en SageMath
--->
+</section>
+<section id="ejemplos" class="level3">
+<h3 class="anchored" data-anchor-id="ejemplos"><a href="./capitulos/05-ejemplos.html">5. Ejemplos</a></h3>
+<p>Verificación computacional de equivalencia entre sistemas de rotación.</p>
+<ul>
+<li>Ejemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición</li>
+<li>Ejemplo de no-equivalencia: multiconjuntos de caras como invariante rápido</li>
+<li>Del problema al algoritmo: fuerza bruta vs.&nbsp;búsqueda con retroceso</li>
+<li>Diagramas de Heegaard de la Esfera de Poincaré como encajes celulares</li>
+<li>Verificación interactiva con SageMathCell</li>
+</ul>
+</section>
+<section id="operaciones-y-polinomio-de-bollobás-riordan" class="level3">
+<h3 class="anchored" data-anchor-id="operaciones-y-polinomio-de-bollobás-riordan"><a href="./capitulos/06-recursividad.html">6. Operaciones y Polinomio de Bollobás-Riordan</a></h3>
+<p>Operaciones sobre ribbon graphs e invariantes polinomiales del encaje.</p>
+<ul>
+<li>Contracción de aristas: fusión de vértices con preservación del género</li>
+<li>Dualidad: intercambio de vértices y caras (<span class="math inline">\(V^*=F\)</span>, <span class="math inline">\(F^*=V\)</span>, <span class="math inline">\(g^*=g\)</span>)</li>
+<li>Base de homología y la fórmula <span class="math inline">\(\mathrm{rank}(H_1) = 2g + b - 1\)</span></li>
+<li>Polinomio de Bollobás-Riordan: generalización del polinomio de Tutte a superficies</li>
+<li>Implementación correcta vía suma sobre subgrafos y verificación interactiva</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -347,6 +367,7 @@ Operaciones avanzadas y el polinomio de Bollobás-Riordan.
 <li>Gross, J. L., &amp; Tucker, T. W. (1987). <em>Topological Graph Theory</em></li>
 <li>Lando, S. K., &amp; Zvonkin, A. K. (2004). <em>Graphs on Surfaces</em></li>
 <li>Edmonds, J. (1960). <em>A combinatorial representation for polyhedral surfaces</em></li>
+<li>Bollobás, B., &amp; Riordan, O. (2002). <em>A polynomial of graphs on surfaces</em>. Mathematische Annalen</li>
 <li><a href="https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html">SageMath - Ribbon Graphs Documentation</a></li>
 </ul>
 <hr>

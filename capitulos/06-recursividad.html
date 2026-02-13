@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4. Equivalencia – Sistemas de Rotación y Ribbon Graphs</title>
+<title>6. Operaciones y Polinomio de Bollobás-Riordan – Sistemas de Rotación y Ribbon Graphs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../capitulos/05-ejemplos.html" rel="next">
-<link href="../capitulos/03-invariantes.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -177,7 +175,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/04-teorema.html">4. Equivalencia</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">6. Operaciones y Polinomio de Bollobás-Riordan</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -224,7 +222,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-teorema.html" class="sidebar-item-text sidebar-link active">
+  <a href="../capitulos/04-teorema.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4. Equivalencia</span></a>
   </div>
 </li>
@@ -245,8 +243,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">4. Equivalencia</h1>
-<p class="subtitle lead">La correspondencia biunívoca entre sistemas de rotación y encajes</p>
+<h1 class="title">6. Operaciones y Polinomio de Bollobás-Riordan</h1>
+<p class="subtitle lead">Transformaciones sobre ribbon graphs e invariantes polinomiales</p>
 </div>
 
 
@@ -263,205 +261,403 @@ window.Quarto = {
 </header>
 
 
-<p>Recordamos que dos encajes de grafos <span class="math inline">\(G_1 \subset S_1\)</span> y <span class="math inline">\(G_2 \subset S_2\)</span> son <strong>equivalentes</strong> si existe un homeomorfismo que preserva la orientación <span class="math inline">\(h: S_1 \to S_2\)</span> tal que <span class="math inline">\(h(G_1) = G_2\)</span>. Esto implica que <span class="math inline">\(h\)</span> induce un isomorfismo entre los grafos abstractos subyacentes.</p>
-<p>Además vimos que la <strong>Realización topológica</strong> (sección 2) proporciona una función explícita:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{Mapas Combinatorios} \quad &amp;\rightarrow \quad \text{Ribbon graphs}  \\
-(D,\sigma, \rho) \quad &amp;\mapsto \quad  (G,\iota)
-\end{aligned}
-\]</span></p>
-<p>Ahora veamos que la inversa de esta asignación está bien definida, salvo reetiquetado de dardos.</p>
-<section id="la-esquematización-de-un-grafo-encajado" class="level2">
-<h2 class="anchored" data-anchor-id="la-esquematización-de-un-grafo-encajado">La esquematización de un grafo encajado</h2>
-<p>Dado un grafo ya encajado en una superficie, se puede “leer” el encaje recorriendo las fronteras de las caras para obtener su mapa combinatorio. Esta es la dirección que se usa para analizar un mapa ya existente.</p>
-<p>Para ello, como vimos en la sección 1, se subdivide cada arista del grafo encajado para crear un par de semiaristas (dardos) y se etiquetan. Luego:</p>
-<ol type="1">
-<li>En cada vértice, la orientación de la superficie induce un orden cíclico único de los dardos incidentes. La colección de estos ciclos disjuntos define la permutación <strong><code>σ</code></strong> (sigma).</li>
-<li>Cada arista original corresponde a un par de dardos. La colección de estas parejas (transposiciones) define la permutación <strong><code>ρ</code></strong> (rho).</li>
-</ol>
-<p>El par <code>(σ, ρ)</code> es el mapa combinatorio o esquema asociado al encaje.</p>
-</section>
-<section id="ejemplo" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
-<p>Consideremos el siguiente grafo encajado en el toro.</p>
-<div style="text-align:center">
-<p><a href="../imagenes/toro.html"><img src="../imagenes/grafotoro.png" class="img-fluid" style="width:60.0%"></a></p>
+<p>En los capítulos anteriores aprendimos a construir ribbon graphs, calcular invariantes topológicos y verificar equivalencia entre sistemas de rotación. Este capítulo explora dos temas complementarios: las <strong>operaciones</strong> que transforman un ribbon graph en otro, y el <strong>polinomio de Bollobás-Riordan</strong>, un invariante algebraico que codifica simultáneamente información combinatoria y topológica del encaje.</p>
+<hr>
+<section id="operaciones-sobre-ribbon-graphs" class="level2">
+<h2 class="anchored" data-anchor-id="operaciones-sobre-ribbon-graphs">Operaciones sobre Ribbon Graphs</h2>
+<section id="contracción-de-aristas" class="level3">
+<h3 class="anchored" data-anchor-id="contracción-de-aristas">Contracción de Aristas</h3>
+<p>La <strong>contracción</strong> de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>Después de cortarlo alrededor de un meridiano y una longitud fijas, obtenemos su cuadrado fundamental:</p>
-<div style="text-align:center">
-<p><img src="../imagenes/grafotorodiagrama.png" class="img-fluid" style="width:70.0%"></p>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Definición: Contracción
 </div>
-<p>Del diagrama con identificaciones ahora se ve claro que el sistema de rotación asociado es: <span class="math display">\[
-\begin{aligned}
-\sigma&amp;=(1234)(5678)(9\,10\,11\,12) \\
-\rho &amp;= (1\,7)(2\,8)(3\,9)(4\,10)(5\,11)(6\,12)
-\end{aligned}
-\]</span></p>
-<p>Este es un sistema de rotación válido y podemos verificar que en efecto produce un encaje en el toro con el siguiente código mínimo:</p>
-<p><strong>Prueba el código directamente aquí</strong> (haz clic en “Ejecutar”):</p>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dado un ribbon graph <span class="math inline">\(G = (\sigma, \rho)\)</span> y una arista no-loop <span class="math inline">\(e = \{d, \rho(d)\}\)</span> cuyos extremos son los vértices <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span> (ciclos de <span class="math inline">\(\sigma\)</span>), la contracción <span class="math inline">\(G/e\)</span> tiene:</p>
+<ul>
+<li><strong>Darts:</strong> todos excepto <span class="math inline">\(d\)</span> y <span class="math inline">\(\rho(d)\)</span></li>
+<li><strong>Nueva <span class="math inline">\(\sigma\)</span>:</strong> los ciclos de <span class="math inline">\(u\)</span> y de <span class="math inline">\(v\)</span> se fusionan, intercalando el orden cíclico de <span class="math inline">\(v\)</span> donde estaba <span class="math inline">\(\rho(d)\)</span> dentro del ciclo de <span class="math inline">\(u\)</span>, y eliminando <span class="math inline">\(d\)</span> y <span class="math inline">\(\rho(d)\)</span></li>
+<li><strong>Nueva <span class="math inline">\(\rho\)</span>:</strong> igual a <span class="math inline">\(\rho\)</span> restringida a los darts restantes</li>
+</ul>
+</div>
+</div>
+<p><strong>Efecto topológico:</strong> Contraer una arista no-loop preserva el número de caras y la característica de Euler: <span class="math display">\[V(G/e) = V-1, \quad E(G/e) = E-1, \quad F(G/e) = F, \quad \chi(G/e) = \chi(G)\]</span></p>
+<p>En particular, la contracción de una arista no-loop <strong>preserva el género</strong>.</p>
+<p><strong>Ejemplo:</strong> Tomamos el toro con dos vértices del capítulo 3 y contraemos una arista:</p>
 <div class="sage-cell">
 <script type="text/x-sage">
-sigma = "(1,2,3,4)(5,6,7,8)(9,10,11,12)"
-rho = "(1,7)(2,8)(3,9)(4,10)(5,11)(6,12)"
+# Toro con dos vértices (capítulo 3)
+# V=2, E=3, F=1  →  género 1
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+phi = rho * sigma
 
-def verifica_toro(sigma, rho):
-    if isinstance(sigma, str): sigma = PermutationGroupElement(sigma)
-    if isinstance(rho, str): rho = PermutationGroupElement(rho)
+print("Toro original:")
+print(f"  sigma = {sigma}")
+print(f"  rho   = {rho}")
+print(f"  phi   = {phi}")
+print(f"  V={len(sigma.cycle_tuples(singletons=True))}, "
+      f"E={len(rho.cycle_tuples())}, "
+      f"F={len(phi.cycle_tuples(singletons=True))}")
+print(f"  Género = {G.genus()}")
 
-    R = RibbonGraph(sigma, rho)
-    phi = rho * sigma
+# Contraer la arista que contiene el dart 1  (arista {1,2})
+G2 = G.contract_edge(1)
+phi2 = G2.rho() * G2.sigma()
 
-    V = len(sigma.cycle_tuples(singletons=True))
-    E = len(rho.cycle_tuples(singletons=True))
-    F = len(phi.cycle_tuples(singletons=True))
-    chi = V - E + F
-    g = R.genus()
-    b = R.number_boundaries()
-
-    print(f"V={V}, E={E}, F={F}, χ={chi}, b={b}, g={g}")
-    print("Encaje en el toro (al cerrar las caras)." if g == 1 else "No es toro.")
-
-verifica_toro(sigma, rho)
+print("\nTras contraer la arista {1,2}:")
+print(f"  sigma = {G2.sigma()}")
+print(f"  rho   = {G2.rho()}")
+print(f"  phi   = {phi2}")
+print(f"  V={len(G2.sigma().cycle_tuples(singletons=True))}, "
+      f"E={len(G2.rho().cycle_tuples())}, "
+      f"F={len(phi2.cycle_tuples(singletons=True))}")
+print(f"  Género = {G2.genus()}")
+print("\n→ El género se preserva: sigue siendo un toro con 1 vértice y 2 loops.")
 </script>
 </div>
-<p>Sin embargo, notar que la asignación del mapa combinatorio no es única, pues podríamos reetiquetar los números y se preserva la misma combinatoria. Por eso imponemos la siguiente clase de equivalencia:</p>
-<section id="equivalencia-de-sistemas-de-rotación" class="level3">
-<h3 class="anchored" data-anchor-id="equivalencia-de-sistemas-de-rotación">Equivalencia de Sistemas de Rotación</h3>
-<p>Dos sistemas de rotación <span class="math inline">\((\sigma_1, \rho_1)\)</span> sobre un conjunto de semiaristas <span class="math inline">\(D_1\)</span> y <span class="math inline">\((\sigma_2, \rho_2)\)</span> sobre <span class="math inline">\(D_2\)</span> son <strong>equivalentes</strong> (o isomorfos) si existe una biyección <span class="math inline">\(\tau: D_1 \to D_2\)</span> tal que:</p>
-<p><span class="math display">\[
-\sigma_2 = \tau \sigma_1 \tau^{-1} \quad \text{y} \quad \rho_2 = \tau \rho_1 \tau^{-1}
-\]</span></p>
-<p>Esta biyección <span class="math inline">\(\tau\)</span> preserva toda la estructura combinatoria: mapea vértices a vértices (ciclos de <span class="math inline">\(\sigma\)</span>) y aristas a aristas (ciclos de <span class="math inline">\(\rho\)</span>).</p>
+<p>El resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.</p>
+<hr>
 </section>
-</section>
-<section id="el-teorema-de-heffter-edmonds" class="level2">
-<h2 class="anchored" data-anchor-id="el-teorema-de-heffter-edmonds">El Teorema de Heffter-Edmonds</h2>
-<p>El <strong>Teorema de Heffter-Edmonds</strong> es la piedra angular de la teoría de grafos topológicos. No solo establece que todo sistema de rotación genera una superficie, sino que la correspondencia es estructuralmente perfecta: clasifica los encajes salvo equivalencia.</p>
+<section id="dualidad" class="level3">
+<h3 class="anchored" data-anchor-id="dualidad">Dualidad</h3>
+<p>La <strong>dual</strong> de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Teorema de Heffter-Edmonds
+<span class="screen-reader-only">Importante</span>Construcción de la Dual
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Existe una correspondencia biunívoca entre:</p>
-<ol type="1">
-<li>Clases de equivalencia de <strong>sistemas de rotación</strong> <span class="math inline">\((\sigma, \rho)\)</span>.</li>
-<li>Clases de equivalencia de <strong>encajes celulares</strong> de grafos en superficies orientables.</li>
-</ol>
-<p>Esto significa que el álgebra de las permutaciones <span class="math inline">\((\sigma, \rho)\)</span> captura <strong>toda</strong> la información topológica del encaje, sin pérdida ni ambigüedad.</p>
+<p>Dado <span class="math inline">\(G = (\sigma, \rho)\)</span> con permutación de caras <span class="math inline">\(\varphi = \rho\sigma\)</span>, la dual es: <span class="math display">\[G^* = (\varphi,\; \rho)\]</span></p>
+<p>Los vértices de <span class="math inline">\(G^*\)</span> son las caras de <span class="math inline">\(G\)</span>, las aristas son las mismas, y las caras de <span class="math inline">\(G^*\)</span> son los vértices de <span class="math inline">\(G\)</span>. En fórmulas: <span class="math display">\[V^* = F, \quad E^* = E, \quad F^* = V, \quad g^* = g\]</span></p>
 </div>
 </div>
-<section id="importancia-histórica-y-práctica" class="level3">
-<h3 class="anchored" data-anchor-id="importancia-histórica-y-práctica">Importancia Histórica y Práctica</h3>
-<p>Este resultado transforma problemas topológicos en problemas puramente combinatorios:</p>
-<ul>
-<li><strong>Heffter (1891):</strong> Primeros trabajos sobre encajes de grafos en superficies.</li>
-<li><strong>Edmonds (1960):</strong> Formulación moderna en términos de permutaciones.</li>
-<li><strong>Ringel (1974):</strong> En su libro <em>Map Color Theorem</em>, presenta una demostración constructiva basada en “esquemas”, enfatizando que la rotación induce directamente las fronteras de las caras.</li>
-<li>También conocido como el teorema de representación de superficies</li>
-</ul>
-<hr>
-<p>La inyectividad de la correspondencia (unicidad) se demuestra reconstruyendo el sistema de rotación a partir del encaje. Dado un grafo <span class="math inline">\(G\)</span> encajado celularmente en una superficie orientada <span class="math inline">\(S\)</span>:</p>
-<ol type="1">
-<li><strong>Lectura Local:</strong> Para cada vértice <span class="math inline">\(v\)</span>, consideramos un entorno pequeño homeomorfo a un disco. La orientación global de <span class="math inline">\(S\)</span> induce una orientación en la frontera de este disco (por ejemplo, sentido antihorario).</li>
-<li><strong>Orden Cíclico:</strong> Las aristas incidentes a <span class="math inline">\(v\)</span> cruzan la frontera de este disco en puntos específicos. Al recorrer la frontera en el sentido inducido, leemos la secuencia de aristas. Esto define la permutación <span class="math inline">\(\sigma_v\)</span> de manera única.</li>
-<li><strong>Invariancia:</strong> Si dos encajes son equivalentes, existe un homeomorfismo que preserva la orientación entre las superficies. Este homeomorfismo preserva necesariamente el orden cíclico de las aristas en cada vértice. Por lo tanto, dos encajes equivalentes producen el mismo sistema de rotación (salvo reetiquetado).</li>
-</ol>
-<p>Esta construcción demuestra que el sistema de rotación es un <strong>invariante completo</strong> del encaje.</p>
-<hr>
-</section>
-<section id="ejemplo-encajes-idénticos-de-un-mismo-grafo" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-encajes-idénticos-de-un-mismo-grafo">Ejemplo: Encajes idénticos de un mismo grafo</h3>
-<p>Consideremos algunos encajes del siguiente árbol.</p>
-<style>
-.uvwx-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  align-items: start;
-}
-.uvwx-item {
-  text-align: center;
-}
-.uvwx-item img {
-  width: 100%;
-  height: auto;
-}
-.uvwx-item p {
-  margin: 0.5rem 0 0;
-}
-@media (max-width: 680px) {
-  .uvwx-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-<div class="uvwx-grid">
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwx.png" alt="sigma=(1234), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_1=(1234) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwxrotado.png" alt="sigma=(1234), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_2=(1234) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwxreflejado.png" alt="sigma=(4321), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_3=(4321) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwxswap.png" alt="sigma=(1234), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_4=(1423) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-</div>
-<p><br></p>
-<p>Podemos verificar que en efecto dan un encaje de género 0:</p>
-<p><strong>Prueba el código directamente aquí</strong> (haz clic en “Ejecutar”):</p>
+<p><strong>Ejemplo con el toro del capítulo 3:</strong></p>
 <div class="sage-cell">
 <script type="text/x-sage">
-sigma = PermutationGroupElement('(1,2,3,4)')
-rho = PermutationGroupElement('(1,5)(2,6)(3,7)(4,8)')
-R = RibbonGraph(sigma, rho)
+# Toro con dos vértices (capítulo 3)
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+phi = rho * sigma   # permutación de caras
 
-phi = rho * sigma
+# Dual: sigma* = phi, rho* = rho (misma rho)
+G_dual = RibbonGraph(phi, rho)
+phi_dual = rho * phi   # caras de la dual
 
-V = len(sigma.cycle_tuples(singletons=True))
-E = len(rho.cycle_tuples(singletons=True))
-F = len(phi.cycle_tuples(singletons=True))
+print("Original:")
+print(f"  sigma = {sigma}   → {len(sigma.cycle_tuples(singletons=True))} vértice(s)")
+print(f"  phi   = {phi}   → {len(phi.cycle_tuples(singletons=True))} cara(s)")
+print(f"  Género = {G.genus()}")
 
-print(f"Vértices (V): {V}")
-print(f"Aristas  (E): {E}")
-print(f"Caras    (F): {F}")
-print(f"φ = ρσ: {phi}")
-print(f"Ciclos de φ: {phi.cycle_tuples(singletons=True)}")
+print("\nDual  (sigma* = phi, rho* = rho):")
+print(f"  sigma* = {G_dual.sigma()}   → {len(G_dual.sigma().cycle_tuples(singletons=True))} vértice(s)")
+print(f"  phi*   = {phi_dual}   → {len(phi_dual.cycle_tuples(singletons=True))} cara(s)")
+print(f"  Género = {G_dual.genus()}")
 
-g = R.genus()
-b = R.number_boundaries()
-print(f"Género (g): {g}")
-print(f"Fronteras (b): {b}")
+print()
+V  = len(sigma.cycle_tuples(singletons=True))
+F  = len(phi.cycle_tuples(singletons=True))
+Vs = len(G_dual.sigma().cycle_tuples(singletons=True))
+Fs = len(phi_dual.cycle_tuples(singletons=True))
+print(f"Verificación:  V* = {Vs} = F = {F}  {'✓' if Vs == F else '✗'}")
+print(f"               F* = {Fs} = V = {V}  {'✓' if Fs == V else '✗'}")
+print(f"               g* = {G_dual.genus()} = g = {G.genus()}  {'✓' if G_dual.genus() == G.genus() else '✗'}")
 </script>
 </div>
-<p>Los <strong>Sistemas 1 y 2</strong> son idénticos: <span class="math inline">\(\sigma_1=\sigma_2\)</span> y <span class="math inline">\(\rho\)</span> es el mismo. La etiqueta “rotado” solo cambia el dibujo, pero no el orden cíclico de los dardos, así que el sistema combinatorio no cambia.</p>
-<p>El <strong>Sistema 3</strong> tiene <span class="math inline">\(\sigma_3=(4321)=\sigma_1^{-1}\)</span>, que corresponde a un reflejo. En este caso son equivalentes porque existe una biyección de dardos que conjuga uno en el otro y además preserva <span class="math inline">\(\rho\)</span>. Toma <span class="math display">\[
-\phi=(2\,4)(6\,8).
-\]</span> Entonces <span class="math display">\[
-\phi\,\sigma_1\,\phi^{-1}=(1\,4\,3\,2)=\sigma_3,
-\]</span> y como <span class="math inline">\(\phi\)</span> solo intercambia las parejas <span class="math inline">\((2,4)\)</span> y <span class="math inline">\((6,8)\)</span>, se verifica <span class="math display">\[
-\phi\,\rho\,\phi^{-1}=\rho.
-\]</span></p>
-<p>Para el <strong>Sistema 4</strong> con <span class="math inline">\(\sigma_4=(1\,4\,2\,3)\)</span>, también hay equivalencia con el Sistema 1. Toma <span class="math display">\[
-\phi=(2\,4\,3)(6\,8\,7).
-\]</span> Entonces <span class="math display">\[
-\phi\,\sigma_1\,\phi^{-1}=(1\,4\,2\,3)=\sigma_4,
-\]</span> y además <span class="math inline">\(\phi\)</span> preserva <span class="math inline">\(\rho\)</span> porque solo permuta las parejas <span class="math inline">\((2,6)\)</span>, <span class="math inline">\((3,7)\)</span>, <span class="math inline">\((4,8)\)</span> entre sí, así que <span class="math display">\[
-\phi\,\rho\,\phi^{-1}=\rho.
-\]</span> Por lo tanto, los cuatro sistemas representan el mismo ribbon graph (misma clase de isomorfismo).</p>
-<p>En este ejemplo, la equivalencia es relativamente simple de verificar porque el grafo es muy simétrico y tiene pocos vértices. El Teorema de Heffter-Edmonds garantiza que la correspondencia entre sistemas de rotación y encajes es perfecta, pero en casos más complicados, determinar si dos sistemas son equivalentes puede requerir verificación computacional más sofisticada.</p>
+<p>El toro del capítulo 3 tiene <span class="math inline">\(V=2\)</span>, <span class="math inline">\(E=3\)</span>, <span class="math inline">\(F=1\)</span>; su dual tiene <span class="math inline">\(V^*=1\)</span>, <span class="math inline">\(E^*=3\)</span>, <span class="math inline">\(F^*=2\)</span> y el mismo género 1.</p>
+<hr>
+</section>
+<section id="base-de-homología" class="level3">
+<h3 class="anchored" data-anchor-id="base-de-homología">Base de Homología</h3>
+<p>La base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género <span class="math inline">\(g\)</span> con <span class="math inline">\(b\)</span> componentes de frontera, el rango del primer grupo de homología es: <span class="math display">\[\mathrm{rank}(H_1(S,\mathbb{Z})) = 2g + b - 1\]</span></p>
+<p>El toro del capítulo 3 tiene género 1 y <span class="math inline">\(b=1\)</span> componente de frontera (superficie cerrada), por lo que el rango esperado es <span class="math inline">\(2(1) + 1 - 1 = 2\)</span>:</p>
+<div class="sage-cell">
+<script type="text/x-sage">
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+
+print(f"Género:    {G.genus()}")
+print(f"Fronteras: {G.number_boundaries()}")
+
+base = G.homology_basis()
+esperado = 2*G.genus() + G.number_boundaries() - 1
+print(f"rank(H_1) = {len(base)}   (esperado 2g+b-1 = {esperado})")
+print()
+print("Base de homología (secuencias de darts):")
+for i, ciclo in enumerate(base, 1):
+    print(f"  Ciclo {i}: {ciclo}")
+</script>
+</div>
+<p>Los dos ciclos de la base corresponden a los dos “agujeros” fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.</p>
+<hr>
+</section>
+</section>
+<section id="el-polinomio-de-bollobás-riordan" class="level2">
+<h2 class="anchored" data-anchor-id="el-polinomio-de-bollobás-riordan">El Polinomio de Bollobás-Riordan</h2>
+<section id="motivación" class="level3">
+<h3 class="anchored" data-anchor-id="motivación">Motivación</h3>
+<p>El polinomio de Tutte clásico es un invariante potente para grafos abstractos, pero <strong>no detecta la topología del encaje</strong>: dos ribbon graphs con el mismo grafo subyacente y el mismo polinomio de Tutte pueden encajarse en superficies de géneros distintos.</p>
+<p>El <strong>polinomio de Bollobás-Riordan</strong> <span class="citation" data-cites="bollobas2002">[@bollobas2002]</span> subsana esta limitación. Introduce una variable <span class="math inline">\(z\)</span> cuyo exponente registra el género del subgrafo encajado. Así, para grafos planos la variable <span class="math inline">\(z\)</span> no aparece, mientras que para encajes en el toro o superficies de género mayor sí lo hace.</p>
+<p><strong>Ejemplo ilustrativo:</strong> el grafo theta (dos vértices unidos por tres aristas paralelas) admite dos encajes distintos:</p>
+<ul>
+<li>En la <strong>esfera</strong> (género 0): <span class="math inline">\(\sigma=(1,3,5)(2,6,4)\)</span>, <span class="math inline">\(\rho=(1,2)(3,4)(5,6)\)</span> → <span class="math inline">\(V=2\)</span>, <span class="math inline">\(E=3\)</span>, <span class="math inline">\(F=3\)</span></li>
+<li>En el <strong>toro</strong> (género 1): <span class="math inline">\(\sigma=(1,3,5)(2,4,6)\)</span>, <span class="math inline">\(\rho=(1,2)(3,4)(5,6)\)</span> → <span class="math inline">\(V=2\)</span>, <span class="math inline">\(E=3\)</span>, <span class="math inline">\(F=1\)</span></li>
+</ul>
+<p>Ambos tienen el mismo grafo abstracto, pero el polinomio de Bollobás-Riordan los distingue.</p>
+<hr>
+</section>
+<section id="definición" class="level3">
+<h3 class="anchored" data-anchor-id="definición">Definición</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Polinomio de Bollobás-Riordan
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sea <span class="math inline">\(G = (\sigma, \rho)\)</span> un ribbon graph con <span class="math inline">\(n\)</span> vértices, <span class="math inline">\(m\)</span> aristas y <span class="math inline">\(k(G)\)</span> componentes conexas. El <strong>polinomio de Bollobás-Riordan</strong> es: <span class="math display">\[R(G;\, x, y, z) = \sum_{A \subseteq E} (x-1)^{k(A)-k(G)} \cdot y^{|A|-n+k(A)} \cdot z^{\gamma(A)}\]</span></p>
+<p>donde para cada subconjunto de aristas <span class="math inline">\(A \subseteq E\)</span>:</p>
+<ul>
+<li><span class="math inline">\(k(A)\)</span> = número de componentes conexas del subgrafo <span class="math inline">\((V, A)\)</span></li>
+<li><span class="math inline">\(\gamma(A)\)</span> = género del ribbon subgrafo sobre <span class="math inline">\(A\)</span>, dado por <span class="math display">\[\gamma(A) = \frac{2k(A) - n + |A| - \mathrm{bc}(A)}{2}\]</span></li>
+<li><span class="math inline">\(\mathrm{bc}(A)\)</span> = ciclos de la permutación de caras <span class="math inline">\(\varphi_A = \rho_A \circ \sigma_A\)</span> sobre los darts <span class="math inline">\(D_A\)</span> de <span class="math inline">\(A\)</span>, <strong>más</strong> los vértices aislados (sin ningún dart en <span class="math inline">\(A\)</span>)</li>
+</ul>
+</div>
+</div>
+<p>La permutación <span class="math inline">\(\sigma_A\)</span> en <span class="math inline">\(D_A = \bigcup_{e \in A} \{d, \rho(d)\}\)</span> se obtiene siguiendo <span class="math inline">\(\sigma\)</span> desde cada dart hasta encontrar el siguiente dart que pertenezca a <span class="math inline">\(D_A\)</span>, saltando los que no lo hacen.</p>
+</section>
+<section id="interpretación-de-los-exponentes" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-de-los-exponentes">Interpretación de los exponentes</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Exponente</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(k(A) - k(G) \geq 0\)</span></td>
+<td>Exceso de componentes respecto al grafo completo; 0 para subgrafos que mantienen la conectividad</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\lvert A\rvert - n + k(A) \geq 0\)</span></td>
+<td>Rango del ciclo: 0 para bosques, positivo para subgrafos con ciclos</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\gamma(A) \geq 0\)</span></td>
+<td>Género del ribbon subgrafo: 0 si <span class="math inline">\(A\)</span> es planamente encajable, positivo si captura topología no trivial</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Evaluaciones especiales:</strong></p>
+<ul>
+<li><span class="math inline">\(R(G; 1, 1, 1) = 2^m\)</span> cuenta todos los subconjuntos de aristas</li>
+<li>Para encajes en la esfera, <span class="math inline">\(z\)</span> no aparece: <span class="math inline">\(R(G; x, y, 0) = T(G; x, y)\)</span> recupera el polinomio de Tutte</li>
+<li><span class="math inline">\([z^g]R(G; 1, 1, z)\)</span> cuenta los subgrafos cuyo ribbon subgrafo tiene género <span class="math inline">\(g\)</span></li>
+</ul>
+<hr>
+</section>
+<section id="implementación-en-sage" class="level3">
+<h3 class="anchored" data-anchor-id="implementación-en-sage">Implementación en Sage</h3>
+<p>La fórmula de suma sobre subgrafos es directamente computable. Iteramos sobre los <span class="math inline">\(2^m\)</span> subconjuntos de aristas y acumulamos cada término:</p>
+<div class="sage-cell">
+<script type="text/x-sage">
+def bollobas_riordan(sigma_str, rho_str):
+    """
+    Calcula el polinomio de Bollobás-Riordan vía suma sobre subgrafos.
+
+    R(G; x,y,z) = Σ_{A⊆E} (x-1)^{k(A)-k(G)} · y^{|A|-n+k(A)} · z^{γ(A)}
+
+    donde γ(A) = (2k(A) - n + |A| - bc(A)) / 2
+    y bc(A) = ciclos de φ_A = ρ_A∘σ_A en D_A + vértices aislados.
+    """
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+
+    n = len(sigma_cycles)   # número de vértices
+    m = len(rho_cycles)     # número de aristas
+
+    # Mapear dart → índice de vértice
+    dart_to_v = {}
+    for i, cycle in enumerate(sigma_cycles):
+        for d in cycle:
+            dart_to_v[d] = i
+
+    # k(A): componentes conexas con Union-Find
+    def conn_comp(edge_indices):
+        parent = list(range(n))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            pa, pb = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if pa != pb:
+                parent[pa] = pb
+        return len(set(find(i) for i in range(n)))
+
+    kG = conn_comp(range(m))
+
+    P.<x, y, z> = PolynomialRing(ZZ)
+    result = P(0)
+
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+
+        # Darts de las aristas en A
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+
+        kA = conn_comp(A)
+
+        # σ_A: para cada dart en D_A, seguir σ hasta el siguiente dart en D_A
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+
+        # Ciclos de φ_A = ρ∘σ_A en D_A
+        visited = set()
+        bc = 0
+        for start in D_A:
+            if start not in visited:
+                bc += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+
+        # Añadir vértices aislados (ningún dart suyo está en D_A)
+        for cycle in sigma_cycles:
+            if not any(d in D_A for d in cycle):
+                bc += 1
+
+        gamma = (2*kA - n + len(A) - bc) // 2
+        result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+
+    return result
+
+
+# ── Verificación 1: toro de 1 vértice y 2 loops ──────────────────────────
+# sigma=(1,3,2,4), rho=(1,2)(3,4)
+# V=1, E=2, F=1 → género 1 (toro)
+# Resultado esperado: 1 + 2y + y²z
+print("=== Toro  (1 vértice, 2 loops) ===")
+R1 = bollobas_riordan('(1,3,2,4)', '(1,2)(3,4)')
+print(f"R = {R1}")
+print()
+
+# ── Verificación 2: toro del capítulo 3 ──────────────────────────────────
+# sigma=(1,3,5)(2,4,6), rho=(1,2)(3,4)(5,6)
+# V=2, E=3, F=1 → género 1 (toro)
+print("=== Toro del capítulo 3  (2 vértices, 3 aristas paralelas) ===")
+R2 = bollobas_riordan('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)')
+print(f"R = {R2}")
+print()
+
+# ── Verificación 3: loop en la esfera ────────────────────────────────────
+# sigma=(1,2), rho=(1,2)
+# V=1, E=1, F=2 → género 0 (esfera)
+# Sin términos en z
+print("=== Loop en la esfera  (género 0) ===")
+R3 = bollobas_riordan('(1,2)', '(1,2)')
+print(f"R = {R3}")
+print()
+
+# ── Grafo theta en la esfera (encaje planar) ─────────────────────────────
+# sigma=(1,3,5)(2,6,4), rho=(1,2)(3,4)(5,6)
+# V=2, E=3, F=3 → género 0 (esfera)
+print("=== Grafo theta en la esfera  (género 0) ===")
+R4 = bollobas_riordan('(1,3,5)(2,6,4)', '(1,2)(3,4)(5,6)')
+print(f"R = {R4}")
+</script>
+</div>
+<p>Los resultados esperados son:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 45%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Ribbon graph</th>
+<th style="text-align: center;">Género</th>
+<th><span class="math inline">\(R(G;\, x, y, z)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Toro (1 vértice, 2 loops)</td>
+<td style="text-align: center;">1</td>
+<td><span class="math inline">\(1 + 2y + y^2z\)</span></td>
+</tr>
+<tr class="even">
+<td>Toro del capítulo 3 (2 vértices, 3 aristas)</td>
+<td style="text-align: center;">1</td>
+<td><span class="math inline">\(x + 2 + 3y + y^2z\)</span></td>
+</tr>
+<tr class="odd">
+<td>Loop en la esfera</td>
+<td style="text-align: center;">0</td>
+<td><span class="math inline">\(1 + y\)</span></td>
+</tr>
+<tr class="even">
+<td>Grafo theta en la esfera</td>
+<td style="text-align: center;">0</td>
+<td><span class="math inline">\(x + 2 + 3y + y^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>La variable <span class="math inline">\(z\)</span> y el género
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compara los dos últimos renglones de la tabla: el grafo theta en la esfera da <span class="math inline">\(x + 2 + 3y + y^2\)</span> (sin <span class="math inline">\(z\)</span>), mientras que el mismo grafo theta encajado en el toro da <span class="math inline">\(x + 2 + 3y + y^2 z\)</span>. El único cambio es <span class="math inline">\(y^2 \to y^2 z\)</span>, lo que refleja que el subgrafo completo (todas las aristas) tiene género 0 en la esfera y género 1 en el toro.</p>
+<p>Para grafos planamente encajados, <span class="math inline">\(\gamma(A) = 0\)</span> para todo <span class="math inline">\(A\)</span>, de modo que <span class="math inline">\(z\)</span> nunca aparece y <span class="math inline">\(R(G; x, y, 0) = T(G; x, y)\)</span> recupera el polinomio de Tutte clásico.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="el-polinomio-como-invariante-de-ribbon-graphs" class="level3">
+<h3 class="anchored" data-anchor-id="el-polinomio-como-invariante-de-ribbon-graphs">El polinomio como invariante de ribbon graphs</h3>
+<p>Un resultado fundamental es que <strong>sistemas de rotación equivalentes tienen el mismo polinomio de Bollobás-Riordan</strong>. Esto se sigue de que la equivalencia es un isomorfismo de ribbon graphs: si <span class="math inline">\(\varphi \sigma_1 \varphi^{-1} = \sigma_2\)</span> y <span class="math inline">\(\varphi \rho \varphi^{-1} = \rho\)</span>, entonces <span class="math inline">\(\varphi\)</span> permuta los subconjuntos de aristas biyectivamente preservando todos los invariantes del que depende <span class="math inline">\(R\)</span>: <span class="math inline">\(k(A)\)</span>, <span class="math inline">\(\gamma(A)\)</span> y <span class="math inline">\(\mathrm{bc}(A)\)</span>.</p>
+<p>En el capítulo 5 verificamos que el moño y el ojo son ribbon graphs equivalentes. Por este resultado, sus polinomios de Bollobás-Riordan deben ser iguales. El ejercicio 2 propone verificarlo computacionalmente.</p>
 <hr>
 </section>
 </section>
@@ -473,27 +669,83 @@ print(f"Fronteras (b): {b}")
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejercicio 2: Calcule el mapa combinatorio del siguiente grafo encajado.
+<span class="screen-reader-only">Tip</span>Ejercicio 1: Dualidad iterada
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><img src="../imagenes/esferaPoincare.png" class="img-fluid" style="width:90.0%"></p>
+<p>Verifica computacionalmente que la dual del dual coincide con el grafo original. Para el toro del capítulo 3 (<span class="math inline">\(\sigma=(1,3,5)(2,4,6)\)</span>, <span class="math inline">\(\rho=(1,2)(3,4)(5,6)\)</span>):</p>
+<ol type="1">
+<li>Calcula <span class="math inline">\(G^*=(\varphi, \rho)\)</span> con <span class="math inline">\(\varphi = \rho\sigma\)</span>.</li>
+<li>Calcula <span class="math inline">\((G^*)^* = (\varphi^*, \rho)\)</span> con <span class="math inline">\(\varphi^* = \rho \cdot \varphi\)</span> (las caras de <span class="math inline">\(G^*\)</span>).</li>
+<li>¿Obtienes el <span class="math inline">\(\sigma\)</span> original o uno equivalente por conjugación?</li>
+</ol>
+<p>Repite con el moño (<span class="math inline">\(\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11)\)</span>, <span class="math inline">\(\rho=(1,5)(4,8)(2,6)(3,7)(9,10)(11,12)\)</span>) y verifica que <span class="math inline">\((G^*)^* \cong G\)</span> en ambos casos.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 2: El moño y el ojo tienen el mismo polinomio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Usa la función <code>bollobas_riordan</code> para calcular <span class="math inline">\(R(\text{moño}; x, y, z)\)</span> y <span class="math inline">\(R(\text{ojo}; x, y, z)\)</span> con los datos:</p>
+<p><span class="math display">\[\rho = (1,5)(4,8)(2,6)(3,7)(9,10)(11,12)\]</span> <span class="math display">\[\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11), \quad \sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11)\]</span></p>
+<ol type="1">
+<li>Verifica que <span class="math inline">\(R(\sigma_1, \rho) = R(\sigma_2, \rho)\)</span> (ambos son equivalentes, luego el polinomio debe coincidir).</li>
+<li>¿Aparece <span class="math inline">\(z\)</span> en el polinomio? ¿Qué dice eso del género del encaje?</li>
+<li>Compara con <span class="math inline">\(R\)</span> del toro de 1 vértice y 2 loops: ¿son iguales o distintos los polinomios?</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 3: Encaje planar vs.&nbsp;no planar del grafo theta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El <strong>grafo theta</strong> son dos vértices conectados por tres aristas paralelas. Tiene dos encajes celulares cualitativamente distintos:</p>
+<ul>
+<li><strong>En la esfera</strong>: <span class="math inline">\(\sigma_{\mathrm{esf}} = (1,3,5)(2,6,4)\)</span>, <span class="math inline">\(\rho=(1,2)(3,4)(5,6)\)</span> — tres caras, género 0</li>
+<li><strong>En el toro</strong>: <span class="math inline">\(\sigma_{\mathrm{tor}} = (1,3,5)(2,4,6)\)</span>, <span class="math inline">\(\rho=(1,2)(3,4)(5,6)\)</span> — una cara, género 1</li>
+</ul>
+<ol type="1">
+<li>Calcula el polinomio de Bollobás-Riordan de cada encaje.</li>
+<li>¿En qué término difieren? ¿Puede el polinomio de Tutte distinguirlos?</li>
+<li>Calcula la base de homología de cada ribbon graph y comprueba que el rango es <span class="math inline">\(2g + b - 1\)</span>.</li>
+</ol>
+</div>
+</div>
+<hr>
 </section>
 <section id="resumen" class="level2">
 <h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
 <ul>
-<li><strong>Lectura del encaje:</strong> Desde un dibujo encajado se obtiene <span class="math inline">\((\sigma,\rho)\)</span> leyendo el orden cíclico de dardos en cada vértice.</li>
-<li><strong>Correspondencia fundamental:</strong> Sistemas de rotación, ribbon graphs y encajes celulares describen el mismo objeto (Teorema de Heffter‑Edmonds).</li>
-<li><strong>Verificación computacional:</strong> Se calculan <span class="math inline">\(V,E,F,\chi,g\)</span> con SageMath para confirmar el género de ejemplos concretos.</li>
-<li><strong>Equivalencia de sistemas:</strong> Dos sistemas <span class="math inline">\((\sigma_1, \rho_1)\)</span> y <span class="math inline">\((\sigma_2, \rho_2)\)</span> son equivalentes si existe <span class="math inline">\(\phi\)</span> tal que <span class="math inline">\(\phi\sigma_1\phi^{-1}=\sigma_2\)</span> y <span class="math inline">\(\phi\rho_1\phi^{-1}=\rho_2\)</span>.</li>
-<li><strong>Ejemplos simples:</strong> Para grafos simétricos como el árbol de 4 hojas, las equivalencias son directas de verificar.</li>
+<li>La <strong>contracción</strong> de una arista no-loop preserva el género: <span class="math inline">\(\chi(G/e) = \chi(G)\)</span>.</li>
+<li>La <strong>dualidad</strong> intercambia vértices y caras con la misma <span class="math inline">\(\rho\)</span>: <span class="math inline">\(V^*=F\)</span>, <span class="math inline">\(F^*=V\)</span>, <span class="math inline">\(g^*=g\)</span>.</li>
+<li>La <strong>base de homología</strong> tiene rango <span class="math inline">\(2g + b - 1\)</span>, contando los ciclos fundamentales de la superficie.</li>
+<li>El <strong>polinomio de Bollobás-Riordan</strong> generaliza el de Tutte: la variable <span class="math inline">\(z\)</span> detecta el género de los subgrafos encajados y está ausente en encajes planos.</li>
+<li>La fórmula de suma sobre subgrafos es directamente computable en Sage iterando sobre los <span class="math inline">\(2^m\)</span> subconjuntos de aristas.</li>
+<li>El polinomio es un <strong>invariante de ribbon graphs</strong>: sistemas de rotación equivalentes dan el mismo polinomio.</li>
 </ul>
-<p>En el siguiente capítulo exploraremos ejemplos más complicados donde la equivalencia no es inmediatamente obvia y requerirá herramientas computacionales más avanzadas.</p>
-<div style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;">
-<p>Publicado el 13 de febrero de 2026</p>
-</div>
+<p>El polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a teoría de nudos (polinomios de nudos tipo HOMFLY-PT), física matemática (modelos de Potts en superficies), y combinatoria enumerativa de mapas.</p>
+<hr>
+</section>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<ul>
+<li>Bollobás, B., &amp; Riordan, O. (2002). A polynomial of graphs on surfaces. <em>Mathematische Annalen</em>, <strong>323</strong>(1), 81–96.</li>
+<li>Chmutov, S. (2009). Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial. <em>Journal of Combinatorial Theory, Series B</em>, <strong>99</strong>(3), 617–638.</li>
+<li>Ellis-Monaghan, J. A., &amp; Moffatt, I. (2013). <em>Graphs on Surfaces: Dualities, Polynomials, and Knots</em>. Springer.</li>
+<li><a href="https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html">SageMath – Ribbon Graphs</a></li>
+</ul>
 
 
 </section>
@@ -906,18 +1158,6 @@ print(f"Fronteras (b): {b}")
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../capitulos/03-invariantes.html" class="pagination-link" aria-label="3. Invariantes Topológicos">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3. Invariantes Topológicos</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../capitulos/05-ejemplos.html" class="pagination-link" aria-label="5. Ejemplos">
-        <span class="nav-page-text">5. Ejemplos</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
