@@ -1,6 +1,22 @@
 ---
 title: "1. Sistemas de Rotación"
 subtitle: "Modelo combinatorio de grafos encajados"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
 ---
 
 # Sistemas de Rotación
@@ -216,14 +232,46 @@ El sistema de rotación $(\sigma, \rho)$ codifica:
 
 ## Construcción en SageMath
 
-SageMath implementa ribbon graphs directamente desde sistemas de rotación:
-
-Puedes verificar estos cálculos rápidamente en línea usando [SageMathCell](https://sagecell.sagemath.org/).
+SageMath implementa ribbon graphs directamente desde sistemas de rotación.
 
 ### Ejemplo 1: Un vértice, dos lazos
 
 Construyamos el sistema de rotación más estándar para este grafo:
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# Usamos PermutationGroupElement directamente
+sigma = PermutationGroupElement("(1,2,3,4)")
+rho = PermutationGroupElement("(1,2)(3,4)")
+R = RibbonGraph(sigma, rho)
+
+print(f"Objeto creado: {R}")
+print(f"Tipo: {type(R).__name__}")
+
+# Recuperar las permutaciones almacenadas
+print(f"\nPermutaciones:")
+print(f"  σ = {R.sigma()}")
+print(f"  ρ = {R.rho()}")
+
+# Contar elementos del grafo
+num_semiaristas = len(R.sigma().domain())
+num_vertices = len(R.sigma().cycle_tuples(singletons=True))
+num_aristas = len(R.rho().cycle_tuples())
+
+print(f"\nEstructura del grafo:")
+print(f"  Semiaristas: {num_semiaristas}")
+print(f"  Vértices: {num_vertices}")
+print(f"  Aristas: {num_aristas}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 # Usamos PermutationGroupElement directamente
 sigma = PermutationGroupElement("(1,2,3,4)")
@@ -248,11 +296,45 @@ print(f"  Semiaristas: {num_semiaristas}")
 print(f"  Vértices: {num_vertices}")
 print(f"  Aristas: {num_aristas}")
 ```
+:::
 
 ### Ejemplo 2: Triángulo K₃ con numeración salteada
 
 Podemos etiquetar las semiaristas con cualquier numeración, no necesariamente 1,2,3,...
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# K₃ con numeración consecutiva empezando desde 10
+sigma_k3 = PermutationGroupElement("(10,15)(11,12)(13,14)")
+rho_k3 = PermutationGroupElement("(10,11)(12,13)(14,15)")
+R_k3 = RibbonGraph(sigma_k3, rho_k3)
+
+print(f"K₃ con numeración salteada:")
+print(f"  σ = {R_k3.sigma()}")
+print(f"  ρ = {R_k3.rho()}")
+print(f"  Números usados: 10, 11, 12, 13, 14, 15")
+
+# normalize() renumera del 1 al número de semiaristas
+R_norm = R_k3.normalize()
+
+print(f"\nDespués de normalize():")
+print(f"  σ = {R_norm.sigma()}")
+print(f"  ρ = {R_norm.rho()}")
+print(f"  Números usados: 1, 2, 3, 4, 5, 6")
+
+# Verificar que la estructura se preserva
+print(f"\nVértices: {len(R_k3.sigma().cycle_tuples())} → {len(R_norm.sigma().cycle_tuples())}")
+print(f"Aristas: {len(R_k3.rho().cycle_tuples())} → {len(R_norm.rho().cycle_tuples())}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 # K₃ con numeración consecutiva empezando desde 10
 sigma_k3 = PermutationGroupElement("(10,15)(11,12)(13,14)")
@@ -276,11 +358,53 @@ print(f"  Números usados: 1, 2, 3, 4, 5, 6")
 print(f"\nVértices: {len(R_k3.sigma().cycle_tuples())} → {len(R_norm.sigma().cycle_tuples())}")
 print(f"Aristas: {len(R_k3.rho().cycle_tuples())} → {len(R_norm.rho().cycle_tuples())}")
 ```
+:::
 
 ### Implementando la fórmula de conteo
 
 Podemos calcular programáticamente cuántos sistemas de rotación existen para un grafo dado:
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+def contar_sistemas(R):
+    """
+    Calcula N(G) = ∏(deg(v) - 1)! para un RibbonGraph
+    """
+    grados = [len(ciclo) for ciclo in R.sigma().cycle_tuples(singletons=True)]
+    total = 1
+    for g in grados:
+        total *= factorial(g - 1)
+    return total, grados
+
+# Verificar con el Ejemplo 1: Un vértice, dos lazos
+sigma1 = PermutationGroupElement("(1,2,3,4)")
+rho1 = PermutationGroupElement("(1,2)(3,4)")
+R1 = RibbonGraph(sigma1, rho1)
+
+total1, grados1 = contar_sistemas(R1)
+print(f"Ejemplo 1: Un vértice, dos lazos")
+print(f"  Grados de vértices: {grados1}")
+print(f"  N(G) = (4-1)! = {total1}")
+
+# Verificar con el Ejemplo 2: K₃
+sigma2 = PermutationGroupElement("(1,6)(2,3)(4,5)")
+rho2 = PermutationGroupElement("(1,2)(3,4)(5,6)")
+R2 = RibbonGraph(sigma2, rho2)
+
+total2, grados2 = contar_sistemas(R2)
+print(f"\nEjemplo 2: Triángulo K₃")
+print(f"  Grados de vértices: {grados2}")
+print(f"  N(G) = (1!)³ = {total2}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 def contar_sistemas(R):
     """
@@ -312,6 +436,7 @@ print(f"\nEjemplo 2: Triángulo K₃")
 print(f"  Grados de vértices: {grados2}")
 print(f"  N(G) = (1!)³ = {total2}")
 ```
+:::
 
 ---
 

@@ -1,6 +1,22 @@
 ---
 title: "3. Invariantes Topológicos"
 subtitle: "Cálculo computacional con SageMath"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
 ---
 
 Esta sección es práctica: aprenderemos a usar **SageMath** para calcular los **invariantes topológicos** que clasifican la superficie cerrada donde se aloja el grafo:
@@ -25,11 +41,38 @@ Por ello, SageMath cuenta estos ciclos con `number_boundaries()`. En este curso,
 
 SageMath nos permite extraer estos valores directamente del objeto `RibbonGraph`.
 
-::: {.callout-tip}
-## Verificación con SageMath
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
 
-Puedes probar estos cálculos en línea usando [SageMathCell](https://sagecell.sagemath.org/).
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# Ejemplo: Un toro (1 vértice, 2 lazos)
+sigma = PermutationGroupElement('(1,3,2,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
 
+# 1. Extracción de elementos básicos
+# V = número de ciclos de sigma
+# E = número de ciclos de rho (equivalente a |D|/2)
+# F = número de ciclos de φ = ρσ (caras del mapa combinatorio)
+phi = rho * sigma  # φ = ρσ (recuerda: multiplicación de izquierda a derecha en Sage)
+
+V = len(sigma.cycle_tuples(singletons=True))
+E = len(rho.cycle_tuples(singletons=True))
+F = len(phi.cycle_tuples(singletons=True))
+
+print(f"Vértices (V): {V}")
+print(f"Aristas  (E): {E}")
+print(f"Caras    (F): {F}")
+print(f"φ = ρσ: {phi}")
+print(f"Ciclos de φ: {phi.cycle_tuples(singletons=True)}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 # Ejemplo: Un toro (1 vértice, 2 lazos)
 sigma = PermutationGroupElement('(1,3,2,4)')
@@ -62,11 +105,37 @@ $$ \chi = V - E + F $$
 
 Esta es la característica de Euler de la **superficie cerrada** obtenida al pegar discos en todas las fronteras del grafo.
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# Continuando con el ejemplo anterior
+sigma = PermutationGroupElement('(1,3,2,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+phi = rho * sigma
+
+V = len(sigma.cycle_tuples(singletons=True))
+E = len(rho.cycle_tuples(singletons=True))
+F = len(phi.cycle_tuples(singletons=True))
+
+chi = V - E + F
+print(f"Característica de Euler (χ): {chi}")
+# Para el toro: 1 - 2 + 1 = 0
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 chi = V - E + F
 print(f"Característica de Euler (χ): {chi}")
 # Para el toro: 1 - 2 + 1 = 0
 ```
+:::
 
 ## 3. El Género ($g$) y la Frontera ($b$)
 
@@ -81,6 +150,40 @@ $$ \chi = V - E + F = V - E + b \quad \Rightarrow \quad g = \frac{2 - (V - E + b
 
 SageMath detecta automáticamente el número de componentes de frontera ($b$), y ese mismo valor coincide con $F$ cuando se interpreta el mapa en la superficie cerrada.
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# Continuando con el ejemplo del toro
+sigma = PermutationGroupElement('(1,3,2,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+R = RibbonGraph(sigma, rho)
+phi = rho * sigma
+
+V = len(sigma.cycle_tuples(singletons=True))
+E = len(rho.cycle_tuples(singletons=True))
+F = len(phi.cycle_tuples(singletons=True))
+
+# 2. Invariantes derivados
+g = R.genus()              # Género de la superficie
+
+print(f"Género (g): {g}")
+
+# Verificación manual de la fórmula
+chi = V - E + F
+g_calc = (2 - chi) // 2
+print(f"\nVerificación de Euler:")
+print(f"  χ = V - E + F = {V} - {E} + {F} = {chi}")
+print(f"  χ = 2 - 2g = 2 - 2({g}) = {2 - 2*g}")
+print(f"  ✓ Fórmula consistente" if chi == 2 - 2*g else f"  ✗ Error en cálculo")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 # 2. Invariantes derivados
 g = R.genus()              # Género de la superficie
@@ -95,6 +198,7 @@ print(f"  χ = V - E + F = {V} - {E} + {F} = {chi}")
 print(f"  χ = 2 - 2g = 2 - 2({g}) = {2 - 2*g}")
 print(f"  ✓ Fórmula consistente" if chi == 2 - 2*g else f"  ✗ Error en cálculo")
 ```
+:::
 
 ::: {.callout-note}
 ## Nota sobre `number_boundaries()`
@@ -106,9 +210,12 @@ En la implementación de `RibbonGraph` de SageMath, el método `number_boundarie
 
 Como ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un "reporte topológico" de cualquier sistema de rotación.
 
-Puedes probar la siguiente función en [SageMathCell](https://sagecell.sagemath.org/):
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
 
-```python
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
 def analizar_topologia(sigma, rho):
     """
     Imprime un reporte de los elementos del grafo y sus invariantes básicos.
@@ -118,18 +225,18 @@ def analizar_topologia(sigma, rho):
     if isinstance(rho, str): rho = PermutationGroupElement(rho)
 
     R = RibbonGraph(sigma, rho)
-    
+
     # Contar elementos
     phi = rho * sigma  # φ = ρσ
     V = len(sigma.cycle_tuples(singletons=True))  # Número de ciclos de sigma
     E = len(rho.cycle_tuples(singletons=True))    # Número de ciclos de rho
     F = len(phi.cycle_tuples(singletons=True))    # Número de ciclos de φ (caras)
-    
+
     # Calcular invariantes
     chi = V - E + F
     b = R.number_boundaries()                      # Componentes de frontera
     g = R.genus()                                   # Género
-    
+
     print(f"{'='*55}")
     print(f"Análisis del Mapa Combinatorio")
     print(f"{'='*55}")
@@ -148,7 +255,7 @@ def analizar_topologia(sigma, rho):
     print(f"  Frontera: b = {b}")
     print(f"  Género: g = {g}")
     print(f"{'-'*55}")
-    
+
     # Interpretación
     if g == 0:
         nombre = "Esfera"
@@ -156,10 +263,78 @@ def analizar_topologia(sigma, rho):
         nombre = "Toro"
     else:
         nombre = f"Género {g}"
-    
+
     if b > 0:
         nombre += f" (grafo encajado con {F} cara{'s' if F > 1 else ''})"
-    
+
+    print(f"  >> Homeomorfo a: {nombre}")
+    print(f"{'='*55}")
+
+# Probamos con el ejemplo del capítulo anterior (Toro con 1 borde)
+analizar_topologia('(1,3,2,4)', '(1,2)(3,4)')
+
+print("\n")
+
+# Probamos con K3 en la esfera (sin borde)
+analizar_topologia('(1,6)(2,3)(4,5)', '(1,2)(3,4)(5,6)')
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+def analizar_topologia(sigma, rho):
+    """
+    Imprime un reporte de los elementos del grafo y sus invariantes básicos.
+    """
+    # Convertir strings a permutaciones si es necesario
+    if isinstance(sigma, str): sigma = PermutationGroupElement(sigma)
+    if isinstance(rho, str): rho = PermutationGroupElement(rho)
+
+    R = RibbonGraph(sigma, rho)
+
+    # Contar elementos
+    phi = rho * sigma  # φ = ρσ
+    V = len(sigma.cycle_tuples(singletons=True))  # Número de ciclos de sigma
+    E = len(rho.cycle_tuples(singletons=True))    # Número de ciclos de rho
+    F = len(phi.cycle_tuples(singletons=True))    # Número de ciclos de φ (caras)
+
+    # Calcular invariantes
+    chi = V - E + F
+    b = R.number_boundaries()                      # Componentes de frontera
+    g = R.genus()                                   # Género
+
+    print(f"{'='*55}")
+    print(f"Análisis del Mapa Combinatorio")
+    print(f"{'='*55}")
+    print(f"Permutaciones:")
+    print(f"  σ = {sigma}")
+    print(f"  ρ = {rho}")
+    print(f"  φ = ρσ = {phi}")
+    print(f"{'-'*55}")
+    print(f"Elementos:")
+    print(f"  V (ciclos de σ) = {V}")
+    print(f"  E (ciclos de ρ) = {E}")
+    print(f"  F (ciclos de φ) = {F}")
+    print(f"{'-'*55}")
+    print(f"Invariantes Topológicos:")
+    print(f"  Euler: χ = {V} - {E} + {F} = {chi}")
+    print(f"  Frontera: b = {b}")
+    print(f"  Género: g = {g}")
+    print(f"{'-'*55}")
+
+    # Interpretación
+    if g == 0:
+        nombre = "Esfera"
+    elif g == 1:
+        nombre = "Toro"
+    else:
+        nombre = f"Género {g}"
+
+    if b > 0:
+        nombre += f" (grafo encajado con {F} cara{'s' if F > 1 else ''})"
+
     print(f"  >> Homeomorfo a: {nombre}")
     print(f"{'='*55}")
 
@@ -171,6 +346,7 @@ print("\n")
 # Probamos con K3 en la esfera (sin borde)
 analizar_topologia('(1,6)(2,3)(4,5)', '(1,2)(3,4)(5,6)')
 ```
+:::
 
 ## 5. Galería de Ejemplos
 

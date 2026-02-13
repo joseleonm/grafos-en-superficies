@@ -33,7 +33,7 @@ Un sistema de rotación $(\sigma, \rho)$ contiene toda la información necesaria
 - Reconstruir el grafo subyacente (vértices y aristas)
 - Determinar el orden cíclico de semiaristas alrededor de cada vértice
 - Calcular las caras mediante la permutación $\varphi = \rho\sigma$
-- Obtener invariantes topológicos: género, característica de Euler, fronteras
+- Obtener invariantes topológicos: género, característica de Euler, número de caras
 - Construir la superficie completa mediante engrosamiento (thickening)
 
 **Resultado fundamental:** Álgebra de permutaciones ↔ Topología de superficies
@@ -71,7 +71,7 @@ Cálculo computacional con SageMath.
 - Experimentación con grafos completos y superficies de género alto
 
 
-### [4. Teoremas Clave](capitulos/04-teorema.qmd) 
+### [4. Equivalencia](capitulos/04-teorema.qmd)
 
 El teorema fundamental que establece la correspondencia biunívoca.
 
@@ -79,21 +79,28 @@ El teorema fundamental que establece la correspondencia biunívoca.
 - Teorema de Heffter‑Edmonds y equivalencia por conjugación
 - Verificación en SageMathCell del género en ejemplos concretos
 - Ejemplos de encajes equivalentes y no equivalentes (criterio por caras)
-- Teorema de Whitney y conectividad 3‑conexa vs. valencia
+- Teorema de Whitney, Steinitz y conectividad 3‑conexa
 - Orientabilidad y limitaciones del modelo
 
-<!--
+### [5. Ejemplos](capitulos/05-ejemplos.qmd)
 
-### 5. Propiedades Adicionales y Polinomios *(Próximamente)*
+Verificación computacional de equivalencia entre sistemas de rotación.
 
-Operaciones avanzadas y el polinomio de Bollobás-Riordan.
+- Ejemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición
+- Ejemplo de no-equivalencia: multiconjuntos de caras como invariante rápido
+- Del problema al algoritmo: fuerza bruta vs. búsqueda con retroceso
+- Diagramas de Heegaard de la Esfera de Poincaré como encajes celulares
+- Verificación interactiva con SageMathCell
 
-- Operaciones: contracción, reducción, dualidad
-- Herramientas de `RibbonGraph` en Sage
-- Base de homología H₁(superficie)
-- Polinomio de Bollobás-Riordan
-- Implementación en SageMath
--->
+### [6. Operaciones y Polinomio de Bollobás-Riordan](capitulos/06-recursividad.qmd)
+
+Operaciones sobre ribbon graphs e invariantes polinomiales del encaje.
+
+- Contracción de aristas: fusión de vértices con preservación del género
+- Dualidad: intercambio de vértices y caras ($V^*=F$, $F^*=V$, $g^*=g$)
+- Base de homología y la fórmula $\mathrm{rank}(H_1) = 2g + b - 1$
+- Polinomio de Bollobás-Riordan: generalización del polinomio de Tutte a superficies
+- Implementación correcta vía suma sobre subgrafos y verificación interactiva
 
 ---
 
@@ -112,6 +119,7 @@ Este proyecto utiliza:
 - Gross, J. L., & Tucker, T. W. (1987). *Topological Graph Theory*
 - Lando, S. K., & Zvonkin, A. K. (2004). *Graphs on Surfaces*
 - Edmonds, J. (1960). *A combinatorial representation for polyhedral surfaces*
+- Bollobás, B., & Riordan, O. (2002). *A polynomial of graphs on surfaces*. Mathematische Annalen
 - [SageMath - Ribbon Graphs Documentation](https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html)
 
 ---

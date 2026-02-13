@@ -1,9 +1,9 @@
 project:
   type: website
   output-dir: ../outputs/quarto-site
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # #   render:
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - index.qmd
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   render:
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - index.qmd
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"
@@ -29,8 +29,12 @@ website:
         file: capitulos/02-mapas-combinatorios.qmd
       - text: "3. Invariantes Topológicos"
         file: capitulos/03-invariantes.qmd
-      - text: "4. Teoremas Clave"
+      - text: "4. Equivalencia"
         file: capitulos/04-teorema.qmd
+      - text: "5. Ejemplos"
+        file: capitulos/05-ejemplos.qmd
+      # - text: "6. Bollobás-Riordan"
+      #   file: capitulos/06-recursividad.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -52,8 +56,12 @@ website:
         file: capitulos/02-mapas-combinatorios.qmd
       - text: "3. Invariantes Topológicos"
         file: capitulos/03-invariantes.qmd
-      - text: "4. Teoremas Clave"
+      - text: "4. Equivalencia"
         file: capitulos/04-teorema.qmd
+      - text: "5. Ejemplos"
+        file: capitulos/05-ejemplos.qmd
+      # - text: "6. Bollobás-Riordan"
+      #   file: capitulos/06-recursividad.qmd
 
   page-footer:
     center: |

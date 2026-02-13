@@ -1,6 +1,22 @@
 ---
-title: "4. Teoremas Clave"
+title: "4. Equivalencia"
 subtitle: "La correspondencia biunívoca entre sistemas de rotación y encajes"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
 ---
 
 
@@ -50,8 +66,41 @@ $$
 \end{aligned}
 $$
 
-Este es un sistema de rotación válido y podemos verificar en [SageMathCell](https://sagecell.sagemath.org/) que en efecto produce un encaje en el toro con el siguiente código mínimo:
+Este es un sistema de rotación válido y podemos verificar que en efecto produce un encaje en el toro con el siguiente código mínimo:
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+sigma = "(1,2,3,4)(5,6,7,8)(9,10,11,12)"
+rho = "(1,7)(2,8)(3,9)(4,10)(5,11)(6,12)"
+
+def verifica_toro(sigma, rho):
+    if isinstance(sigma, str): sigma = PermutationGroupElement(sigma)
+    if isinstance(rho, str): rho = PermutationGroupElement(rho)
+
+    R = RibbonGraph(sigma, rho)
+    phi = rho * sigma
+
+    V = len(sigma.cycle_tuples(singletons=True))
+    E = len(rho.cycle_tuples(singletons=True))
+    F = len(phi.cycle_tuples(singletons=True))
+    chi = V - E + F
+    g = R.genus()
+    b = R.number_boundaries()
+
+    print(f"V={V}, E={E}, F={F}, χ={chi}, b={b}, g={g}")
+    print("Encaje en el toro (al cerrar las caras)." if g == 1 else "No es toro.")
+
+verifica_toro(sigma, rho)
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 sigma = "(1,2,3,4)(5,6,7,8)(9,10,11,12)"
 rho = "(1,7)(2,8)(3,9)(4,10)(5,11)(6,12)"
@@ -75,6 +124,7 @@ def verifica_toro(sigma, rho):
 
 verifica_toro(sigma, rho)
 ```
+:::
 
 Sin embargo, notar que la asignación del mapa combinatorio no es única, pues podríamos reetiquetar los números y se preserva la misma combinatoria. Por eso imponemos la siguiente clase de equivalencia:
 
@@ -202,8 +252,40 @@ $\sigma_4=(1423)$, $\rho=(15)(26)(37)(48)$
 
 <br>
 
-Podemos verificar en [SageMathCell](https://sagecell.sagemath.org/) que en efecto dan un encaje de género 0:
+Podemos verificar que en efecto dan un encaje de género 0:
 
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,5)(2,6)(3,7)(4,8)')
+R = RibbonGraph(sigma, rho)
+
+phi = rho * sigma
+
+V = len(sigma.cycle_tuples(singletons=True))
+E = len(rho.cycle_tuples(singletons=True))
+F = len(phi.cycle_tuples(singletons=True))
+
+print(f"Vértices (V): {V}")
+print(f"Aristas  (E): {E}")
+print(f"Caras    (F): {F}")
+print(f"φ = ρσ: {phi}")
+print(f"Ciclos de φ: {phi.cycle_tuples(singletons=True)}")
+
+g = R.genus()
+b = R.number_boundaries()
+print(f"Género (g): {g}")
+print(f"Fronteras (b): {b}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 sigma = PermutationGroupElement('(1,2,3,4)')
 rho = PermutationGroupElement('(1,5)(2,6)(3,7)(4,8)')
@@ -226,6 +308,7 @@ b = R.number_boundaries()
 print(f"Género (g): {g}")
 print(f"Fronteras (b): {b}")
 ```
+:::
 
 Los **Sistemas 1 y 2** son idénticos: $\sigma_1=\sigma_2$ y $\rho$ es el mismo. La etiqueta “rotado” solo cambia el dibujo, pero no el orden cíclico de los dardos, así que el sistema combinatorio no cambia.
 
@@ -256,109 +339,28 @@ $$
 $$
 Por lo tanto, los cuatro sistemas representan el mismo ribbon graph (misma clase de isomorfismo).
 
-A primera vista cuesta distinguir estos encajes porque el grafo es muy simétrico. Probemos un ejemplo más complicado:
-
-
-### Ejemplo: Encajes diferentes de un mismo grafo en la misma superficie
-
-::: {.content-visible when-format="html"}
-```{=html}
-<style>
-.encaje-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  align-items: start;
-}
-.encaje-item {
-  text-align: center;
-}
-.encaje-item img {
-  width: 100%;
-  height: clamp(220px, 28vw, 320px);
-  object-fit: contain;
-}
-.encaje-item p {
-  margin: 0.5rem 0 0;
-}
-@media (max-width: 680px) {
-  .encaje-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-<div class="encaje-grid">
-  <div class="encaje-item">
-    <img src="/imagenes/triangulos.png" alt="sigma1">
-    <p>\( \sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11) \), \( \rho=(1,5)(4,8)(2,6)(3,7)(9,10)(11,12) \)</p>
-  </div>
-  <div class="encaje-item">
-    <img src="/imagenes/ojo.png" alt="sigma2">
-    <p>\( \sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11) \), \( \rho=(1,5)(4,8)(2,6)(3,7)(9,10)(11,12) \)</p>
-  </div>
-</div>
-```
-:::
-
-::: {.content-visible when-format="pdf"}
-::: {.columns}
-::: {.column width="50%" style="text-align:center;"}
-![](/imagenes/triangulos.png){width=100% height=5.5cm}
-\( \sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11) \), \( \rho=(1,5)(4,8)(2,6)(3,7)(9,10)(11,12) \)
-:::
-::: {.column width="50%" style="text-align:center;"}
-![](/imagenes/ojo.png){width=100% height=5.5cm}
-\( \sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11) \), \( \rho=(1,5)(4,8)(2,6)(3,7)(9,10)(11,12) \)
-:::
-:::
-:::
-
-<br>
-
-Estos dos mapas **no** son equivalentes: aunque comparten el mismo emparejamiento $\rho$, el orden cíclico en el vértice principal está invertido en $\sigma_2$. En este ejemplo esa inversión no puede obtenerse por una biyección de dardos que preserve $\rho$, así que no existe $\tau$ tal que $\tau\sigma_1\tau^{-1}=\sigma_2$ y $\tau\rho\tau^{-1}=\rho$. Por tanto, representan encajes no equivalentes.
-
-Dicho de otra forma, en una representación **plana** con cara exterior distinguida, la diferencia se vuelve evidente al inspeccionar esa frontera. En la figura de la izquierda (el moño), la cara exterior colinda con los vértices de ambos triángulos; es posible trazar un camino desde cualquier vértice $(u,v,x,w)$ hacia el infinito sin cruzar ninguna arista. En la figura de la derecha (el ojo), la cara exterior solo colinda con el triángulo mayor $(u,v)$: los vértices del triángulo menor $(x,w)$ quedan topológicamente aislados en una cara interior, y es imposible conectarlos con el exterior sin cruzar el ciclo del triángulo mayor. Esta obstrucción topológica confirma que no existe un homeomorfismo que transforme un encaje en el otro preservando la orientación.
-
-
-
-Nótese que en el ejemplo anterior tenemos un grafo 1-conexo; cuando aumentamos la complejidad del grafo sí se pueden garantizar encajes únicos. Esto se conecta con el **Teorema de Whitney**:
-
-::: {.callout-important}
-## Teorema de Whitney
-
-Todo grafo planar 3‑conexo tiene un encaje único en la esfera (único salvo equivalencia topológica, es decir, reflexiones y homeomorfismos).
-:::
-
-Aquí “3‑conexo” **no** es “valencia 3”; se refiere a cuántos vértices hay que quitar para desconectar el grafo:
-
-- **1‑conexo:** al quitar 1 vértice el grafo se desconecta (p. ej. una estrella).
-- **2‑conexo:** se requieren al menos 2 vértices para desconectarlo (p. ej. un ciclo).
-- **3‑conexo:** se requieren al menos 3 vértices para desconectarlo.
-
-Ejemplos visuales de grafos 3‑conexos:
-
-- El esqueleto de un cubo.
-- El esqueleto de un tetraedro ($K_4$).
-- El esqueleto de un dodecaedro.
-
+En este ejemplo, la equivalencia es relativamente simple de verificar porque el grafo es muy simétrico y tiene pocos vértices. El Teorema de Heffter-Edmonds garantiza que la correspondencia entre sistemas de rotación y encajes es perfecta, pero en casos más complicados, determinar si dos sistemas son equivalentes puede requerir verificación computacional más sofisticada.
 
 ---
 
 ## Ejercicios
 
 ::: {.callout-tip}
-## Ejercicio: Calcule el mapa combinatorio del siguiente grafo encajado.
+## Ejercicio 2: Calcule el mapa combinatorio del siguiente grafo encajado.
 
 ![](/imagenes/esferaPoincare.png){width=90%}
 :::
 
----
-
 ## Resumen
 
-- **Lectura del encaje:** desde un dibujo encajado se obtiene $(\sigma,\rho)$ leyendo el orden cíclico de dardos en cada vértice.
-- **Correspondencia fundamental:** sistemas de rotación, ribbon graphs y encajes celulares describen el mismo objeto (Teorema de Heffter‑Edmonds).
-- **Verificación computacional:** se calculan $V,E,F,\chi,g$ con SageMathCell para confirmar el género de ejemplos concretos.
-- **Equivalencia vs. no equivalencia:** se muestran conjugaciones explícitas que identifican encajes y un ejemplo donde la cara exterior distingue dos mapas no equivalentes.
-- **Rigidez en grafos 3‑conexos:** se conecta con el Teorema de Whitney para explicar por qué ciertos encajes son únicos salvo equivalencia.
+- **Lectura del encaje:** Desde un dibujo encajado se obtiene $(\sigma,\rho)$ leyendo el orden cíclico de dardos en cada vértice.
+- **Correspondencia fundamental:** Sistemas de rotación, ribbon graphs y encajes celulares describen el mismo objeto (Teorema de Heffter‑Edmonds).
+- **Verificación computacional:** Se calculan $V,E,F,\chi,g$ con SageMath para confirmar el género de ejemplos concretos.
+- **Equivalencia de sistemas:** Dos sistemas $(\sigma_1, \rho_1)$ y $(\sigma_2, \rho_2)$ son equivalentes si existe $\phi$ tal que $\phi\sigma_1\phi^{-1}=\sigma_2$ y $\phi\rho_1\phi^{-1}=\rho_2$.
+- **Ejemplos simples:** Para grafos simétricos como el árbol de 4 hojas, las equivalencias son directas de verificar.
 
+En el siguiente capítulo exploraremos ejemplos más complicados donde la equivalencia no es inmediatamente obvia y requerirá herramientas computacionales más avanzadas.
+
+::: {style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;"}
+Publicado el 13 de febrero de 2026
+:::

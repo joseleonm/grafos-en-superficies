@@ -1,0 +1,545 @@
+---
+title: "6. Operaciones y Polinomio de Bollobás-Riordan"
+subtitle: "Transformaciones sobre ribbon graphs e invariantes polinomiales"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
+---
+
+En los capítulos anteriores aprendimos a construir ribbon graphs, calcular invariantes topológicos y verificar equivalencia entre sistemas de rotación. Este capítulo explora dos temas complementarios: las **operaciones** que transforman un ribbon graph en otro, y el **polinomio de Bollobás-Riordan**, un invariante algebraico que codifica simultáneamente información combinatoria y topológica del encaje.
+
+---
+
+## Operaciones sobre Ribbon Graphs
+
+### Contracción de Aristas
+
+La **contracción** de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.
+
+::: {.callout-note}
+## Definición: Contracción
+
+Dado un ribbon graph $G = (\sigma, \rho)$ y una arista no-loop $e = \{d, \rho(d)\}$ cuyos extremos son los vértices $u$ y $v$ (ciclos de $\sigma$), la contracción $G/e$ tiene:
+
+- **Darts:** todos excepto $d$ y $\rho(d)$
+- **Nueva $\sigma$:** los ciclos de $u$ y de $v$ se fusionan, intercalando el orden cíclico de $v$ donde estaba $\rho(d)$ dentro del ciclo de $u$, y eliminando $d$ y $\rho(d)$
+- **Nueva $\rho$:** igual a $\rho$ restringida a los darts restantes
+:::
+
+**Efecto topológico:** Contraer una arista no-loop preserva el número de caras y la característica de Euler:
+$$V(G/e) = V-1, \quad E(G/e) = E-1, \quad F(G/e) = F, \quad \chi(G/e) = \chi(G)$$
+
+En particular, la contracción de una arista no-loop **preserva el género**.
+
+**Ejemplo:** Tomamos el toro con dos vértices del capítulo 3 y contraemos una arista:
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# Toro con dos vértices (capítulo 3)
+# V=2, E=3, F=1  →  género 1
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+phi = rho * sigma
+
+print("Toro original:")
+print(f"  sigma = {sigma}")
+print(f"  rho   = {rho}")
+print(f"  phi   = {phi}")
+print(f"  V={len(sigma.cycle_tuples(singletons=True))}, "
+      f"E={len(rho.cycle_tuples())}, "
+      f"F={len(phi.cycle_tuples(singletons=True))}")
+print(f"  Género = {G.genus()}")
+
+# Contraer la arista que contiene el dart 1  (arista {1,2})
+G2 = G.contract_edge(1)
+phi2 = G2.rho() * G2.sigma()
+
+print("\nTras contraer la arista {1,2}:")
+print(f"  sigma = {G2.sigma()}")
+print(f"  rho   = {G2.rho()}")
+print(f"  phi   = {phi2}")
+print(f"  V={len(G2.sigma().cycle_tuples(singletons=True))}, "
+      f"E={len(G2.rho().cycle_tuples())}, "
+      f"F={len(phi2.cycle_tuples(singletons=True))}")
+print(f"  Género = {G2.genus()}")
+print("\n→ El género se preserva: sigue siendo un toro con 1 vértice y 2 loops.")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+G2 = G.contract_edge(1)
+print(f"Género original: {G.genus()},  tras contracción: {G2.genus()}")
+```
+:::
+
+El resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.
+
+---
+
+### Dualidad
+
+La **dual** de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.
+
+::: {.callout-important}
+## Construcción de la Dual
+
+Dado $G = (\sigma, \rho)$ con permutación de caras $\varphi = \rho\sigma$, la dual es:
+$$G^* = (\varphi,\; \rho)$$
+
+Los vértices de $G^*$ son las caras de $G$, las aristas son las mismas, y las caras de $G^*$ son los vértices de $G$. En fórmulas:
+$$V^* = F, \quad E^* = E, \quad F^* = V, \quad g^* = g$$
+:::
+
+**Ejemplo con el toro del capítulo 3:**
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+# Toro con dos vértices (capítulo 3)
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+phi = rho * sigma   # permutación de caras
+
+# Dual: sigma* = phi, rho* = rho (misma rho)
+G_dual = RibbonGraph(phi, rho)
+phi_dual = rho * phi   # caras de la dual
+
+print("Original:")
+print(f"  sigma = {sigma}   → {len(sigma.cycle_tuples(singletons=True))} vértice(s)")
+print(f"  phi   = {phi}   → {len(phi.cycle_tuples(singletons=True))} cara(s)")
+print(f"  Género = {G.genus()}")
+
+print("\nDual  (sigma* = phi, rho* = rho):")
+print(f"  sigma* = {G_dual.sigma()}   → {len(G_dual.sigma().cycle_tuples(singletons=True))} vértice(s)")
+print(f"  phi*   = {phi_dual}   → {len(phi_dual.cycle_tuples(singletons=True))} cara(s)")
+print(f"  Género = {G_dual.genus()}")
+
+print()
+V  = len(sigma.cycle_tuples(singletons=True))
+F  = len(phi.cycle_tuples(singletons=True))
+Vs = len(G_dual.sigma().cycle_tuples(singletons=True))
+Fs = len(phi_dual.cycle_tuples(singletons=True))
+print(f"Verificación:  V* = {Vs} = F = {F}  {'✓' if Vs == F else '✗'}")
+print(f"               F* = {Fs} = V = {V}  {'✓' if Fs == V else '✗'}")
+print(f"               g* = {G_dual.genus()} = g = {G.genus()}  {'✓' if G_dual.genus() == G.genus() else '✗'}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+phi = rho * sigma
+G_dual = RibbonGraph(phi, rho)
+print(f"V*={len(G_dual.sigma().cycle_tuples(singletons=True))}, F={len(phi.cycle_tuples(singletons=True))}")
+```
+:::
+
+El toro del capítulo 3 tiene $V=2$, $E=3$, $F=1$; su dual tiene $V^*=1$, $E^*=3$, $F^*=2$ y el mismo género 1.
+
+---
+
+### Base de Homología
+
+La base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género $g$ con $b$ componentes de frontera, el rango del primer grupo de homología es:
+$$\mathrm{rank}(H_1(S,\mathbb{Z})) = 2g + b - 1$$
+
+El toro del capítulo 3 tiene género 1 y $b=1$ componente de frontera (superficie cerrada), por lo que el rango esperado es $2(1) + 1 - 1 = 2$:
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+
+print(f"Género:    {G.genus()}")
+print(f"Fronteras: {G.number_boundaries()}")
+
+base = G.homology_basis()
+esperado = 2*G.genus() + G.number_boundaries() - 1
+print(f"rank(H_1) = {len(base)}   (esperado 2g+b-1 = {esperado})")
+print()
+print("Base de homología (secuencias de darts):")
+for i, ciclo in enumerate(base, 1):
+    print(f"  Ciclo {i}: {ciclo}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+sigma = PermutationGroupElement('(1,3,5)(2,4,6)')
+rho   = PermutationGroupElement('(1,2)(3,4)(5,6)')
+G = RibbonGraph(sigma, rho)
+print(f"Género: {G.genus()}, rank H_1: {len(G.homology_basis())}")
+```
+:::
+
+Los dos ciclos de la base corresponden a los dos "agujeros" fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.
+
+---
+
+## El Polinomio de Bollobás-Riordan
+
+### Motivación
+
+El polinomio de Tutte clásico es un invariante potente para grafos abstractos, pero **no detecta la topología del encaje**: dos ribbon graphs con el mismo grafo subyacente y el mismo polinomio de Tutte pueden encajarse en superficies de géneros distintos.
+
+El **polinomio de Bollobás-Riordan** [@bollobas2002] subsana esta limitación. Introduce una variable $z$ cuyo exponente registra el género del subgrafo encajado. Así, para grafos planos la variable $z$ no aparece, mientras que para encajes en el toro o superficies de género mayor sí lo hace.
+
+**Ejemplo ilustrativo:** el grafo theta (dos vértices unidos por tres aristas paralelas) admite dos encajes distintos:
+
+- En la **esfera** (género 0): $\sigma=(1,3,5)(2,6,4)$, $\rho=(1,2)(3,4)(5,6)$ → $V=2$, $E=3$, $F=3$
+- En el **toro** (género 1): $\sigma=(1,3,5)(2,4,6)$, $\rho=(1,2)(3,4)(5,6)$ → $V=2$, $E=3$, $F=1$
+
+Ambos tienen el mismo grafo abstracto, pero el polinomio de Bollobás-Riordan los distingue.
+
+---
+
+### Definición
+
+::: {.callout-important}
+## Polinomio de Bollobás-Riordan
+
+Sea $G = (\sigma, \rho)$ un ribbon graph con $n$ vértices, $m$ aristas y $k(G)$ componentes conexas. El **polinomio de Bollobás-Riordan** es:
+$$R(G;\, x, y, z) = \sum_{A \subseteq E} (x-1)^{k(A)-k(G)} \cdot y^{|A|-n+k(A)} \cdot z^{\gamma(A)}$$
+
+donde para cada subconjunto de aristas $A \subseteq E$:
+
+- $k(A)$ = número de componentes conexas del subgrafo $(V, A)$
+- $\gamma(A)$ = género del ribbon subgrafo sobre $A$, dado por
+$$\gamma(A) = \frac{2k(A) - n + |A| - \mathrm{bc}(A)}{2}$$
+- $\mathrm{bc}(A)$ = ciclos de la permutación de caras $\varphi_A = \rho_A \circ \sigma_A$ sobre los darts $D_A$ de $A$, **más** los vértices aislados (sin ningún dart en $A$)
+:::
+
+La permutación $\sigma_A$ en $D_A = \bigcup_{e \in A} \{d, \rho(d)\}$ se obtiene siguiendo $\sigma$ desde cada dart hasta encontrar el siguiente dart que pertenezca a $D_A$, saltando los que no lo hacen.
+
+### Interpretación de los exponentes
+
+| Exponente | Significado |
+|---|---|
+| $k(A) - k(G) \geq 0$ | Exceso de componentes respecto al grafo completo; 0 para subgrafos que mantienen la conectividad |
+| $\lvert A\rvert - n + k(A) \geq 0$ | Rango del ciclo: 0 para bosques, positivo para subgrafos con ciclos |
+| $\gamma(A) \geq 0$ | Género del ribbon subgrafo: 0 si $A$ es planamente encajable, positivo si captura topología no trivial |
+
+**Evaluaciones especiales:**
+
+- $R(G; 1, 1, 1) = 2^m$ cuenta todos los subconjuntos de aristas
+- Para encajes en la esfera, $z$ no aparece: $R(G; x, y, 0) = T(G; x, y)$ recupera el polinomio de Tutte
+- $[z^g]R(G; 1, 1, z)$ cuenta los subgrafos cuyo ribbon subgrafo tiene género $g$
+
+---
+
+### Implementación en Sage
+
+La fórmula de suma sobre subgrafos es directamente computable. Iteramos sobre los $2^m$ subconjuntos de aristas y acumulamos cada término:
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+def bollobas_riordan(sigma_str, rho_str):
+    """
+    Calcula el polinomio de Bollobás-Riordan vía suma sobre subgrafos.
+
+    R(G; x,y,z) = Σ_{A⊆E} (x-1)^{k(A)-k(G)} · y^{|A|-n+k(A)} · z^{γ(A)}
+
+    donde γ(A) = (2k(A) - n + |A| - bc(A)) / 2
+    y bc(A) = ciclos de φ_A = ρ_A∘σ_A en D_A + vértices aislados.
+    """
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+
+    n = len(sigma_cycles)   # número de vértices
+    m = len(rho_cycles)     # número de aristas
+
+    # Mapear dart → índice de vértice
+    dart_to_v = {}
+    for i, cycle in enumerate(sigma_cycles):
+        for d in cycle:
+            dart_to_v[d] = i
+
+    # k(A): componentes conexas con Union-Find
+    def conn_comp(edge_indices):
+        parent = list(range(n))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            pa, pb = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if pa != pb:
+                parent[pa] = pb
+        return len(set(find(i) for i in range(n)))
+
+    kG = conn_comp(range(m))
+
+    P.<x, y, z> = PolynomialRing(ZZ)
+    result = P(0)
+
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+
+        # Darts de las aristas en A
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+
+        kA = conn_comp(A)
+
+        # σ_A: para cada dart en D_A, seguir σ hasta el siguiente dart en D_A
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+
+        # Ciclos de φ_A = ρ∘σ_A en D_A
+        visited = set()
+        bc = 0
+        for start in D_A:
+            if start not in visited:
+                bc += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+
+        # Añadir vértices aislados (ningún dart suyo está en D_A)
+        for cycle in sigma_cycles:
+            if not any(d in D_A for d in cycle):
+                bc += 1
+
+        gamma = (2*kA - n + len(A) - bc) // 2
+        result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+
+    return result
+
+
+# ── Verificación 1: toro de 1 vértice y 2 loops ──────────────────────────
+# sigma=(1,3,2,4), rho=(1,2)(3,4)
+# V=1, E=2, F=1 → género 1 (toro)
+# Resultado esperado: 1 + 2y + y²z
+print("=== Toro  (1 vértice, 2 loops) ===")
+R1 = bollobas_riordan('(1,3,2,4)', '(1,2)(3,4)')
+print(f"R = {R1}")
+print()
+
+# ── Verificación 2: toro del capítulo 3 ──────────────────────────────────
+# sigma=(1,3,5)(2,4,6), rho=(1,2)(3,4)(5,6)
+# V=2, E=3, F=1 → género 1 (toro)
+print("=== Toro del capítulo 3  (2 vértices, 3 aristas paralelas) ===")
+R2 = bollobas_riordan('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)')
+print(f"R = {R2}")
+print()
+
+# ── Verificación 3: loop en la esfera ────────────────────────────────────
+# sigma=(1,2), rho=(1,2)
+# V=1, E=1, F=2 → género 0 (esfera)
+# Sin términos en z
+print("=== Loop en la esfera  (género 0) ===")
+R3 = bollobas_riordan('(1,2)', '(1,2)')
+print(f"R = {R3}")
+print()
+
+# ── Grafo theta en la esfera (encaje planar) ─────────────────────────────
+# sigma=(1,3,5)(2,6,4), rho=(1,2)(3,4)(5,6)
+# V=2, E=3, F=3 → género 0 (esfera)
+print("=== Grafo theta en la esfera  (género 0) ===")
+R4 = bollobas_riordan('(1,3,5)(2,6,4)', '(1,2)(3,4)(5,6)')
+print(f"R = {R4}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+def bollobas_riordan(sigma_str, rho_str):
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+    n = len(sigma_cycles)
+    m = len(rho_cycles)
+    dart_to_v = {}
+    for i, cycle in enumerate(sigma_cycles):
+        for d in cycle:
+            dart_to_v[d] = i
+    def conn_comp(edge_indices):
+        parent = list(range(n))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            pa, pb = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if pa != pb:
+                parent[pa] = pb
+        return len(set(find(i) for i in range(n)))
+    kG = conn_comp(range(m))
+    P.<x, y, z> = PolynomialRing(ZZ)
+    result = P(0)
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+        kA = conn_comp(A)
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+        visited = set()
+        bc = 0
+        for start in D_A:
+            if start not in visited:
+                bc += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+        for cycle in sigma_cycles:
+            if not any(d in D_A for d in cycle):
+                bc += 1
+        gamma = (2*kA - n + len(A) - bc) // 2
+        result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+    return result
+
+# Toro (1 vértice, 2 loops) → esperado: 1 + 2y + y²z
+print(bollobas_riordan('(1,3,2,4)', '(1,2)(3,4)'))
+# Toro del capítulo 3 → esperado: x + 2 + 3y + y²z
+print(bollobas_riordan('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)'))
+```
+:::
+
+Los resultados esperados son:
+
+| Ribbon graph | Género | $R(G;\, x, y, z)$ |
+|---|:---:|---|
+| Toro (1 vértice, 2 loops) | 1 | $1 + 2y + y^2z$ |
+| Toro del capítulo 3 (2 vértices, 3 aristas) | 1 | $x + 2 + 3y + y^2z$ |
+| Loop en la esfera | 0 | $1 + y$ |
+| Grafo theta en la esfera | 0 | $x + 2 + 3y + y^2$ |
+
+::: {.callout-tip}
+## La variable $z$ y el género
+
+Compara los dos últimos renglones de la tabla: el grafo theta en la esfera da $x + 2 + 3y + y^2$ (sin $z$), mientras que el mismo grafo theta encajado en el toro da $x + 2 + 3y + y^2 z$. El único cambio es $y^2 \to y^2 z$, lo que refleja que el subgrafo completo (todas las aristas) tiene género 0 en la esfera y género 1 en el toro.
+
+Para grafos planamente encajados, $\gamma(A) = 0$ para todo $A$, de modo que $z$ nunca aparece y $R(G; x, y, 0) = T(G; x, y)$ recupera el polinomio de Tutte clásico.
+:::
+
+---
+
+### El polinomio como invariante de ribbon graphs
+
+Un resultado fundamental es que **sistemas de rotación equivalentes tienen el mismo polinomio de Bollobás-Riordan**. Esto se sigue de que la equivalencia es un isomorfismo de ribbon graphs: si $\varphi \sigma_1 \varphi^{-1} = \sigma_2$ y $\varphi \rho \varphi^{-1} = \rho$, entonces $\varphi$ permuta los subconjuntos de aristas biyectivamente preservando todos los invariantes del que depende $R$: $k(A)$, $\gamma(A)$ y $\mathrm{bc}(A)$.
+
+En el capítulo 5 verificamos que el moño y el ojo son ribbon graphs equivalentes. Por este resultado, sus polinomios de Bollobás-Riordan deben ser iguales. El ejercicio 2 propone verificarlo computacionalmente.
+
+---
+
+## Ejercicios
+
+::: {.callout-tip}
+## Ejercicio 1: Dualidad iterada
+
+Verifica computacionalmente que la dual del dual coincide con el grafo original. Para el toro del capítulo 3 ($\sigma=(1,3,5)(2,4,6)$, $\rho=(1,2)(3,4)(5,6)$):
+
+1. Calcula $G^*=(\varphi, \rho)$ con $\varphi = \rho\sigma$.
+2. Calcula $(G^*)^* = (\varphi^*, \rho)$ con $\varphi^* = \rho \cdot \varphi$ (las caras de $G^*$).
+3. ¿Obtienes el $\sigma$ original o uno equivalente por conjugación?
+
+Repite con el moño ($\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11)$, $\rho=(1,5)(4,8)(2,6)(3,7)(9,10)(11,12)$) y verifica que $(G^*)^* \cong G$ en ambos casos.
+:::
+
+::: {.callout-tip}
+## Ejercicio 2: El moño y el ojo tienen el mismo polinomio
+
+Usa la función `bollobas_riordan` para calcular $R(\text{moño}; x, y, z)$ y $R(\text{ojo}; x, y, z)$ con los datos:
+
+$$\rho = (1,5)(4,8)(2,6)(3,7)(9,10)(11,12)$$
+$$\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11), \quad \sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11)$$
+
+1. Verifica que $R(\sigma_1, \rho) = R(\sigma_2, \rho)$ (ambos son equivalentes, luego el polinomio debe coincidir).
+2. ¿Aparece $z$ en el polinomio? ¿Qué dice eso del género del encaje?
+3. Compara con $R$ del toro de 1 vértice y 2 loops: ¿son iguales o distintos los polinomios?
+:::
+
+::: {.callout-tip}
+## Ejercicio 3: Encaje planar vs. no planar del grafo theta
+
+El **grafo theta** son dos vértices conectados por tres aristas paralelas. Tiene dos encajes celulares cualitativamente distintos:
+
+- **En la esfera**: $\sigma_{\mathrm{esf}} = (1,3,5)(2,6,4)$, $\rho=(1,2)(3,4)(5,6)$ — tres caras, género 0
+- **En el toro**: $\sigma_{\mathrm{tor}} = (1,3,5)(2,4,6)$, $\rho=(1,2)(3,4)(5,6)$ — una cara, género 1
+
+1. Calcula el polinomio de Bollobás-Riordan de cada encaje.
+2. ¿En qué término difieren? ¿Puede el polinomio de Tutte distinguirlos?
+3. Calcula la base de homología de cada ribbon graph y comprueba que el rango es $2g + b - 1$.
+:::
+
+---
+
+## Resumen
+
+- La **contracción** de una arista no-loop preserva el género: $\chi(G/e) = \chi(G)$.
+- La **dualidad** intercambia vértices y caras con la misma $\rho$: $V^*=F$, $F^*=V$, $g^*=g$.
+- La **base de homología** tiene rango $2g + b - 1$, contando los ciclos fundamentales de la superficie.
+- El **polinomio de Bollobás-Riordan** generaliza el de Tutte: la variable $z$ detecta el género de los subgrafos encajados y está ausente en encajes planos.
+- La fórmula de suma sobre subgrafos es directamente computable en Sage iterando sobre los $2^m$ subconjuntos de aristas.
+- El polinomio es un **invariante de ribbon graphs**: sistemas de rotación equivalentes dan el mismo polinomio.
+
+El polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a teoría de nudos (polinomios de nudos tipo HOMFLY-PT), física matemática (modelos de Potts en superficies), y combinatoria enumerativa de mapas.
+
+---
+
+## Referencias
+
+- Bollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. *Mathematische Annalen*, **323**(1), 81–96.
+- Chmutov, S. (2009). Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial. *Journal of Combinatorial Theory, Series B*, **99**(3), 617–638.
+- Ellis-Monaghan, J. A., & Moffatt, I. (2013). *Graphs on Surfaces: Dualities, Polynomials, and Knots*. Springer.
+- [SageMath – Ribbon Graphs](https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html)

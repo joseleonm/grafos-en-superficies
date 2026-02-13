@@ -1,6 +1,22 @@
 ---
 title: "2. Mapas Combinatorios"
 subtitle: "De las permutaciones a la Superficie"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
 ---
 
 En la sección anterior definimos el sistema de rotación $(\sigma, \rho)$. Es frecuente interpretar estas permutaciones como simples instrucciones para dibujar un grafo preexistente; sin embargo, esa interpretación es parcial.
@@ -184,10 +200,27 @@ Calculamos $\varphi_A = \rho \sigma_A$:
 
 ![](/imagenes/8esfera.svg){width=44%} ![](/imagenes/8esferagemini.png){width=34%}
 
-::: {.callout-tip}
-## Verificación con SageMath
-Puedes verificar estos cálculos en línea usando [SageMathCell](https://sagecell.sagemath.org/).
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
 
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+sigma = PermutationGroupElement('(1,2,3,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+phi = rho * sigma  # φ = ρσ
+print(phi)  # (1,3)
+print(phi.cycle_tuples(singletons=True))  # [(1, 3), (2,), (4,)]
+
+R = RibbonGraph(sigma, rho)
+print(R.boundary())  # [[1, 2, 3, 4], [2, 1], [4, 3]]
+print(R.number_boundaries())  # 3
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 sigma = PermutationGroupElement('(1,2,3,4)')
 rho = PermutationGroupElement('(1,2)(3,4)')
@@ -219,8 +252,27 @@ Notemos que $\sigma_B$ intercala las semiaristas en un orden distinto. Calculamo
 
 ![](/imagenes/torusgemini.png){width=50%}
 
-::: {.callout-tip}
-## Verificación con SageMath
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+sigma = PermutationGroupElement('(1,3,2,4)')
+rho = PermutationGroupElement('(1,2)(3,4)')
+phi = rho * sigma  # φ = ρσ
+print(phi)  # (1,4,2,3)
+print(phi.cycle_tuples(singletons=True))  # [(1, 4, 2, 3)]
+
+R = RibbonGraph(sigma, rho)
+print(R.boundary())  # [[1, 2, 4, 3, 2, 1, 3, 4]]
+print(R.number_boundaries())  # 1
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
 ```python
 sigma = PermutationGroupElement('(1,3,2,4)')
 rho = PermutationGroupElement('(1,2)(3,4)')
