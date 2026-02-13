@@ -92,6 +92,7 @@ Verificación computacional de equivalencia entre sistemas de rotación.
 - Diagramas de Heegaard de la Esfera de Poincaré como encajes celulares
 - Verificación interactiva con SageMathCell
 
+<!--
 ### [6. Operaciones y Polinomio de Bollobás-Riordan](capitulos/06-recursividad.qmd)
 
 Operaciones sobre ribbon graphs e invariantes polinomiales del encaje.
@@ -101,7 +102,7 @@ Operaciones sobre ribbon graphs e invariantes polinomiales del encaje.
 - Base de homología y la fórmula $\mathrm{rank}(H_1) = 2g + b - 1$
 - Polinomio de Bollobás-Riordan: generalización del polinomio de Tutte a superficies
 - Implementación correcta vía suma sobre subgrafos y verificación interactiva
-
+-->
 ---
 
 ## Herramientas
