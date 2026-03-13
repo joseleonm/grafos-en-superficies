@@ -92,16 +92,30 @@ Verificación computacional de equivalencia entre sistemas de rotación.
 - Diagramas de Heegaard de la Esfera de Poincaré como encajes celulares
 - Verificación interactiva con SageMathCell
 
-<!--
-### [6. Operaciones Adicionales](capitulos/06-operaciones.qmd)
+### [6. Operaciones sobre Ribbon Graphs](capitulos/06-operaciones.qmd)
 
-Operaciones adicionales sobre ribbon graphs 
+Operaciones fundamentales para transformar y analizar ribbon graphs en Sage.
 
-- Contracción de aristas: fusión de vértices con preservación del género
-- Dualidad: intercambio de vértices y caras ($V^*=F$, $F^*=V$, $g^*=g$)
-- Base de homología y la fórmula $\mathrm{rank}(H_1) = 2g + b - 1$
+- Contracción de aristas: fusión de vértices preservando el género.
+- Dualidad: intercambio de vértices y caras ($V^*=F$, $F^*=V$).
+- Base de homología y cálculo del rango $\mathrm{rank}(H_1) = 2g + b - 1$.
+- Reducción: obtención del núcleo de Betti contrayendo árboles generadores.
 
--->
+### [7. Polinomio de Bollobás-Riordan](capitulos/07-bollobas-riordan.qmd)
+
+Generalización del polinomio de Tutte que detecta la topología del encaje.
+
+- Definición, cálculo y optimización en Sage.
+- La variable $z$ como detector del género.
+- Distinción de encajes mediante el polinomio.
+
+### [8. BR del Diagrama de Poincaré](capitulos/08-br-diagrama-poincare.qmd)
+
+Cálculo computacional del polinomio para un caso de alta complejidad ($E=24$).
+
+- Sistema de rotación del diagrama de Heegaard ($V=12, E=24$).
+- Resultado explícito del polinomio $R(G; x, y, z)$.
+
 ---
 
 ## Herramientas
