@@ -402,6 +402,27 @@ p code, li code {
   transform: translateY(-1px);
 }
 
+/* Ocultar botón de copiar cuando el bloque de código está oculto
+   (evita iconos sueltos en celdas OJS con echo: false) */
+.code-copy-outer-scaffold > .sourceCode.cell-code.hidden + .code-copy-button {
+  display: none !important;
+}
+
+/* Controles OJS: tamaño legible y consistente (no heredado gigante del body) */
+[id^="ojs-cell-"] label,
+[id^="ojs-cell-"] input,
+[id^="ojs-cell-"] select,
+[id^="ojs-cell-"] button,
+[id^="ojs-cell-"] table,
+[id^="ojs-cell-"] th,
+[id^="ojs-cell-"] td {
+  font-size: 1rem !important;
+}
+
+[id^="ojs-cell-"] input[type="range"] {
+  width: 100%;
+}
+
 /* --------------------------------------------------------------------------
    TABLES
    -------------------------------------------------------------------------- */
