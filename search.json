@@ -204,140 +204,6 @@
     ]
   },
   {
-    "objectID": "capitulos/03-invariantes.html",
-    "href": "capitulos/03-invariantes.html",
-    "title": "3. Invariantes Topológicos",
-    "section": "",
-    "text": "Esta sección es práctica: aprenderemos a usar SageMath para calcular los invariantes topológicos que clasifican la superficie cerrada donde se aloja el grafo:",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
-    "href": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
-    "title": "3. Invariantes Topológicos",
-    "section": "1. Conteo de Elementos (\\(V, E, F\\))",
-    "text": "1. Conteo de Elementos (\\(V, E, F\\))\nRecordemos que en un mapa combinatorio:\n\n\\(V\\): Ciclos de \\(\\sigma\\)\n\\(E\\): Ciclos de \\(\\rho\\) (o \\(|D|/2\\))\n\\(F\\): Ciclos de \\(\\varphi = \\rho \\sigma\\)\n\n\n\n\n\n\n\nNotaInterpretación: ¿Caras o Fronteras?\n\n\n\nEn un ribbon graph, los ciclos de la permutación \\(\\varphi\\) describen las componentes de frontera de la superficie con borde obtenida al engrosar el grafo. Si se tapan esas fronteras con discos, esas mismas componentes pasan a ser las caras del encaje en la superficie cerrada.\nPor ello, SageMath cuenta estos ciclos con number_boundaries(). En este curso, \\(b\\) denota el número de componentes de frontera y coincide con \\(F\\) cuando interpretamos el mapa sobre la superficie cerrada (\\(F=b\\)).\n\n\nSageMath nos permite extraer estos valores directamente del objeto RibbonGraph.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
-    "href": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
-    "title": "3. Invariantes Topológicos",
-    "section": "2. La Característica de Euler (\\(\\chi\\))",
-    "text": "2. La Característica de Euler (\\(\\chi\\))\nLa característica de Euler es el invariante más fundamental. Se define combinatoriamente como:\n\\[ \\chi = V - E + F \\]\nEsta es la característica de Euler de la superficie cerrada obtenida al pegar discos en todas las fronteras del grafo.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
-    "href": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
-    "title": "3. Invariantes Topológicos",
-    "section": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))",
-    "text": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))\nEl género \\(g\\) se calcula siempre a partir de la superficie cerrada asociada. La cuenta es la misma, solo cambia la interpretación de \\(F\\) y \\(b\\):\n\nEn el ribbon graph, los ciclos de \\(\\varphi\\) son fronteras, de modo que \\(b\\) es el número de componentes de frontera.\nAl tapar cada frontera con un disco, esas mismas componentes pasan a ser las caras \\(F\\) de la superficie cerrada.\n\nPor lo tanto, en la superficie cerrada se cumple:\n\\[ \\chi = V - E + F = V - E + b \\quad \\Rightarrow \\quad g = \\frac{2 - (V - E + b)}{2} \\]\nSageMath detecta automáticamente el número de componentes de frontera (\\(b\\)), y ese mismo valor coincide con \\(F\\) cuando se interpreta el mapa en la superficie cerrada.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nNotaNota sobre number_boundaries()\n\n\n\nEn la implementación de RibbonGraph de SageMath, el método number_boundaries() devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras \\(F\\). La fórmula funciona consistentemente.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
-    "href": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
-    "title": "3. Invariantes Topológicos",
-    "section": "4. Automatización: Una función de análisis",
-    "text": "4. Automatización: Una función de análisis\nComo ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#galería-de-ejemplos",
-    "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
-    "title": "3. Invariantes Topológicos",
-    "section": "5. Galería de Ejemplos",
-    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#ejercicios",
-    "href": "capitulos/03-invariantes.html#ejercicios",
-    "title": "3. Invariantes Topológicos",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Diseñador de Superficies\n\n\n\nUsa la función analizar_topologia para encontrar un sistema de rotación que genere una superficie de género 2 (Bitoro).\nPista: Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar \\(\\sigma\\) en un bouquet de 4 lazos.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Grafos Completos\n\n\n\nInvestiga el género de los grafos completos \\(K_n\\).\n\nVerifica que \\(K_3\\) tiene género 0.\nConstruye un sistema de rotación para \\(K_4\\) y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (\\(g=0\\))?\n¿Cuál es el género mínimo para \\(K_5\\)?\n\n\n\n\nPublicado el 09 de febrero de 2026",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "",
-    "text": "Autor: José Luis León Medina",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#sobre-este-proyecto",
-    "href": "index.html#sobre-este-proyecto",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Sobre este proyecto",
-    "text": "Sobre este proyecto\nLos sistemas de rotación son pares de permutaciones \\((\\sigma, \\rho)\\) que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el Teorema de Heffter-Edmonds.\n\nIdea principal\nUn sistema de rotación \\((\\sigma, \\rho)\\) contiene toda la información necesaria para:\n\nReconstruir el grafo subyacente (vértices y aristas)\nDeterminar el orden cíclico de semiaristas alrededor de cada vértice\nCalcular las caras mediante la permutación \\(\\varphi = \\rho\\sigma\\)\nObtener invariantes topológicos: género, característica de Euler, número de caras\nConstruir la superficie completa mediante engrosamiento (thickening)\n\nResultado fundamental: Álgebra de permutaciones ↔︎ Topología de superficies",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#contenido",
-    "href": "index.html#contenido",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Contenido",
-    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)\n\n\n\n2. Mapas Combinatorios\nDe la intuición geométrica a la formalización algebraica.\n\nAxiomática de Tutte: definición formal de mapa combinatorio\nTeorema de Realización Topológica\nAlgoritmo de trazado de caras (\\(\\varphi = \\rho\\sigma\\))\nUnicidad del encaje y el género como consecuencia\n\n\n\n3. Invariantes Topológicos\nCálculo computacional con SageMath.\n\nAutomatización del cálculo de \\(V, E, F\\)\nCaracterística de Euler y Género\nFunción de análisis topológico (analizar_topologia)\nExperimentación con grafos completos y superficies de género alto\n\n\n\n4. Equivalencia\nEl teorema fundamental que establece la correspondencia biunívoca.\n\nLectura del encaje: obtención de \\((\\sigma,\\rho)\\) desde un dibujo encajado\nTeorema de Heffter‑Edmonds y equivalencia por conjugación\nVerificación en SageMathCell del género en ejemplos concretos\nEjemplos de encajes equivalentes y no equivalentes (criterio por caras)\nTeorema de Whitney, Steinitz y conectividad 3‑conexa\nOrientabilidad y limitaciones del modelo\n\n\n\n5. Ejemplos\nVerificación computacional de equivalencia entre sistemas de rotación.\n\nEjemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición\nEjemplo de no-equivalencia: multiconjuntos de caras como invariante rápido\nDel problema al algoritmo: fuerza bruta vs. búsqueda con retroceso\nDiagramas de Heegaard de la Esfera de Poincaré como encajes celulares\nVerificación interactiva con SageMathCell",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#herramientas",
-    "href": "index.html#herramientas",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Herramientas",
-    "text": "Herramientas\nEste proyecto utiliza:\n\nSageMath 10.7 - Cálculos con RibbonGraph, PermutationGroupElement\nPython 3.13 - Scripts de análisis y visualización\nQuarto - Documentación interactiva con bloques de código ejecutables",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#referencias",
-    "href": "index.html#referencias",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Referencias",
-    "text": "Referencias\n\nGross, J. L., & Tucker, T. W. (1987). Topological Graph Theory\nLando, S. K., & Zvonkin, A. K. (2004). Graphs on Surfaces\nEdmonds, J. (1960). A combinatorial representation for polyhedral surfaces\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen\nSageMath - Ribbon Graphs Documentation\n\n\n\n2026",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
     "objectID": "capitulos/01-sistemas-rotacion.html",
     "href": "capitulos/01-sistemas-rotacion.html",
     "title": "1. Sistemas de Rotación",
@@ -479,6 +345,236 @@
       "Inicio",
       "1. Sistemas de Rotación",
       "1.1 Introducción"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-operaciones.html",
+    "href": "capitulos/06-operaciones.html",
+    "title": "6. Operaciones sobre Ribbon Graphs",
+    "section": "",
+    "text": "En los capítulos anteriores aprendimos a construir ribbon graphs y calcular invariantes topológicos. Este capítulo se enfoca en las operaciones principales sobre ribbon graphs que podemos verificar en Sage: contracción, dualidad y cálculo de base de homología.\n\n\nContracción de Aristas\nLa contracción de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.\n\n\n\n\n\n\nNotaDefinición: Contracción\n\n\n\nDado un ribbon graph \\(G = (\\sigma, \\rho)\\) y una arista no-loop \\(e = \\{d, \\rho(d)\\}\\) cuyos extremos son los vértices \\(u\\) y \\(v\\) (ciclos de \\(\\sigma\\)), la contracción \\(G/e\\) tiene:\n\nDarts: todos excepto \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\sigma\\): los ciclos de \\(u\\) y de \\(v\\) se fusionan, intercalando el orden cíclico de \\(v\\) donde estaba \\(\\rho(d)\\) dentro del ciclo de \\(u\\), y eliminando \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\rho\\): igual a \\(\\rho\\) restringida a los darts restantes\n\n\n\nEfecto topológico: Contraer una arista no-loop preserva el número de caras y la característica de Euler: \\[V(G/e) = V-1, \\quad E(G/e) = E-1, \\quad F(G/e) = F, \\quad \\chi(G/e) = \\chi(G)\\]\nEn particular, la contracción de una arista no-loop preserva el género.\nEjemplo: Tomamos el grafo theta en el toro y contraemos la arista \\(\\{1,2\\}\\):\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.\n\n\n\nDualidad\nLa dual de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.\n\n\n\n\n\n\nNotaConstrucción de la Dual\n\n\n\nDado \\(G = (\\sigma, \\rho)\\) con permutación de caras \\(\\varphi = \\rho\\sigma\\), la dual es: \\[G^* = (\\varphi,\\; \\rho)\\]\nLos vértices de \\(G^*\\) son las caras de \\(G\\), las aristas son las mismas, y las caras de \\(G^*\\) son los vértices de \\(G\\). En fórmulas: \\[V^* = F, \\quad E^* = E, \\quad F^* = V, \\quad g^* = g\\]\n\n\nEjemplo: Consideramos el grafo theta en el toro (\\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\)). Este grafo tiene \\(V=2\\) vértices, \\(E=3\\) aristas y \\(F=1\\) cara.\n¿Por qué el dual tiene 3 lazos? Al aplicar la dualidad (\\(V^*=F, E^*=E\\)), obtenemos un grafo \\(G^*\\) con 1 vértice (porque \\(F=1\\)) y 3 aristas (porque \\(E=3\\)). La única forma de disponer 3 aristas en un grafo con un solo vértice es que todas ellas sean lazos (bucles) que empiezan y terminan en ese mismo vértice.\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl toro del ejemplo tiene \\(V=2\\), \\(E=3\\), \\(F=1\\); su dual tiene \\(V^*=1\\), \\(E^*=3\\), \\(F^*=2\\) y el mismo género 1.\n\n\n\nBase de Homología\nLa base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género \\(g\\) con \\(b\\) componentes de frontera, el rango del primer grupo de homología es: \\[\\mathrm{rank}(H_1(S,\\mathbb{Z})) = 2g + b - 1\\]\nEl toro del ejemplo tiene género 1 y \\(b=1\\) componente de frontera (superficie cerrada), por lo que el rango esperado es \\(2(1) + 1 - 1 = 2\\):\n\n\n\nLos dos ciclos de la base corresponden a los dos “agujeros” fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.\n\n\n\nReducción (núcleo de Betti)\nEl método reduced() contrae aristas de un árbol generador y devuelve un ribbon graph topológicamente equivalente en el siguiente sentido preciso (documentación de Sage):\n\nLa permutación \\(\\sigma\\) del resultado tiene exactamente un ciclo no-singleton (un único vértice no aislado).\nLa permutación \\(\\rho\\) es producto de \\(\\beta_1\\) transposiciones disjuntas, donde \\(\\beta_1\\) es el primer número de Betti del grafo subyacente.\n\nPara un grafo conexo, \\(\\beta_1 = E - V + 1\\). Por tanto, tras reduced() no se conserva el número original de aristas: se conserva la información topológica esencial (género y fronteras), y las aristas pasan a ser las del bouquet mínimo.\n\n\n\n\n\n\nNotaImportante sobre conteos en Sage\n\n\n\nSi usas cycle_tuples(singletons=True) sobre G_red.sigma() o G_red.rho(), Sage incluye ciclos fijos (1-ciclos) en el dominio de la permutación. Eso puede dar valores como V=3, E=4 aunque el grafo reducido real tenga V=1, E=2.\nPara contar vértices/aristas del ribbon graph reducido, en este contexto usa cycle_tuples() sin singletons=True.\n\n\n\n\n\nEn este ejemplo, G_red.sigma() = (3,5,4,6) y G_red.rho() = (3,4)(5,6): hay 1 ciclo no-singleton en \\(\\sigma\\) y 2 transposiciones en \\(\\rho\\), es decir, un bouquet con 1 vértice y 2 lazos. El género y el número de fronteras se preservan.\n\n\n\n\nEstas operaciones —contracción, dualidad, reducción y cálculo de homología— son propiedades útiles documentadas en el manual de Sage para la clase RibbonGraph. En la siguiente sección estudiaremos el polinomio de Bollobás-Riordan como un invariante topológico-combinatorio implementable en SageMath.\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.6 Operaciones adicionales"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "",
+    "text": "Autor: José Luis León Medina",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#sobre-este-proyecto",
+    "href": "index.html#sobre-este-proyecto",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Sobre este proyecto",
+    "text": "Sobre este proyecto\nLos sistemas de rotación son pares de permutaciones \\((\\sigma, \\rho)\\) que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el Teorema de Heffter-Edmonds.\n\nIdea principal\nUn sistema de rotación \\((\\sigma, \\rho)\\) contiene toda la información necesaria para:\n\nReconstruir el grafo subyacente (vértices y aristas)\nDeterminar el orden cíclico de semiaristas alrededor de cada vértice\nCalcular las caras mediante la permutación \\(\\varphi = \\rho\\sigma\\)\nObtener invariantes topológicos: género, característica de Euler, número de caras\nConstruir la superficie completa mediante engrosamiento (thickening)\n\nResultado fundamental: Álgebra de permutaciones ↔︎ Topología de superficies",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#contenido",
+    "href": "index.html#contenido",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Contenido",
+    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)\n\n\n\n2. Mapas Combinatorios\nDe la intuición geométrica a la formalización algebraica.\n\nAxiomática de Tutte: definición formal de mapa combinatorio\nTeorema de Realización Topológica\nAlgoritmo de trazado de caras (\\(\\varphi = \\rho\\sigma\\))\nUnicidad del encaje y el género como consecuencia\n\n\n\n3. Invariantes Topológicos\nCálculo computacional con SageMath.\n\nAutomatización del cálculo de \\(V, E, F\\)\nCaracterística de Euler y Género\nFunción de análisis topológico (analizar_topologia)\nExperimentación con grafos completos y superficies de género alto\n\n\n\n4. Equivalencia\nEl teorema fundamental que establece la correspondencia biunívoca.\n\nLectura del encaje: obtención de \\((\\sigma,\\rho)\\) desde un dibujo encajado\nTeorema de Heffter‑Edmonds y equivalencia por conjugación\nVerificación en SageMathCell del género en ejemplos concretos\nEjemplos de encajes equivalentes y no equivalentes (criterio por caras)\nTeorema de Whitney, Steinitz y conectividad 3‑conexa\nOrientabilidad y limitaciones del modelo\n\n\n\n5. Ejemplos\nVerificación computacional de equivalencia entre sistemas de rotación.\n\nEjemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición\nEjemplo de no-equivalencia: multiconjuntos de caras como invariante rápido\nDel problema al algoritmo: fuerza bruta vs. búsqueda con retroceso\nDiagramas de Heegaard de la Esfera de Poincaré como encajes celulares\nVerificación interactiva con SageMathCell",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#herramientas",
+    "href": "index.html#herramientas",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Herramientas",
+    "text": "Herramientas\nEste proyecto utiliza:\n\nSageMath 10.7 - Cálculos con RibbonGraph, PermutationGroupElement\nPython 3.13 - Scripts de análisis y visualización\nQuarto - Documentación interactiva con bloques de código ejecutables",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#referencias",
+    "href": "index.html#referencias",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Referencias",
+    "text": "Referencias\n\nGross, J. L., & Tucker, T. W. (1987). Topological Graph Theory\nLando, S. K., & Zvonkin, A. K. (2004). Graphs on Surfaces\nEdmonds, J. (1960). A combinatorial representation for polyhedral surfaces\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen\nSageMath - Ribbon Graphs Documentation\n\n\n\n2026",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html",
+    "href": "capitulos/03-invariantes.html",
+    "title": "3. Invariantes Topológicos",
+    "section": "",
+    "text": "Esta sección es práctica: aprenderemos a usar SageMath para calcular los invariantes topológicos que clasifican la superficie cerrada donde se aloja el grafo:",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
+    "href": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
+    "title": "3. Invariantes Topológicos",
+    "section": "1. Conteo de Elementos (\\(V, E, F\\))",
+    "text": "1. Conteo de Elementos (\\(V, E, F\\))\nRecordemos que en un mapa combinatorio:\n\n\\(V\\): Ciclos de \\(\\sigma\\)\n\\(E\\): Ciclos de \\(\\rho\\) (o \\(|D|/2\\))\n\\(F\\): Ciclos de \\(\\varphi = \\rho \\sigma\\)\n\n\n\n\n\n\n\nNotaInterpretación: ¿Caras o Fronteras?\n\n\n\nEn un ribbon graph, los ciclos de la permutación \\(\\varphi\\) describen las componentes de frontera de la superficie con borde obtenida al engrosar el grafo. Si se tapan esas fronteras con discos, esas mismas componentes pasan a ser las caras del encaje en la superficie cerrada.\nPor ello, SageMath cuenta estos ciclos con number_boundaries(). En este curso, \\(b\\) denota el número de componentes de frontera y coincide con \\(F\\) cuando interpretamos el mapa sobre la superficie cerrada (\\(F=b\\)).\n\n\nSageMath nos permite extraer estos valores directamente del objeto RibbonGraph.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
+    "href": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
+    "title": "3. Invariantes Topológicos",
+    "section": "2. La Característica de Euler (\\(\\chi\\))",
+    "text": "2. La Característica de Euler (\\(\\chi\\))\nLa característica de Euler es el invariante más fundamental. Se define combinatoriamente como:\n\\[ \\chi = V - E + F \\]\nEsta es la característica de Euler de la superficie cerrada obtenida al pegar discos en todas las fronteras del grafo.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
+    "href": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
+    "title": "3. Invariantes Topológicos",
+    "section": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))",
+    "text": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))\nEl género \\(g\\) se calcula siempre a partir de la superficie cerrada asociada. La cuenta es la misma, solo cambia la interpretación de \\(F\\) y \\(b\\):\n\nEn el ribbon graph, los ciclos de \\(\\varphi\\) son fronteras, de modo que \\(b\\) es el número de componentes de frontera.\nAl tapar cada frontera con un disco, esas mismas componentes pasan a ser las caras \\(F\\) de la superficie cerrada.\n\nPor lo tanto, en la superficie cerrada se cumple:\n\\[ \\chi = V - E + F = V - E + b \\quad \\Rightarrow \\quad g = \\frac{2 - (V - E + b)}{2} \\]\nSageMath detecta automáticamente el número de componentes de frontera (\\(b\\)), y ese mismo valor coincide con \\(F\\) cuando se interpreta el mapa en la superficie cerrada.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nNotaNota sobre number_boundaries()\n\n\n\nEn la implementación de RibbonGraph de SageMath, el método number_boundaries() devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras \\(F\\). La fórmula funciona consistentemente.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
+    "href": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
+    "title": "3. Invariantes Topológicos",
+    "section": "4. Automatización: Una función de análisis",
+    "text": "4. Automatización: Una función de análisis\nComo ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#galería-de-ejemplos",
+    "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
+    "title": "3. Invariantes Topológicos",
+    "section": "5. Galería de Ejemplos",
+    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#ejercicios",
+    "href": "capitulos/03-invariantes.html#ejercicios",
+    "title": "3. Invariantes Topológicos",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Diseñador de Superficies\n\n\n\nUsa la función analizar_topologia para encontrar un sistema de rotación que genere una superficie de género 2 (Bitoro).\nPista: Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar \\(\\sigma\\) en un bouquet de 4 lazos.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Grafos Completos\n\n\n\nInvestiga el género de los grafos completos \\(K_n\\).\n\nVerifica que \\(K_3\\) tiene género 0.\nConstruye un sistema de rotación para \\(K_4\\) y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (\\(g=0\\))?\n¿Cuál es el género mínimo para \\(K_5\\)?\n\n\n\n\nPublicado el 09 de febrero de 2026",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/08-br-diagrama-poincare.html",
+    "href": "capitulos/08-br-diagrama-poincare.html",
+    "title": "8. BR del Diagrama de Poincaré",
+    "section": "",
+    "text": "El cálculo del polinomio de Bollobás-Riordan para el diagrama de Heegaard de la esfera de Poincaré se realizó con la implementación paralela del script rápido de la sección anterior.\n\nUsamos el sistema de rotación:\n\\[\n\\begin{aligned}\n\\sigma &= (1,2,3,4)(5,6,7,8)(9,10,11,12)(13,14,15,16)(17,18,19,20)(21,22,23,24) \\\\\n       &\\phantom{=} (25,26,27,28)(29,30,31,32)(33,34,35,36)(37,38,39,40)(41,42,43,44)(45,46,47,48)\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n\\rho &= (1,7)(2,36)(3,25)(4,48)(5,11)(6,40)(8,30)(9,15)(10,42)(12,34)(13,19)(14,38) \\\\\n     &\\phantom{=} (16,18)(17,23)(20,22)(21,27)(24,26)(28,32)(29,35)(31,45)(33,39)(37,43)(41,47)(44,46)\n\\end{aligned}\n\\]\nAquí \\(V=12\\) y \\(E=24\\), así que la suma recorre \\(2^{24}=16{,}777{,}216\\) subgrafos.\n\n\n\n\n\n\nNotaPolinomio obtenido\n\n\n\nEl exponente de \\(z\\) es \\(2g(A)\\) (caso orientable), por lo que aparecen potencias pares de \\(z:\\)\n\\[\n\\begin{aligned}\nR(G;x,y,z) &= P_0(x,y) + z^2 P_1(x,y) + z^4 P_2(x,y).\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_2(x,y) ={}& y^{13} + 24y^{12} + 268y^{11} + 6xy^{10} + 1838y^{10} + 110xy^9 + 8594y^9 \\\\\n&+ 8x^2y^8 + 892xy^8 + 28652y^8 + 108x^2y^7 + 4136xy^7 + 68844y^7\\\\\n&+ 8x^3y^6 + 596x^2y^6 + 11728xy^6 + 116692y^6 + 48x^3y^5 + 1592x^2y^5\\\\\n&+ 19680xy^5 + 129208y^5 + 96x^3y^4 + 1824x^2y^4 + 15712xy^4 + 72480y^4.\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_1(x,y) ={}& 8y^{11} + 13xy^{10} + 167y^{10} + 11x^2y^9 + 248xy^9 + 1629y^9 \\\\\n&+ 5x^3y^8 + 207x^2y^8 + 2223xy^8 + 9809y^8 + x^4y^7 + 104x^3y^7 \\\\\n&+ 1809x^2y^7 + 12240xy^7 + 40366y^7 + 30x^4y^6 + 966x^3y^6 + 9458x^2y^6 \\\\\n&+ 45278xy^6 + 118108y^6 + 4x^5y^5 + 370x^4y^5 + 5040x^3y^5 + 31724x^2y^5 \\\\\n&+ 115072xy^5 + 246750y^5 + 118x^5y^4 + 2016x^4y^4 + 15124x^3y^4 + 67448x^2y^4 \\\\\n&+ 195774xy^4 + 356096y^4 + 36x^6y^3 + 598x^5y^3 + 4874x^4y^3 + 24332x^3y^3 \\\\\n&+ 83464x^2y^3 + 201950xy^3 + 312266y^3 + 8x^7y^2 + 100x^6y^2 + 816x^5y^2 \\\\\n&+ 4364x^4y^2 + 16392x^3y^2 + 45244x^2y^2 + 89024xy^2 + 106196y^2.\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_0(x,y) ={}& 15y^9 + 49xy^8 + 279y^8 + 91x^2y^7 + 838xy^7 + 2439y^7 + 131x^3y^6+ 1455x^2y^6\\\\\n&  + 6745xy^6 + 13133y^6 + 168x^4y^5 + 1950x^3y^5 + 10860x^2y^5+ 32786xy^5\\\\\n&  + 47684y^5 + x^7y^4 + 9x^6y^4 + 233x^5y^4 + 2335x^4y^4 + 13241x^3y^4+ 47129x^2y^4\\\\\n&   + 103477xy^4 + 120103y^4 + 4x^8y^3 + 40x^7y^3 + 371x^6y^3+ 2652x^5y^3\\\\\n&   + 13417x^4y^3 + 48520x^3y^3 + 124093x^2y^3 + 213428xy^3+ 209059y^3\\\\\n&  + 6x^9y^2 + 66x^8y^2 + 460x^7y^2 + 2512x^6y^2 + 10823x^5y^2 + 36693x^4y^2\\\\\n&  + 96706x^3y^2 + 193034x^2y^2 + 275765xy^2 + 235903y^2 + 4x^{10}y + 316x^8y \\\\\n&  + 1520x^7y + 5804x^6y + 18120x^5y + 46428x^4y + 96512x^3y + 158208x^2y \\\\\n&  + 191064xy + 48x^9y + 137976y + x^{11} + 13x^{10} + 87x^9 + 403x^8 + 1446x^7  \\\\\n&+ 4222x^6+ 10250x^5 + 20754x^4 + 34617x^3 + 46005x^2 + 44991x + 25627.\n\\end{aligned}\n\\]\n\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.8 BR de la Esfera de Poincare"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html",
+    "href": "capitulos/07-bollobas-riordan.html",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "",
+    "text": "Este capítulo está dedicado al polinomio de Bollobás-Riordan, su interpretación topológica y su cálculo explícito con Sage.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html#motivación",
+    "href": "capitulos/07-bollobas-riordan.html#motivación",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Motivación",
+    "text": "Motivación\nEl polinomio de Tutte clásico es un invariante potente para grafos abstractos, pero no detecta la topología del encaje: dos ribbon graphs con el mismo grafo subyacente y el mismo polinomio de Tutte pueden encajarse en superficies de géneros distintos.\nEl polinomio de Bollobás-Riordan subsana esta limitación. Introduce una variable \\(z\\) cuyo exponente registra \\(\\gamma(F)=k(F)-f(F)+n(F)\\); en el caso orientable, \\(\\gamma(F)=2g(F)\\) (doble del género). Así, para grafos planos la variable \\(z\\) no aparece, mientras que para encajes en el toro o superficies de género mayor sí lo hace.\n\n\nDefinición formal\n\n\n\n\n\n\nNotaPolinomio de Bollobás-Riordan\n\n\n\nPara un subgrafo generador \\(F \\subseteq G\\) (mismo conjunto de vértices, subconjunto arbitrario de aristas), sean \\(k(F)\\), \\(e(F)\\), \\(v(F)\\), \\(f(F)\\) y \\(g(F)\\) su número de componentes conexas, aristas, vértices, caras (componentes de frontera de la cinta) y género, respectivamente. Definimos \\(r(F) = v(F) - k(F)\\) y \\(n(F) = e(F) - r(F)\\).\nEl polinomio de Bollobás-Riordan de un grafo \\(G\\) encajado celularmente en una superficie orientable es\n\\[\nR(G;x,y,z)\n=\n\\sum_{F \\subseteq G}\n(x-1)^{r(G)-r(F)}\\,y^{n(F)}\\,z^{k(F)-f(F)+n(F)},\n\\]\ndonde la suma recorre todos los subgrafos generadores \\(F\\) de \\(G\\).\n\n\nEn este capítulo usamos además la notación computacional \\(A \\subseteq E\\), con \\(F=(V,A)\\), equivalente a la definición anterior. Como \\(F\\) es spanning, siempre conserva todos los vértices de \\(G\\) y por eso puede tener vértices aislados.\nEn esa notación:\n\n\\(r(G)-r(F)=k(F)-k(G)\\) (porque \\(v(F)=v(G)\\))\n\\(n(F)=e(F)-r(F)=|A|-v(F)+k(F)\\)\n\\(k(F)-f(F)+n(F)=\\gamma(F)\\), y en superficies orientables \\(\\gamma(F)=2g(F)\\)\n\n\n\nInterpretación de los exponentes\n\n\n\n\n\n\n\nExponente\nSignificado\n\n\n\n\n\\(r(G)-r(F)\\)\nExponente de \\((x-1)\\); mide cuánto cae el rango al pasar de \\(G\\) a \\(F\\)\n\n\n\\(n(F)\\)\nExponente de \\(y\\); nulidad ciclomática de \\(F\\)\n\n\n\\(k(F)-f(F)+n(F)\\)\nExponente de \\(z\\); coincide con \\(\\gamma(F)\\), que en el caso orientable vale \\(2g(F)\\)\n\n\n\n\n\nCómo se implementa en Sage (por exponente)\nBuena parte de las piezas ya se construyó en capítulos anteriores (permutaciones \\(\\sigma\\), \\(\\rho\\) y la permutación de caras \\(\\varphi\\)). Aquí solo se integran para evaluar, subgrafo por subgrafo:\n\nv(F): número de ciclos de sigma.cycle_tuples(singletons=True).\ne(F): número de aristas activas en el subconjunto \\(A\\).\nk(F): componentes conexas del subgrafo \\((V,A)\\) con Union-Find sobre todos los vértices.\nf(F): ciclos de \\(\\varphi_A=\\rho_A\\circ\\sigma_A\\) en los darts activos, más los vértices aislados.\nr(F)=v(F)-k(F) y n(F)=e(F)-r(F).\nExponentes del monomio: \\((x-1)^{r(G)-r(F)}y^{n(F)}z^{k(F)-f(F)+n(F)}\\).\n\n\n\nEvaluación exacta por spanning subgraph\nLa siguiente celda muestra explícitamente la contribución de cada \\(F=(V,A)\\) para el theta en el toro. En la columna aislados se ve cuándo aparecen vértices aislados.\n\n\n\n\n\n\nImplementación en Sage\nLa fórmula de suma sobre subgrafos es directamente computable. Iteramos sobre los \\(2^m\\) subconjuntos de aristas y acumulamos cada término:\n\n\n\nLos resultados esperados son:\n\n\n\nRibbon graph\nGénero\n\\(R(G;\\, x, y, z)\\)\n\n\n\n\nToro (1 vértice, 2 loops)\n1\n\\(1 + 2y + y^2z^2\\)\n\n\nLoop en la esfera\n0\n\\(1 + y\\)\n\n\nGrafo theta en la esfera\n0\n\\(x + 2 + 3y + y^2\\)\n\n\nGrafo theta en el toro\n1\n\\(x + 2 + 3y + y^2z^2\\)\n\n\n\n\n\nEjemplo comparativo: grafo theta en esfera y toro\nCon el mismo grafo abstracto theta (dos vértices y tres aristas paralelas), dos encajes celulares producen polinomios distintos:\n\nEn la esfera: \\(\\sigma=(1,3,5)(2,6,4)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) \\[\nR_{\\text{theta, esfera}}(x,y,z)=x+2+3y+y^2.\n\\]\nEn el toro: \\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) \\[\nR_{\\text{theta, toro}}(x,y,z)=x+2+3y+y^2z^2.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipLa variable \\(z\\) y el género\n\n\n\nCompara los dos últimos renglones de la tabla: el grafo theta en la esfera da \\(x + 2 + 3y + y^2\\) (sin \\(z\\)), mientras que el mismo grafo theta encajado en el toro da \\(x + 2 + 3y + y^2 z^2\\). El único cambio es \\(y^2 \\to y^2 z^2\\), lo que refleja que el subgrafo completo (todas las aristas) tiene género 0 en la esfera y género 1 en el toro.\nPara grafos planarmente encajados, \\(\\gamma(A) = 0\\) para todo \\(A\\), de modo que \\(z\\) nunca aparece y \\(R(G; x, y, 1) = T(G; x, y+1)\\) recupera el polinomio de Tutte clásico.\n\n\nEvaluaciones especiales:\n\n\\(R(G; 1, 1, 1) = 2^m\\) cuenta todos los subconjuntos de aristas.\nPara encajes en la esfera, \\(z\\) no aparece y \\(R(G; x, y, 1) = T(G; x, y+1)\\) recupera Tutte.\nEl coeficiente \\([z^{2g}]R(G; 1, 1, z)\\) cuenta subgrafos de género \\(g\\) (en el caso orientable, los exponentes impares se anulan).\n\n\n\n\n\n\n\nAdvertenciaComplejidad computacional\n\n\n\nLa función bollobas_riordan itera sobre los \\(2^m\\) subconjuntos de aristas. Para cada subconjunto \\(A\\):\n\nconstruir \\(D_A\\): \\(O(|A|)\\)\ncalcular \\(k(A)\\) con Union-Find: \\(O(m\\,\\alpha(n))\\)\nconstruir \\(\\sigma_A\\) siguiendo \\(\\sigma\\) dart a dart: \\(O(|D_A| \\cdot n)\\) en el peor caso\ncontar ciclos de \\(\\varphi_A\\): \\(O(|D_A|)\\)\n\nEl coste total es \\(O(2^m \\cdot mn)\\), exponencial en el número de aristas.\n\n\n\n\\(m\\)\n\\(2^m\\)\nTiempo orientativo\n\n\n\n\n6\n64\ninstantáneo\n\n\n12\n4 096\n&lt; 1 s\n\n\n20\n1 048 576\nminutos\n\n\n30\n\\(\\approx 10^9\\)\nhoras\n\n\n\nEsto es esperable: calcular el polinomio de Tutte clásico ya es #P-difícil1 para grafos generales [Jaeger 1990], y el polinomio de Bollobás-Riordan extiende ese problema. La implementación anterior es clara y correcta para los ejemplos del curso (\\(m \\leq 6\\)); la siguiente sección presenta una versión optimizada que reduce el factor constante.\n\n\n\n\nImplementación optimizada\nEl cuello de botella real no son las llamadas a sigma(d) ni las operaciones de set, sino la aritmética de polinomios de Sage dentro del bucle:\nresult += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma\nPara cada uno de los \\(2^m\\) subconjuntos esto ejecuta 3–4 operaciones sobre objetos MPolynomial de Sage (exponenciación, multiplicación, suma), cada una con un coste de decenas de microsegundos frente al microsegundo o menos de una operación Python pura. Con \\(2^6 = 64\\) subconjuntos, eso supone ya ~1–2 ms solo en esta línea.\nLa solución es sacar la aritmética de Sage fuera del bucle: acumular coeficientes enteros en un diccionario Python durante el bucle, y construir el polinomio una sola vez al final. El término \\((x-1)^k\\) se expande con el teorema del binomio usando aritmética entera pura:\n\\[\n(x-1)^k = \\sum_{j=0}^{k} \\binom{k}{j}(-1)^{k-j}\\, x^j\n\\]\n\n\n\nLa diferencia clave:\n\n\n\n\n\n\n\n\nAspecto\nbollobas_riordan (original)\nbollobas_riordan_rapido\n\n\n\n\nAritmética de polinomios\nDentro del bucle (\\(2^m\\) veces)\nFuera del bucle (una sola vez)\n\n\nTipo de acumulación\nSuma de objetos MPolynomial\nSuma de enteros Python en un dict\n\n\nExpansión de \\((x-1)^k\\)\nSage la calcula implícitamente\nTabla de binomios precalculada\n\n\nRobustez numérica\nPuede ocultar errores de conteo en exponentes\nVerifica que \\(\\gamma(A)=k-f+n\\) sea par y no negativa\n\n\nVértices aislados\nRecorre ciclos con any(...) en cada subconjunto\nMarcado explícito por vértice activo (bytearray)\n\n\nConstrucción final\nIncremental (costosa)\nUn único sum(...) al terminar\n\n\n\n\n\n\n\n\n\nEl polinomio como invariante de ribbon graphs\nUn resultado fundamental es que sistemas de rotación equivalentes tienen el mismo polinomio de Bollobás-Riordan. Esto se sigue de que la equivalencia es un isomorfismo de ribbon graphs: si \\(\\varphi \\sigma_1 \\varphi^{-1} = \\sigma_2\\) y \\(\\varphi \\rho \\varphi^{-1} = \\rho\\), entonces \\(\\varphi\\) permuta los subconjuntos de aristas biyectivamente preservando todos los invariantes del que depende \\(R\\): \\(k(A)\\), \\(\\gamma(A)\\) y \\(\\mathrm{bc}(A)\\).\nEn el capítulo 5 verificamos que el moño y el ojo son ribbon graphs equivalentes. Por este resultado, sus polinomios de Bollobás-Riordan deben ser iguales. El ejercicio 1 propone verificarlo computacionalmente.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html#ejercicios",
+    "href": "capitulos/07-bollobas-riordan.html#ejercicios",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: El moño y el ojo tienen el mismo polinomio\n\n\n\nUsa la función bollobas_riordan para calcular \\(R(\\text{moño}; x, y, z)\\) y \\(R(\\text{ojo}; x, y, z)\\) con los datos:\n\\[\\rho = (1,5)(4,8)(2,6)(3,7)(9,10)(11,12)\\] \\[\\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11), \\quad \\sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11)\\]\n\n\n\n\n\n\n\n\n\n\n\nVerifica que \\(R(\\sigma_1, \\rho) = R(\\sigma_2, \\rho)\\) (ambos son equivalentes, luego el polinomio debe coincidir).\n¿Aparece \\(z\\) en el polinomio? ¿Qué dice eso del género del encaje?\nCompara con \\(R\\) del toro de 1 vértice y 2 loops: ¿son iguales o distintos los polinomios?\n\n\n\n\n\n\n\n\n\nTipEjercicio 2: Encaje planar vs. no planar del grafo theta\n\n\n\nEl grafo theta son dos vértices conectados por tres aristas paralelas. Tiene dos encajes celulares cualitativamente distintos:\n\nEn la esfera: \\(\\sigma_{\\mathrm{esf}} = (1,3,5)(2,6,4)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) — tres caras, género 0\nEn el toro: \\(\\sigma_{\\mathrm{tor}} = (1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) — una cara, género 1\n\n\nCalcula el polinomio de Bollobás-Riordan de cada encaje.\n¿En qué término difieren? ¿Puede el polinomio de Tutte distinguirlos?\nEvalúa ambos polinomios en \\(z=0\\) y compara con el resultado esperado del caso planar.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html#resumen",
+    "href": "capitulos/07-bollobas-riordan.html#resumen",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Resumen",
+    "text": "Resumen\n\nEl polinomio de Bollobás-Riordan generaliza el de Tutte: la variable \\(z\\) detecta \\(\\gamma(A)=k(A)-f(A)+n(A)\\) (que en orientables coincide con \\(2g(A)\\)) y está ausente en encajes planos.\nLa fórmula de suma sobre subgrafos es directamente computable en Sage iterando sobre los \\(2^m\\) subconjuntos de aristas.\nEl polinomio es un invariante de ribbon graphs: sistemas de rotación equivalentes dan el mismo polinomio.\nEl caso completo del diagrama de Heegaard de la esfera de Poincaré (\\(E=24\\)) se presenta en el capítulo 8 con validación reproducible y polinomio explícito.\n\nEl polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a teoría de nudos (polinomios de nudos tipo HOMFLY-PT), física matemática (modelos de Potts en superficies), y combinatoria enumerativa de mapas.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html#referencias",
+    "href": "capitulos/07-bollobas-riordan.html#referencias",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Referencias",
+    "text": "Referencias\n\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen, 323(1), 81–96.\nChmutov, S. (2009). Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial. Journal of Combinatorial Theory, Series B, 99(3), 617–638.\nEllis-Monaghan, J. A., & Moffatt, I. (2013). Graphs on Surfaces: Dualities, Polynomials, and Knots. Springer.\nJaeger, F., Vertigan, D. L., & Welsh, D. J. A. (1990). On the computational complexity of the Jones and Tutte polynomials. Mathematical Proceedings of the Cambridge Philosophical Society, 108(1), 35–53.\nSageMath – Ribbon Graphs",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html#footnotes",
+    "href": "capitulos/07-bollobas-riordan.html#footnotes",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Notas",
+    "text": "Notas\n\n\nLa clase de complejidad #P (Sharp-P) agrupa los problemas de conteo asociados a problemas de decisión en NP. Un problema es #P-difícil si calcular su solución es al menos tan complejo como contar las soluciones de cualquier problema en NP. En la práctica, implica que el tiempo de cómputo crece exponencialmente con el tamaño de la entrada y no se conocen algoritmos eficientes.↩︎",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
     ]
   },
   {
