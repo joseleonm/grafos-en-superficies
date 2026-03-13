@@ -1,0 +1,1133 @@
+---
+title: "7. Polinomio de Bollobás-Riordan"
+subtitle: "Definición, cálculo y optimización en Sage"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+                        linked: true,
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
+---
+
+Este capítulo está dedicado al polinomio de Bollobás-Riordan, su interpretación topológica y su cálculo explícito con Sage.
+
+---
+
+## Motivación
+
+El polinomio de Tutte clásico es un invariante potente para grafos abstractos, pero **no detecta la topología del encaje**: dos ribbon graphs con el mismo grafo subyacente y el mismo polinomio de Tutte pueden encajarse en superficies de géneros distintos.
+
+El **polinomio de Bollobás-Riordan** subsana esta limitación. Introduce una variable $z$ cuyo exponente registra $\gamma(F)=k(F)-f(F)+n(F)$; en el caso orientable, $\gamma(F)=2g(F)$ (doble del género). Así, para grafos planos la variable $z$ no aparece, mientras que para encajes en el toro o superficies de género mayor sí lo hace.
+
+---
+
+### Definición formal
+
+::: {.callout-note}
+## Polinomio de Bollobás-Riordan 
+
+Para un subgrafo generador $F \subseteq G$ (mismo conjunto de vértices, subconjunto arbitrario de aristas), sean $k(F)$, $e(F)$, $v(F)$, $f(F)$ y $g(F)$ su número de componentes conexas, aristas, vértices, caras (componentes de frontera de la cinta) y género, respectivamente. Definimos $r(F) = v(F) - k(F)$ y $n(F) = e(F) - r(F)$.
+
+El **polinomio de Bollobás-Riordan** de un grafo $G$ encajado celularmente en una superficie orientable es
+
+$$
+R(G;x,y,z)
+=
+\sum_{F \subseteq G}
+(x-1)^{r(G)-r(F)}\,y^{n(F)}\,z^{k(F)-f(F)+n(F)},
+$$
+
+donde la suma recorre todos los subgrafos generadores $F$ de $G$.
+:::
+
+En este capítulo usamos además la notación computacional $A \subseteq E$, con $F=(V,A)$, equivalente a la definición anterior. Como $F$ es *spanning*, siempre conserva todos los vértices de $G$ y por eso puede tener vértices aislados.
+
+En esa notación:
+
+- $r(G)-r(F)=k(F)-k(G)$ (porque $v(F)=v(G)$)
+- $n(F)=e(F)-r(F)=|A|-v(F)+k(F)$
+- $k(F)-f(F)+n(F)=\gamma(F)$, y en superficies orientables $\gamma(F)=2g(F)$
+
+### Interpretación de los exponentes
+
+| Exponente | Significado |
+|---|---|
+| $r(G)-r(F)$ | Exponente de $(x-1)$; mide cuánto cae el rango al pasar de $G$ a $F$ |
+| $n(F)$ | Exponente de $y$; nulidad ciclomática de $F$ |
+| $k(F)-f(F)+n(F)$ | Exponente de $z$; coincide con $\gamma(F)$, que en el caso orientable vale $2g(F)$ |
+
+
+### Cómo se implementa en Sage (por exponente)
+
+Buena parte de las piezas ya se construyó en capítulos anteriores (permutaciones $\sigma$, $\rho$ y la permutación de caras $\varphi$). Aquí solo se integran para evaluar, subgrafo por subgrafo:
+
+- `v(F)`: número de ciclos de `sigma.cycle_tuples(singletons=True)`.
+- `e(F)`: número de aristas activas en el subconjunto $A$.
+- `k(F)`: componentes conexas del subgrafo $(V,A)$ con Union-Find sobre **todos** los vértices.
+- `f(F)`: ciclos de $\varphi_A=\rho_A\circ\sigma_A$ en los darts activos, más los vértices aislados.
+- `r(F)=v(F)-k(F)` y `n(F)=e(F)-r(F)`.
+- Exponentes del monomio: $(x-1)^{r(G)-r(F)}y^{n(F)}z^{k(F)-f(F)+n(F)}$.
+
+### Evaluación exacta por spanning subgraph
+
+La siguiente celda muestra explícitamente la contribución de cada $F=(V,A)$ para el theta en el toro. En la columna `aislados` se ve cuándo aparecen vértices aislados.
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+def evaluar_subgrafos_br(sigma_str, rho_str):
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+
+    V = len(sigma_cycles)
+    m = len(rho_cycles)
+
+    dart_to_v = {}
+    for i, cycle in enumerate(sigma_cycles):
+        for d in cycle:
+            dart_to_v[d] = i
+
+    def comp_conexas(edge_indices):
+        parent = list(range(V))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            p1, p2 = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if p1 != p2:
+                parent[p1] = p2
+        return len(set(find(i) for i in range(V)))
+
+    kG = comp_conexas(range(m))
+    rG = V - kG
+
+    filas = []
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+        eF = len(A)
+
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+
+        kF = comp_conexas(A)
+        rF = V - kF
+        nF = eF - rF
+
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+
+        fF = 0
+        visited = set()
+        for start in D_A:
+            if start not in visited:
+                fF += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+
+        aislados = 0
+        for cycle in sigma_cycles:
+            if not any(d in D_A for d in cycle):
+                fF += 1
+                aislados += 1
+
+        exp_x = rG - rF
+        exp_y = nF
+        exp_z = kF - fF + nF
+
+        filas.append((A, aislados, kF, eF, V, fF, exp_x, exp_y, exp_z))
+
+    return filas
+
+
+filas = evaluar_subgrafos_br('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)')
+print('A\tais\tk(F)\te(F)\tv(F)\tf(F)\texp(x-1)\texp(y)\texp(z)')
+for A, ais, kF, eF, vF, fF, ex, ey, ez in filas:
+    print(f"{A}\t{ais}\t{kF}\t{eF}\t{vF}\t{fF}\t{ex}\t{ey}\t{ez}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+def evaluar_subgrafos_br(sigma_str, rho_str):
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+    V = len(sigma_cycles)
+    m = len(rho_cycles)
+
+    dart_to_v = {}
+    for i, cyc in enumerate(sigma_cycles):
+        for d in cyc:
+            dart_to_v[d] = i
+
+    def comp_conexas(edge_indices):
+        parent = list(range(V))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            p1, p2 = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if p1 != p2:
+                parent[p1] = p2
+        return len(set(find(i) for i in range(V)))
+
+    kG = comp_conexas(range(m))
+    rG = V - kG
+    filas = []
+
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+        eF = len(A)
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+
+        kF = comp_conexas(A)
+        rF = V - kF
+        nF = eF - rF
+
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+
+        fF = 0
+        visited = set()
+        for start in D_A:
+            if start not in visited:
+                fF += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+
+        aislados = 0
+        for cyc in sigma_cycles:
+            if not any(d in D_A for d in cyc):
+                fF += 1
+                aislados += 1
+
+        ex = rG - rF
+        ey = nF
+        ez = kF - fF + nF
+        filas.append((A, aislados, kF, eF, V, fF, ex, ey, ez))
+
+    return filas
+```
+:::
+
+---
+
+### Implementación en Sage
+
+La fórmula de suma sobre subgrafos es directamente computable. Iteramos sobre los $2^m$ subconjuntos de aristas y acumulamos cada término:
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+def bollobas_riordan(sigma_str, rho_str):
+    """
+    Calcula el polinomio de Bollobás-Riordan vía suma sobre subgrafos.
+
+    R(G; x,y,z) = Σ_{A⊆E} (x-1)^{k(A)-k(G)} · y^{|A|-n+k(A)} · z^{γ(A)}
+
+    donde γ(A) = 2k(A) - n + |A| - bc(A) = 2g(A)
+    y bc(A) = ciclos de φ_A = ρ_A∘σ_A en D_A + vértices aislados.
+    """
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+
+    n = len(sigma_cycles)   # número de vértices
+    m = len(rho_cycles)     # número de aristas
+
+    # Mapear dart → índice de vértice
+    dart_to_v = {}
+    for i, cycle in enumerate(sigma_cycles):
+        for d in cycle:
+            dart_to_v[d] = i
+
+    # k(A): componentes conexas con Union-Find
+    def conn_comp(edge_indices):
+        parent = list(range(n))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            pa, pb = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if pa != pb:
+                parent[pa] = pb
+        return len(set(find(i) for i in range(n)))
+
+    kG = conn_comp(range(m))
+
+    P.<x, y, z> = PolynomialRing(ZZ)
+    result = P(0)
+
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+
+        # Darts de las aristas en A
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+
+        kA = conn_comp(A)
+
+        # σ_A: para cada dart en D_A, seguir σ hasta el siguiente dart en D_A
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+
+        # Ciclos de φ_A = ρ∘σ_A en D_A
+        visited = set()
+        bc = 0
+        for start in D_A:
+            if start not in visited:
+                bc += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+
+        # Añadir vértices aislados (ningún dart suyo está en D_A)
+        for cycle in sigma_cycles:
+            if not any(d in D_A for d in cycle):
+                bc += 1
+
+        gamma = 2*kA - n + len(A) - bc
+        if gamma % 2 != 0:
+            raise ValueError(f"gamma(A)=k-f+n impar: mask={mask}, gamma={gamma}")
+        if gamma < 0:
+            raise ValueError(f"gamma(A)=k-f+n negativo: mask={mask}, gamma={gamma}")
+        result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+
+    return result
+
+
+# ── Verificación 1: toro de 1 vértice y 2 loops ──────────────────────────
+# sigma=(1,3,2,4), rho=(1,2)(3,4)
+# V=1, E=2, F=1 → género 1 (toro)
+# Resultado esperado: 1 + 2y + y²z²
+print("=== Toro  (1 vértice, 2 loops) ===")
+R1 = bollobas_riordan('(1,3,2,4)', '(1,2)(3,4)')
+print(f"R = {R1}")
+print()
+
+# ── Verificación 2: grafo theta en el toro ───────────────────────────────
+# sigma=(1,3,5)(2,4,6), rho=(1,2)(3,4)(5,6)
+# V=2, E=3, F=1 → género 1 (toro)
+print("=== Grafo theta en el toro  (2 vértices, 3 aristas paralelas) ===")
+R2 = bollobas_riordan('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)')
+print(f"R = {R2}")
+print()
+
+# ── Verificación 3: loop en la esfera ────────────────────────────────────
+# sigma=(1,2), rho=(1,2)
+# V=1, E=1, F=2 → género 0 (esfera)
+# Sin términos en z
+print("=== Loop en la esfera  (género 0) ===")
+R3 = bollobas_riordan('(1,2)', '(1,2)')
+print(f"R = {R3}")
+print()
+
+# ── Grafo theta en la esfera (encaje planar) ─────────────────────────────
+# sigma=(1,3,5)(2,6,4), rho=(1,2)(3,4)(5,6)
+# V=2, E=3, F=3 → género 0 (esfera)
+print("=== Grafo theta en la esfera  (género 0) ===")
+R4 = bollobas_riordan('(1,3,5)(2,6,4)', '(1,2)(3,4)(5,6)')
+print(f"R = {R4}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+def bollobas_riordan(sigma_str, rho_str):
+    sigma = PermutationGroupElement(sigma_str)
+    rho   = PermutationGroupElement(rho_str)
+    sigma_cycles = sigma.cycle_tuples(singletons=True)
+    rho_cycles   = rho.cycle_tuples()
+    n = len(sigma_cycles)
+    m = len(rho_cycles)
+    dart_to_v = {}
+    for i, cycle in enumerate(sigma_cycles):
+        for d in cycle:
+            dart_to_v[d] = i
+    def conn_comp(edge_indices):
+        parent = list(range(n))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        for i in edge_indices:
+            d1, d2 = rho_cycles[i]
+            pa, pb = find(dart_to_v[d1]), find(dart_to_v[d2])
+            if pa != pb:
+                parent[pa] = pb
+        return len(set(find(i) for i in range(n)))
+    kG = conn_comp(range(m))
+    P.<x, y, z> = PolynomialRing(ZZ)
+    result = P(0)
+    for mask in range(2^m):
+        A = [i for i in range(m) if mask & (1 << i)]
+        D_A = set()
+        for i in A:
+            for d in rho_cycles[i]:
+                D_A.add(d)
+        kA = conn_comp(A)
+        sigma_A = {}
+        for d in D_A:
+            cur = sigma(d)
+            while cur not in D_A:
+                cur = sigma(cur)
+            sigma_A[d] = cur
+        visited = set()
+        bc = 0
+        for start in D_A:
+            if start not in visited:
+                bc += 1
+                cur = start
+                while cur not in visited:
+                    visited.add(cur)
+                    cur = rho(sigma_A[cur])
+        for cycle in sigma_cycles:
+            if not any(d in D_A for d in cycle):
+                bc += 1
+        gamma = 2*kA - n + len(A) - bc
+        if gamma % 2 != 0:
+            raise ValueError(f"gamma(A)=k-f+n impar: mask={mask}, gamma={gamma}")
+        if gamma < 0:
+            raise ValueError(f"gamma(A)=k-f+n negativo: mask={mask}, gamma={gamma}")
+        result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+    return result
+
+# Toro (1 vértice, 2 loops) → esperado: 1 + 2y + y²z²
+print(bollobas_riordan('(1,3,2,4)', '(1,2)(3,4)'))
+# Grafo theta en el toro → esperado: x + 2 + 3y + y²z²
+print(bollobas_riordan('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)'))
+```
+:::
+
+Los resultados esperados son:
+
+| Ribbon graph | Género | $R(G;\, x, y, z)$ |
+|---|:---:|---|
+| Toro (1 vértice, 2 loops) | 1 | $1 + 2y + y^2z^2$ |
+| Loop en la esfera | 0 | $1 + y$ |
+| Grafo theta en la esfera | 0 | $x + 2 + 3y + y^2$ |
+| Grafo theta en el toro | 1 | $x + 2 + 3y + y^2z^2$ |
+
+### Ejemplo comparativo: grafo theta en esfera y toro
+
+Con el mismo grafo abstracto theta (dos vértices y tres aristas paralelas), dos encajes celulares producen polinomios distintos:
+
+- En la esfera: $\sigma=(1,3,5)(2,6,4)$, $\rho=(1,2)(3,4)(5,6)$
+$$
+R_{\text{theta, esfera}}(x,y,z)=x+2+3y+y^2.
+$$
+- En el toro: $\sigma=(1,3,5)(2,4,6)$, $\rho=(1,2)(3,4)(5,6)$
+$$
+R_{\text{theta, toro}}(x,y,z)=x+2+3y+y^2z^2.
+$$
+
+::: {.content-visible when-format="html"}
+::: {layout-ncol=2}
+<div style="text-align:center">
+<img src="/imagenes/grafotoro6.png" alt="Grafo theta en la esfera" style="max-width:100%">
+</div>
+<div style="text-align:center">
+<img src="/imagenes/grafotoro3.png" alt="Grafo theta en el toro, G" style="max-width:100%">
+</div>
+:::
+:::
+
+::: {.content-visible when-format="pdf"}
+::: {layout-ncol=2}
+![Grafo theta en la esfera](/imagenes/grafotoro6.png){width=90%}
+![Grafo theta en el toro](/imagenes/grafotoro3.png){width=90%}
+:::
+:::
+
+
+::: {.callout-tip}
+## La variable $z$ y el género
+
+Compara los dos últimos renglones de la tabla: el grafo theta en la esfera da $x + 2 + 3y + y^2$ (sin $z$), mientras que el mismo grafo theta encajado en el toro da $x + 2 + 3y + y^2 z^2$. El único cambio es $y^2 \to y^2 z^2$, lo que refleja que el subgrafo completo (todas las aristas) tiene género 0 en la esfera y género 1 en el toro.
+
+Para grafos planarmente encajados, $\gamma(A) = 0$ para todo $A$, de modo que $z$ nunca aparece y $R(G; x, y, 1) = T(G; x, y+1)$ recupera el polinomio de Tutte clásico.
+:::
+
+**Evaluaciones especiales:**
+
+- $R(G; 1, 1, 1) = 2^m$ cuenta todos los subconjuntos de aristas.
+- Para encajes en la esfera, $z$ no aparece y $R(G; x, y, 1) = T(G; x, y+1)$ recupera Tutte.
+- El coeficiente $[z^{2g}]R(G; 1, 1, z)$ cuenta subgrafos de género $g$ (en el caso orientable, los exponentes impares se anulan).
+
+::: {.callout-warning}
+## Complejidad computacional
+
+La función `bollobas_riordan` itera sobre los $2^m$ subconjuntos de aristas. Para cada subconjunto $A$:
+
+- construir $D_A$: $O(|A|)$
+- calcular $k(A)$ con Union-Find: $O(m\,\alpha(n))$
+- construir $\sigma_A$ siguiendo $\sigma$ dart a dart: $O(|D_A| \cdot n)$ en el peor caso
+- contar ciclos de $\varphi_A$: $O(|D_A|)$
+
+El coste total es $O(2^m \cdot mn)$, **exponencial en el número de aristas**.
+
+| $m$ | $2^m$ | Tiempo orientativo |
+|:---:|---:|---|
+| 6 | 64 | instantáneo |
+| 12 | 4 096 | < 1 s |
+| 20 | 1 048 576 | minutos |
+| 30 | $\approx 10^9$ | horas |
+
+Esto es esperable: calcular el polinomio de Tutte clásico ya es **#P-difícil**^[La clase de complejidad **#P** (*Sharp-P*) agrupa los problemas de conteo asociados a problemas de decisión en NP. Un problema es #P-difícil si calcular su solución es al menos tan complejo como contar las soluciones de cualquier problema en NP. En la práctica, implica que el tiempo de cómputo crece exponencialmente con el tamaño de la entrada y no se conocen algoritmos eficientes.] para grafos generales [Jaeger 1990], y el polinomio de Bollobás-Riordan extiende ese problema. La implementación anterior es clara y correcta para los ejemplos del curso ($m \leq 6$); la siguiente sección presenta una versión optimizada que reduce el factor constante.
+:::
+
+### Implementación optimizada
+
+El cuello de botella real **no** son las llamadas a `sigma(d)` ni las operaciones de `set`, sino la **aritmética de polinomios de Sage dentro del bucle**:
+
+```python
+result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+```
+
+Para cada uno de los $2^m$ subconjuntos esto ejecuta 3–4 operaciones sobre objetos `MPolynomial` de Sage (exponenciación, multiplicación, suma), cada una con un coste de decenas de microsegundos frente al microsegundo o menos de una operación Python pura. Con $2^6 = 64$ subconjuntos, eso supone ya ~1–2 ms solo en esta línea.
+
+La solución es **sacar la aritmética de Sage fuera del bucle**: acumular coeficientes enteros en un diccionario Python durante el bucle, y construir el polinomio una sola vez al final. El término $(x-1)^k$ se expande con el teorema del binomio usando aritmética entera pura:
+
+$$
+(x-1)^k = \sum_{j=0}^{k} \binom{k}{j}(-1)^{k-j}\, x^j
+$$
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+def bollobas_riordan_rapido(sigma_str, rho_str):
+    """
+    Implementación robusta y general:
+      - acepta cualquier etiquetado de darts (no solo 1..N consecutivo),
+      - cuenta correctamente vértices aislados,
+        - verifica que $\\gamma(A)=k-f+n$ sea par y no negativa (equivale a $2g(A)$ en orientables).
+    """
+    sigma = PermutationGroupElement(sigma_str) if isinstance(sigma_str, str) else sigma_str
+    rho   = PermutationGroupElement(rho_str)   if isinstance(rho_str, str) else rho_str
+
+    sigma_cycles = [tuple(c) for c in sigma.cycle_tuples(singletons=True)]
+    rho_cycles   = [tuple(c) for c in rho.cycle_tuples(singletons=True)]
+
+    if any(len(c) != 2 for c in rho_cycles):
+        raise ValueError("rho debe ser una involucion sin puntos fijos (2-ciclos)")
+
+    sigma_labels = {d for cyc in sigma_cycles for d in cyc}
+    rho_labels   = {d for cyc in rho_cycles for d in cyc}
+    if sigma_labels != rho_labels:
+        raise ValueError("sigma y rho deben actuar sobre el mismo conjunto de darts")
+
+    labels = sorted(sigma_labels)
+    idx = {d: i for i, d in enumerate(labels)}
+
+    N = len(labels)
+    V = len(sigma_cycles)
+    m = len(rho_cycles)
+
+    sigma_next = [0] * N
+    rho_pair   = [0] * N
+    vertex_of  = [0] * N
+
+    for v, cyc in enumerate(sigma_cycles):
+        L = len(cyc)
+        for j, d in enumerate(cyc):
+            di = idx[d]
+            sigma_next[di] = idx[cyc[(j + 1) % L]]
+            vertex_of[di] = v
+
+    edge_darts = []
+    edge_vertices = []
+    for a, b in rho_cycles:
+        ia, ib = idx[a], idx[b]
+        rho_pair[ia] = ib
+        rho_pair[ib] = ia
+        edge_darts.append((ia, ib))
+        edge_vertices.append((vertex_of[ia], vertex_of[ib]))
+
+    parent = list(range(V))
+    parent_init = list(range(V))
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def count_components(mask):
+        parent[:] = parent_init
+        for ei in range(m):
+            if (mask >> ei) & 1:
+                u, v = edge_vertices[ei]
+                ru, rv = find(u), find(v)
+                if ru != rv:
+                    parent[ru] = rv
+        return len({find(v) for v in range(V)})
+
+    kG = count_components((1 << m) - 1)
+
+    # Tabla de binomios C(n,r)
+    binom = [[0] * (V + 1) for _ in range(V + 1)]
+    binom[0][0] = 1
+    for n in range(1, V + 1):
+        binom[n][0] = 1
+        for r in range(1, n + 1):
+            binom[n][r] = binom[n - 1][r - 1] + binom[n - 1][r]
+
+    active = bytearray(N)
+    visited = bytearray(N)
+    active_vertex = bytearray(V)
+    zeros_N = bytearray(N)
+    zeros_V = bytearray(V)
+    coeffs = {}
+
+    for mask in range(1 << m):
+        active[:] = zeros_N
+        visited[:] = zeros_N
+        active_vertex[:] = zeros_V
+        parent[:] = parent_init
+
+        eA = 0
+        for ei in range(m):
+            if (mask >> ei) & 1:
+                d1, d2 = edge_darts[ei]
+                active[d1] = 1
+                active[d2] = 1
+                active_vertex[vertex_of[d1]] = 1
+                active_vertex[vertex_of[d2]] = 1
+                eA += 1
+
+                u, v = edge_vertices[ei]
+                ru, rv = find(u), find(v)
+                if ru != rv:
+                    parent[ru] = rv
+
+        kA = len({find(v) for v in range(V)})
+
+        # bc(A): ciclos de phi_A + vértices aislados
+        bc = 0
+        for start in range(N):
+            if not active[start] or visited[start]:
+                continue
+            bc += 1
+            d = start
+            while not visited[d]:
+                visited[d] = 1
+                nxt = sigma_next[d]
+                while not active[nxt]:
+                    nxt = sigma_next[nxt]
+                d = rho_pair[nxt]
+
+        for v in range(V):
+            if not active_vertex[v]:
+                bc += 1
+
+        gamma = 2 * kA - V + eA - bc
+        if gamma % 2 != 0:
+            raise ValueError(
+                f"gamma(A)=k-f+n impar en mask={mask}: gamma={gamma}, kA={kA}, eA={eA}, bc={bc}"
+            )
+        if gamma < 0:
+            raise ValueError(
+                f"gamma(A)=k-f+n negativo en mask={mask}: gamma={gamma}"
+            )
+
+        s = kA - kG
+        t = eA - V + kA
+
+        for j in range(s + 1):
+            c = -binom[s][j] if (s - j) & 1 else binom[s][j]
+            key = (j, t, gamma)
+            coeffs[key] = coeffs.get(key, 0) + c
+
+    P.<x, y, z> = PolynomialRing(ZZ)
+    return P(sum(c * x^ex * y^ey * z^ez
+                 for (ex, ey, ez), c in coeffs.items() if c != 0))
+
+
+# ── Verificación ──────────────────────────────────────────────────────────
+casos = [
+    ('(1,3,2,4)',      '(1,2)(3,4)',         'Toro 1v 2loops', '1 + 2*y + y^2*z^2'),
+    ('(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)',   'Toro cap.3',     'x + 2 + 3*y + y^2*z^2'),
+    ('(1,2)',          '(1,2)',              'Loop esfera',    '1 + y'),
+    ('(1,3,5)(2,6,4)', '(1,2)(3,4)(5,6)',   'Theta esfera',   'x + 2 + 3*y + y^2'),
+]
+P.<x,y,z> = PolynomialRing(ZZ)
+for s, r, nombre, esperado in casos:
+    R = bollobas_riordan_rapido(s, r)
+    ok = '✓' if R == P(esperado) else '✗'
+    print(f"{ok}  {nombre}: R = {R}")
+</script>
+</div>
+```
+:::
+
+::: {.content-visible when-format="pdf"}
+```python
+def bollobas_riordan_rapido(sigma_str, rho_str):
+    sigma = PermutationGroupElement(sigma_str)
+    rho = PermutationGroupElement(rho_str)
+    sc = [tuple(c) for c in sigma.cycle_tuples(singletons=True)]
+    rc = [tuple(c) for c in rho.cycle_tuples(singletons=True)]
+    labels = sorted({d for cyc in sc for d in cyc} | {d for cyc in rc for d in cyc})
+    idx = {d:i for i,d in enumerate(labels)}
+    N, V, m = len(labels), len(sc), len(rc)
+    sigma_next = [0]*N; rho_pair = [0]*N; vertex_of = [0]*N
+    for v,cyc in enumerate(sc):
+        L = len(cyc)
+        for j,d in enumerate(cyc):
+            di = idx[d]; sigma_next[di] = idx[cyc[(j+1)%L]]; vertex_of[di] = v
+    edge_darts = []; edge_vertices = []
+    for a,b in rc:
+        ia,ib = idx[a], idx[b]
+        rho_pair[ia] = ib; rho_pair[ib] = ia
+        edge_darts.append((ia,ib)); edge_vertices.append((vertex_of[ia],vertex_of[ib]))
+    parent = list(range(V)); parent_init = list(range(V))
+    def find(x):
+        while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
+        return x
+    def ncomp(mask):
+        parent[:] = parent_init
+        for ei in range(m):
+            if (mask >> ei) & 1:
+                u,v = edge_vertices[ei]; ru,rv = find(u),find(v)
+                if ru != rv: parent[ru] = rv
+        return len({find(v) for v in range(V)})
+    kG = ncomp((1<<m)-1)
+    binom = [[0]*(V+1) for _ in range(V+1)]; binom[0][0] = 1
+    for n in range(1,V+1):
+        binom[n][0] = 1
+        for r in range(1,n+1): binom[n][r] = binom[n-1][r-1] + binom[n-1][r]
+    active = bytearray(N); visited = bytearray(N); active_vertex = bytearray(V)
+    zN = bytearray(N); zV = bytearray(V); coeffs = {}
+    for mask in range(1<<m):
+        active[:] = zN; visited[:] = zN; active_vertex[:] = zV; parent[:] = parent_init
+        eA = 0
+        for ei in range(m):
+            if (mask >> ei) & 1:
+                d1,d2 = edge_darts[ei]
+                active[d1] = 1; active[d2] = 1
+                active_vertex[vertex_of[d1]] = 1; active_vertex[vertex_of[d2]] = 1
+                eA += 1
+                u,v = edge_vertices[ei]; ru,rv = find(u),find(v)
+                if ru != rv: parent[ru] = rv
+        kA = len({find(v) for v in range(V)})
+        bc = 0
+        for start in range(N):
+            if not active[start] or visited[start]: continue
+            bc += 1; d = start
+            while not visited[d]:
+                visited[d] = 1
+                nxt = sigma_next[d]
+                while not active[nxt]: nxt = sigma_next[nxt]
+                d = rho_pair[nxt]
+        for v in range(V):
+            if not active_vertex[v]: bc += 1
+        gamma = 2*kA - V + eA - bc
+        if gamma % 2 != 0: raise ValueError(f"gamma(A)=k-f+n impar: mask={mask}, gamma={gamma}")
+        if gamma < 0: raise ValueError(f"gamma(A)=k-f+n negativo: mask={mask}, gamma={gamma}")
+        s = kA - kG; t = eA - V + kA
+        for j in range(s+1):
+            c = -binom[s][j] if (s-j)&1 else binom[s][j]
+            key = (j,t,gamma); coeffs[key] = coeffs.get(key,0) + c
+    P.<x,y,z> = PolynomialRing(ZZ)
+    return P(sum(c*x^ex*y^ey*z^ez for (ex,ey,ez),c in coeffs.items() if c))
+```
+:::
+
+La diferencia clave:
+
+| Aspecto | `bollobas_riordan` (original) | `bollobas_riordan_rapido` |
+|---|---|---|
+| Aritmética de polinomios | **Dentro** del bucle ($2^m$ veces) | **Fuera** del bucle (una sola vez) |
+| Tipo de acumulación | Suma de objetos `MPolynomial` | Suma de enteros Python en un `dict` |
+| Expansión de $(x-1)^k$ | Sage la calcula implícitamente | Tabla de binomios precalculada |
+| Robustez numérica | Puede ocultar errores de conteo en exponentes | Verifica que $\gamma(A)=k-f+n$ sea par y no negativa |
+| Vértices aislados | Recorre ciclos con `any(...)` en cada subconjunto | Marcado explícito por vértice activo (`bytearray`) |
+| Construcción final | Incremental (costosa) | Un único `sum(...)` al terminar |
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+import time
+
+# Celda autocontenida: si faltan funciones en la sesión, se definen aquí.
+
+if 'bollobas_riordan' not in globals():
+    def bollobas_riordan(sigma_str, rho_str):
+        sigma = PermutationGroupElement(sigma_str) if isinstance(sigma_str, str) else sigma_str
+        rho   = PermutationGroupElement(rho_str)   if isinstance(rho_str, str) else rho_str
+
+        sigma_cycles = sigma.cycle_tuples(singletons=True)
+        rho_cycles   = rho.cycle_tuples()
+
+        n = len(sigma_cycles)
+        m = len(rho_cycles)
+
+        dart_to_v = {}
+        for i, cycle in enumerate(sigma_cycles):
+            for d in cycle:
+                dart_to_v[d] = i
+
+        def conn_comp(edge_indices):
+            parent = list(range(n))
+            def find(x):
+                while parent[x] != x:
+                    parent[x] = parent[parent[x]]
+                    x = parent[x]
+                return x
+            for i in edge_indices:
+                d1, d2 = rho_cycles[i]
+                pa, pb = find(dart_to_v[d1]), find(dart_to_v[d2])
+                if pa != pb:
+                    parent[pa] = pb
+            return len(set(find(i) for i in range(n)))
+
+        kG = conn_comp(range(m))
+
+        P.<x, y, z> = PolynomialRing(ZZ)
+        result = P(0)
+
+        for mask in range(2^m):
+            A = [i for i in range(m) if mask & (1 << i)]
+
+            D_A = set()
+            for i in A:
+                for d in rho_cycles[i]:
+                    D_A.add(d)
+
+            kA = conn_comp(A)
+
+            sigma_A = {}
+            for d in D_A:
+                cur = sigma(d)
+                while cur not in D_A:
+                    cur = sigma(cur)
+                sigma_A[d] = cur
+
+            visited = set()
+            bc = 0
+            for start in D_A:
+                if start not in visited:
+                    bc += 1
+                    cur = start
+                    while cur not in visited:
+                        visited.add(cur)
+                        cur = rho(sigma_A[cur])
+
+            for cycle in sigma_cycles:
+                if not any(d in D_A for d in cycle):
+                    bc += 1
+
+            gamma = 2*kA - n + len(A) - bc
+            if gamma % 2 != 0:
+                raise ValueError(f"gamma(A)=k-f+n impar: mask={mask}, gamma={gamma}")
+            if gamma < 0:
+                raise ValueError(f"gamma(A)=k-f+n negativo: mask={mask}, gamma={gamma}")
+            result += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma
+
+        return result
+
+if 'bollobas_riordan_rapido' not in globals():
+    def bollobas_riordan_rapido(sigma_str, rho_str):
+        sigma = PermutationGroupElement(sigma_str) if isinstance(sigma_str, str) else sigma_str
+        rho   = PermutationGroupElement(rho_str)   if isinstance(rho_str, str) else rho_str
+
+        sigma_cycles = [tuple(c) for c in sigma.cycle_tuples(singletons=True)]
+        rho_cycles   = [tuple(c) for c in rho.cycle_tuples(singletons=True)]
+
+        if any(len(c) != 2 for c in rho_cycles):
+            raise ValueError("rho debe ser una involucion sin puntos fijos (2-ciclos)")
+
+        sigma_labels = {d for cyc in sigma_cycles for d in cyc}
+        rho_labels   = {d for cyc in rho_cycles for d in cyc}
+        if sigma_labels != rho_labels:
+            raise ValueError("sigma y rho deben actuar sobre el mismo conjunto de darts")
+
+        labels = sorted(sigma_labels)
+        idx = {d: i for i, d in enumerate(labels)}
+
+        N = len(labels)
+        V = len(sigma_cycles)
+        m = len(rho_cycles)
+
+        sigma_next = [0] * N
+        rho_pair   = [0] * N
+        vertex_of  = [0] * N
+
+        for v, cyc in enumerate(sigma_cycles):
+            L = len(cyc)
+            for j, d in enumerate(cyc):
+                di = idx[d]
+                sigma_next[di] = idx[cyc[(j + 1) % L]]
+                vertex_of[di] = v
+
+        edge_darts = []
+        edge_vertices = []
+        for a, b in rho_cycles:
+            ia, ib = idx[a], idx[b]
+            rho_pair[ia] = ib
+            rho_pair[ib] = ia
+            edge_darts.append((ia, ib))
+            edge_vertices.append((vertex_of[ia], vertex_of[ib]))
+
+        parent = list(range(V))
+        parent_init = list(range(V))
+
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        def count_components(mask):
+            parent[:] = parent_init
+            for ei in range(m):
+                if (mask >> ei) & 1:
+                    u, v = edge_vertices[ei]
+                    ru, rv = find(u), find(v)
+                    if ru != rv:
+                        parent[ru] = rv
+            return len({find(v) for v in range(V)})
+
+        kG = count_components((1 << m) - 1)
+
+        binom = [[0] * (V + 1) for _ in range(V + 1)]
+        binom[0][0] = 1
+        for n in range(1, V + 1):
+            binom[n][0] = 1
+            for r in range(1, n + 1):
+                binom[n][r] = binom[n - 1][r - 1] + binom[n - 1][r]
+
+        active = bytearray(N)
+        visited = bytearray(N)
+        active_vertex = bytearray(V)
+        zeros_N = bytearray(N)
+        zeros_V = bytearray(V)
+        coeffs = {}
+
+        for mask in range(1 << m):
+            active[:] = zeros_N
+            visited[:] = zeros_N
+            active_vertex[:] = zeros_V
+            parent[:] = parent_init
+
+            eA = 0
+            for ei in range(m):
+                if (mask >> ei) & 1:
+                    d1, d2 = edge_darts[ei]
+                    active[d1] = 1
+                    active[d2] = 1
+                    active_vertex[vertex_of[d1]] = 1
+                    active_vertex[vertex_of[d2]] = 1
+                    eA += 1
+
+                    u, v = edge_vertices[ei]
+                    ru, rv = find(u), find(v)
+                    if ru != rv:
+                        parent[ru] = rv
+
+            kA = len({find(v) for v in range(V)})
+
+            bc = 0
+            for start in range(N):
+                if not active[start] or visited[start]:
+                    continue
+                bc += 1
+                d = start
+                while not visited[d]:
+                    visited[d] = 1
+                    nxt = sigma_next[d]
+                    while not active[nxt]:
+                        nxt = sigma_next[nxt]
+                    d = rho_pair[nxt]
+
+            for v in range(V):
+                if not active_vertex[v]:
+                    bc += 1
+
+            gamma = 2 * kA - V + eA - bc
+            if gamma % 2 != 0:
+                raise ValueError(f"gamma(A)=k-f+n impar: mask={mask}, gamma={gamma}")
+
+            if gamma < 0:
+                raise ValueError(f"gamma(A)=k-f+n negativo: mask={mask}, gamma={gamma}")
+
+            s = kA - kG
+            t = eA - V + kA
+
+            for j in range(s + 1):
+                c = -binom[s][j] if (s - j) & 1 else binom[s][j]
+                key = (j, t, gamma)
+                coeffs[key] = coeffs.get(key, 0) + c
+
+        P.<x, y, z> = PolynomialRing(ZZ)
+        return P(sum(c * x^ex * y^ey * z^ez for (ex, ey, ez), c in coeffs.items() if c))
+
+def medir(f, args, N=30):
+    t0 = time.time()
+    for _ in range(N):
+        f(*args)
+    return (time.time() - t0) / N * 1000   # ms
+
+casos_bench = [
+    ('Toro 1v 2loops   m=2', '(1,3,2,4)',      '(1,2)(3,4)',         '1 + 2*y + y^2*z^2',     500),
+    ('Toro cap.3       m=3', '(1,3,5)(2,4,6)', '(1,2)(3,4)(5,6)',   'x + 2 + 3*y + y^2*z^2', 300),
+    ('Loop esfera      m=1', '(1,2)',          '(1,2)',              '1 + y',                 900),
+    ('Theta esfera     m=3', '(1,3,5)(2,6,4)', '(1,2)(3,4)(5,6)',   'x + 2 + 3*y + y^2',     300),
+]
+
+P.<x, y, z> = PolynomialRing(ZZ)
+
+print(f"{'Grafo':22s} {'OK':>3s} {'original':>11s} {'rápido':>11s} {'factor':>8s}")
+print("-" * 66)
+for nombre, s, r, esperado, N in casos_bench:
+    R_orig = bollobas_riordan(s, r)
+    R_fast = bollobas_riordan_rapido(s, r)
+    ok = ('✓' if (R_orig == R_fast == P(esperado)) else '✗')
+
+    t_orig = medir(bollobas_riordan, (s, r), N)
+    t_fast = medir(bollobas_riordan_rapido, (s, r), N)
+    factor = (t_orig / t_fast) if t_fast > 0 else float('inf')
+
+    print(f"{nombre:22s} {ok:>3s} {t_orig:8.2f} ms {t_fast:8.2f} ms {factor:6.1f}×")
+</script>
+</div>
+```
+:::
+
+---
+
+### El polinomio como invariante de ribbon graphs
+
+Un resultado fundamental es que **sistemas de rotación equivalentes tienen el mismo polinomio de Bollobás-Riordan**. Esto se sigue de que la equivalencia es un isomorfismo de ribbon graphs: si $\varphi \sigma_1 \varphi^{-1} = \sigma_2$ y $\varphi \rho \varphi^{-1} = \rho$, entonces $\varphi$ permuta los subconjuntos de aristas biyectivamente preservando todos los invariantes del que depende $R$: $k(A)$, $\gamma(A)$ y $\mathrm{bc}(A)$.
+
+En el capítulo 5 verificamos que el moño y el ojo son ribbon graphs equivalentes. Por este resultado, sus polinomios de Bollobás-Riordan deben ser iguales. El ejercicio 1 propone verificarlo computacionalmente.
+
+---
+
+## Ejercicios
+
+::: {.callout-tip}
+## Ejercicio 1: El moño y el ojo tienen el mismo polinomio
+
+Usa la función `bollobas_riordan` para calcular $R(\text{moño}; x, y, z)$ y $R(\text{ojo}; x, y, z)$ con los datos:
+
+$$\rho = (1,5)(4,8)(2,6)(3,7)(9,10)(11,12)$$
+$$\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11), \quad \sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11)$$
+
+::: {.content-visible when-format="html"}
+::: {layout-ncol=2}
+<div style="text-align:center">
+<img src="/imagenes/triangulos.png"  style="max-width:100%">
+
+</div>
+<div style="text-align:center">
+<img src="/imagenes/ojo.png"  style="max-width:80%">
+
+</div>
+:::
+:::
+
+::: {.content-visible when-format="pdf"}
+::: {layout-ncol=2}
+![](/imagenes/triangulos.png){width=90%}
+![](/imagenes/ojo.png){width=80%}
+:::
+:::
+
+1. Verifica que $R(\sigma_1, \rho) = R(\sigma_2, \rho)$ (ambos son equivalentes, luego el polinomio debe coincidir).
+2. ¿Aparece $z$ en el polinomio? ¿Qué dice eso del género del encaje?
+3. Compara con $R$ del toro de 1 vértice y 2 loops: ¿son iguales o distintos los polinomios?
+:::
+
+::: {.callout-tip}
+## Ejercicio 2: Encaje planar vs. no planar del grafo theta
+
+El **grafo theta** son dos vértices conectados por tres aristas paralelas. Tiene dos encajes celulares cualitativamente distintos:
+
+- **En la esfera**: $\sigma_{\mathrm{esf}} = (1,3,5)(2,6,4)$, $\rho=(1,2)(3,4)(5,6)$ — tres caras, género 0
+- **En el toro**: $\sigma_{\mathrm{tor}} = (1,3,5)(2,4,6)$, $\rho=(1,2)(3,4)(5,6)$ — una cara, género 1
+
+1. Calcula el polinomio de Bollobás-Riordan de cada encaje.
+2. ¿En qué término difieren? ¿Puede el polinomio de Tutte distinguirlos?
+3. Evalúa ambos polinomios en $z=0$ y compara con el resultado esperado del caso planar.
+:::
+
+---
+
+## Resumen
+
+- El **polinomio de Bollobás-Riordan** generaliza el de Tutte: la variable $z$ detecta $\gamma(A)=k(A)-f(A)+n(A)$ (que en orientables coincide con $2g(A)$) y está ausente en encajes planos.
+- La fórmula de suma sobre subgrafos es directamente computable en Sage iterando sobre los $2^m$ subconjuntos de aristas.
+- El polinomio es un **invariante de ribbon graphs**: sistemas de rotación equivalentes dan el mismo polinomio.
+- El caso completo del diagrama de Heegaard de la esfera de Poincaré ($E=24$) se presenta en el capítulo 8 con validación reproducible y polinomio explícito.
+
+El polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a teoría de nudos (polinomios de nudos tipo HOMFLY-PT), física matemática (modelos de Potts en superficies), y combinatoria enumerativa de mapas.
+
+---
+
+## Referencias
+
+- Bollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. *Mathematische Annalen*, **323**(1), 81–96.
+- Chmutov, S. (2009). Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial. *Journal of Combinatorial Theory, Series B*, **99**(3), 617–638.
+- Ellis-Monaghan, J. A., & Moffatt, I. (2013). *Graphs on Surfaces: Dualities, Polynomials, and Knots*. Springer.
+- Jaeger, F., Vertigan, D. L., & Welsh, D. J. A. (1990). On the computational complexity of the Jones and Tutte polynomials. *Mathematical Proceedings of the Cambridge Philosophical Society*, **108**(1), 35–53.
+- [SageMath – Ribbon Graphs](https://doc.sagemath.org/html/en/reference/discrete_geometry/sage/geometry/ribbon_graph.html)
