@@ -93,15 +93,14 @@ Verificación computacional de equivalencia entre sistemas de rotación.
 - Verificación interactiva con SageMathCell
 
 <!--
-### [6. Operaciones y Polinomio de Bollobás-Riordan](capitulos/06-recursividad.qmd)
+### [6. Operaciones Adicionales](capitulos/06-operaciones.qmd)
 
-Operaciones sobre ribbon graphs e invariantes polinomiales del encaje.
+Operaciones adicionales sobre ribbon graphs 
 
 - Contracción de aristas: fusión de vértices con preservación del género
 - Dualidad: intercambio de vértices y caras ($V^*=F$, $F^*=V$, $g^*=g$)
 - Base de homología y la fórmula $\mathrm{rank}(H_1) = 2g + b - 1$
-- Polinomio de Bollobás-Riordan: generalización del polinomio de Tutte a superficies
-- Implementación correcta vía suma sobre subgrafos y verificación interactiva
+
 -->
 ---
 

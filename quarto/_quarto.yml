@@ -1,9 +1,8 @@
 project:
   type: website
   output-dir: ../outputs/quarto-site
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   render:
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - index.qmd
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #     - capitulos/01-sistemas-rotacion.qmd
+  resources:
+    - data/
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"
@@ -24,17 +23,35 @@ website:
         icon: house-fill
         file: index.qmd
       - text: "1. Sistemas de Rotación"
-        file: capitulos/01-sistemas-rotacion.qmd
-      - text: "2. Mapas Combinatorios"
-        file: capitulos/02-mapas-combinatorios.qmd
-      - text: "3. Invariantes Topológicos"
-        file: capitulos/03-invariantes.qmd
-      - text: "4. Equivalencia"
-        file: capitulos/04-teorema.qmd
-      - text: "5. Ejemplos"
-        file: capitulos/05-ejemplos.qmd
-      # - text: "6. Bollobás-Riordan"
-      #   file: capitulos/06-recursividad.qmd
+        menu:
+          - text: "1.1 Introducción"
+            file: capitulos/01-sistemas-rotacion.qmd
+          - text: "1.2 Mapas Combinatorios"
+            file: capitulos/02-mapas-combinatorios.qmd
+          - text: "1.3 Invariantes Topológicos"
+            file: capitulos/03-invariantes.qmd
+          - text: "1.4 Teoremas Clave"
+            file: capitulos/04-teorema.qmd
+          - text: "1.5 Ejemplos Detallados"
+            file: capitulos/05-ejemplos.qmd
+          - text: "1.6 Operaciones adicionales"
+            file: capitulos/06-operaciones.qmd
+          - text: "1.7 Polinomio de Bollobás-Riordan"
+            file: capitulos/07-bollobas-riordan.qmd
+          - text: "1.8 BR de la Esfera de Poincare"
+            file: capitulos/08-br-diagrama-poincare.qmd
+      # - text: "2. Espacios Lente"
+      #   menu:
+      #     - text: "2.1 Grafos de Heegaard"
+      #       file: capitulos/07-espacios-lente.qmd
+      #     - text: "2.2 Polinomios de L(p,q)"
+      #       file: capitulos/08-polinomios-lente.qmd
+      #     - text: "2.3 Estructura del Polinomio BR"
+      #       file: capitulos/09-estructura-BR.qmd
+      #     - text: "2.4 Perfil de Cresta y Completitud"
+      #       file: capitulos/10-perfil-cresta.qmd
+      #     - text: "2.5 Explorador Computacional"
+      #       file: capitulos/11-explorador-polinomios.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -50,18 +67,36 @@ website:
       - text: "Inicio"
         icon: house-fill
         file: index.qmd
-      - text: "1. Sistemas de Rotación"
-        file: capitulos/01-sistemas-rotacion.qmd
-      - text: "2. Mapas Combinatorios"
-        file: capitulos/02-mapas-combinatorios.qmd
-      - text: "3. Invariantes Topológicos"
-        file: capitulos/03-invariantes.qmd
-      - text: "4. Equivalencia"
-        file: capitulos/04-teorema.qmd
-      - text: "5. Ejemplos"
-        file: capitulos/05-ejemplos.qmd
-      # - text: "6. Bollobás-Riordan"
-      #   file: capitulos/06-recursividad.qmd
+      - section: "1. Sistemas de Rotación"
+        contents:
+          - text: "1.1 Introducción"
+            file: capitulos/01-sistemas-rotacion.qmd
+          - text: "1.2 Mapas Combinatorios"
+            file: capitulos/02-mapas-combinatorios.qmd
+          - text: "1.3 Invariantes Topológicos"
+            file: capitulos/03-invariantes.qmd
+          - text: "1.4 Teoremas Clave"
+            file: capitulos/04-teorema.qmd
+          - text: "1.5 Ejemplos Detallados"
+            file: capitulos/05-ejemplos.qmd
+          - text: "1.6 Operaciones adicionales"
+            file: capitulos/06-operaciones.qmd
+          - text: "1.7 Polinomio de Bollobás-Riordan"
+            file: capitulos/07-bollobas-riordan.qmd
+          - text: "1.8 BR de la Esfera de Poincare"
+            file: capitulos/08-br-diagrama-poincare.qmd
+      # - text: "2. Espacios Lente"
+      #   menu:
+      #     - text: "2.1 Grafos de Heegaard"
+      #       file: capitulos/07-espacios-lente.qmd
+      #     - text: "2.2 Polinomios de L(p,q)"
+      #       file: capitulos/08-polinomios-lente.qmd
+      #     - text: "2.3 Estructura del Polinomio BR"
+      #       file: capitulos/09-estructura-BR.qmd
+      #     - text: "2.4 Perfil de Cresta y Completitud"
+      #       file: capitulos/10-perfil-cresta.qmd
+      #     - text: "2.5 Explorador Computacional"
+      #       file: capitulos/11-explorador-polinomios.qmd
 
   page-footer:
     center: |

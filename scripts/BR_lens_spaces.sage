@@ -10,7 +10,7 @@ USO:
     sage BR_lens_spaces.sage
 
 OPTIMIZACIONES FRENTE A LA VERSIÓN ANTERIOR:
-  1. Reducción por órbitas (Z/pZ para p primo): en vez de iterar sobre los
+    1. Reducción por órbitas (acción de Z/pZ): en vez de iterar sobre los
      2^{2p} subconjuntos y descartar los no-canónicos, enumeramos directamente
      los representantes canónicos usando collares ("necklaces") de longitud p.
      Coste: O(2^{2p} / p) computaciones de BR en lugar de O(2^{2p}).
@@ -128,6 +128,22 @@ def find_necklaces(p):
     return result
 
 
+def necklace_orbit_size(a, p):
+    """
+    Tamaño real de la órbita de a bajo rotación cíclica de p bits.
+
+    Para p primo: vale p salvo a in {0, all1} donde vale 1.
+    Para p compuesto: puede ser cualquier divisor de p.
+    """
+    mask_p = (1 << p) - 1
+    cur = ((a << 1) | (a >> (p - 1))) & mask_p
+    for k in range(1, p + 1):
+        if cur == a:
+            return k
+        cur = ((cur << 1) | (cur >> (p - 1))) & mask_p
+    return p
+
+
 # ─────────────────────────────────────────────────────────────
 # 3.  CÁLCULO DEL POLINOMIO BR  (bucle principal)
 # ─────────────────────────────────────────────────────────────
@@ -136,7 +152,7 @@ def BR_lens(p, q, verbose=True):
     """
     Calcula R(G_{p,q}; x, y, z).
 
-    Estrategia de enumeración (p primo):
+    Estrategia de enumeración:
         Una máscara de 2p bits representa un subconjunto A ⊆ E:
             bits 0..p-1   → aristas alfa
             bits p..2p-1  → aristas beta
@@ -144,10 +160,14 @@ def BR_lens(p, q, verbose=True):
         La rotación de vértices en Z/pZ actúa como:
             rotate(a, b) = (rotate_p(a), rotate_p(b))
 
-        Un par (a, b) es canónico iff a es un "collar" (mínimo de su órbita
-        de p bits). Si a ∉ {0, 111…1}, el tamaño de la órbita de (a,b) es p
-        para cualquier b. Si a ∈ {0, 111…1}, la órbita de (a,b) tiene tamaño
-        p a menos que b también sea un collar especial {0, 111…1}.
+                Un par (a, b) es canónico iff a es un "collar" (mínimo de su órbita
+                de p bits).
+
+                Para acumular correctamente todas las máscaras de cada órbita:
+                    - Si a ∈ {0, all1}, el peso del representante es orb_sz(b).
+                    - Si a es collar no trivial, usamos el peso orb_sz(a) para todo b.
+                Esto coincide con el caso primo (pesos 1 o p) y también cubre p
+                compuesto (órbitas de tamaño divisor de p).
 
         Enumeramos:
             a ∈ {0, all1}  → b recorre todos los collares de p bits
@@ -170,16 +190,18 @@ def BR_lens(p, q, verbose=True):
 
     mask_p = (1 << p) - 1
     all1   = mask_p
-    p_prime = is_prime(p)
-
     necklaces      = find_necklaces(p)
-    necklace_set   = set(necklaces)
     prim_necklaces = [a for a in necklaces if a not in (0, all1)]
+    prim_orbit_sz  = {a: necklace_orbit_size(a, p) for a in prim_necklaces}
 
     coeffs        = {}              # {(ex, ey, ez): coeficiente entero}
     active        = bytearray(n)   # flag: dart activo en la máscara actual
     vis           = bytearray(n)   # flag: dart visitado al contar caras
     active_vertex = bytearray(V)   # flag: vértice con al menos un dart activo
+    vp            = list(range(V)) # union-find, reutilizado entre llamadas
+    vp_init       = list(range(V)) # copia para reset sin allocación nueva
+    zeros_n       = bytearray(n)   # ceros para reset vía memcpy C-level
+    zeros_V       = bytearray(V)   # ceros para reset de active_vertex
 
     # Contadores de progreso
     t0 = time.time()
@@ -191,9 +213,8 @@ def BR_lens(p, q, verbose=True):
 
     # ── Función interna: procesar una máscara con su peso de órbita ──────────
     def procesar(mask, orb_sz):
-        # Reiniciar darts activos
-        for d in range(n):
-            active[d] = 0
+        # ── Darts activos (reset vía memcpy C-level, sin loop Python) ─────────
+        active[:] = zeros_n
         eA = 0
         for idx in range(m):
             if (mask >> idx) & 1:
@@ -202,41 +223,47 @@ def BR_lens(p, q, verbose=True):
                 active[d2] = 1
                 eA += 1
 
-        # k(A): componentes conexas del grafo (V, A) via Union-Find
-        vp = list(range(V))
-
-        def vfind(x):
-            root = x
-            while vp[root] != root:
-                root = vp[root]
-            # compresión de camino
-            while vp[x] != root:
-                vp[x], x = root, vp[x]
-            return root
-
+        # ── k(A): Union-Find inline con compresión de camino ──────────────────
+        # vp se prealoca fuera; se resetea sin crear lista nueva
+        vp[:] = vp_init
         for idx in range(m):
             if (mask >> idx) & 1:
-                r1 = vfind(vertex_of[edge_darts[idx][0]])
-                r2 = vfind(vertex_of[edge_darts[idx][1]])
+                # find + compress r1
+                x = vertex_of[edge_darts[idx][0]]
+                root = x
+                while vp[root] != root:
+                    root = vp[root]
+                while vp[x] != root:
+                    vp[x], x = root, vp[x]
+                r1 = root
+                # find + compress r2
+                x = vertex_of[edge_darts[idx][1]]
+                root = x
+                while vp[root] != root:
+                    root = vp[root]
+                while vp[x] != root:
+                    vp[x], x = root, vp[x]
+                r2 = root
                 if r1 != r2:
                     vp[r1] = r2
 
         roots = set()
         for i in range(V):
-            roots.add(vfind(i))
+            x = i
+            while vp[x] != x:
+                x = vp[x]
+            roots.add(x)
         kA = len(roots)
 
-        # f(A): ciclos de phi_H restringida a darts activos + vértices aislados
+        # ── f(A): ciclos de phi_H restringida a darts activos + vértices aislados
         #
         # phi_H(d) = rho(sigma_H(d)), donde sigma_H salta darts inactivos en
         # la órbita de sigma.  En nuestro etiquetado, rho(d) = d^^1 (XOR), por lo que
         # sigma(d) = rho(phi(d)) = phi(d)^^1.  Así:
         #   sigma_H(d) = primer dart activo siguiendo sigma desde d
         #   phi_H(d)   = rho(sigma_H(d)) = sigma_H(d)^^1
-        for d in range(n):
-            vis[d] = 0
-        for i in range(V):
-            active_vertex[i] = 0
+        vis[:] = zeros_n
+        active_vertex[:] = zeros_V
         fA = 0
         for start in range(n):
             if not active[start]:
@@ -257,11 +284,16 @@ def BR_lens(p, q, verbose=True):
             if not active_vertex[i]:
                 fA += 1
 
-        # Invariantes
-        gamma = 2 * kA - V + eA - fA   # = 2 * g(A), ∈ {0, 2}
+        # ── Invariantes y acumulación ──────────────────────────────────────────
+        gamma = 2 * kA - V + eA - fA   # = 2 * g(A)
         if gamma < 0:
             raise ValueError(
                 f"gamma={gamma} < 0 — bug en conteo de caras "
+                f"(mask={mask:#x}, kA={kA}, eA={eA}, fA={fA})"
+            )
+        if gamma & 1:
+            raise ValueError(
+                f"gamma={gamma} impar — bug en invariantes "
                 f"(mask={mask:#x}, kA={kA}, eA={eA}, fA={fA})"
             )
         s_exp = kA - kG                 # exponente de (x-1)
@@ -286,19 +318,17 @@ def BR_lens(p, q, verbose=True):
     for a in (0, all1):
         for b in necklaces:
             mask = a | (b << p)
-            # tamaño de la órbita de (a, b)
-            if b == 0 or b == all1:
-                orb_sz = 1
-            else:
-                orb_sz = p
+            # Si a es fijo, el tamaño de órbita del par coincide con la de b.
+            orb_sz = necklace_orbit_size(b, p)
             procesar(mask, orb_sz)
             processed += 1
 
     # Caso 2: a collar primitivo  →  b recorre [0, 2^p)
     progress_step = max(1, len(prim_necklaces) * (1 << p) // 20)
     for a in prim_necklaces:
+        orb_sz = prim_orbit_sz[a]
         for b in range(1 << p):
-            procesar(a | (b << p), p)
+            procesar(a | (b << p), orb_sz)
             processed += 1
             if verbose and processed % progress_step == 0:
                 pct = 100.0 * processed / n_canonical_approx
