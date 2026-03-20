@@ -108,6 +108,54 @@
     ]
   },
   {
+    "objectID": "capitulos/10-graficas-circulantes.html",
+    "href": "capitulos/10-graficas-circulantes.html",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "section": "",
+    "text": "En el capítulo anterior identificamos el grafo abstracto de Heegaard de un espacio lente como un grafo circulante. Esta misma familia de grafos ha sido estudiada de forma independiente y muy extensa desde otro punto de vista: el de las redes de interconexión. En esa literatura, un circulante con dos generadores simétricos se conoce como una red de doble lazo no dirigida (undirected double-loop network), y se denota\n\\[G(n;\\, \\pm s_1,\\, \\pm s_2)\\]\ndonde \\(n\\) es el número de nodos, \\(1 \\leq s_1 &lt; s_2 &lt; n/2\\) son los pasos, y \\(\\gcd(n, s_1, s_2) = 1\\).\nAdoptar esta terminología nos permite conectar nuestros objetos topológicos con una rica teoría desarrollada para optimizar el diseño de redes. El estudio de estas redes fue propuesto originalmente por Wong y Coppersmith para la organización de memorias multimodulares y representan un punto intermedio práctico entre las redes de un solo lazo (anillos simples), que sufren de largos retardos y baja fiabilidad, y las redes con más de dos lazos, que requieren hardware costoso y control complejo. Gracias a este equilibrio, las redes de doble lazo se han utilizado en diversas aplicaciones, como en topologías de redes de computadoras (SONET, FDDI), y para el alineamiento de datos en procesadores SIMD.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.2 Grafos Circulantes de Doble Lazo"
+    ]
+  },
+  {
+    "objectID": "capitulos/10-graficas-circulantes.html#el-mosaico-en-forma-de-l",
+    "href": "capitulos/10-graficas-circulantes.html#el-mosaico-en-forma-de-l",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "section": "El Mosaico en Forma de L",
+    "text": "El Mosaico en Forma de L\n\nImportancia: Diagrama de Distancias Mínimas\nUn resultado fundamental de la teoría de redes de doble lazo es que el mosaico en forma de L codifica el diagrama de distancias mínimas (MDD) de la red. Esto es crucial para problemas de optimización, como encontrar la red con el diámetro mínimo (máximo retardo de transmisión), ya que el diámetro se puede calcular directamente a partir de los parámetros del mosaico [1].\nMás aún, se ha demostrado que dos redes de doble lazo que realizan la misma forma de L son isomorfas [2]. Esto establece una conexión profunda entre la geometría combinatoria del mosaico y la estructura de isomorfismo del grafo abstracto, un análogo en el mundo de las redes de lo que observamos en los espacios lente con los grafos de Heegaard [3].\n\n\n\nConstrucción del patrón\nPara el grafo \\(G(p;\\pm 1, \\pm q)\\), construimos el patrón de etiquetado en el plano entero siguiendo el procedimiento de Wong y Coppersmith:\n\nOrdenar los puntos del primer cuadrante \\(\\mathbb{Z}_{\\geq 0}^2\\) por distancia Manhattan creciente: \\[(0,0),\\;(1,0),\\;(0,1),\\;(2,0),\\;(1,1),\\;(0,2),\\;\\ldots\\]\nEn cada punto \\((x, y)\\), calcular \\(k \\equiv x + yq \\pmod{p}\\).\nSi \\(k\\) no ha aparecido antes, escribirlo en \\((x, y)\\); si ya apareció, dejar el punto en blanco.\nDetenerse cuando se hayan etiquetado los \\(p\\) valores \\(\\{0, 1, \\ldots, p-1\\}\\).\n\nLa región resultante tiene siempre forma de L y tesela el plano entero.\n\n\n\n\n\n\nNotaDefinición: Mosaico en Forma de L — \\(L(n;\\, a, b, r, s)\\)\n\n\n\nLa región obtenida por el procedimiento anterior se llama mosaico en forma de L con parámetros enteros \\(a, b, r, s\\) tales que\n\\[a, b \\geq 2, \\qquad 0 \\leq r &lt; a, \\qquad 0 \\leq s &lt; b, \\qquad n = ab - rs\\]\nSe escribe \\(L(n;\\, a, b, r, s)\\) y es el rectángulo \\(a \\times b\\) al que se le ha quitado el rectángulo \\(r \\times s\\) de una esquina.\n\n\n\n\n\n\n\n\nImportantePropiedad de teselación\n\n\n\nEl mosaico \\(L(n;\\,a,b,r,s)\\) tesela el plano \\(\\mathbb{Z}^2\\) sin solapamientos ni huecos. Los vectores de traslación que generan la teselación son los puntos de red nulos del reticulado, es decir, los puntos \\((x,y) \\in \\mathbb{Z}^2\\) con \\(x + yq \\equiv 0 \\pmod{p}\\) más cercanos al origen distintos de \\((0,0)\\).\nEsta propiedad es la base del algoritmo de enrutamiento óptimo en tiempo constante para redes de doble lazo.\n\n\n\n\nLemas estructurales\nSean \\(L(n;\\,a,b,r,s)\\) el mosaico determinado por \\(G(n;\\,1,q)\\). Entonces:\n\n\\(a &gt; r \\geq 0\\), \\(\\;b &gt; s \\geq 0\\), \\(\\;b \\geq r\\), \\(\\;a &gt; s\\), \\(\\;ab - rs = n\\)\n\\(-a\\cdot 1 + s\\cdot q \\equiv 0 \\pmod{n}\\)\n\\(-r\\cdot 1 + b\\cdot q \\equiv 0 \\pmod{n}\\)\n\\((a-r)\\cdot 1 + (b-s)\\cdot q \\equiv 0 \\pmod{n}\\)\n\nEstos puntos de red nulos \\((-a, s)\\), \\((-r, b)\\) y \\((a-r, b-s)\\) (o sus equivalentes positivos módulo traslaciones del reticulado) son exactamente los vértices del reticulado que genera la teselación periódica del plano.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.2 Grafos Circulantes de Doble Lazo"
+    ]
+  },
+  {
+    "objectID": "capitulos/10-graficas-circulantes.html#ejemplo-g13pm-1pm-5",
+    "href": "capitulos/10-graficas-circulantes.html#ejemplo-g13pm-1pm-5",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "section": "Ejemplo: \\(G(13;\\,\\pm 1,\\,\\pm 5)\\)",
+    "text": "Ejemplo: \\(G(13;\\,\\pm 1,\\,\\pm 5)\\)\n\nConstrucción paso a paso\nAplicamos el procedimiento al grafo \\(G(13;\\,\\pm 1,\\, \\pm 5)\\) con \\(p=13\\), \\(q=5\\).\n\n\n\nPunto \\((x,y)\\)\n\\(x + 5y \\bmod 13\\)\n¿Nuevo?\n\n\n\n\n\\((0,0)\\)\n\\(0\\)\n✓\n\n\n\\((1,0)\\)\n\\(1\\)\n✓\n\n\n\\((0,1)\\)\n\\(5\\)\n✓\n\n\n\\((2,0)\\)\n\\(2\\)\n✓\n\n\n\\((1,1)\\)\n\\(6\\)\n✓\n\n\n\\((0,2)\\)\n\\(10\\)\n✓\n\n\n\\((3,0)\\)\n\\(3\\)\n✓\n\n\n\\((2,1)\\)\n\\(7\\)\n✓\n\n\n\\((1,2)\\)\n\\(11\\)\n✓\n\n\n\\((0,3)\\)\n\\(15 \\equiv 2\\)\n✗\n\n\n\\((4,0)\\)\n\\(4\\)\n✓\n\n\n\\((3,1)\\)\n\\(8\\)\n✓\n\n\n\\((2,2)\\)\n\\(12\\)\n✓\n\n\n\\((1,3)\\)\n\\(16 \\equiv 3\\)\n✗\n\n\n\\((4,1)\\)\n\\(9\\)\n✓ \\(\\;\\leftarrow\\) completo\n\n\n\nCon los 13 valores etiquetados, el mosaico resultante es \\(L(13;\\,5,\\,3,\\,2,\\,1)\\):\n\\[n = ab - rs = 5 \\cdot 3 - 2 \\cdot 1 = 13 \\checkmark\\]\nLa disposición es:\n\\[\\begin{array}{ccccc}\n\\boxed{10} & \\boxed{11} & \\boxed{12} & & \\\\\n\\boxed{5}  & \\boxed{6}  & \\boxed{7}  & \\boxed{8}  & \\boxed{9} \\\\\n\\boxed{0}  & \\boxed{1}  & \\boxed{2}  & \\boxed{3}  & \\boxed{4}\n\\end{array}\\]\n5 columnas en \\(y=0,1\\) y 3 columnas en \\(y=2\\); la esquina superior derecha de \\(r \\times s = 2 \\times 1\\) celdas queda recortada.\n\n\nVerificación de los lemas con \\(a=5,\\,b=3,\\,r=2,\\,s=1\\)\n\\[-a + sq = -5 + 1\\cdot 5 = 0 \\equiv 0 \\pmod{13} \\checkmark\\] \\[-r + bq = -2 + 3\\cdot 5 = 13 \\equiv 0 \\pmod{13} \\checkmark\\] \\[(a-r) + (b-s)q = 3 + 2\\cdot 5 = 13 \\equiv 0 \\pmod{13} \\checkmark\\]\nLos puntos de red nulos más próximos (en coordenadas positivas) son \\((8,\\,1)\\) y \\((3,\\,2)\\), con determinante \\(8\\cdot 2 - 1\\cdot 3 = 13 = p\\), confirmando que generan el reticulado correcto.\n\n\nDiagrama de la teselación\n\n\n\nTeselación del plano por el mosaico \\(L(13;\\,5,3,2,1)\\) para \\(G(13;\\,\\pm 1,\\,\\pm 5)\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.2 Grafos Circulantes de Doble Lazo"
+    ]
+  },
+  {
+    "objectID": "capitulos/10-graficas-circulantes.html#referencias",
+    "href": "capitulos/10-graficas-circulantes.html#referencias",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "section": "Referencias",
+    "text": "Referencias\n\nHwang, F. K. (2001). A complementary survey on double-loop networks. Theoretical Computer Science, 263(1-2), 211–229. https://doi.org/10.1016/S0304-3975(00)00243-7\nChen, C., & Hwang, F. K. (2000). The Minimum Distance Diagram of Double-Loop Networks. IEEE Transactions on Computers, 49(9), 977–979. https://doi.org/10.1109/12.869029\nFrías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). 3-manifold polynomials. arXiv:2510.06651 [math.GT]. https://doi.org/10.48550/arXiv.2510.06651",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.2 Grafos Circulantes de Doble Lazo"
+    ]
+  },
+  {
     "objectID": "capitulos/02-mapas-combinatorios.html",
     "href": "capitulos/02-mapas-combinatorios.html",
     "title": "2. Mapas Combinatorios",
@@ -575,6 +623,90 @@
       "Inicio",
       "1. Sistemas de Rotación",
       "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html",
+    "href": "capitulos/09-espacios-lente.html",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "",
+    "text": "En esta sección conectamos tres niveles de descripción de un espacio lente:\nLa idea central es que, para espacios lente, el grafo de Heegaard ya contiene toda la información topológica relevante.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#caso-lente-descomposición-de-heegaard-de-género-1",
+    "href": "capitulos/09-espacios-lente.html#caso-lente-descomposición-de-heegaard-de-género-1",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "1) Caso lente: descomposición de Heegaard de género 1",
+    "text": "1) Caso lente: descomposición de Heegaard de género 1\nUn espacio lente \\(L(p,q)\\) (con \\(p \\ge 1\\) y \\(\\gcd(p,q)=1\\)) se obtiene al pegar dos toros sólidos a lo largo de su frontera. En el diagrama estándar de Heegaard de género 1 aparecen:\n\nuna curva meridiana \\(\\alpha\\) en el toro,\nuna curva simple cerrada \\(\\beta\\) de pendiente \\(p/q\\).\n\nEstas curvas se cortan en exactamente \\(p\\) puntos.\n\n\n\n\n\n\nNotaClasificación clásica de espacios lente\n\n\n\nDos espacios lente \\(L(p,q)\\) y \\(L(p',q')\\) son homeomorfos si y sólo si:\n\n\\(p = p'\\), y\n\\(q' \\equiv \\pm q^{\\pm 1}\\pmod p\\).\n\n\n\nEste criterio será el puente con la clasificación por grafos.\n\n\n\n\n\nvisualizacion del diagrama de Heegaard de L(3,2)\n\n\n\n\n\n\nsu representacion en un cuadrado fundamental.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#del-diagrama-al-grafo-circulante",
+    "href": "capitulos/09-espacios-lente.html#del-diagrama-al-grafo-circulante",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "2) Del diagrama al grafo circulante",
+    "text": "2) Del diagrama al grafo circulante\nRecordemos la definición.\nDefinición (grafo circulante). Sea \\(n \\ge 1\\) y \\(S \\subset \\mathbb{Z}_n \\setminus \\{0\\}\\). El circulante \\(C_n(S)\\) tiene vértices \\(\\mathbb{Z}_n\\), y \\(i,j\\) son adyacentes si y sólo si \\(i-j \\pmod n \\in S\\).\nPara el diagrama estándar de \\(L(p,q)\\), el grafo de Heegaard asociado es\n\\(C_p(\\pm 1, \\pm q)\\).\nInterpretación combinatoria:\n\nlos \\(p\\) vértices son los \\(p\\) puntos de intersección \\(\\alpha \\cap \\beta\\),\nuna familia de aristas conecta \\(i\\) con \\(i\\pm1 \\pmod p\\),\nla otra familia conecta \\(i\\) con \\(i\\pm q \\pmod p\\).\n\nEn consecuencia, el grafo abstracto tiene:\n\n\\(V = p\\),\n\\(E = 2p\\),\nvalencia 4 en cada vértice.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#clasificación-abstracta-el-grafo-ya-detecta-el-espacio",
+    "href": "capitulos/09-espacios-lente.html#clasificación-abstracta-el-grafo-ya-detecta-el-espacio",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "3) Clasificación abstracta: el grafo ya detecta el espacio",
+    "text": "3) Clasificación abstracta: el grafo ya detecta el espacio\n\n\n\n\n\n\nNotaTeorema\n\n\n\nSean \\(p \\ge 3\\) y \\(q,q'\\) coprimos con \\(p\\).\n\\(L(p,q) \\cong L(p,q')\\) si y sólo si \\(C_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\\) como grafos abstractos.\n\n\n\nIdea de la demostración\nUsamos un hecho conocido para circulantes de dos saltos (\\(S=\\{\\pm a,\\pm b\\}\\)):\n\\(C_p(S) \\cong C_p(S')\\) si y sólo si \\(S' = aS\\) para algún \\(a \\in \\mathbb{Z}_p^\\times\\).\nAplicando esto a \\(S=\\{\\pm1,\\pm q\\}\\) y \\(S'=\\{\\pm1,\\pm q'\\}\\):\n\\[\nC_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\n\\Longleftrightarrow\n\\{\\pm1,\\pm q\\} = \\{\\pm a,\\pm aq'\\}\n\\] para algún \\(a\\) invertible módulo \\(p\\).\nAhora hay dos posibilidades esenciales:\n\nSi \\(a \\equiv \\pm1 \\pmod p\\), entonces \\(q' \\equiv \\pm q \\pmod p\\).\nSi \\(a \\equiv \\pm q \\pmod p\\), entonces se fuerza \\(qq' \\equiv \\pm1 \\pmod p\\), es decir \\(q' \\equiv \\pm q^{-1} \\pmod p\\).\n\nPor tanto,\n\\[\nC_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\n\\Longrightarrow q' \\equiv \\pm q^{\\pm1}\\pmod p.\n\\]\nY por la clasificación clásica de espacios lente, eso equivale a \\(L(p,q) \\cong L(p,q')\\).\nLa implicación inversa se obtiene eligiendo \\(a \\in \\{\\pm1,\\pm q'\\}\\) según el caso para producir la igualdad de conjuntos de conexiones.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#clasificación-como-grafos-encajados-en-el-toro",
+    "href": "capitulos/09-espacios-lente.html#clasificación-como-grafos-encajados-en-el-toro",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "4) Clasificación como grafos encajados en el toro",
+    "text": "4) Clasificación como grafos encajados en el toro\nAdemás del grafo abstracto, el diagrama de Heegaard determina un encaje celular en un toro.\nPara espacios lente, este encaje estándar es esencialmente único (una vez fijado el diagrama estándar). Con esto, se obtiene el análogo encajado:\n\n\n\n\n\n\nNotaTeorema\n\n\n\nSi \\(L(p,q)\\) y \\(L(p,q')\\) son homeomorfos, entonces sus grafos de Heegaard encajados \\(G_1 \\subset F_1\\) y \\(G_2 \\subset F_2\\) son equivalentes como grafos celulares en sus toros de Heegaard.\n\n\n\nIdea de la demostración\nQueremos probar una afirmación precisa: para todo \\(p \\ge 3\\) y todo \\(q\\) coprimo con \\(p\\), el grafo \\(G=C_p(\\pm1,\\pm q)\\) tiene exactamente dos encajes celulares en el toro como mapa orientado; estos dos se obtienen uno del otro invirtiendo la orientación.\nEl punto importante es que aquí sólo nos interesan los encajes toroidales. No hace falta clasificar todos los demás encajes posibles del grafo en otras superficies.\nEl grafo \\(G\\) tiene \\(V=p\\) vértices y \\(E=2p\\) aristas. Si un sistema de rotación produce un encaje en el toro, entonces su característica de Euler debe satisfacer \\[\nV-E+F=0,\n\\] y por tanto necesariamente \\[\nF=p.\n\\] Así, el problema consiste en determinar qué sistemas de rotación dan exactamente \\(p\\) caras.\nComo el grafo es circulante, la acción de \\(\\mathbb{Z}_p\\) transporta la rotación de un vértice a todos los demás. Por eso basta estudiar la rotación local en un vértice.\n\nSi \\(q \\not\\equiv \\pm1 \\pmod p\\), los cuatro saltos \\(\\pm1,\\pm q\\) son distintos. En este caso, la condición \\(F=p\\) fuerza exactamente dos órdenes cíclicos: \\[\n(+1,+q,-1,-q)\n\\qquad\\text{y}\\qquad\n(+1,-q,-1,+q).\n\\] Estos dos sistemas son inversos entre sí, luego representan el mismo encaje no orientado y los dos posibles encajes orientados.\nSi \\(q \\equiv \\pm1 \\pmod p\\), el grafo es un ciclo con aristas dobles. La teoría de ribbon graphs sigue aplicando sin cambios: un sistema de rotación en este multigrafo determina un encaje orientado. Lo que cambia es que ahora, en cada vértice, las cuatro semiaristas vienen en dos pares de aristas paralelas, uno hacia \\(i+1\\) y otro hacia \\(i-1\\).\nPara obtener un encaje toroidal con \\(F=p\\), en cada vértice esas dos parejas deben aparecer alternadas en el orden cíclico. Si dos aristas paralelas consecutivas quedan juntas, las caras se pegan de otra manera y ya no se obtiene el mosaico cuadrilateral del toro. Por tanto, salvo intercambio de las dos aristas paralelas dentro de cada pareja, sólo quedan dos órdenes locales toroidales: \\[\n(a_1,b_1,a_2,b_2)\n\\qquad\\text{y}\\qquad\n(a_1,b_2,a_2,b_1),\n\\] donde \\(a_1,a_2\\) son las dos aristas hacia \\(i+1\\) y \\(b_1,b_2\\) las dos aristas hacia \\(i-1\\). Estos dos órdenes son inversos entre sí, luego producen exactamente los dos encajes toroidales orientados.\n\nEn ambos casos, la conclusión es la misma: hay exactamente dos encajes celulares en el toro como mapas orientados, y un único encaje si no se distingue la orientación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\nEste experimento no intenta recorrer todos los sistemas de rotación posibles, porque eso hace más lenta la ejecución en SageCell. En cambio, muestra unas cuantas rotaciones locales representativas para el caso \\(L(3,2)\\) y permite verificar cuáles producen encajes toroidales. La columna “Género” se obtiene de la fórmula \\[\n\\chi = V-E+F = 2-2g,\n\\] así que:\n\n\\(\\chi=0\\) corresponde al toro (\\(g=1\\)),\n\\(\\chi=2\\) corresponde a la esfera (\\(g=0\\)).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#consecuencia-clasificación-vía-grafos-de-heegaard",
+    "href": "capitulos/09-espacios-lente.html#consecuencia-clasificación-vía-grafos-de-heegaard",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "5) Consecuencia: clasificación vía grafos de Heegaard",
+    "text": "5) Consecuencia: clasificación vía grafos de Heegaard\nComo síntesis de los dos teoremas anteriores:\n\n\n\n\n\n\nTipCorolario (clasificación vía grafos de Heegaard)\n\n\n\nDos espacios lente \\(L(p,q)\\) y \\(L(p,q')\\) son homeomorfos si y sólo si sus grafos de Heegaard son equivalentes.\n\n\nMensaje conceptual:\n\nen general, un grafo encajado puede contener más información que su versión abstracta,\npero en el caso lente, esa información extra no aporta nuevas clases de homeomorfismo.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#referencias",
+    "href": "capitulos/09-espacios-lente.html#referencias",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "Referencias",
+    "text": "Referencias\n\nFrías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). 3-manifold polynomials. arXiv:2510.06651 [math.GT]. https://doi.org/10.48550/arXiv.2510.06651\nMuzychuk, M., Klin, M., & Pöschel, R. (2001). The isomorphism problem for circulant graphs via schur ring theory. En Codes and Association Schemes (DIMACS Series in Discrete Mathematics and Theoretical Computer Science, vol. 56). AMS-DIMACS. https://bookstore.ams.org/dimacs-56\nBrody, E.J. (1960). The topological classification of the lens spaces. Annals of Mathematics, 71(1), 163–184. https://doi.org/10.2307/1969884",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
     ]
   },
   {
