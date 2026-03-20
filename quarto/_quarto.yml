@@ -3,6 +3,8 @@ project:
   output-dir: ../outputs/quarto-site
   resources:
     - data/
+    - imagenes/br_*.html
+    - imagenes/br_index.html
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"
@@ -40,18 +42,20 @@ website:
             file: capitulos/07-bollobas-riordan.qmd
           - text: "1.8 BR de la Esfera de Poincare"
             file: capitulos/08-br-diagrama-poincare.qmd
-      # - text: "2. Espacios Lente"
-      #   menu:
-      #     - text: "2.1 Grafos de Heegaard"
-      #       file: capitulos/07-espacios-lente.qmd
-      #     - text: "2.2 Polinomios de L(p,q)"
-      #       file: capitulos/08-polinomios-lente.qmd
-      #     - text: "2.3 Estructura del Polinomio BR"
-      #       file: capitulos/09-estructura-BR.qmd
-      #     - text: "2.4 Perfil de Cresta y Completitud"
-      #       file: capitulos/10-perfil-cresta.qmd
-      #     - text: "2.5 Explorador Computacional"
-      #       file: capitulos/11-explorador-polinomios.qmd
+      - text: "2. Espacios Lente"
+        menu:
+          - text: "2.1 Espacios Lente y Grafos de Heegaard"
+            file: capitulos/09-espacios-lente.qmd
+          - text: "2.2 Grafos Circulantes de Doble Lazo"
+            file: capitulos/10-graficas-circulantes.qmd
+          - text: "2.3 Polinomios de L(p,q)"
+            file: capitulos/11-polinomios-lente.qmd
+          - text: "2.4 Estructura del Polinomio BR"
+            file: capitulos/12.qmd
+          - text: "2.5 Perfil de Cresta y Completitud"
+            file: capitulos/10-perfil-cresta.qmd
+          - text: "2.6 Explorador Computacional"
+            file: capitulos/11-explorador-polinomios.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -85,18 +89,20 @@ website:
             file: capitulos/07-bollobas-riordan.qmd
           - text: "1.8 BR de la Esfera de Poincare"
             file: capitulos/08-br-diagrama-poincare.qmd
-      # - text: "2. Espacios Lente"
-      #   menu:
-      #     - text: "2.1 Grafos de Heegaard"
-      #       file: capitulos/07-espacios-lente.qmd
-      #     - text: "2.2 Polinomios de L(p,q)"
-      #       file: capitulos/08-polinomios-lente.qmd
-      #     - text: "2.3 Estructura del Polinomio BR"
-      #       file: capitulos/09-estructura-BR.qmd
-      #     - text: "2.4 Perfil de Cresta y Completitud"
-      #       file: capitulos/10-perfil-cresta.qmd
-      #     - text: "2.5 Explorador Computacional"
-      #       file: capitulos/11-explorador-polinomios.qmd
+      - section: "2. Espacios Lente"
+        contents:
+          - text: "2.1 Espacios Lente y Grafos de Heegaard"
+            file: capitulos/09-espacios-lente.qmd
+          - text: "2.2 Grafos Circulantes de Doble Lazo"
+            file: capitulos/10-graficas-circulantes.qmd
+          - text: "2.3 Polinomios de L(p,q)"
+            file: capitulos/11-polinomios-lente.qmd
+          - text: "2.4 Estructura del Polinomio BR"
+            file: capitulos/12.qmd
+          - text: "2.5 Perfil de Cresta y Completitud"
+            file: capitulos/10-perfil-cresta.qmd
+          - text: "2.6 Explorador Computacional"
+            file: capitulos/11-explorador-polinomios.qmd
 
   page-footer:
     center: |

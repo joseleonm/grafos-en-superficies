@@ -1,0 +1,274 @@
+---
+title: "Espacios Lente y sus Grafos de Heegaard"
+format:
+  html:
+    include-in-header:
+      text: |
+        <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
+        <script>
+        window.addEventListener('load', function() {
+          sagecell.makeSagecell({
+            inputLocation: 'div.sage-cell',
+            evalButtonText: 'Ejecutar',
+            languages: ['sage'],
+            hide: []
+          });
+        });
+        </script>
+---
+
+En esta sección conectamos tres niveles de descripción de un espacio lente:
+
+1. su descomposición de Heegaard de género 1,
+2. su grafo de Heegaard como grafo abstracto,
+3. su grafo de Heegaard como grafo encajado en el toro.
+
+La idea central es que, para espacios lente, el grafo de Heegaard ya contiene toda la información topológica relevante.
+
+---
+
+## 1) Caso lente: descomposición de Heegaard de género 1
+
+Un espacio lente $L(p,q)$ (con $p \ge 1$ y $\gcd(p,q)=1$) se obtiene al pegar dos toros sólidos a lo largo de su frontera. En el diagrama estándar de Heegaard de género 1 aparecen:
+
+- una curva meridiana $\alpha$ en el toro,
+- una curva simple cerrada $\beta$ de pendiente $p/q$.
+
+Estas curvas se cortan en exactamente $p$ puntos.
+
+::: {.callout-note}
+## Clasificación clásica de espacios lente
+Dos espacios lente $L(p,q)$ y $L(p',q')$ son homeomorfos si y sólo si:
+
+- $p = p'$, y
+- $q' \equiv \pm q^{\pm 1}\pmod p$.
+:::
+
+Este criterio será el puente con la clasificación por grafos.
+
+
+::: {.columns}
+::: {.column width="50%"}
+![visualizacion del diagrama de Heegaard de L(3,2)](/imagenes/grafotoro.png)
+:::
+::: {.column width="47%"}
+![su representacion en un cuadrado fundamental.](/imagenes/grafotorodiagrama.png)
+:::
+:::
+
+---
+
+## 2) Del diagrama al grafo circulante
+
+Recordemos la definición.
+
+**Definición (grafo circulante).** Sea $n \ge 1$ y $S \subset \mathbb{Z}_n \setminus \{0\}$. El circulante $C_n(S)$ tiene vértices $\mathbb{Z}_n$, y $i,j$ son adyacentes si y sólo si $i-j \pmod n \in S$.
+
+Para el diagrama estándar de $L(p,q)$, el grafo de Heegaard asociado es
+
+$C_p(\pm 1, \pm q)$.
+
+Interpretación combinatoria:
+
+- los $p$ vértices son los $p$ puntos de intersección $\alpha \cap \beta$,
+- una familia de aristas conecta $i$ con $i\pm1 \pmod p$,
+- la otra familia conecta $i$ con $i\pm q \pmod p$.
+
+En consecuencia, el grafo abstracto tiene:
+
+- $V = p$,
+- $E = 2p$,
+- valencia 4 en cada vértice.
+
+---
+
+## 3) Clasificación abstracta: el grafo ya detecta el espacio
+
+
+::: {.callout-note}
+## Teorema
+Sean $p \ge 3$ y $q,q'$ coprimos con $p$.
+
+$L(p,q) \cong L(p,q')$ si y sólo si
+$C_p(\pm1,\pm q) \cong C_p(\pm1,\pm q')$ como grafos abstractos.
+:::
+
+### Idea de la demostración
+
+Usamos un hecho conocido para circulantes de dos saltos ($S=\{\pm a,\pm b\}$):
+
+$C_p(S) \cong C_p(S')$ si y sólo si $S' = aS$ para algún $a \in \mathbb{Z}_p^\times$.
+
+Aplicando esto a $S=\{\pm1,\pm q\}$ y $S'=\{\pm1,\pm q'\}$:
+
+$$
+C_p(\pm1,\pm q) \cong C_p(\pm1,\pm q')
+\Longleftrightarrow
+\{\pm1,\pm q\} = \{\pm a,\pm aq'\}
+$$
+para algún $a$ invertible módulo $p$.
+
+Ahora hay dos posibilidades esenciales:
+
+- Si $a \equiv \pm1 \pmod p$, entonces $q' \equiv \pm q \pmod p$.
+- Si $a \equiv \pm q \pmod p$, entonces se fuerza $qq' \equiv \pm1 \pmod p$, es decir $q' \equiv \pm q^{-1} \pmod p$.
+
+Por tanto,
+
+$$
+C_p(\pm1,\pm q) \cong C_p(\pm1,\pm q')
+\Longrightarrow q' \equiv \pm q^{\pm1}\pmod p.
+$$
+
+Y por la clasificación clásica de espacios lente, eso equivale a
+$L(p,q) \cong L(p,q')$.
+
+La implicación inversa se obtiene eligiendo $a \in \{\pm1,\pm q'\}$ según el caso para producir la igualdad de conjuntos de conexiones.
+
+---
+
+## 4) Clasificación como grafos encajados en el toro
+
+Además del grafo abstracto, el diagrama de Heegaard determina un encaje celular en un toro.
+
+Para espacios lente, este encaje estándar es esencialmente único (una vez fijado el diagrama estándar). Con esto, se obtiene el análogo encajado:
+
+::: {.callout-note}
+## Teorema
+Si $L(p,q)$ y $L(p,q')$ son homeomorfos, entonces sus grafos de Heegaard encajados
+$G_1 \subset F_1$ y $G_2 \subset F_2$ son equivalentes como grafos celulares en sus toros de Heegaard.
+:::
+
+### Idea de la demostración
+
+Queremos probar una afirmación precisa: para todo $p \ge 3$ y todo $q$ coprimo con $p$, el grafo $G=C_p(\pm1,\pm q)$ tiene exactamente dos encajes celulares en el toro como mapa orientado; estos dos se obtienen uno del otro invirtiendo la orientación.
+
+El punto importante es que aquí sólo nos interesan los encajes toroidales. No hace falta clasificar todos los demás encajes posibles del grafo en otras superficies.
+
+El grafo $G$ tiene $V=p$ vértices y $E=2p$ aristas. Si un sistema de rotación produce un encaje en el toro, entonces su característica de Euler debe satisfacer
+$$
+V-E+F=0,
+$$
+y por tanto necesariamente
+$$
+F=p.
+$$
+Así, el problema consiste en determinar qué sistemas de rotación dan exactamente $p$ caras.
+
+Como el grafo es circulante, la acción de $\mathbb{Z}_p$ transporta la rotación de un vértice a todos los demás. Por eso basta estudiar la rotación local en un vértice.
+
+- Si $q \not\equiv \pm1 \pmod p$, los cuatro saltos $\pm1,\pm q$ son distintos. En este caso, la condición $F=p$ fuerza exactamente dos órdenes cíclicos:
+$$
+(+1,+q,-1,-q)
+\qquad\text{y}\qquad
+(+1,-q,-1,+q).
+$$
+Estos dos sistemas son inversos entre sí, luego representan el mismo encaje no orientado y los dos posibles encajes orientados.
+
+- Si $q \equiv \pm1 \pmod p$, el grafo es un ciclo con aristas dobles. La teoría de ribbon graphs sigue aplicando sin cambios: un sistema de rotación en este multigrafo determina un encaje orientado. Lo que cambia es que ahora, en cada vértice, las cuatro semiaristas vienen en dos pares de aristas paralelas, uno hacia $i+1$ y otro hacia $i-1$.
+
+  Para obtener un encaje toroidal con $F=p$, en cada vértice esas dos parejas deben aparecer **alternadas** en el orden cíclico. Si dos aristas paralelas consecutivas quedan juntas, las caras se pegan de otra manera y ya no se obtiene el mosaico cuadrilateral del toro. Por tanto, salvo intercambio de las dos aristas paralelas dentro de cada pareja, sólo quedan dos órdenes locales toroidales:
+$$
+(a_1,b_1,a_2,b_2)
+\qquad\text{y}\qquad
+(a_1,b_2,a_2,b_1),
+$$
+donde $a_1,a_2$ son las dos aristas hacia $i+1$ y $b_1,b_2$ las dos aristas hacia $i-1$. Estos dos órdenes son inversos entre sí, luego producen exactamente los dos encajes toroidales orientados.
+
+En ambos casos, la conclusión es la misma: hay exactamente dos encajes celulares en el toro como mapas orientados, y un único encaje si no se distingue la orientación.
+
+**Prueba el código directamente aquí** (haz clic en "Ejecutar"):
+
+Este experimento no intenta recorrer todos los sistemas de rotación posibles, porque eso hace más lenta la ejecución en SageCell. En cambio, muestra unas cuantas rotaciones locales representativas para el caso $L(3,2)$ y permite verificar cuáles producen encajes toroidales. La columna "Género" se obtiene de la fórmula
+$$
+\chi = V-E+F = 2-2g,
+$$
+así que:
+
+- $\chi=0$ corresponde al toro ($g=1$),
+- $\chi=2$ corresponde a la esfera ($g=0$).
+
+::: {.content-visible when-format="html"}
+```{=html}
+<div class="sage-cell">
+<script type="text/x-sage">
+print("Experimento para L(3,2): rotaciones representativas\\n")
+
+rho_str = "(1,7)(2,8)(3,9)(4,10)(5,11)(6,12)"
+rho = PermutationGroupElement(rho_str)
+
+def sigma_from_local(local_v0):
+    map_v0_v1 = {1:5, 2:6, 3:7, 4:8}
+    map_v0_v2 = {1:9, 2:10, 3:11, 4:12}
+    s0 = local_v0
+    s1 = tuple(map_v0_v1[d] for d in local_v0)
+    s2 = tuple(map_v0_v2[d] for d in local_v0)
+    sigma_str = f"{s0}{s1}{s2}".replace(" ","")
+    return PermutationGroupElement(sigma_str), sigma_str
+
+def invariants(sigma):
+    phi = rho * sigma
+    V = len(sigma.cycle_tuples())
+    E = len(rho.cycle_tuples())
+    F = len(phi.cycle_tuples())
+    chi = V - E + F
+    g = (2 - chi) // 2
+    return V, E, F, chi, g
+
+# Elegimos cuatro rotaciones faciles de comparar.
+# Las dos primeras alternan las aristas paralelas y dan los dos encajes toroidales orientados.
+# Las otras dos muestran que no toda rotacion local produce un toro.
+examples = [
+    ((1,2,3,4), "Toroidal A"),
+    ((1,4,3,2), "Toroidal B"),
+    ((1,2,4,3), "No toroidal"),
+    ((1,3,4,2), "No toroidal"),
+]
+
+print(f"rho = {rho_str}\\n")
+print(f"{'Tipo':<14} | {'Rotacion local en v0':<16} | {'V':<2} {'E':<2} {'F':<2} | {'chi':>4} | {'Genero':>6}")
+print("-" * 70)
+
+for local_v0, label in examples:
+    sigma, sigma_str = sigma_from_local(local_v0)
+    V, E, F, chi, g = invariants(sigma)
+    print(f"{label:<14} | {str(local_v0):<16} | {V:<2} {E:<2} {F:<2} | {chi:>4} | {g:>6}")
+
+print("\\nInterpretacion:")
+print("- Las rotaciones alternadas producen F = p = 3, luego el encaje es en el toro.")
+print("- Las dos rotaciones toroidales son inversas entre si, asi que corresponden")
+print("  a las dos orientaciones posibles del mismo encaje no orientado.")
+print("- Puedes cambiar la rotacion local en v0 y verificar que, en genero 1,")
+print("  siempre vuelves a una de esas dos posibilidades orientadas.")
+</script>
+</div>
+```
+:::
+
+
+---
+
+## 5) Consecuencia: clasificación vía grafos de Heegaard
+
+Como síntesis de los dos teoremas anteriores:
+
+::: {.callout-tip}
+## Corolario (clasificación vía grafos de Heegaard)
+Dos espacios lente $L(p,q)$ y $L(p,q')$ son homeomorfos si y sólo si sus grafos de Heegaard son equivalentes.
+:::
+
+Mensaje conceptual:
+
+- en general, un grafo encajado puede contener más información que su versión abstracta,
+- pero en el caso lente, esa información extra no aporta nuevas clases de homeomorfismo.
+
+---
+
+## Referencias
+
+- Frías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). *3-manifold polynomials*. arXiv:2510.06651 [math.GT]. <https://doi.org/10.48550/arXiv.2510.06651>
+
+- Muzychuk, M., Klin, M., & Pöschel, R. (2001). The isomorphism problem for circulant graphs via schur ring theory. En *Codes and Association Schemes* (DIMACS Series in Discrete Mathematics and Theoretical Computer Science, vol. 56). AMS-DIMACS. <https://bookstore.ams.org/dimacs-56>
+
+- Brody, E.J. (1960). The topological classification of the lens spaces. *Annals of Mathematics*, 71(1), 163–184. <https://doi.org/10.2307/1969884>
