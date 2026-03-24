@@ -408,6 +408,102 @@
     ]
   },
   {
+    "objectID": "capitulos/11-lattice-ciclos.html",
+    "href": "capitulos/11-lattice-ciclos.html",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "",
+    "text": "En este apartado estudiamos exclusivamente el lattice de ciclos asociado al espacio lente \\(L(p,q)\\). El punto de partida es aritmetico: la estructura topologica queda codificada por una reticula entera y por su clase bajo simetrias de \\(GL(2,\\mathbb Z)\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#definicion-del-lattice-de-ciclos",
+    "href": "capitulos/11-lattice-ciclos.html#definicion-del-lattice-de-ciclos",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Definicion del lattice de ciclos",
+    "text": "Definicion del lattice de ciclos\nPara \\(p \\ge 1\\) y \\(\\gcd(p,q)=1\\), definimos\n\\[\n\\Lambda_{p,q}\n=\n\\{(a,b)\\in\\mathbb Z^2 : a+bq\\equiv 0\\pmod p\\}.\n\\]\nInterpretacion operativa:\n\nEl par \\((a,b)\\) representa una combinacion de pasos en la red de doble lazo \\(G(p;\\pm 1, \\pm q)\\).\nLa congruencia \\(a+bq\\equiv 0\\) significa que ese desplazamiento regresa al mismo vertice modulo \\(p\\).\nPor eso \\(\\Lambda_{p,q}\\) se ve como la reticula de “ciclos cerrados” en coordenadas enteras.\n\n\n\n\n\n\n\nNotaVerificacion rapida de pertenencia\n\n\n\nPara decidir si \\((a,b)\\) esta en \\(\\Lambda_{p,q}\\), solo se evalua \\(a+bq\\) modulo \\(p\\).\nEjemplo para \\((p,q)=(17,3)\\):\n\n\\((14,1)\\): \\(14+1\\cdot 3=17\\equiv 0\\) entonces \\((14,1)\\in\\Lambda_{17,3}\\).\n\\((8,3)\\): \\(8+3\\cdot 3=17\\equiv 0\\) entonces \\((8,3)\\in\\Lambda_{17,3}\\).\n\\((5,1)\\): \\(5+1\\cdot 3=8\\not\\equiv 0\\) entonces \\((5,1)\\notin\\Lambda_{17,3}\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#ejemplo-guiado-l173",
+    "href": "capitulos/11-lattice-ciclos.html#ejemplo-guiado-l173",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Ejemplo guiado: L(17,3)",
+    "text": "Ejemplo guiado: L(17,3)\nTomamos\n\\[\n\\Lambda_{17,3}=\n\\{(a,b)\\in\\mathbb Z^2 : a+3b\\equiv 0\\pmod{17}\\}.\n\\]\nDos vectores utiles del lattice son\n\\[\n\\nu_1=(14,1), \\qquad \\nu_2=(-3,1).\n\\]\nEl determinante\n\\[\n\\det\\begin{pmatrix}14 & -3 \\\\ 1 & 1\\end{pmatrix}=14(1)-1(-3)=17,\n\\]\ncoincide con \\(p\\), como debe ocurrir en una base de indice \\(p\\).\nTambien aparece naturalmente el vector\n\\[\n\\nu_3=(8,3), \\quad 8+3\\cdot 3=17.\n\\]\nSe verifica de forma directa que:\n\n\\(\\nu_1,\\nu_2,\\nu_3\\in\\Lambda_{17,3}\\).\n\\(\\gcd(14,1)=\\gcd(-3,1)=\\gcd(8,3)=1\\) (son primitivos).\nCada uno recupera el mismo valor de \\(q\\) (siguiente proposicion).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#recuperar-q-desde-cualquier-vector-primitivo",
+    "href": "capitulos/11-lattice-ciclos.html#recuperar-q-desde-cualquier-vector-primitivo",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Recuperar q desde cualquier vector primitivo",
+    "text": "Recuperar q desde cualquier vector primitivo\nCualquier vector \\((a,b)\\in\\Lambda_{p,q}\\) cumple\n\\[\na+bq\\equiv 0\\pmod p.\n\\]\nSi \\(\\gcd(b,p)=1\\), entonces \\(b\\) tiene inverso modulo \\(p\\) y\n\\[\nq\\equiv -ab^{-1}\\pmod p.\n\\]\n\n\n\n\n\n\nImportanteProposicion (recuperacion de q)\n\n\n\nLa aplicacion\n\\[\n\\phi:\\{(a,b)\\in \\Lambda_{p,q}:\\gcd(b,p)=1\\}\\to (\\mathbb Z/p\\mathbb Z)^\\times,\n\\qquad\n\\phi(a,b)=-ab^{-1},\n\\]\nesta bien definida y es constante. De hecho,\n\\[\n\\phi(a,b)\\equiv q\\pmod p\n\\]\npara todo \\((a,b)\\) de su dominio.\n\n\nDemostracion. Como \\((a,b)\\in\\Lambda_{p,q}\\), se tiene \\(a+bq\\equiv 0\\pmod p\\). Multiplicando por \\(b^{-1}\\): \\(q\\equiv -ab^{-1}\\pmod p\\). No depende de elecciones adicionales. \\(\\square\\)\n\n\n\n\n\n\nTipObservacion\n\n\n\nTodo vector primitivo \\((a,b)\\in\\Lambda_{p,q}\\) satisface \\(\\gcd(b,p)=1\\). Si \\(p\\mid b\\), de \\(a+bq\\equiv 0\\) se obtiene \\(a\\equiv 0\\pmod p\\), contradiciendo \\(\\gcd(a,b)=1\\).\nConclusion: cualquier vector de una base entera de \\(\\Lambda_{p,q}\\) permite recuperar \\(q\\).\n\n\n\nComprobacion explicita en L(17,3)\n\nCon \\((a,b)=(14,1)\\): \\[q\\equiv -14\\cdot 1^{-1}\\equiv -14\\equiv 3\\pmod{17}.\\]\nCon \\((a,b)=(8,3)\\) y \\(3^{-1}\\equiv 6\\pmod{17}\\): \\[q\\equiv -8\\cdot 6=-48\\equiv 3\\pmod{17}.\\]\n\nAmbos dan el mismo resultado: \\(q\\equiv 3\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#simetrias-geometricas-y-orbita-q-q",
+    "href": "capitulos/11-lattice-ciclos.html#simetrias-geometricas-y-orbita-q-q",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Simetrias geometricas y orbita q ~ q^{}",
+    "text": "Simetrias geometricas y orbita q ~ q^{}\nLa clasificacion de espacios lente usa la relacion\n\\[\nq'\\equiv \\pm q^{\\pm1}\\pmod p.\n\\]\nEn el lattice, esto se implementa por matrices de simetria en \\(GL(2,\\mathbb Z)\\) (cambios de signo y permutaciones de coordenadas), es decir, la accion del grupo diedral \\(D_4\\) sobre \\(\\mathbb Z^2\\).\n\n\n\n\n\n\nNotaProposicion (accion D4 en lattices)\n\n\n\nSi \\(q'\\equiv \\pm q^{\\pm1}\\pmod p\\), existe \\(M\\in D_4\\subset GL(2,\\mathbb Z)\\) tal que\n\\[\n\\Lambda_{p,q'}=M(\\Lambda_{p,q}).\n\\]\n\n\nIdea de demostracion (generadores).\n\nCaso \\(q'=-q\\): el cambio \\((a,b)\\mapsto (a,-b)\\) transforma \\(a+b(-q)\\equiv 0\\) en \\(a-bq\\equiv 0\\).\nCaso \\(q'=q^{-1}\\): el intercambio \\((a,b)\\mapsto (b,a)\\) transforma \\(a+bq\\equiv 0\\) en \\(b+aq^{-1}\\equiv 0\\).\n\nComo estas operaciones generan la orbita \\(\\{\\pm q^{\\pm1}\\}\\), resulta la afirmacion.\n\n\n\n\n\n\nTipCorolario metrico (norma L1)\n\n\n\nBajo \\(q'\\equiv \\pm q^{\\pm1}\\) se conservan:\n\nMinimos sucesivos en norma \\(L_1\\).\nLa condicion de base \\(L_1\\)-reducida.\nEl multiconjunto \\[\\{\\|u\\|_1,\\|v\\|_1,\\|u-v\\|_1\\}\\] para bases reducidas.\n\nRazon: los elementos de \\(D_4\\) son isometrias de la norma \\(L_1\\) y preservan determinantes.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#teorema-de-clasificacion-aritmetica",
+    "href": "capitulos/11-lattice-ciclos.html#teorema-de-clasificacion-aritmetica",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Teorema de clasificacion aritmetica",
+    "text": "Teorema de clasificacion aritmetica\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nLa clase de equivalencia del lattice de ciclos bajo la accion de \\(D_4\\),\n\\[\n[\\Lambda_{p,q}]_{D_4}:=\\{M(\\Lambda_{p,q})\\;:\\;M\\in D_4\\},\n\\]\ndetermina completamente el tipo de homeomorfismo del espacio lente \\(L(p,q)\\).\n\n\nEsquema de prueba.\n\nPor la proposicion de recuperacion, cada representante \\(\\Lambda_{p,q'}\\) de la clase determina un parametro \\(q'\\pmod p\\).\nPor la proposicion de simetria, si \\(\\Lambda_{p,q'}=M(\\Lambda_{p,q})\\) con \\(M\\in D_4\\), entonces \\(q'\\equiv \\pm q^{\\pm1}\\pmod p\\); por tanto la clase \\([\\Lambda_{p,q}]_{D_4}\\) determina exactamente la orbita \\(\\mathcal O_q=\\{\\pm q^{\\pm1}\\}\\).\nLa clasificacion clasica de espacios lente dice: \\[L(p,q)\\cong L(p,q')\\iff q'\\in\\mathcal O_q.\\]\n\nLuego la clase \\([\\Lambda_{p,q}]_{D_4}\\) determina la clase topologica.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#cierre",
+    "href": "capitulos/11-lattice-ciclos.html#cierre",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Cierre",
+    "text": "Cierre\nEl mensaje central de este apartado es:\n\\[\n\\text{Lattice de ciclos } + \\text{ simetria } D_4\n\\Longrightarrow\n\\text{clasificacion aritmetica de } L(p,q).\n\\]\nPara uso docente, \\(L(17,3)\\) es un ejemplo excelente porque permite ver en la misma pantalla:\n\nla ecuacion congruencial del lattice,\nla recuperacion de \\(q\\) desde vectores,\ny la accion de simetrias que explican la clasificacion.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#ejercicios",
+    "href": "capitulos/11-lattice-ciclos.html#ejercicios",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Recuperar q desde distintos vectores\n\n\n\nEn \\(\\Lambda_{17,3}\\) verifica que los vectores\n\\[\n(14,1),\\ (11,2),\\ (8,3),\\ (5,4)\n\\]\nson primitivos y pertenecen al lattice. Luego calcula\n\\[\nq\\equiv -ab^{-1}\\pmod{17}\n\\]\nen cada caso y comprueba que todos producen la misma clase modulo \\(17\\).\n\n\n\n\n\n\n\n\nTipEjercicio 2: Simetrias y orbitas\n\n\n\nPara \\(p=17\\) y \\(q=3\\):\n\nCalcula la orbita \\(\\mathcal O_q=\\{\\pm q^{\\pm1}\\}\\).\nDescribe de manera explicita cuatro matrices de \\(D_4\\) que lleven \\((a,b)\\) a \\((a,-b)\\), \\((-a,b)\\), \\((b,a)\\) y \\((-b,a)\\).\nVerifica en cada caso que la congruencia del lattice se transforma en un parametro de la orbita.\n\n\n\n\n\n\n\n\n\nTipEjercicio 3: Comparacion de bases en L(17,3)\n\n\n\nConsidera las bases\n\\[\nB_1=\\{(14,1),(-3,1)\\},\\qquad B_2=\\{(8,3),(-9,2)\\}.\n\\]\n\nVerifica que ambas generan subreticulas de indice \\(17\\).\nComprueba que ambas estan contenidas en \\(\\Lambda_{17,3}\\).\nDecide si existe \\(U\\in SL(2,\\mathbb Z)\\) con \\(B_2=B_1U\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Sistemas de Rotación y Ribbon Graphs",

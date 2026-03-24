@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8. BR del Diagrama de Poincaré – Sistemas de Rotación y Ribbon Graphs</title>
+<title>2.3 Lattice de Ciclos de L(p,q) – Sistemas de Rotación y Ribbon Graphs</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../capitulos/09-espacios-lente.html" rel="next">
-<link href="../capitulos/07-bollobas-riordan.html" rel="prev">
+<link href="../capitulos/10-graficas-circulantes.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -78,8 +77,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&amp;family=Fira+Code:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
 <meta property="og:type" content="website">
-<meta property="og:title" content="8. BR del Diagrama de Poincaré – Sistemas de Rotación y Ribbon Graphs">
-<meta property="og:description" content="Cálculo del polinomio de Bollobás-Riordan para la esfera de Poincaré">
+<meta property="og:title" content="2.3 Lattice de Ciclos de L(p,q) – Sistemas de Rotación y Ribbon Graphs">
+<meta property="og:description" content="Clasificacion aritmetica y ejemplo completo L(17,3)">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -212,7 +211,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-sistemas-rotacion.html">1. Sistemas de Rotación</a></li><li class="breadcrumb-item"><a href="../capitulos/08-br-diagrama-poincare.html">1.8 BR de la Esfera de Poincare</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/09-espacios-lente.html">2. Espacios Lente</a></li><li class="breadcrumb-item"><a href="../capitulos/11-lattice-ciclos.html">2.3 Lattice de Ciclos</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -241,13 +240,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">1. Sistemas de Rotación</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
@@ -292,7 +291,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/08-br-diagrama-poincare.html" class="sidebar-item-text sidebar-link active">
+  <a href="../capitulos/08-br-diagrama-poincare.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.8 BR de la Esfera de Poincare</span></a>
   </div>
 </li>
@@ -300,13 +299,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">2. Espacios Lente</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/09-espacios-lente.html" class="sidebar-item-text sidebar-link">
@@ -321,7 +320,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/11-lattice-ciclos.html" class="sidebar-item-text sidebar-link">
+  <a href="../capitulos/11-lattice-ciclos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">2.3 Lattice de Ciclos</span></a>
   </div>
 </li>
@@ -336,10 +335,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-sistemas-rotacion.html">1. Sistemas de Rotación</a></li><li class="breadcrumb-item"><a href="../capitulos/08-br-diagrama-poincare.html">1.8 BR de la Esfera de Poincare</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/09-espacios-lente.html">2. Espacios Lente</a></li><li class="breadcrumb-item"><a href="../capitulos/11-lattice-ciclos.html">2.3 Lattice de Ciclos</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">8. BR del Diagrama de Poincaré</h1>
-<p class="subtitle lead">Cálculo del polinomio de Bollobás-Riordan para la esfera de Poincaré</p>
+<h1 class="title">2.3 Lattice de Ciclos de L(p,q)</h1>
+<p class="subtitle lead">Clasificacion aritmetica y ejemplo completo L(17,3)</p>
 </div>
 
 
@@ -356,76 +355,288 @@ window.Quarto = {
 </header>
 
 
-<p>El cálculo del polinomio de Bollobás-Riordan para el diagrama de Heegaard de la esfera de Poincaré se realizó con la implementación paralela del script rápido de la sección anterior.</p>
-<p><img src="../imagenes/esferaPoincarerotacion.png" class="img-fluid" style="width:100.0%" data-fig-cap="Figura tomada de https://arxiv.org/abs/2510.06651."></p>
-<p>Usamos el sistema de rotación:</p>
+<p>En este apartado estudiamos exclusivamente el <strong>lattice de ciclos</strong> asociado al espacio lente <span class="math inline">\(L(p,q)\)</span>. El punto de partida es aritmetico: la estructura topologica queda codificada por una reticula entera y por su clase bajo simetrias de <span class="math inline">\(GL(2,\mathbb Z)\)</span>.</p>
+<hr>
+<section id="definicion-del-lattice-de-ciclos" class="level2">
+<h2 class="anchored" data-anchor-id="definicion-del-lattice-de-ciclos">Definicion del lattice de ciclos</h2>
+<p>Para <span class="math inline">\(p \ge 1\)</span> y <span class="math inline">\(\gcd(p,q)=1\)</span>, definimos</p>
 <p><span class="math display">\[
-\begin{aligned}
-\sigma &amp;= (1,2,3,4)(5,6,7,8)(9,10,11,12)(13,14,15,16)(17,18,19,20)(21,22,23,24) \\
-       &amp;\phantom{=} (25,26,27,28)(29,30,31,32)(33,34,35,36)(37,38,39,40)(41,42,43,44)(45,46,47,48)
-\end{aligned}
+\Lambda_{p,q}
+=
+\{(a,b)\in\mathbb Z^2 : a+bq\equiv 0\pmod p\}.
 \]</span></p>
-<p><span class="math display">\[
-\begin{aligned}
-\rho &amp;= (1,7)(2,36)(3,25)(4,48)(5,11)(6,40)(8,30)(9,15)(10,42)(12,34)(13,19)(14,38) \\
-     &amp;\phantom{=} (16,18)(17,23)(20,22)(21,27)(24,26)(28,32)(29,35)(31,45)(33,39)(37,43)(41,47)(44,46)
-\end{aligned}
-\]</span></p>
-<p>Aquí <span class="math inline">\(V=12\)</span> y <span class="math inline">\(E=24\)</span>, así que la suma recorre <span class="math inline">\(2^{24}=16{,}777{,}216\)</span> subgrafos.</p>
+<p>Interpretacion operativa:</p>
+<ul>
+<li>El par <span class="math inline">\((a,b)\)</span> representa una combinacion de pasos en la red de doble lazo <span class="math inline">\(G(p;\pm 1, \pm q)\)</span>.</li>
+<li>La congruencia <span class="math inline">\(a+bq\equiv 0\)</span> significa que ese desplazamiento regresa al mismo vertice modulo <span class="math inline">\(p\)</span>.</li>
+<li>Por eso <span class="math inline">\(\Lambda_{p,q}\)</span> se ve como la reticula de “ciclos cerrados” en coordenadas enteras.</li>
+</ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Nota</span>Polinomio obtenido
+<span class="screen-reader-only">Nota</span>Verificacion rapida de pertenencia
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>El exponente de <span class="math inline">\(z\)</span> es <span class="math inline">\(2g(A)\)</span> (caso orientable), por lo que aparecen potencias pares de <span class="math inline">\(z:\)</span></p>
+<p>Para decidir si <span class="math inline">\((a,b)\)</span> esta en <span class="math inline">\(\Lambda_{p,q}\)</span>, solo se evalua <span class="math inline">\(a+bq\)</span> modulo <span class="math inline">\(p\)</span>.</p>
+<p>Ejemplo para <span class="math inline">\((p,q)=(17,3)\)</span>:</p>
+<ul>
+<li><span class="math inline">\((14,1)\)</span>: <span class="math inline">\(14+1\cdot 3=17\equiv 0\)</span> entonces <span class="math inline">\((14,1)\in\Lambda_{17,3}\)</span>.</li>
+<li><span class="math inline">\((8,3)\)</span>: <span class="math inline">\(8+3\cdot 3=17\equiv 0\)</span> entonces <span class="math inline">\((8,3)\in\Lambda_{17,3}\)</span>.</li>
+<li><span class="math inline">\((5,1)\)</span>: <span class="math inline">\(5+1\cdot 3=8\not\equiv 0\)</span> entonces <span class="math inline">\((5,1)\notin\Lambda_{17,3}\)</span>.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="ejemplo-guiado-l173" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-guiado-l173">Ejemplo guiado: L(17,3)</h2>
+<p>Tomamos</p>
 <p><span class="math display">\[
-\begin{aligned}
-R(G;x,y,z) &amp;= P_0(x,y) + z^2 P_1(x,y) + z^4 P_2(x,y).
-\end{aligned}
+\Lambda_{17,3}=
+\{(a,b)\in\mathbb Z^2 : a+3b\equiv 0\pmod{17}\}.
 \]</span></p>
+<p>Dos vectores utiles del lattice son</p>
 <p><span class="math display">\[
-\begin{aligned}
-P_2(x,y) ={}&amp; y^{13} + 24y^{12} + 268y^{11} + 6xy^{10} + 1838y^{10} + 110xy^9 + 8594y^9 \\
-&amp;+ 8x^2y^8 + 892xy^8 + 28652y^8 + 108x^2y^7 + 4136xy^7 + 68844y^7\\
-&amp;+ 8x^3y^6 + 596x^2y^6 + 11728xy^6 + 116692y^6 + 48x^3y^5 + 1592x^2y^5\\
-&amp;+ 19680xy^5 + 129208y^5 + 96x^3y^4 + 1824x^2y^4 + 15712xy^4 + 72480y^4.
-\end{aligned}
+\nu_1=(14,1), \qquad \nu_2=(-3,1).
 \]</span></p>
+<p>El determinante</p>
 <p><span class="math display">\[
-\begin{aligned}
-P_1(x,y) ={}&amp; 8y^{11} + 13xy^{10} + 167y^{10} + 11x^2y^9 + 248xy^9 + 1629y^9 \\
-&amp;+ 5x^3y^8 + 207x^2y^8 + 2223xy^8 + 9809y^8 + x^4y^7 + 104x^3y^7 \\
-&amp;+ 1809x^2y^7 + 12240xy^7 + 40366y^7 + 30x^4y^6 + 966x^3y^6 + 9458x^2y^6 \\
-&amp;+ 45278xy^6 + 118108y^6 + 4x^5y^5 + 370x^4y^5 + 5040x^3y^5 + 31724x^2y^5 \\
-&amp;+ 115072xy^5 + 246750y^5 + 118x^5y^4 + 2016x^4y^4 + 15124x^3y^4 + 67448x^2y^4 \\
-&amp;+ 195774xy^4 + 356096y^4 + 36x^6y^3 + 598x^5y^3 + 4874x^4y^3 + 24332x^3y^3 \\
-&amp;+ 83464x^2y^3 + 201950xy^3 + 312266y^3 + 8x^7y^2 + 100x^6y^2 + 816x^5y^2 \\
-&amp;+ 4364x^4y^2 + 16392x^3y^2 + 45244x^2y^2 + 89024xy^2 + 106196y^2.
-\end{aligned}
+\det\begin{pmatrix}14 &amp; -3 \\ 1 &amp; 1\end{pmatrix}=14(1)-1(-3)=17,
 \]</span></p>
+<p>coincide con <span class="math inline">\(p\)</span>, como debe ocurrir en una base de indice <span class="math inline">\(p\)</span>.</p>
+<p>Tambien aparece naturalmente el vector</p>
 <p><span class="math display">\[
-\begin{aligned}
-P_0(x,y) ={}&amp; 15y^9 + 49xy^8 + 279y^8 + 91x^2y^7 + 838xy^7 + 2439y^7 + 131x^3y^6+ 1455x^2y^6\\
-&amp;  + 6745xy^6 + 13133y^6 + 168x^4y^5 + 1950x^3y^5 + 10860x^2y^5+ 32786xy^5\\
-&amp;  + 47684y^5 + x^7y^4 + 9x^6y^4 + 233x^5y^4 + 2335x^4y^4 + 13241x^3y^4+ 47129x^2y^4\\
-&amp;   + 103477xy^4 + 120103y^4 + 4x^8y^3 + 40x^7y^3 + 371x^6y^3+ 2652x^5y^3\\
-&amp;   + 13417x^4y^3 + 48520x^3y^3 + 124093x^2y^3 + 213428xy^3+ 209059y^3\\
-&amp;  + 6x^9y^2 + 66x^8y^2 + 460x^7y^2 + 2512x^6y^2 + 10823x^5y^2 + 36693x^4y^2\\
-&amp;  + 96706x^3y^2 + 193034x^2y^2 + 275765xy^2 + 235903y^2 + 4x^{10}y + 316x^8y \\
-&amp;  + 1520x^7y + 5804x^6y + 18120x^5y + 46428x^4y + 96512x^3y + 158208x^2y \\
-&amp;  + 191064xy + 48x^9y + 137976y + x^{11} + 13x^{10} + 87x^9 + 403x^8 + 1446x^7  \\
-&amp;+ 4222x^6+ 10250x^5 + 20754x^4 + 34617x^3 + 46005x^2 + 44991x + 25627.
-\end{aligned}
+\nu_3=(8,3), \quad 8+3\cdot 3=17.
 \]</span></p>
+<p>Se verifica de forma directa que:</p>
+<ol type="1">
+<li><span class="math inline">\(\nu_1,\nu_2,\nu_3\in\Lambda_{17,3}\)</span>.</li>
+<li><span class="math inline">\(\gcd(14,1)=\gcd(-3,1)=\gcd(8,3)=1\)</span> (son primitivos).</li>
+<li>Cada uno recupera el mismo valor de <span class="math inline">\(q\)</span> (siguiente proposicion).</li>
+</ol>
+<hr>
+</section>
+<section id="recuperar-q-desde-cualquier-vector-primitivo" class="level2">
+<h2 class="anchored" data-anchor-id="recuperar-q-desde-cualquier-vector-primitivo">Recuperar q desde cualquier vector primitivo</h2>
+<p>Cualquier vector <span class="math inline">\((a,b)\in\Lambda_{p,q}\)</span> cumple</p>
+<p><span class="math display">\[
+a+bq\equiv 0\pmod p.
+\]</span></p>
+<p>Si <span class="math inline">\(\gcd(b,p)=1\)</span>, entonces <span class="math inline">\(b\)</span> tiene inverso modulo <span class="math inline">\(p\)</span> y</p>
+<p><span class="math display">\[
+q\equiv -ab^{-1}\pmod p.
+\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Proposicion (recuperacion de q)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La aplicacion</p>
+<p><span class="math display">\[
+\phi:\{(a,b)\in \Lambda_{p,q}:\gcd(b,p)=1\}\to (\mathbb Z/p\mathbb Z)^\times,
+\qquad
+\phi(a,b)=-ab^{-1},
+\]</span></p>
+<p>esta bien definida y es constante. De hecho,</p>
+<p><span class="math display">\[
+\phi(a,b)\equiv q\pmod p
+\]</span></p>
+<p>para todo <span class="math inline">\((a,b)\)</span> de su dominio.</p>
+</div>
+</div>
+<p><strong>Demostracion.</strong> Como <span class="math inline">\((a,b)\in\Lambda_{p,q}\)</span>, se tiene <span class="math inline">\(a+bq\equiv 0\pmod p\)</span>. Multiplicando por <span class="math inline">\(b^{-1}\)</span>: <span class="math inline">\(q\equiv -ab^{-1}\pmod p\)</span>. No depende de elecciones adicionales. <span class="math inline">\(\square\)</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Observacion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Todo vector primitivo <span class="math inline">\((a,b)\in\Lambda_{p,q}\)</span> satisface <span class="math inline">\(\gcd(b,p)=1\)</span>. Si <span class="math inline">\(p\mid b\)</span>, de <span class="math inline">\(a+bq\equiv 0\)</span> se obtiene <span class="math inline">\(a\equiv 0\pmod p\)</span>, contradiciendo <span class="math inline">\(\gcd(a,b)=1\)</span>.</p>
+<p>Conclusion: cualquier vector de una base entera de <span class="math inline">\(\Lambda_{p,q}\)</span> permite recuperar <span class="math inline">\(q\)</span>.</p>
+</div>
+</div>
+<section id="comprobacion-explicita-en-l173" class="level3">
+<h3 class="anchored" data-anchor-id="comprobacion-explicita-en-l173">Comprobacion explicita en L(17,3)</h3>
+<ul>
+<li><p>Con <span class="math inline">\((a,b)=(14,1)\)</span>: <span class="math display">\[q\equiv -14\cdot 1^{-1}\equiv -14\equiv 3\pmod{17}.\]</span></p></li>
+<li><p>Con <span class="math inline">\((a,b)=(8,3)\)</span> y <span class="math inline">\(3^{-1}\equiv 6\pmod{17}\)</span>: <span class="math display">\[q\equiv -8\cdot 6=-48\equiv 3\pmod{17}.\]</span></p></li>
+</ul>
+<p>Ambos dan el mismo resultado: <span class="math inline">\(q\equiv 3\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="simetrias-geometricas-y-orbita-q-q" class="level2">
+<h2 class="anchored" data-anchor-id="simetrias-geometricas-y-orbita-q-q">Simetrias geometricas y orbita q ~ q^{}</h2>
+<p>La clasificacion de espacios lente usa la relacion</p>
+<p><span class="math display">\[
+q'\equiv \pm q^{\pm1}\pmod p.
+\]</span></p>
+<p>En el lattice, esto se implementa por matrices de simetria en <span class="math inline">\(GL(2,\mathbb Z)\)</span> (cambios de signo y permutaciones de coordenadas), es decir, la accion del grupo diedral <span class="math inline">\(D_4\)</span> sobre <span class="math inline">\(\mathbb Z^2\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Proposicion (accion D4 en lattices)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">\(q'\equiv \pm q^{\pm1}\pmod p\)</span>, existe <span class="math inline">\(M\in D_4\subset GL(2,\mathbb Z)\)</span> tal que</p>
+<p><span class="math display">\[
+\Lambda_{p,q'}=M(\Lambda_{p,q}).
+\]</span></p>
+</div>
+</div>
+<p><strong>Idea de demostracion (generadores).</strong></p>
+<ol type="1">
+<li><p>Caso <span class="math inline">\(q'=-q\)</span>: el cambio <span class="math inline">\((a,b)\mapsto (a,-b)\)</span> transforma <span class="math inline">\(a+b(-q)\equiv 0\)</span> en <span class="math inline">\(a-bq\equiv 0\)</span>.</p></li>
+<li><p>Caso <span class="math inline">\(q'=q^{-1}\)</span>: el intercambio <span class="math inline">\((a,b)\mapsto (b,a)\)</span> transforma <span class="math inline">\(a+bq\equiv 0\)</span> en <span class="math inline">\(b+aq^{-1}\equiv 0\)</span>.</p></li>
+</ol>
+<p>Como estas operaciones generan la orbita <span class="math inline">\(\{\pm q^{\pm1}\}\)</span>, resulta la afirmacion.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Corolario metrico (norma L1)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bajo <span class="math inline">\(q'\equiv \pm q^{\pm1}\)</span> se conservan:</p>
+<ol type="1">
+<li>Minimos sucesivos en norma <span class="math inline">\(L_1\)</span>.</li>
+<li>La condicion de base <span class="math inline">\(L_1\)</span>-reducida.</li>
+<li>El multiconjunto <span class="math display">\[\{\|u\|_1,\|v\|_1,\|u-v\|_1\}\]</span> para bases reducidas.</li>
+</ol>
+<p>Razon: los elementos de <span class="math inline">\(D_4\)</span> son isometrias de la norma <span class="math inline">\(L_1\)</span> y preservan determinantes.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="teorema-de-clasificacion-aritmetica" class="level2">
+<h2 class="anchored" data-anchor-id="teorema-de-clasificacion-aritmetica">Teorema de clasificacion aritmetica</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Teorema
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La <strong>clase de equivalencia</strong> del lattice de ciclos bajo la accion de <span class="math inline">\(D_4\)</span>,</p>
+<p><span class="math display">\[
+[\Lambda_{p,q}]_{D_4}:=\{M(\Lambda_{p,q})\;:\;M\in D_4\},
+\]</span></p>
+<p>determina completamente el tipo de homeomorfismo del espacio lente <span class="math inline">\(L(p,q)\)</span>.</p>
+</div>
+</div>
+<p><strong>Esquema de prueba.</strong></p>
+<ol type="1">
+<li>Por la proposicion de recuperacion, cada representante <span class="math inline">\(\Lambda_{p,q'}\)</span> de la clase determina un parametro <span class="math inline">\(q'\pmod p\)</span>.</li>
+<li>Por la proposicion de simetria, si <span class="math inline">\(\Lambda_{p,q'}=M(\Lambda_{p,q})\)</span> con <span class="math inline">\(M\in D_4\)</span>, entonces <span class="math inline">\(q'\equiv \pm q^{\pm1}\pmod p\)</span>; por tanto la clase <span class="math inline">\([\Lambda_{p,q}]_{D_4}\)</span> determina exactamente la orbita <span class="math inline">\(\mathcal O_q=\{\pm q^{\pm1}\}\)</span>.</li>
+<li>La clasificacion clasica de espacios lente dice: <span class="math display">\[L(p,q)\cong L(p,q')\iff q'\in\mathcal O_q.\]</span></li>
+</ol>
+<p>Luego la clase <span class="math inline">\([\Lambda_{p,q}]_{D_4}\)</span> determina la clase topologica.</p>
+<hr>
+</section>
+<section id="cierre" class="level2">
+<h2 class="anchored" data-anchor-id="cierre">Cierre</h2>
+<p>El mensaje central de este apartado es:</p>
+<p><span class="math display">\[
+\text{Lattice de ciclos } + \text{ simetria } D_4
+\Longrightarrow
+\text{clasificacion aritmetica de } L(p,q).
+\]</span></p>
+<p>Para uso docente, <span class="math inline">\(L(17,3)\)</span> es un ejemplo excelente porque permite ver en la misma pantalla:</p>
+<ul>
+<li>la ecuacion congruencial del lattice,</li>
+<li>la recuperacion de <span class="math inline">\(q\)</span> desde vectores,</li>
+<li>y la accion de simetrias que explican la clasificacion.</li>
+</ul>
+<hr>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 1: Recuperar q desde distintos vectores
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En <span class="math inline">\(\Lambda_{17,3}\)</span> verifica que los vectores</p>
+<p><span class="math display">\[
+(14,1),\ (11,2),\ (8,3),\ (5,4)
+\]</span></p>
+<p>son primitivos y pertenecen al lattice. Luego calcula</p>
+<p><span class="math display">\[
+q\equiv -ab^{-1}\pmod{17}
+\]</span></p>
+<p>en cada caso y comprueba que todos producen la misma clase modulo <span class="math inline">\(17\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 2: Simetrias y orbitas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para <span class="math inline">\(p=17\)</span> y <span class="math inline">\(q=3\)</span>:</p>
+<ol type="1">
+<li>Calcula la orbita <span class="math inline">\(\mathcal O_q=\{\pm q^{\pm1}\}\)</span>.</li>
+<li>Describe de manera explicita cuatro matrices de <span class="math inline">\(D_4\)</span> que lleven <span class="math inline">\((a,b)\)</span> a <span class="math inline">\((a,-b)\)</span>, <span class="math inline">\((-a,b)\)</span>, <span class="math inline">\((b,a)\)</span> y <span class="math inline">\((-b,a)\)</span>.</li>
+<li>Verifica en cada caso que la congruencia del lattice se transforma en un parametro de la orbita.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Ejercicio 3: Comparacion de bases en L(17,3)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considera las bases</p>
+<p><span class="math display">\[
+B_1=\{(14,1),(-3,1)\},\qquad B_2=\{(8,3),(-9,2)\}.
+\]</span></p>
+<ol type="1">
+<li>Verifica que ambas generan subreticulas de indice <span class="math inline">\(17\)</span>.</li>
+<li>Comprueba que ambas estan contenidas en <span class="math inline">\(\Lambda_{17,3}\)</span>.</li>
+<li>Decide si existe <span class="math inline">\(U\in SL(2,\mathbb Z)\)</span> con <span class="math inline">\(B_2=B_1U\)</span>.</li>
+</ol>
 </div>
 </div>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Volver arriba</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reutilización</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -837,14 +1048,11 @@ P_0(x,y) ={}&amp; 15y^9 + 49xy^8 + 279y^8 + 91x^2y^7 + 838xy^7 + 2439y^7 + 131x^
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../capitulos/07-bollobas-riordan.html" class="pagination-link" aria-label="1.7 Polinomio de Bollobás-Riordan">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1.7 Polinomio de Bollobás-Riordan</span>
+      <a href="../capitulos/10-graficas-circulantes.html" class="pagination-link" aria-label="2.2 Grafos Circulantes de Doble Lazo">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.2 Grafos Circulantes de Doble Lazo</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../capitulos/09-espacios-lente.html" class="pagination-link" aria-label="2.1 Espacios Lente y Grafos de Heegaard">
-        <span class="nav-page-text">2.1 Espacios Lente y Grafos de Heegaard</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
