@@ -140,7 +140,7 @@ Ambos dan el mismo resultado: $q\equiv 3$.
 
 ---
 
-## Simetrias geometricas y orbita q ~ \pm q^{\pm1}
+## Simetrias geométricas y orbita $q ~ \pm q^{\pm1}$
 
 La clasificacion de espacios lente usa la relacion
 
