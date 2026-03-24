@@ -48,14 +48,8 @@ website:
             file: capitulos/09-espacios-lente.qmd
           - text: "2.2 Grafos Circulantes de Doble Lazo"
             file: capitulos/10-graficas-circulantes.qmd
-          # - text: "2.3 Polinomios de L(p,q)"
-          #   file: capitulos/11-polinomios-lente.qmd
-          # - text: "2.4 Estructura del Polinomio BR"
-          #   file: capitulos/12.qmd
-          # - text: "2.5 Perfil de Cresta y Completitud"
-          #   file: capitulos/10-perfil-cresta.qmd
-          # - text: "2.6 Explorador Computacional"
-          #   file: capitulos/11-explorador-polinomios.qmd
+          - text: "2.3 Lattice de Ciclos"
+            file: capitulos/11-lattice-ciclos.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -95,14 +89,8 @@ website:
             file: capitulos/09-espacios-lente.qmd
           - text: "2.2 Grafos Circulantes de Doble Lazo"
             file: capitulos/10-graficas-circulantes.qmd
-          # - text: "2.3 Polinomios de L(p,q)"
-          #   file: capitulos/11-polinomios-lente.qmd
-          # - text: "2.4 Estructura del Polinomio BR"
-          #   file: capitulos/12.qmd
-          # - text: "2.5 Perfil de Cresta y Completitud"
-          #   file: capitulos/10-perfil-cresta.qmd
-          # - text: "2.6 Explorador Computacional"
-          #   file: capitulos/11-explorador-polinomios.qmd
+          - text: "2.3 Lattice de Ciclos"
+            file: capitulos/11-lattice-ciclos.qmd
 
   page-footer:
     center: |
