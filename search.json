@@ -136,7 +136,7 @@
     "href": "capitulos/12-estructura-polinomio.html#restricción-global-solo-aparecen-z0-y-z2",
     "title": "2.3 Estructura del Polinomio BR para L(p,q)",
     "section": "Restricción global: solo aparecen \\(z^0\\) y \\(z^2\\)",
-    "text": "Restricción global: solo aparecen \\(z^0\\) y \\(z^2\\)\n\n\n\n\n\n\nNotaLema estructural\n\n\n\nPara \\(G_{p,q}=C_p(\\pm1,\\pm q)\\), todo término de \\(R_{p,q}(x,y,z)\\) tiene exponente de \\(z\\) igual a \\(0\\) o \\(2\\).\n\n\nConsecuencia de lectura:\n\\[\nR_{p,q}(x,y,z)=P_0(x,y)+z^2 P_2(x,y).\n\\]\n\n\\(P_0\\): contribuciones de genus \\(0\\).\n\\(P_2\\): contribuciones de género 1.",
+    "text": "Restricción global: solo aparecen \\(z^0\\) y \\(z^2\\)\n\n\n\n\n\n\nNotaLema estructural\n\n\n\nPara \\(G_{p,q}=C_p(\\pm1,\\pm q)\\), todo término de \\(R_{p,q}(x,y,z)\\) tiene exponente de \\(z\\) igual a \\(0\\) o \\(2\\).\n\n\nConsecuencia de lectura:\n\\[\nR_{p,q}(x,y,z)=P_0(x,y)+z^2 P_2(x,y).\n\\]\n\n\\(P_0\\): contribuciones de género \\(0\\).\n\\(P_2\\): contribuciones de género 1.",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
@@ -244,7 +244,7 @@
     "href": "capitulos/12-estructura-polinomio.html#transición-al-siguiente-apartado",
     "title": "2.3 Estructura del Polinomio BR para L(p,q)",
     "section": "Transición al siguiente apartado",
-    "text": "Transición al siguiente apartado\nCon esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en genus \\(1\\) (perfil \\((S_t)\\)) y su poder de separación entre órbitas aritméticas.",
+    "text": "Transición al siguiente apartado\nCon esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en género \\(1\\) (perfil \\((S_t)\\)) y su poder de separación entre órbitas aritméticas.",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
