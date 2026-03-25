@@ -213,7 +213,6 @@ Consecuencia: se preserva la descomposición en tres caminos internamente disjun
 Todo dominio fundamental asociado a un 2-núcleo mínimo de género 1 puede transformarse, mediante una secuencia de volteos admisibles, en una región ortogonal combinatoriamente equivalente a una $L$.
 :::
 
-Además, si $\ell_1\le\ell_2\le\ell_3$ son las longitudes de las tres ramas del $\Theta$-núcleo, entonces:
 
 ---
 
