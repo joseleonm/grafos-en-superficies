@@ -1,0 +1,223 @@
+---
+title: "2.3 Estructura del Polinomio BR para L(p,q)"
+subtitle: "Resultados estructurales clave para la lectura del término de género 1"
+---
+
+Este apartado funciona como guía de exposición: solo enunciamos los resultados que organizan la lectura del polinomio de Bollobás-Riordan para los grafos de Heegaard de espacios lente.
+
+---
+
+## Mapa del capítulo
+
+La narrativa queda en cuatro bloques:
+
+1. Restricción global del polinomio en la variable $z$.
+2. Rebanada base $y^2 z^2$ y criterio de activación de $S_2$.
+3. Extremos de la parte planar ($z^0$): $S_1$ y $T_0$.
+4. Geometría del núcleo Theta-core y reducción a dominio tipo $L$.
+
+---
+
+## Restricción global: solo aparecen $z^0$ y $z^2$
+
+::: {.callout-note}
+## Lema estructural
+
+Para $G_{p,q}=C_p(\pm1,\pm q)$, todo término de $R_{p,q}(x,y,z)$ tiene exponente de $z$ igual a $0$ o $2$.
+:::
+
+Consecuencia de lectura:
+
+$$
+R_{p,q}(x,y,z)=P_0(x,y)+z^2 P_2(x,y).
+$$
+
+- $P_0$: contribuciones de genus $0$.
+- $P_2$: contribuciones de género 1.
+
+---
+
+## Rebanada base $y^2 z^2$
+
+Para un subgrafo generador $F$, el monomio $X^s y^t z^2$ (con $X=x-1$) corresponde a:
+
+$$
+k(F)=s+1, \qquad n(F)=t, \qquad g(F)=1.
+$$
+
+En particular, la rebanada $y^2 z^2$ recoge exactamente subgrafos de género 1 y nulidad $2$.
+
+### Criterio algebraico en nulidad 2
+
+::: {.callout-important}
+## Proposición (equivalencias en $n=2$)
+
+Si $n(F)=2$ y $u,v\in\Lambda_{p,q}$ son los vectores de los dos ciclos fundamentales, entonces son equivalentes:
+
+1. $g(F)=1$.
+2. $f(F)=s+1$.
+3. $\langle u,v\rangle_{\mathbb Z}=\Lambda_{p,q}$.
+4. $|\det(u,v)|=p$.
+:::
+
+Lectura didáctica: en nulidad $2$, género 1 equivale a una condición unimodular en la retícula de ciclos.
+
+### Activación universal del término base
+
+::: {.callout-note}
+## Proposición
+
+Para todo $p\ge 3$, el coeficiente de $X^0 y^2 z^2$ es estrictamente positivo.
+:::
+
+Interpretación: siempre existe al menos un subgrafo conectado de género 1 con nulidad $2$.
+
+### Primer detector de órbita
+
+Definimos $S_2$ como el mayor $s$ tal que $X^s y^2 z^2$ aparece en $R_{p,q}$.
+
+::: {.callout-important}
+## Proposición
+
+$$
+S_2=0 \iff q\equiv \pm1 \pmod p.
+$$
+:::
+
+Mensaje para exposición:
+
+- Caso trivial de órbita ($\mathcal O_1$): $S_2=0$.
+- Caso no trivial: $S_2>0$.
+
+---
+
+## Definición de invariantes de borde
+
+Para organizar rebanadas extremales, se fija:
+
+- $S_1$: máximo exponente $s$ con $X^s y^1 z^0$ no nulo.
+- Para $i\ge2$, $S_i$: máximo exponente $s$ con $X^s y^i z^2$ no nulo.
+
+Esto permite hablar de la frontera superior de cada rebanada relevante.
+
+---
+
+## Extremos en la parte planar ($z^0$)
+
+### Extremo en nulidad 1
+
+::: {.callout-note}
+## Proposición
+
+$$
+S_1 = p-\mathrm{cintura}(G_{p,q}).
+$$
+:::
+
+Lectura: el mejor exponente en $y^1 z^0$ depende de la longitud del ciclo más corto del grafo.
+
+### Extremo en conectividad total
+
+Definimos
+
+$$
+T_0 := \max\{t\ge0:[X^0 y^t z^0]R_{p,q}\neq0\}.
+$$
+
+::: {.callout-note}
+## Proposición
+
+$$
+T_0 = p+1-\lambda_1(\Lambda_{p,q}).
+$$
+:::
+
+Lectura: el máximo de nulidad planar conectada se controla por la primera mínima $L_1$ de la retícula.
+
+---
+
+## Núcleo de nulidad 2: estructura tipo Theta
+
+::: {.callout-important}
+## Proposición
+
+Si $F$ es conectado y $n(F)=2$, su 2-núcleo es un grafo $\Theta$ (tres caminos internamente disjuntos entre dos vértices de ramificación).
+:::
+
+Sea $F_2$ ese 2-núcleo y $u,v$ los dos ciclos fundamentales.
+
+::: {.callout-note}
+## Funcional de longitud
+
+$$
+e(F_2)=\frac12\bigl(\|u\|_1+\|v\|_1+\|u-v\|_1\bigr).
+$$
+:::
+
+Interpretación: el tamaño del núcleo se traduce en un problema variacional sobre bases de $\Lambda_{p,q}$.
+
+---
+
+## Caracterización variacional
+
+::: {.callout-important}
+## Teorema
+
+El 2-núcleo mínimo de género 1 se obtiene minimizando
+
+$$
+S(u,v)=\frac12\bigl(\|u\|_1+\|v\|_1+\|u-v\|_1\bigr)
+$$
+
+sobre bases $\mathbb Z$ de $\Lambda_{p,q}$. Todo minimizador es una base $L_1$-reducida.
+:::
+
+Corolario narrativo: el núcleo mínimo induce, salvo signo y permutación, la base $L_1$-reducida canónica.
+
+---
+
+## Levantamiento al cubriente universal
+
+Para un 2-núcleo mínimo $F_2$, su levantamiento $\widetilde F_2\subset\mathbb Z^2$ induce dominios fundamentales $\mathcal D$ con propiedades geométricas clave:
+
+1. $|\mathcal D|=p$ (un representante por coset de $\Lambda_{p,q}$).
+2. Frontera ortogonal cerrada con seis tramos monótonos máximos.
+3. Emparejamiento de lados opuestos por traslaciones de $\Lambda_{p,q}$.
+4. Sin aristas del levantamiento en el interior.
+5. Grado interno $4$ y grado de frontera $2$ dentro de $\mathcal D$.
+
+---
+
+## Flips y reducción combinatoria
+
+Se define el volteo cuadrado periódico (equivariante por traslaciones del retículo) y se restringe a volteos admisibles:
+
+- preservan nulidad,
+- preservan número de componentes.
+
+::: {.callout-note}
+## Criterio de admisibilidad
+
+Un volteo es admisible si y solo si reemplaza un subcamino de una de las tres ramas del $\Theta$ por otro con los mismos extremos.
+:::
+
+Consecuencia: se preserva la descomposición en tres caminos internamente disjuntos.
+
+---
+
+## Reducción a dominio tipo L
+
+::: {.callout-important}
+## Teorema
+
+Todo dominio fundamental asociado a un 2-núcleo mínimo de género 1 puede transformarse, mediante una secuencia de volteos admisibles, en una región ortogonal combinatoriamente equivalente a una $L$.
+:::
+
+Además, si $\ell_1\le\ell_2\le\ell_3$ son las longitudes de las tres ramas del $\Theta$-núcleo, entonces:
+
+---
+
+
+## Transición al siguiente apartado
+
+Con esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en genus $1$ (perfil $(S_t)$) y su poder de separación entre órbitas aritméticas.
