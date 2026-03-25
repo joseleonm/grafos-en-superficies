@@ -108,147 +108,557 @@
     ]
   },
   {
-    "objectID": "capitulos/10-graficas-circulantes.html",
-    "href": "capitulos/10-graficas-circulantes.html",
-    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "objectID": "capitulos/12-estructura-polinomio.html",
+    "href": "capitulos/12-estructura-polinomio.html",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
     "section": "",
-    "text": "En el capítulo anterior identificamos el grafo abstracto de Heegaard de un espacio lente como un grafo circulante. Esta misma familia de grafos ha sido estudiada de forma independiente y muy extensa desde otro punto de vista: el de las redes de interconexión. En esa literatura, un circulante con dos generadores simétricos se conoce como una red de doble lazo no dirigida (undirected double-loop network), y se denota\n\\[G(n;\\, \\pm s_1,\\, \\pm s_2)\\]\ndonde \\(n\\) es el número de nodos, \\(1 \\leq s_1 &lt; s_2 &lt; n/2\\) son los pasos, y \\(\\gcd(n, s_1, s_2) = 1\\).\nAdoptar esta terminología nos permite conectar nuestros objetos topológicos con una rica teoría desarrollada para optimizar el diseño de redes. El estudio de estas redes fue propuesto originalmente por Wong y Coppersmith para la organización de memorias multimodulares y representan un punto intermedio práctico entre las redes de un solo lazo (anillos simples), que sufren de largos retardos y baja fiabilidad, y las redes con más de dos lazos, que requieren hardware costoso y control complejo. Gracias a este equilibrio, las redes de doble lazo se han utilizado en diversas aplicaciones, como en topologías de redes de computadoras (SONET, FDDI), y para el alineamiento de datos en procesadores SIMD.",
+    "text": "Este apartado funciona como guía de exposición: solo enunciamos los resultados que organizan la lectura del polinomio de Bollobás-Riordan para los grafos de Heegaard de espacios lente.",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.2 Grafos Circulantes de Doble Lazo"
+      "2.4 Estructura del Polinomio BR"
     ]
   },
   {
-    "objectID": "capitulos/10-graficas-circulantes.html#el-mosaico-en-forma-de-l",
-    "href": "capitulos/10-graficas-circulantes.html#el-mosaico-en-forma-de-l",
-    "title": "Grafos Circulantes y Redes de Doble Lazo",
-    "section": "El Mosaico en Forma de L",
-    "text": "El Mosaico en Forma de L\n\nImportancia: Diagrama de Distancias Mínimas\nUn resultado fundamental de la teoría de redes de doble lazo es que el mosaico en forma de L codifica el diagrama de distancias mínimas (MDD) de la red. Esto es crucial para problemas de optimización, como encontrar la red con el diámetro mínimo (máximo retardo de transmisión), ya que el diámetro se puede calcular directamente a partir de los parámetros del mosaico [1].\nMás aún, se ha demostrado que dos redes de doble lazo que realizan la misma forma de L son isomorfas [2]. Esto establece una conexión profunda entre la geometría combinatoria del mosaico y la estructura de isomorfismo del grafo abstracto, un análogo en el mundo de las redes de lo que observamos en los espacios lente con los grafos de Heegaard [3].\n\n\n\nConstrucción del patrón\nPara el grafo \\(G(p;\\pm 1, \\pm q)\\), construimos el patrón de etiquetado en el plano entero siguiendo el procedimiento de Wong y Coppersmith:\n\nOrdenar los puntos del primer cuadrante \\(\\mathbb{Z}_{\\geq 0}^2\\) por distancia Manhattan creciente: \\[(0,0),\\;(1,0),\\;(0,1),\\;(2,0),\\;(1,1),\\;(0,2),\\;\\ldots\\]\nEn cada punto \\((x, y)\\), calcular \\(k \\equiv x + yq \\pmod{p}\\).\nSi \\(k\\) no ha aparecido antes, escribirlo en \\((x, y)\\); si ya apareció, dejar el punto en blanco.\nDetenerse cuando se hayan etiquetado los \\(p\\) valores \\(\\{0, 1, \\ldots, p-1\\}\\).\n\nLa región resultante tiene siempre forma de L y tesela el plano entero.\n\n\n\n\n\n\nNotaDefinición: Mosaico en Forma de L — \\(L(n;\\, a, b, r, s)\\)\n\n\n\nLa región obtenida por el procedimiento anterior se llama mosaico en forma de L con parámetros enteros \\(a, b, r, s\\) tales que\n\\[a, b \\geq 2, \\qquad 0 \\leq r &lt; a, \\qquad 0 \\leq s &lt; b, \\qquad n = ab - rs\\]\nSe escribe \\(L(n;\\, a, b, r, s)\\) y es el rectángulo \\(a \\times b\\) al que se le ha quitado el rectángulo \\(r \\times s\\) de una esquina.\n\n\n\n\n\n\n\n\nImportantePropiedad de teselación\n\n\n\nEl mosaico \\(L(n;\\,a,b,r,s)\\) tesela el plano \\(\\mathbb{Z}^2\\) sin solapamientos ni huecos. Los vectores de traslación que generan la teselación son los puntos de red nulos del reticulado, es decir, los puntos \\((x,y) \\in \\mathbb{Z}^2\\) con \\(x + yq \\equiv 0 \\pmod{p}\\) más cercanos al origen distintos de \\((0,0)\\).\nEsta propiedad es la base del algoritmo de enrutamiento óptimo en tiempo constante para redes de doble lazo.\n\n\n\n\nLemas estructurales\nSean \\(L(n;\\,a,b,r,s)\\) el mosaico determinado por \\(G(n;\\,1,q)\\). Entonces:\n\n\\(a &gt; r \\geq 0\\), \\(\\;b &gt; s \\geq 0\\), \\(\\;b \\geq r\\), \\(\\;a &gt; s\\), \\(\\;ab - rs = n\\)\n\\(-a\\cdot 1 + s\\cdot q \\equiv 0 \\pmod{n}\\)\n\\(-r\\cdot 1 + b\\cdot q \\equiv 0 \\pmod{n}\\)\n\\((a-r)\\cdot 1 + (b-s)\\cdot q \\equiv 0 \\pmod{n}\\)\n\nEstos puntos de red nulos \\((-a, s)\\), \\((-r, b)\\) y \\((a-r, b-s)\\) (o sus equivalentes positivos módulo traslaciones del reticulado) son exactamente los vértices del reticulado que genera la teselación periódica del plano.",
+    "objectID": "capitulos/12-estructura-polinomio.html#mapa-del-capítulo",
+    "href": "capitulos/12-estructura-polinomio.html#mapa-del-capítulo",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Mapa del capítulo",
+    "text": "Mapa del capítulo\nLa narrativa queda en cuatro bloques:\n\nRestricción global del polinomio en la variable \\(z\\).\nRebanada base \\(y^2 z^2\\) y criterio de activación de \\(S_2\\).\nExtremos de la parte planar (\\(z^0\\)): \\(S_1\\) y \\(T_0\\).\nGeometría del núcleo Theta-core y reducción a dominio tipo \\(L\\).",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.2 Grafos Circulantes de Doble Lazo"
+      "2.4 Estructura del Polinomio BR"
     ]
   },
   {
-    "objectID": "capitulos/10-graficas-circulantes.html#ejemplo-g13pm-1pm-5",
-    "href": "capitulos/10-graficas-circulantes.html#ejemplo-g13pm-1pm-5",
-    "title": "Grafos Circulantes y Redes de Doble Lazo",
-    "section": "Ejemplo: \\(G(13;\\,\\pm 1,\\,\\pm 5)\\)",
-    "text": "Ejemplo: \\(G(13;\\,\\pm 1,\\,\\pm 5)\\)\n\nConstrucción paso a paso\nAplicamos el procedimiento al grafo \\(G(13;\\,\\pm 1,\\, \\pm 5)\\) con \\(p=13\\), \\(q=5\\).\n\n\n\nPunto \\((x,y)\\)\n\\(x + 5y \\bmod 13\\)\n¿Nuevo?\n\n\n\n\n\\((0,0)\\)\n\\(0\\)\n✓\n\n\n\\((1,0)\\)\n\\(1\\)\n✓\n\n\n\\((0,1)\\)\n\\(5\\)\n✓\n\n\n\\((2,0)\\)\n\\(2\\)\n✓\n\n\n\\((1,1)\\)\n\\(6\\)\n✓\n\n\n\\((0,2)\\)\n\\(10\\)\n✓\n\n\n\\((3,0)\\)\n\\(3\\)\n✓\n\n\n\\((2,1)\\)\n\\(7\\)\n✓\n\n\n\\((1,2)\\)\n\\(11\\)\n✓\n\n\n\\((0,3)\\)\n\\(15 \\equiv 2\\)\n✗\n\n\n\\((4,0)\\)\n\\(4\\)\n✓\n\n\n\\((3,1)\\)\n\\(8\\)\n✓\n\n\n\\((2,2)\\)\n\\(12\\)\n✓\n\n\n\\((1,3)\\)\n\\(16 \\equiv 3\\)\n✗\n\n\n\\((4,1)\\)\n\\(9\\)\n✓ \\(\\;\\leftarrow\\) completo\n\n\n\nCon los 13 valores etiquetados, el mosaico resultante es \\(L(13;\\,5,\\,3,\\,2,\\,1)\\):\n\\[n = ab - rs = 5 \\cdot 3 - 2 \\cdot 1 = 13 \\checkmark\\]\nLa disposición es:\n\\[\\begin{array}{ccccc}\n\\boxed{10} & \\boxed{11} & \\boxed{12} & & \\\\\n\\boxed{5}  & \\boxed{6}  & \\boxed{7}  & \\boxed{8}  & \\boxed{9} \\\\\n\\boxed{0}  & \\boxed{1}  & \\boxed{2}  & \\boxed{3}  & \\boxed{4}\n\\end{array}\\]\n5 columnas en \\(y=0,1\\) y 3 columnas en \\(y=2\\); la esquina superior derecha de \\(r \\times s = 2 \\times 1\\) celdas queda recortada.\n\n\nVerificación de los lemas con \\(a=5,\\,b=3,\\,r=2,\\,s=1\\)\n\\[-a + sq = -5 + 1\\cdot 5 = 0 \\equiv 0 \\pmod{13} \\checkmark\\] \\[-r + bq = -2 + 3\\cdot 5 = 13 \\equiv 0 \\pmod{13} \\checkmark\\] \\[(a-r) + (b-s)q = 3 + 2\\cdot 5 = 13 \\equiv 0 \\pmod{13} \\checkmark\\]\nLos puntos de red nulos más próximos (en coordenadas positivas) son \\((8,\\,1)\\) y \\((3,\\,2)\\), con determinante \\(8\\cdot 2 - 1\\cdot 3 = 13 = p\\), confirmando que generan el reticulado correcto.\n\n\nDiagrama de la teselación\n\n\n\nTeselación del plano por el mosaico \\(L(13;\\,5,3,2,1)\\) para \\(G(13;\\,\\pm 1,\\,\\pm 5)\\).",
+    "objectID": "capitulos/12-estructura-polinomio.html#restricción-global-solo-aparecen-z0-y-z2",
+    "href": "capitulos/12-estructura-polinomio.html#restricción-global-solo-aparecen-z0-y-z2",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Restricción global: solo aparecen \\(z^0\\) y \\(z^2\\)",
+    "text": "Restricción global: solo aparecen \\(z^0\\) y \\(z^2\\)\n\n\n\n\n\n\nNotaLema estructural\n\n\n\nPara \\(G_{p,q}=C_p(\\pm1,\\pm q)\\), todo término de \\(R_{p,q}(x,y,z)\\) tiene exponente de \\(z\\) igual a \\(0\\) o \\(2\\).\n\n\nConsecuencia de lectura:\n\\[\nR_{p,q}(x,y,z)=P_0(x,y)+z^2 P_2(x,y).\n\\]\n\n\\(P_0\\): contribuciones de genus \\(0\\).\n\\(P_2\\): contribuciones de género 1.",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.2 Grafos Circulantes de Doble Lazo"
+      "2.4 Estructura del Polinomio BR"
     ]
   },
   {
-    "objectID": "capitulos/10-graficas-circulantes.html#referencias",
-    "href": "capitulos/10-graficas-circulantes.html#referencias",
-    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "objectID": "capitulos/12-estructura-polinomio.html#rebanada-base-y2-z2",
+    "href": "capitulos/12-estructura-polinomio.html#rebanada-base-y2-z2",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Rebanada base \\(y^2 z^2\\)",
+    "text": "Rebanada base \\(y^2 z^2\\)\nPara un subgrafo generador \\(F\\), el monomio \\(X^s y^t z^2\\) (con \\(X=x-1\\)) corresponde a:\n\\[\nk(F)=s+1, \\qquad n(F)=t, \\qquad g(F)=1.\n\\]\nEn particular, la rebanada \\(y^2 z^2\\) recoge exactamente subgrafos de género 1 y nulidad \\(2\\).\n\nCriterio algebraico en nulidad 2\n\n\n\n\n\n\nImportanteProposición (equivalencias en \\(n=2\\))\n\n\n\nSi \\(n(F)=2\\) y \\(u,v\\in\\Lambda_{p,q}\\) son los vectores de los dos ciclos fundamentales, entonces son equivalentes:\n\n\\(g(F)=1\\).\n\\(f(F)=s+1\\).\n\\(\\langle u,v\\rangle_{\\mathbb Z}=\\Lambda_{p,q}\\).\n\\(|\\det(u,v)|=p\\).\n\n\n\nLectura didáctica: en nulidad \\(2\\), género 1 equivale a una condición unimodular en la retícula de ciclos.\n\n\nActivación universal del término base\n\n\n\n\n\n\nNotaProposición\n\n\n\nPara todo \\(p\\ge 3\\), el coeficiente de \\(X^0 y^2 z^2\\) es estrictamente positivo.\n\n\nInterpretación: siempre existe al menos un subgrafo conectado de género 1 con nulidad \\(2\\).\n\n\nPrimer detector de órbita\nDefinimos \\(S_2\\) como el mayor \\(s\\) tal que \\(X^s y^2 z^2\\) aparece en \\(R_{p,q}\\).\n\n\n\n\n\n\nImportanteProposición\n\n\n\n\\[\nS_2=0 \\iff q\\equiv \\pm1 \\pmod p.\n\\]\n\n\nMensaje para exposición:\n\nCaso trivial de órbita (\\(\\mathcal O_1\\)): \\(S_2=0\\).\nCaso no trivial: \\(S_2&gt;0\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#definición-de-invariantes-de-borde",
+    "href": "capitulos/12-estructura-polinomio.html#definición-de-invariantes-de-borde",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Definición de invariantes de borde",
+    "text": "Definición de invariantes de borde\nPara organizar rebanadas extremales, se fija:\n\n\\(S_1\\): máximo exponente \\(s\\) con \\(X^s y^1 z^0\\) no nulo.\nPara \\(i\\ge2\\), \\(S_i\\): máximo exponente \\(s\\) con \\(X^s y^i z^2\\) no nulo.\n\nEsto permite hablar de la frontera superior de cada rebanada relevante.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#extremos-en-la-parte-planar-z0",
+    "href": "capitulos/12-estructura-polinomio.html#extremos-en-la-parte-planar-z0",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Extremos en la parte planar (\\(z^0\\))",
+    "text": "Extremos en la parte planar (\\(z^0\\))\n\nExtremo en nulidad 1\n\n\n\n\n\n\nNotaProposición\n\n\n\n\\[\nS_1 = p-\\mathrm{cintura}(G_{p,q}).\n\\]\n\n\nLectura: el mejor exponente en \\(y^1 z^0\\) depende de la longitud del ciclo más corto del grafo.\n\n\nExtremo en conectividad total\nDefinimos\n\\[\nT_0 := \\max\\{t\\ge0:[X^0 y^t z^0]R_{p,q}\\neq0\\}.\n\\]\n\n\n\n\n\n\nNotaProposición\n\n\n\n\\[\nT_0 = p+1-\\lambda_1(\\Lambda_{p,q}).\n\\]\n\n\nLectura: el máximo de nulidad planar conectada se controla por la primera mínima \\(L_1\\) de la retícula.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#núcleo-de-nulidad-2-estructura-tipo-theta",
+    "href": "capitulos/12-estructura-polinomio.html#núcleo-de-nulidad-2-estructura-tipo-theta",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Núcleo de nulidad 2: estructura tipo Theta",
+    "text": "Núcleo de nulidad 2: estructura tipo Theta\n\n\n\n\n\n\nImportanteProposición\n\n\n\nSi \\(F\\) es conectado y \\(n(F)=2\\), su 2-núcleo es un grafo \\(\\Theta\\) (tres caminos internamente disjuntos entre dos vértices de ramificación).\n\n\nSea \\(F_2\\) ese 2-núcleo y \\(u,v\\) los dos ciclos fundamentales.\n\n\n\n\n\n\nNotaFuncional de longitud\n\n\n\n\\[\ne(F_2)=\\frac12\\bigl(\\|u\\|_1+\\|v\\|_1+\\|u-v\\|_1\\bigr).\n\\]\n\n\nInterpretación: el tamaño del núcleo se traduce en un problema variacional sobre bases de \\(\\Lambda_{p,q}\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#caracterización-variacional",
+    "href": "capitulos/12-estructura-polinomio.html#caracterización-variacional",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Caracterización variacional",
+    "text": "Caracterización variacional\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nEl 2-núcleo mínimo de género 1 se obtiene minimizando\n\\[\nS(u,v)=\\frac12\\bigl(\\|u\\|_1+\\|v\\|_1+\\|u-v\\|_1\\bigr)\n\\]\nsobre bases \\(\\mathbb Z\\) de \\(\\Lambda_{p,q}\\). Todo minimizador es una base \\(L_1\\)-reducida.\n\n\nCorolario narrativo: el núcleo mínimo induce, salvo signo y permutación, la base \\(L_1\\)-reducida canónica.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#levantamiento-al-cubriente-universal",
+    "href": "capitulos/12-estructura-polinomio.html#levantamiento-al-cubriente-universal",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Levantamiento al cubriente universal",
+    "text": "Levantamiento al cubriente universal\nPara un 2-núcleo mínimo \\(F_2\\), su levantamiento \\(\\widetilde F_2\\subset\\mathbb Z^2\\) induce dominios fundamentales \\(\\mathcal D\\) con propiedades geométricas clave:\n\n\\(|\\mathcal D|=p\\) (un representante por coset de \\(\\Lambda_{p,q}\\)).\nFrontera ortogonal cerrada con seis tramos monótonos máximos.\nEmparejamiento de lados opuestos por traslaciones de \\(\\Lambda_{p,q}\\).\nSin aristas del levantamiento en el interior.\nGrado interno \\(4\\) y grado de frontera \\(2\\) dentro de \\(\\mathcal D\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#flips-y-reducción-combinatoria",
+    "href": "capitulos/12-estructura-polinomio.html#flips-y-reducción-combinatoria",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Flips y reducción combinatoria",
+    "text": "Flips y reducción combinatoria\nSe define el volteo cuadrado periódico (equivariante por traslaciones del retículo) y se restringe a volteos admisibles:\n\npreservan nulidad,\npreservan número de componentes.\n\n\n\n\n\n\n\nNotaCriterio de admisibilidad\n\n\n\nUn volteo es admisible si y solo si reemplaza un subcamino de una de las tres ramas del \\(\\Theta\\) por otro con los mismos extremos.\n\n\nConsecuencia: se preserva la descomposición en tres caminos internamente disjuntos.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#reducción-a-dominio-tipo-l",
+    "href": "capitulos/12-estructura-polinomio.html#reducción-a-dominio-tipo-l",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Reducción a dominio tipo L",
+    "text": "Reducción a dominio tipo L\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nTodo dominio fundamental asociado a un 2-núcleo mínimo de género 1 puede transformarse, mediante una secuencia de volteos admisibles, en una región ortogonal combinatoriamente equivalente a una \\(L\\).\n\n\nAdemás, si \\(\\ell_1\\le\\ell_2\\le\\ell_3\\) son las longitudes de las tres ramas del \\(\\Theta\\)-núcleo, entonces:",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/12-estructura-polinomio.html#transición-al-siguiente-apartado",
+    "href": "capitulos/12-estructura-polinomio.html#transición-al-siguiente-apartado",
+    "title": "2.3 Estructura del Polinomio BR para L(p,q)",
+    "section": "Transición al siguiente apartado",
+    "text": "Transición al siguiente apartado\nCon esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en genus \\(1\\) (perfil \\((S_t)\\)) y su poder de separación entre órbitas aritméticas.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.4 Estructura del Polinomio BR"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html",
+    "href": "capitulos/09-espacios-lente.html",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "",
+    "text": "En esta sección conectamos tres niveles de descripción de un espacio lente:\nLa idea central es que, para espacios lente, el grafo de Heegaard ya contiene toda la información topológica relevante.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#caso-lente-descomposición-de-heegaard-de-género-1",
+    "href": "capitulos/09-espacios-lente.html#caso-lente-descomposición-de-heegaard-de-género-1",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "1) Caso lente: descomposición de Heegaard de género 1",
+    "text": "1) Caso lente: descomposición de Heegaard de género 1\nUn espacio lente \\(L(p,q)\\) (con \\(p \\ge 1\\) y \\(\\gcd(p,q)=1\\)) se obtiene al pegar dos toros sólidos a lo largo de su frontera. En el diagrama estándar de Heegaard de género 1 aparecen:\n\nuna curva meridiana \\(\\alpha\\) en el toro,\nuna curva simple cerrada \\(\\beta\\) de pendiente \\(p/q\\).\n\nEstas curvas se cortan en exactamente \\(p\\) puntos.\n\n\n\n\n\n\nNotaClasificación clásica de espacios lente\n\n\n\nDos espacios lente \\(L(p,q)\\) y \\(L(p',q')\\) son homeomorfos si y sólo si:\n\n\\(p = p'\\), y\n\\(q' \\equiv \\pm q^{\\pm 1}\\pmod p\\).\n\n\n\nEste criterio será el puente con la clasificación por grafos.\n\n\n\n\n\nvisualizacion del diagrama de Heegaard de L(3,2)\n\n\n\n\n\n\nsu representacion en un cuadrado fundamental.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#del-diagrama-al-grafo-circulante",
+    "href": "capitulos/09-espacios-lente.html#del-diagrama-al-grafo-circulante",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "2) Del diagrama al grafo circulante",
+    "text": "2) Del diagrama al grafo circulante\nRecordemos la definición.\nDefinición (grafo circulante). Sea \\(n \\ge 1\\) y \\(S \\subset \\mathbb{Z}_n \\setminus \\{0\\}\\). El circulante \\(C_n(S)\\) tiene vértices \\(\\mathbb{Z}_n\\), y \\(i,j\\) son adyacentes si y sólo si \\(i-j \\pmod n \\in S\\).\nPara el diagrama estándar de \\(L(p,q)\\), el grafo de Heegaard asociado es\n\\(C_p(\\pm 1, \\pm q)\\).\nInterpretación combinatoria:\n\nlos \\(p\\) vértices son los \\(p\\) puntos de intersección \\(\\alpha \\cap \\beta\\),\nuna familia de aristas conecta \\(i\\) con \\(i\\pm1 \\pmod p\\),\nla otra familia conecta \\(i\\) con \\(i\\pm q \\pmod p\\).\n\nEn consecuencia, el grafo abstracto tiene:\n\n\\(V = p\\),\n\\(E = 2p\\),\nvalencia 4 en cada vértice.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#clasificación-abstracta-el-grafo-ya-detecta-el-espacio",
+    "href": "capitulos/09-espacios-lente.html#clasificación-abstracta-el-grafo-ya-detecta-el-espacio",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "3) Clasificación abstracta: el grafo ya detecta el espacio",
+    "text": "3) Clasificación abstracta: el grafo ya detecta el espacio\n\n\n\n\n\n\nNotaTeorema\n\n\n\nSean \\(p \\ge 3\\) y \\(q,q'\\) coprimos con \\(p\\).\n\\(L(p,q) \\cong L(p,q')\\) si y sólo si \\(C_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\\) como grafos abstractos.\n\n\n\nIdea de la demostración\nUsamos un hecho conocido para circulantes de dos saltos (\\(S=\\{\\pm a,\\pm b\\}\\)):\n\\(C_p(S) \\cong C_p(S')\\) si y sólo si \\(S' = aS\\) para algún \\(a \\in \\mathbb{Z}_p^\\times\\).\nAplicando esto a \\(S=\\{\\pm1,\\pm q\\}\\) y \\(S'=\\{\\pm1,\\pm q'\\}\\):\n\\[\nC_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\n\\Longleftrightarrow\n\\{\\pm1,\\pm q\\} = \\{\\pm a,\\pm aq'\\}\n\\] para algún \\(a\\) invertible módulo \\(p\\).\nAhora hay dos posibilidades esenciales:\n\nSi \\(a \\equiv \\pm1 \\pmod p\\), entonces \\(q' \\equiv \\pm q \\pmod p\\).\nSi \\(a \\equiv \\pm q \\pmod p\\), entonces se fuerza \\(qq' \\equiv \\pm1 \\pmod p\\), es decir \\(q' \\equiv \\pm q^{-1} \\pmod p\\).\n\nPor tanto,\n\\[\nC_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\n\\Longrightarrow q' \\equiv \\pm q^{\\pm1}\\pmod p.\n\\]\nY por la clasificación clásica de espacios lente, eso equivale a \\(L(p,q) \\cong L(p,q')\\).\nLa implicación inversa se obtiene eligiendo \\(a \\in \\{\\pm1,\\pm q'\\}\\) según el caso para producir la igualdad de conjuntos de conexiones.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#clasificación-como-grafos-encajados-en-el-toro",
+    "href": "capitulos/09-espacios-lente.html#clasificación-como-grafos-encajados-en-el-toro",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "4) Clasificación como grafos encajados en el toro",
+    "text": "4) Clasificación como grafos encajados en el toro\nAdemás del grafo abstracto, el diagrama de Heegaard determina un encaje celular en un toro.\nPara espacios lente, este encaje estándar es esencialmente único (una vez fijado el diagrama estándar). Con esto, se obtiene el análogo encajado:\n\n\n\n\n\n\nNotaTeorema\n\n\n\nSi \\(L(p,q)\\) y \\(L(p,q')\\) son homeomorfos, entonces sus grafos de Heegaard encajados \\(G_1 \\subset F_1\\) y \\(G_2 \\subset F_2\\) son equivalentes como grafos celulares en sus toros de Heegaard.\n\n\n\nIdea de la demostración\nQueremos probar una afirmación precisa: para todo \\(p \\ge 3\\) y todo \\(q\\) coprimo con \\(p\\), el grafo \\(G=C_p(\\pm1,\\pm q)\\) tiene exactamente dos encajes celulares en el toro como mapa orientado; estos dos se obtienen uno del otro invirtiendo la orientación.\nEl punto importante es que aquí sólo nos interesan los encajes toroidales. No hace falta clasificar todos los demás encajes posibles del grafo en otras superficies.\nEl grafo \\(G\\) tiene \\(V=p\\) vértices y \\(E=2p\\) aristas. Si un sistema de rotación produce un encaje en el toro, entonces su característica de Euler debe satisfacer \\[\nV-E+F=0,\n\\] y por tanto necesariamente \\[\nF=p.\n\\] Así, el problema consiste en determinar qué sistemas de rotación dan exactamente \\(p\\) caras.\nComo el grafo es circulante, la acción de \\(\\mathbb{Z}_p\\) transporta la rotación de un vértice a todos los demás. Por eso basta estudiar la rotación local en un vértice.\n\nSi \\(q \\not\\equiv \\pm1 \\pmod p\\), los cuatro saltos \\(\\pm1,\\pm q\\) son distintos. En este caso, la condición \\(F=p\\) fuerza exactamente dos órdenes cíclicos: \\[\n(+1,+q,-1,-q)\n\\qquad\\text{y}\\qquad\n(+1,-q,-1,+q).\n\\] Estos dos sistemas son inversos entre sí, luego representan el mismo encaje no orientado y los dos posibles encajes orientados.\nSi \\(q \\equiv \\pm1 \\pmod p\\), el grafo es un ciclo con aristas dobles. La teoría de ribbon graphs sigue aplicando sin cambios: un sistema de rotación en este multigrafo determina un encaje orientado. Lo que cambia es que ahora, en cada vértice, las cuatro semiaristas vienen en dos pares de aristas paralelas, uno hacia \\(i+1\\) y otro hacia \\(i-1\\).\nPara obtener un encaje toroidal con \\(F=p\\), en cada vértice esas dos parejas deben aparecer alternadas en el orden cíclico. Si dos aristas paralelas consecutivas quedan juntas, las caras se pegan de otra manera y ya no se obtiene el mosaico cuadrilateral del toro. Por tanto, salvo intercambio de las dos aristas paralelas dentro de cada pareja, sólo quedan dos órdenes locales toroidales: \\[\n(a_1,b_1,a_2,b_2)\n\\qquad\\text{y}\\qquad\n(a_1,b_2,a_2,b_1),\n\\] donde \\(a_1,a_2\\) son las dos aristas hacia \\(i+1\\) y \\(b_1,b_2\\) las dos aristas hacia \\(i-1\\). Estos dos órdenes son inversos entre sí, luego producen exactamente los dos encajes toroidales orientados.\n\nEn ambos casos, la conclusión es la misma: hay exactamente dos encajes celulares en el toro como mapas orientados, y un único encaje si no se distingue la orientación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\nEste experimento no intenta recorrer todos los sistemas de rotación posibles, porque eso hace más lenta la ejecución en SageCell. En cambio, muestra unas cuantas rotaciones locales representativas para el caso \\(L(3,2)\\) y permite verificar cuáles producen encajes toroidales. La columna “Género” se obtiene de la fórmula \\[\n\\chi = V-E+F = 2-2g,\n\\] así que:\n\n\\(\\chi=0\\) corresponde al toro (\\(g=1\\)),\n\\(\\chi=2\\) corresponde a la esfera (\\(g=0\\)).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#consecuencia-clasificación-vía-grafos-de-heegaard",
+    "href": "capitulos/09-espacios-lente.html#consecuencia-clasificación-vía-grafos-de-heegaard",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "section": "5) Consecuencia: clasificación vía grafos de Heegaard",
+    "text": "5) Consecuencia: clasificación vía grafos de Heegaard\nComo síntesis de los dos teoremas anteriores:\n\n\n\n\n\n\nTipCorolario (clasificación vía grafos de Heegaard)\n\n\n\nDos espacios lente \\(L(p,q)\\) y \\(L(p,q')\\) son homeomorfos si y sólo si sus grafos de Heegaard son equivalentes.\n\n\nMensaje conceptual:\n\nen general, un grafo encajado puede contener más información que su versión abstracta,\npero en el caso lente, esa información extra no aporta nuevas clases de homeomorfismo.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.1 Espacios Lente y Grafos de Heegaard"
+    ]
+  },
+  {
+    "objectID": "capitulos/09-espacios-lente.html#referencias",
+    "href": "capitulos/09-espacios-lente.html#referencias",
+    "title": "Espacios Lente y sus Grafos de Heegaard",
     "section": "Referencias",
-    "text": "Referencias\n\nHwang, F. K. (2001). A complementary survey on double-loop networks. Theoretical Computer Science, 263(1-2), 211–229. https://doi.org/10.1016/S0304-3975(00)00243-7\nChen, C., & Hwang, F. K. (2000). The Minimum Distance Diagram of Double-Loop Networks. IEEE Transactions on Computers, 49(9), 977–979. https://doi.org/10.1109/12.869029\nFrías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). 3-manifold polynomials. arXiv:2510.06651 [math.GT]. https://doi.org/10.48550/arXiv.2510.06651",
+    "text": "Referencias\n\nFrías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). 3-manifold polynomials. arXiv:2510.06651 [math.GT]. https://doi.org/10.48550/arXiv.2510.06651\nMuzychuk, M., Klin, M., & Pöschel, R. (2001). The isomorphism problem for circulant graphs via schur ring theory. En Codes and Association Schemes (DIMACS Series in Discrete Mathematics and Theoretical Computer Science, vol. 56). AMS-DIMACS. https://bookstore.ams.org/dimacs-56\nBrody, E.J. (1960). The topological classification of the lens spaces. Annals of Mathematics, 71(1), 163–184. https://doi.org/10.2307/1969884",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.2 Grafos Circulantes de Doble Lazo"
+      "2.1 Espacios Lente y Grafos de Heegaard"
     ]
   },
   {
-    "objectID": "capitulos/02-mapas-combinatorios.html",
-    "href": "capitulos/02-mapas-combinatorios.html",
-    "title": "2. Mapas Combinatorios",
+    "objectID": "capitulos/07-bollobas-riordan.html",
+    "href": "capitulos/07-bollobas-riordan.html",
+    "title": "7. Polinomio de Bollobás-Riordan",
     "section": "",
-    "text": "En la sección anterior definimos el sistema de rotación \\((\\sigma, \\rho)\\). Es frecuente interpretar estas permutaciones como simples instrucciones para dibujar un grafo preexistente; sin embargo, esa interpretación es parcial.\nEn la topología combinatoria (y en el modelo de Mapas de Tutte), el par \\((\\sigma, \\rho)\\) contiene toda la información topológica. El encaje queda determinado de manera unívoca:",
+    "text": "Este capítulo está dedicado al polinomio de Bollobás-Riordan, su interpretación topológica y su cálculo explícito con Sage.",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
+      "1.7 Polinomio de Bollobás-Riordan"
     ]
   },
   {
-    "objectID": "capitulos/02-mapas-combinatorios.html#axiomática-de-los-mapas-combinatorios",
-    "href": "capitulos/02-mapas-combinatorios.html#axiomática-de-los-mapas-combinatorios",
-    "title": "2. Mapas Combinatorios",
-    "section": "Axiomática de los Mapas Combinatorios",
-    "text": "Axiomática de los Mapas Combinatorios\nHasta ahora nos hemos apoyado en la intuición geométrica de “dibujar grafos”. A continuación formalizamos el encaje para que no dependa de la representación gráfica, sino de reglas combinatorias precisas.\n\nLos Axiomas de Tutte\n\n\n\n\n\n\nNotaDefinición: Mapa Combinatorio (Orientado)\n\n\n\nSea \\(D\\) un conjunto finito de elementos abstractos llamados dardos (o semiaristas).\nUn Mapa Combinatorio es una terna \\(M = (D, \\sigma, \\rho)\\) que satisface los siguientes tres axiomas:\n\nAxioma de la Arista (\\(\\rho\\)): \\(\\rho\\) es una permutación de los elementos de \\(D\\) tal que \\(\\rho^2 = \\text{id}\\) y \\(\\rho(d) \\neq d\\) para todo \\(d \\in D\\).\n\nInterpretación: \\(\\rho\\) empareja los dardos; cada par define una arista.\n\nAxioma del Vértice (\\(\\sigma\\)): \\(\\sigma\\) es una permutación arbitraria de \\(D\\).\n\nInterpretación: Los ciclos de \\(\\sigma\\) agrupan los dardos; cada ciclo define un vértice.\n\nAxioma de Conectividad: El grupo de permutaciones generado por \\(\\langle \\sigma, \\rho \\rangle\\) actúa transitivamente sobre \\(D\\).\n\nInterpretación: La acción transitiva garantiza que la estructura resultante sea conexa.\n\n\n\n\n\n\n\n\n\n\nNotaNota: Sistemas de Rotación vs. Mapas Combinatorios\n\n\n\nEn la sección anterior introdujimos el concepto de sistema de rotación como la pareja \\((\\sigma, \\rho)\\). En rigor, el conjunto \\(D\\) puede deducirse de los dominios de las permutaciones \\(\\sigma\\) y \\(\\rho\\), por lo que especificarlo explícitamente es redundante.\nPor tanto, las siguientes notaciones son equivalentes y se refieren al mismo objeto matemático:\n\nSistema de rotación: \\((\\sigma, \\rho)\\)\nMapa combinatorio: \\((D, \\sigma, \\rho)\\)\n\nEn este curso usaremos ambas terminologías indistintamente, siendo conscientes de que describen exactamente la misma estructura.\n\n\n\n\nLos Elementos Derivados\nA partir de estos axiomas, definimos los elementos topológicos. En lugar de depender de la representación visual, usamos una presentación puramente combinatoria inducida por las permutaciones.\n\nVértices (\\(V\\)): El conjunto de vértices \\(V(M)\\) se define como el conjunto de órbitas (ciclos) de la permutación \\(\\sigma\\). \\[V(M) = D / \\langle \\sigma \\rangle\\]\nAristas (\\(E\\)): El conjunto de aristas \\(E(M)\\) se define como el conjunto de órbitas de la permutación \\(\\rho\\). \\[E(M) = D / \\langle \\rho \\rangle\\]\nCaras (\\(F\\)): Definimos la permutación de caras \\(\\varphi\\) como la composición \\(\\varphi = \\rho \\sigma\\) (en notación de SageMath). El conjunto de caras \\(F(M)\\) se define como el conjunto de órbitas de \\(\\varphi\\). \\[F(M) = D / \\langle \\varphi \\rangle\\]\n\n\n\nConstrucción Geométrica: La Receta de Pegado\n\n\n\n\n\n\nImportanteTeorema Fundamental de los Mapas Combinatorios\n\n\n\nPara todo mapa combinatorio \\(M = (D, \\sigma, \\rho)\\), existe una única superficie compacta orientable cerrada \\(S\\) (salvo homeomorfismo) y un grafo \\(G\\) encajado celularmente en \\(S\\), tal que:\n\nLos vértices, aristas y caras de \\(M\\) corresponden biunívocamente a los de \\(G \\subset S\\).\nEl género \\(g\\) de la superficie \\(S\\) está determinado exactamente por la característica de Euler combinatoria: \\[2 - 2g = |V(M)| - |E(M)| + |F(M)|\\]\n\n\n\nMás allá del teorema abstracto, la realización topológica es un manual de instrucciones. Dado un mapa combinatorio \\(M = (D, \\sigma, \\rho)\\), construimos la superficie física paso a paso mediante un proceso de ensamblaje.\nImagina que estamos armando un rompecabezas tridimensional:\nPaso 1: Los Vértices (Discos)\nPor cada ciclo de la permutación \\(\\sigma\\), recortamos un disco topológico (un círculo de material).\n\nSi el ciclo tiene longitud \\(k\\), marcamos \\(k\\) segmentos de arco en el borde del disco.\nEstos segmentos corresponden a los dardos.\nLos etiquetamos siguiendo el orden cíclico que nos dicta \\(\\sigma\\) (leyendo, por convención, en sentido antihorario).\n\nPaso 2: Las Aristas (Cintas)\nPor cada ciclo de la permutación \\(\\rho\\) (que siempre es de la forma \\((d_i, d_j)\\)), recortamos una cinta rectangular o banda.\n\nPegamos un extremo de la cinta en el dardo \\(d_i\\).\nPegamos el otro extremo en el dardo \\(d_j\\).\nRegla de Orientación: Pegamos la cinta sin torcerla (para superficies orientables), asegurando que la orientación de los discos de los vértices se propague suavemente a través de la arista.\n\nAl terminar el Paso 2, tenemos lo que llamamos un Ribbon Graph (o grafo de cintas): un esqueleto con agujeros.\n\n\n\nRibbon Graph determinado por el mapa combinatorio \\(D=\\{1,2,3,4,5,6\\}\\), \\(\\sigma=(1,3,2)(4,5,6)\\),\n\\(\\rho=(1,4)(2,5)(3,6)\\). La permutación \\(\\rho\\sigma\\) determina que la superficie resultante es una esfera.\n\n\nPaso 3: Las Caras (Parches)\nAhora la superficie tiene “huecos” o fronteras (las regiones negras en la figura). Para cerrarla, necesitamos pegar discos adicionales (las caras). Pero, ¿dónde pegamos estos discos? Aquí entra nuestro algoritmo de trazado.",
+    "objectID": "capitulos/07-bollobas-riordan.html#motivación",
+    "href": "capitulos/07-bollobas-riordan.html#motivación",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Motivación",
+    "text": "Motivación\nEl polinomio de Tutte clásico es un invariante potente para grafos abstractos, pero no detecta la topología del encaje: dos ribbon graphs con el mismo grafo subyacente y el mismo polinomio de Tutte pueden encajarse en superficies de géneros distintos.\nEl polinomio de Bollobás-Riordan subsana esta limitación. Introduce una variable \\(z\\) cuyo exponente registra \\(\\gamma(F)=k(F)-f(F)+n(F)\\); en el caso orientable, \\(\\gamma(F)=2g(F)\\) (doble del género). Así, para grafos planos la variable \\(z\\) no aparece, mientras que para encajes en el toro o superficies de género mayor sí lo hace.\n\n\nDefinición formal\n\n\n\n\n\n\nNotaPolinomio de Bollobás-Riordan\n\n\n\nPara un subgrafo generador \\(F \\subseteq G\\) (mismo conjunto de vértices, subconjunto arbitrario de aristas), sean \\(k(F)\\), \\(e(F)\\), \\(v(F)\\), \\(f(F)\\) y \\(g(F)\\) su número de componentes conexas, aristas, vértices, caras (componentes de frontera de la cinta) y género, respectivamente. Definimos \\(r(F) = v(F) - k(F)\\) y \\(n(F) = e(F) - r(F)\\).\nEl polinomio de Bollobás-Riordan de un grafo \\(G\\) encajado celularmente en una superficie orientable es\n\\[\nR(G;x,y,z)\n=\n\\sum_{F \\subseteq G}\n(x-1)^{r(G)-r(F)}\\,y^{n(F)}\\,z^{k(F)-f(F)+n(F)},\n\\]\ndonde la suma recorre todos los subgrafos generadores \\(F\\) de \\(G\\).\n\n\nEn este capítulo usamos además la notación computacional \\(A \\subseteq E\\), con \\(F=(V,A)\\), equivalente a la definición anterior. Como \\(F\\) es spanning, siempre conserva todos los vértices de \\(G\\) y por eso puede tener vértices aislados.\nEn esa notación:\n\n\\(r(G)-r(F)=k(F)-k(G)\\) (porque \\(v(F)=v(G)\\))\n\\(n(F)=e(F)-r(F)=|A|-v(F)+k(F)\\)\n\\(k(F)-f(F)+n(F)=\\gamma(F)\\), y en superficies orientables \\(\\gamma(F)=2g(F)\\)\n\n\n\nInterpretación de los exponentes\n\n\n\n\n\n\n\nExponente\nSignificado\n\n\n\n\n\\(r(G)-r(F)\\)\nExponente de \\((x-1)\\); mide cuánto cae el rango al pasar de \\(G\\) a \\(F\\)\n\n\n\\(n(F)\\)\nExponente de \\(y\\); nulidad ciclomática de \\(F\\)\n\n\n\\(k(F)-f(F)+n(F)\\)\nExponente de \\(z\\); coincide con \\(\\gamma(F)\\), que en el caso orientable vale \\(2g(F)\\)\n\n\n\n\n\nCómo se implementa en Sage (por exponente)\nBuena parte de las piezas ya se construyó en capítulos anteriores (permutaciones \\(\\sigma\\), \\(\\rho\\) y la permutación de caras \\(\\varphi\\)). Aquí solo se integran para evaluar, subgrafo por subgrafo:\n\nv(F): número de ciclos de sigma.cycle_tuples(singletons=True).\ne(F): número de aristas activas en el subconjunto \\(A\\).\nk(F): componentes conexas del subgrafo \\((V,A)\\) con Union-Find sobre todos los vértices.\nf(F): ciclos de \\(\\varphi_A=\\rho_A\\circ\\sigma_A\\) en los darts activos, más los vértices aislados.\nr(F)=v(F)-k(F) y n(F)=e(F)-r(F).\nExponentes del monomio: \\((x-1)^{r(G)-r(F)}y^{n(F)}z^{k(F)-f(F)+n(F)}\\).\n\n\n\nEvaluación exacta por spanning subgraph\nLa siguiente celda muestra explícitamente la contribución de cada \\(F=(V,A)\\) para el theta en el toro. En la columna aislados se ve cuándo aparecen vértices aislados.\n\n\n\n\n\n\nImplementación en Sage\nLa fórmula de suma sobre subgrafos es directamente computable. Iteramos sobre los \\(2^m\\) subconjuntos de aristas y acumulamos cada término:\n\n\n\nLos resultados esperados son:\n\n\n\nRibbon graph\nGénero\n\\(R(G;\\, x, y, z)\\)\n\n\n\n\nToro (1 vértice, 2 loops)\n1\n\\(1 + 2y + y^2z^2\\)\n\n\nLoop en la esfera\n0\n\\(1 + y\\)\n\n\nGrafo theta en la esfera\n0\n\\(x + 2 + 3y + y^2\\)\n\n\nGrafo theta en el toro\n1\n\\(x + 2 + 3y + y^2z^2\\)\n\n\n\n\n\nEjemplo comparativo: grafo theta en esfera y toro\nCon el mismo grafo abstracto theta (dos vértices y tres aristas paralelas), dos encajes celulares producen polinomios distintos:\n\nEn la esfera: \\(\\sigma=(1,3,5)(2,6,4)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) \\[\nR_{\\text{theta, esfera}}(x,y,z)=x+2+3y+y^2.\n\\]\nEn el toro: \\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) \\[\nR_{\\text{theta, toro}}(x,y,z)=x+2+3y+y^2z^2.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipLa variable \\(z\\) y el género\n\n\n\nCompara los dos últimos renglones de la tabla: el grafo theta en la esfera da \\(x + 2 + 3y + y^2\\) (sin \\(z\\)), mientras que el mismo grafo theta encajado en el toro da \\(x + 2 + 3y + y^2 z^2\\). El único cambio es \\(y^2 \\to y^2 z^2\\), lo que refleja que el subgrafo completo (todas las aristas) tiene género 0 en la esfera y género 1 en el toro.\nPara grafos planarmente encajados, \\(\\gamma(A) = 0\\) para todo \\(A\\), de modo que \\(z\\) nunca aparece y \\(R(G; x, y, 1) = T(G; x, y+1)\\) recupera el polinomio de Tutte clásico.\n\n\nEvaluaciones especiales:\n\n\\(R(G; 1, 1, 1) = 2^m\\) cuenta todos los subconjuntos de aristas.\nPara encajes en la esfera, \\(z\\) no aparece y \\(R(G; x, y, 1) = T(G; x, y+1)\\) recupera Tutte.\nEl coeficiente \\([z^{2g}]R(G; 1, 1, z)\\) cuenta subgrafos de género \\(g\\) (en el caso orientable, los exponentes impares se anulan).\n\n\n\n\n\n\n\nAdvertenciaComplejidad computacional\n\n\n\nLa función bollobas_riordan itera sobre los \\(2^m\\) subconjuntos de aristas. Para cada subconjunto \\(A\\):\n\nconstruir \\(D_A\\): \\(O(|A|)\\)\ncalcular \\(k(A)\\) con Union-Find: \\(O(m\\,\\alpha(n))\\)\nconstruir \\(\\sigma_A\\) siguiendo \\(\\sigma\\) dart a dart: \\(O(|D_A| \\cdot n)\\) en el peor caso\ncontar ciclos de \\(\\varphi_A\\): \\(O(|D_A|)\\)\n\nEl coste total es \\(O(2^m \\cdot mn)\\), exponencial en el número de aristas.\n\n\n\n\\(m\\)\n\\(2^m\\)\nTiempo orientativo\n\n\n\n\n6\n64\ninstantáneo\n\n\n12\n4 096\n&lt; 1 s\n\n\n20\n1 048 576\nminutos\n\n\n30\n\\(\\approx 10^9\\)\nhoras\n\n\n\nEsto es esperable: calcular el polinomio de Tutte clásico ya es #P-difícil1 para grafos generales [Jaeger 1990], y el polinomio de Bollobás-Riordan extiende ese problema. La implementación anterior es clara y correcta para los ejemplos del curso (\\(m \\leq 6\\)); la siguiente sección presenta una versión optimizada que reduce el factor constante.\n\n\n\n\nImplementación optimizada\nEl cuello de botella real no son las llamadas a sigma(d) ni las operaciones de set, sino la aritmética de polinomios de Sage dentro del bucle:\nresult += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma\nPara cada uno de los \\(2^m\\) subconjuntos esto ejecuta 3–4 operaciones sobre objetos MPolynomial de Sage (exponenciación, multiplicación, suma), cada una con un coste de decenas de microsegundos frente al microsegundo o menos de una operación Python pura. Con \\(2^6 = 64\\) subconjuntos, eso supone ya ~1–2 ms solo en esta línea.\nLa solución es sacar la aritmética de Sage fuera del bucle: acumular coeficientes enteros en un diccionario Python durante el bucle, y construir el polinomio una sola vez al final. El término \\((x-1)^k\\) se expande con el teorema del binomio usando aritmética entera pura:\n\\[\n(x-1)^k = \\sum_{j=0}^{k} \\binom{k}{j}(-1)^{k-j}\\, x^j\n\\]\n\n\n\nLa diferencia clave:\n\n\n\n\n\n\n\n\nAspecto\nbollobas_riordan (original)\nbollobas_riordan_rapido\n\n\n\n\nAritmética de polinomios\nDentro del bucle (\\(2^m\\) veces)\nFuera del bucle (una sola vez)\n\n\nTipo de acumulación\nSuma de objetos MPolynomial\nSuma de enteros Python en un dict\n\n\nExpansión de \\((x-1)^k\\)\nSage la calcula implícitamente\nTabla de binomios precalculada\n\n\nRobustez numérica\nPuede ocultar errores de conteo en exponentes\nVerifica que \\(\\gamma(A)=k-f+n\\) sea par y no negativa\n\n\nVértices aislados\nRecorre ciclos con any(...) en cada subconjunto\nMarcado explícito por vértice activo (bytearray)\n\n\nConstrucción final\nIncremental (costosa)\nUn único sum(...) al terminar\n\n\n\n\n\n\n\n\n\nEl polinomio como invariante de ribbon graphs\nUn resultado fundamental es que sistemas de rotación equivalentes tienen el mismo polinomio de Bollobás-Riordan. Esto se sigue de que la equivalencia es un isomorfismo de ribbon graphs: si \\(\\varphi \\sigma_1 \\varphi^{-1} = \\sigma_2\\) y \\(\\varphi \\rho \\varphi^{-1} = \\rho\\), entonces \\(\\varphi\\) permuta los subconjuntos de aristas biyectivamente preservando todos los invariantes del que depende \\(R\\): \\(k(A)\\), \\(\\gamma(A)\\) y \\(\\mathrm{bc}(A)\\).\nEn el capítulo 5 verificamos que el moño y el ojo son ribbon graphs equivalentes. Por este resultado, sus polinomios de Bollobás-Riordan deben ser iguales. El ejercicio 1 propone verificarlo computacionalmente.",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
+      "1.7 Polinomio de Bollobás-Riordan"
     ]
   },
   {
-    "objectID": "capitulos/02-mapas-combinatorios.html#el-algoritmo-de-trazado-de-caras",
-    "href": "capitulos/02-mapas-combinatorios.html#el-algoritmo-de-trazado-de-caras",
-    "title": "2. Mapas Combinatorios",
-    "section": "El Algoritmo de Trazado de Caras",
-    "text": "El Algoritmo de Trazado de Caras\nPara descubrir la forma de los huecos que debemos parchar, caminamos por el borde del Ribbon Graph que acabamos de construir.\nImagina que eres un viajero caminando por el engrosamiento del grafo. Tu regla de oro es: “Mantener siempre el grafo a tu izquierda”.\nEsto define la permutación de las caras, que en nuestra notación es la composición:\n\\[ \\varphi = \\rho \\sigma \\]\nEn la convención de SageMath para ribbon graphs, esta es la fórmula utilizada internamente por el método boundary() de la clase RibbonGraph.\n\n\n\n\n\n\nImportanteConvención de Multiplicación (SageMath)\n\n\n\nEn este curso y en SageMath, la multiplicación de permutaciones se lee de izquierda a derecha. La expresión \\(\\varphi = \\rho \\sigma\\) significa: primero aplicamos \\(\\rho\\) y luego aplicamos \\(\\sigma\\).\n\n\n\n\n\n\n\n\nNotaNota sobre Convenciones Alternativas\n\n\n\nAlgunos textos usan \\(\\varphi = \\rho \\sigma^{-1}\\), \\(\\varphi = \\sigma^{-1} \\rho\\), o \\(\\varphi = (\\sigma\\rho)^{-1}\\). Todas estas convenciones dan el mismo número de caras, pero los ciclos específicos pueden diferir. Usamos \\(\\varphi = \\rho \\sigma\\) para coincidir exactamente con la implementación de SageMath y simplificar los cálculos (no hay que invertir σ).\n\n\n\nLa Receta Geométrica: Cruzar y Girar\nPara encontrar el ciclo de una cara, partimos de un dardo \\(d\\) y repetimos:\n\nCruzar (\\(\\rho\\)): Atravesamos la cinta (arista) para llegar al vértice vecino.\n\nGeométricamente: Viajamos por el borde de la cinta hasta el otro lado.\n\nGirar (\\(\\sigma\\)): Nos movemos a lo largo del borde del vértice hasta el siguiente dardo disponible.\n\nGeométricamente: Seguimos el contorno del disco del vértice.\n\n\nEl camino se cierra cuando volvemos al dardo original. Este ciclo define el perímetro exacto donde pegaremos un disco para crear una cara.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
-    ]
-  },
-  {
-    "objectID": "capitulos/02-mapas-combinatorios.html#la-unicidad-del-encaje",
-    "href": "capitulos/02-mapas-combinatorios.html#la-unicidad-del-encaje",
-    "title": "2. Mapas Combinatorios",
-    "section": "La Unicidad del Encaje",
-    "text": "La Unicidad del Encaje\nUna pregunta fundamental en topología es: ¿Podemos dibujar el mismo mapa combinatorio en superficies distintas?\nLa respuesta constructiva es NO.\nObserva el proceso anterior:\n\nLos discos de los vértices son fijos (dados por \\(\\sigma\\)).\nLas conexiones de las cintas son fijas (dadas por \\(\\rho\\)).\nPor tanto, los “huecos” que quedan están rígidamente determinados por la geometría del ensamblaje (\\(\\varphi = \\rho \\sigma\\)).\n\nAl pegar los discos en los huecos (Paso 3), cerramos la superficie. No hay libertad de elección; el mapa combinatorio es el plano de construcción de la superficie.\n\n\n\n\n\n\nNotaConclusión Topológica\n\n\n\nEl género \\(g\\) de la superficie resultante no es una propiedad que “elegimos”, sino una consecuencia inevitable de las permutaciones. Está forzado por la fórmula de Euler: \\[2 - 2g = |Ciclos(\\sigma)| - |Ciclos(\\rho)| + |Ciclos(\\rho\\sigma)|\\]\nUn sistema de rotación \\((\\sigma, \\rho)\\) pertenece a una y solo una superficie topológica.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
-    ]
-  },
-  {
-    "objectID": "capitulos/02-mapas-combinatorios.html#ejemplo-el-impacto-de-sigma-en-la-topología",
-    "href": "capitulos/02-mapas-combinatorios.html#ejemplo-el-impacto-de-sigma-en-la-topología",
-    "title": "2. Mapas Combinatorios",
-    "section": "Ejemplo: El Impacto de \\(\\sigma\\) en la Topología",
-    "text": "Ejemplo: El Impacto de \\(\\sigma\\) en la Topología\nConsideraremos dos mapas combinatorios distintos que comparten el mismo conjunto de dardos y la misma estructura de aristas, pero difieren en su permutación \\(\\sigma\\). Este ejemplo ilustra cómo una pequeña variación en \\(\\sigma\\) puede cambiar radicalmente la superficie de encaje.\nAmbos mapas tienen: - Conjunto de dardos: \\(D = \\{1, 2, 3, 4\\}\\) - Estructura de aristas: \\(\\rho = (1, 2)(3, 4)\\) (dos aristas, cada una un lazo)\n\nLa diferencia está en el orden de rotación alrededor del único vértice.\n\nMapa A: Encaje en la Esfera (\\(g=0\\))\nConsideremos el mapa combinatorio: \\[ M_A = (D, \\sigma_A, \\rho) \\quad \\text{donde} \\quad \\sigma_A = (1, 2, 3, 4) \\]\nCalculamos \\(\\varphi_A = \\rho \\sigma_A\\):\n\nPaso a paso (Cruzar \\(\\to\\) Girar):\n\n\\(1 \\xrightarrow{\\rho} 2 \\xrightarrow{\\sigma} 3\\). (Sigue \\(1 \\to 3\\))\n\\(3 \\xrightarrow{\\rho} 4 \\xrightarrow{\\sigma} 1\\). (Cierra el ciclo \\((1, 3)\\))\n\\(2 \\xrightarrow{\\rho} 1 \\xrightarrow{\\sigma} 2\\). (Ciclo cerrado \\((2)\\))\n\\(4 \\xrightarrow{\\rho} 3 \\xrightarrow{\\sigma} 4\\). (Ciclo cerrado \\((4)\\))\n\n\nResultado: \\(\\varphi = (1, 3)(2)(4)\\). Tenemos \\(F=3\\) caras (Roja, Verde, Azul).\n \nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\nMapa B: Encaje en el Toro (\\(g=1\\))\nConsideremos ahora un mapa combinatorio diferente: \\[ M_B = (D, \\sigma_B, \\rho) \\quad \\text{donde} \\quad \\sigma_B = (1, 3, 2, 4) \\]\nNotemos que \\(\\sigma_B\\) intercala las semiaristas en un orden distinto. Calculamos \\(\\varphi_B = \\rho \\sigma_B\\):\n\nPaso a paso (Cruzar \\(\\to\\) Girar):\n\n\\(1 \\xrightarrow{\\rho} 2 \\xrightarrow{\\sigma} 4\\).\n\\(4 \\xrightarrow{\\rho} 3 \\xrightarrow{\\sigma} 2\\).\n\n\\(2 \\xrightarrow{\\rho} 1 \\xrightarrow{\\sigma} 3\\).\n\\(3 \\xrightarrow{\\rho} 4 \\xrightarrow{\\sigma} 1\\).\n\n\nResultado: \\(\\varphi = (1, 4, 2, 3)\\). Tenemos \\(F=1\\) cara (Morada).\n\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nImportanteConclusión del Ejemplo\n\n\n\nHemos visto dos mapas combinatorios distintos:\n\nMapa \\(M_A\\): \\((D, \\sigma_A=(1,2,3,4), \\rho=(1,2)(3,4))\\) → Superficie: Esfera (\\(g=0\\), \\(F=3\\) caras)\nMapa \\(M_B\\): \\((D, \\sigma_B=(1,3,2,4), \\rho=(1,2)(3,4))\\) → Superficie: Toro (\\(g=1\\), \\(F=1\\) cara)\n\nAunque comparten el mismo conjunto de dardos \\(D\\) y la misma estructura de aristas \\(\\rho\\), una ligera variación en el sistema de rotación \\(\\sigma\\) (una transposición en el orden cíclico) produce superficies topológicamente distintas.\nEste ejemplo demuestra que \\(\\sigma\\) no es simplemente una “forma de dibujar” el grafo, sino que determina la topología intrínseca de la superficie de encaje.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
-    ]
-  },
-  {
-    "objectID": "capitulos/02-mapas-combinatorios.html#ejercicios",
-    "href": "capitulos/02-mapas-combinatorios.html#ejercicios",
-    "title": "2. Mapas Combinatorios",
+    "objectID": "capitulos/07-bollobas-riordan.html#ejercicios",
+    "href": "capitulos/07-bollobas-riordan.html#ejercicios",
+    "title": "7. Polinomio de Bollobás-Riordan",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: El Caso del Segmento (Vértices de Valencia 1)\n\n\n\nEste ejercicio explora qué sucede cuando la permutación \\(\\sigma\\) tiene puntos fijos (ciclos de longitud 1).\nConsidera el mapa combinatorio más simple posible que no es un lazo: un segmento con dos extremos distintos.\n\nDardos: \\(D = \\{1, 2\\}\\)\nAristas: \\(\\rho = (1, 2)\\) (los dardos 1 y 2 forman la única arista).\nVértices: Queremos que el dardo 1 esté en un vértice y el dardo 2 en otro vértice distinto. Por tanto, \\(\\sigma\\) debe ser la permutación identidad: \\[\\sigma = (1)(2)\\] (Nota: Esto significa que \\(\\sigma(1)=1\\) y \\(\\sigma(2)=2\\). Geométricamente, son vértices terminales o “hojas”).\n\nTarea: Determine la realización geométrica de este mapa combinatorio.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Cálculo Manual\n\n\n\nToma el sistema de rotación:\n\n\\(\\sigma = (1,3,5,2,4,6)\\)\n\\(\\rho = (1,2)(3,4)(5,6)\\)\n\nCalcula manualmente la permutación de caras \\(\\varphi = \\rho\\sigma\\) y determina cuántas caras tiene este encaje.\n\n\n\n\n\n\n\n\nTipEjercicio 3: Exploración Visual\n\n\n\nConsidera el bouquet de 3 círculos: un vértice con 3 self-loops (6 semiaristas). \\(\\rho\\) está fijo como \\((1,2)(3,4)(5,6)\\).\n\nUsa el visualizador para probar diferentes permutaciones \\(\\sigma\\) (por ejemplo, \\((1,2,3,4,5,6)\\) vs \\((1,6,2,5,3,4)\\)).\nAnaliza cómo cambia la conectividad de las cintas azules.\nDetermina si existe un \\(\\sigma\\) que produzca una superficie con solo 1 cara.\n\n\n\n\n\n\n\n\n\nTipEjercicio 4: El Espectro del Género (SageMath)\n\n\n\nVamos a explorar qué tan “raro” es obtener una esfera cuando conectamos aristas al azar. Considera un grafo con 1 vértice y 5 lazos (\\(|D|=10\\)).\n\nDefine \\(\\rho = (1,2)(3,4)...(9,10)\\).\nEscribe un script que genere permutaciones \\(\\sigma\\) aleatorias que consistan en un solo ciclo de longitud 10 (garantizando 1 vértice).\n\nTip: Puedes generar una lista aleatoria p de números del 1 al 10 y crear el ciclo: sigma = PermutationGroupElement([tuple(p)]).\n\nEjecuta un bucle de 1000 iteraciones. En cada paso, calcula el género del mapa resultante usando RibbonGraph(sigma, rho).genus().\nAnálisis:\n\n¿Cuáles son los géneros mínimo y máximo que observas?\n¿Con qué frecuencia aparece el género 0 (esfera)? ¿Es el caso más común o el más raro?\n\n\nNota: Este ejercicio demuestra que, combinatoriamente, las superficies de género alto son mucho más abundantes que la esfera.",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: El moño y el ojo tienen el mismo polinomio\n\n\n\nUsa la función bollobas_riordan para calcular \\(R(\\text{moño}; x, y, z)\\) y \\(R(\\text{ojo}; x, y, z)\\) con los datos:\n\\[\\rho = (1,5)(4,8)(2,6)(3,7)(9,10)(11,12)\\] \\[\\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11), \\quad \\sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11)\\]\n\n\n\n\n\n\n\n\n\n\n\nVerifica que \\(R(\\sigma_1, \\rho) = R(\\sigma_2, \\rho)\\) (ambos son equivalentes, luego el polinomio debe coincidir).\n¿Aparece \\(z\\) en el polinomio? ¿Qué dice eso del género del encaje?\nCompara con \\(R\\) del toro de 1 vértice y 2 loops: ¿son iguales o distintos los polinomios?\n\n\n\n\n\n\n\n\n\nTipEjercicio 2: Encaje planar vs. no planar del grafo theta\n\n\n\nEl grafo theta son dos vértices conectados por tres aristas paralelas. Tiene dos encajes celulares cualitativamente distintos:\n\nEn la esfera: \\(\\sigma_{\\mathrm{esf}} = (1,3,5)(2,6,4)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) — tres caras, género 0\nEn el toro: \\(\\sigma_{\\mathrm{tor}} = (1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) — una cara, género 1\n\n\nCalcula el polinomio de Bollobás-Riordan de cada encaje.\n¿En qué término difieren? ¿Puede el polinomio de Tutte distinguirlos?\nEvalúa ambos polinomios en \\(z=0\\) y compara con el resultado esperado del caso planar.",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
+      "1.7 Polinomio de Bollobás-Riordan"
     ]
   },
   {
-    "objectID": "capitulos/02-mapas-combinatorios.html#resumen",
-    "href": "capitulos/02-mapas-combinatorios.html#resumen",
-    "title": "2. Mapas Combinatorios",
+    "objectID": "capitulos/07-bollobas-riordan.html#resumen",
+    "href": "capitulos/07-bollobas-riordan.html#resumen",
+    "title": "7. Polinomio de Bollobás-Riordan",
     "section": "Resumen",
-    "text": "Resumen\n\nAxiomática: Un mapa combinatorio se define formalmente como una terna \\((D, \\sigma, \\rho)\\) que satisface axiomas algebraicos precisos, independientes del dibujo.\nTeorema de Realización: Existe una correspondencia biunívoca entre mapas combinatorios y superficies orientables con grafos encajados.\nAlgoritmo de Trazado: La permutación de caras se calcula como \\(\\varphi = \\rho \\sigma\\) (convención SageMath).\nInterpretación Geométrica: Las caras se recorren siguiendo la regla “Cruzar (\\(\\rho\\)) y Girar (\\(\\sigma\\))”.\nUnicidad: El par \\((\\sigma, \\rho)\\) determina unívocamente la topología de la superficie (el género es una consecuencia, no una elección).\n\nEn la siguiente sección utilizaremos este conteo de caras para calcular los invariantes topológicos (característica de Euler y género) directamente desde las permutaciones.",
+    "text": "Resumen\n\nEl polinomio de Bollobás-Riordan generaliza el de Tutte: la variable \\(z\\) detecta \\(\\gamma(A)=k(A)-f(A)+n(A)\\) (que en orientables coincide con \\(2g(A)\\)) y está ausente en encajes planos.\nLa fórmula de suma sobre subgrafos es directamente computable en Sage iterando sobre los \\(2^m\\) subconjuntos de aristas.\nEl polinomio es un invariante de ribbon graphs: sistemas de rotación equivalentes dan el mismo polinomio.\nEl caso completo del diagrama de Heegaard de la esfera de Poincaré (\\(E=24\\)) se presenta en el capítulo 8 con validación reproducible y polinomio explícito.\n\nEl polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a teoría de nudos (polinomios de nudos tipo HOMFLY-PT), física matemática (modelos de Potts en superficies), y combinatoria enumerativa de mapas.",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
+      "1.7 Polinomio de Bollobás-Riordan"
     ]
   },
   {
-    "objectID": "capitulos/02-mapas-combinatorios.html#referencias",
-    "href": "capitulos/02-mapas-combinatorios.html#referencias",
-    "title": "2. Mapas Combinatorios",
+    "objectID": "capitulos/07-bollobas-riordan.html#referencias",
+    "href": "capitulos/07-bollobas-riordan.html#referencias",
+    "title": "7. Polinomio de Bollobás-Riordan",
     "section": "Referencias",
-    "text": "Referencias\n\n[Tutte1979] W. T. Tutte, Combinatorial Oriented Maps, Canadian Journal of Mathematics, 31(5):986-1004, 1979. DOI:10.4153/CJM-1979-091-3\n\n\nPublicado el 09 de febrero de 2026",
+    "text": "Referencias\n\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen, 323(1), 81–96.\nChmutov, S. (2009). Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial. Journal of Combinatorial Theory, Series B, 99(3), 617–638.\nEllis-Monaghan, J. A., & Moffatt, I. (2013). Graphs on Surfaces: Dualities, Polynomials, and Knots. Springer.\nJaeger, F., Vertigan, D. L., & Welsh, D. J. A. (1990). On the computational complexity of the Jones and Tutte polynomials. Mathematical Proceedings of the Cambridge Philosophical Society, 108(1), 35–53.\nSageMath – Ribbon Graphs",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.2 Mapas Combinatorios"
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/07-bollobas-riordan.html#footnotes",
+    "href": "capitulos/07-bollobas-riordan.html#footnotes",
+    "title": "7. Polinomio de Bollobás-Riordan",
+    "section": "Notas",
+    "text": "Notas\n\n\nLa clase de complejidad #P (Sharp-P) agrupa los problemas de conteo asociados a problemas de decisión en NP. Un problema es #P-difícil si calcular su solución es al menos tan complejo como contar las soluciones de cualquier problema en NP. En la práctica, implica que el tiempo de cómputo crece exponencialmente con el tamaño de la entrada y no se conocen algoritmos eficientes.↩︎",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.7 Polinomio de Bollobás-Riordan"
+    ]
+  },
+  {
+    "objectID": "capitulos/08-br-diagrama-poincare.html",
+    "href": "capitulos/08-br-diagrama-poincare.html",
+    "title": "8. BR del Diagrama de Poincaré",
+    "section": "",
+    "text": "El cálculo del polinomio de Bollobás-Riordan para el diagrama de Heegaard de la esfera de Poincaré se realizó con la implementación paralela del script rápido de la sección anterior.\n\nUsamos el sistema de rotación:\n\\[\n\\begin{aligned}\n\\sigma &= (1,2,3,4)(5,6,7,8)(9,10,11,12)(13,14,15,16)(17,18,19,20)(21,22,23,24) \\\\\n       &\\phantom{=} (25,26,27,28)(29,30,31,32)(33,34,35,36)(37,38,39,40)(41,42,43,44)(45,46,47,48)\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n\\rho &= (1,7)(2,36)(3,25)(4,48)(5,11)(6,40)(8,30)(9,15)(10,42)(12,34)(13,19)(14,38) \\\\\n     &\\phantom{=} (16,18)(17,23)(20,22)(21,27)(24,26)(28,32)(29,35)(31,45)(33,39)(37,43)(41,47)(44,46)\n\\end{aligned}\n\\]\nAquí \\(V=12\\) y \\(E=24\\), así que la suma recorre \\(2^{24}=16{,}777{,}216\\) subgrafos.\n\n\n\n\n\n\nNotaPolinomio obtenido\n\n\n\nEl exponente de \\(z\\) es \\(2g(A)\\) (caso orientable), por lo que aparecen potencias pares de \\(z:\\)\n\\[\n\\begin{aligned}\nR(G;x,y,z) &= P_0(x,y) + z^2 P_1(x,y) + z^4 P_2(x,y).\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_2(x,y) ={}& y^{13} + 24y^{12} + 268y^{11} + 6xy^{10} + 1838y^{10} + 110xy^9 + 8594y^9 \\\\\n&+ 8x^2y^8 + 892xy^8 + 28652y^8 + 108x^2y^7 + 4136xy^7 + 68844y^7\\\\\n&+ 8x^3y^6 + 596x^2y^6 + 11728xy^6 + 116692y^6 + 48x^3y^5 + 1592x^2y^5\\\\\n&+ 19680xy^5 + 129208y^5 + 96x^3y^4 + 1824x^2y^4 + 15712xy^4 + 72480y^4.\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_1(x,y) ={}& 8y^{11} + 13xy^{10} + 167y^{10} + 11x^2y^9 + 248xy^9 + 1629y^9 \\\\\n&+ 5x^3y^8 + 207x^2y^8 + 2223xy^8 + 9809y^8 + x^4y^7 + 104x^3y^7 \\\\\n&+ 1809x^2y^7 + 12240xy^7 + 40366y^7 + 30x^4y^6 + 966x^3y^6 + 9458x^2y^6 \\\\\n&+ 45278xy^6 + 118108y^6 + 4x^5y^5 + 370x^4y^5 + 5040x^3y^5 + 31724x^2y^5 \\\\\n&+ 115072xy^5 + 246750y^5 + 118x^5y^4 + 2016x^4y^4 + 15124x^3y^4 + 67448x^2y^4 \\\\\n&+ 195774xy^4 + 356096y^4 + 36x^6y^3 + 598x^5y^3 + 4874x^4y^3 + 24332x^3y^3 \\\\\n&+ 83464x^2y^3 + 201950xy^3 + 312266y^3 + 8x^7y^2 + 100x^6y^2 + 816x^5y^2 \\\\\n&+ 4364x^4y^2 + 16392x^3y^2 + 45244x^2y^2 + 89024xy^2 + 106196y^2.\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_0(x,y) ={}& 15y^9 + 49xy^8 + 279y^8 + 91x^2y^7 + 838xy^7 + 2439y^7 + 131x^3y^6+ 1455x^2y^6\\\\\n&  + 6745xy^6 + 13133y^6 + 168x^4y^5 + 1950x^3y^5 + 10860x^2y^5+ 32786xy^5\\\\\n&  + 47684y^5 + x^7y^4 + 9x^6y^4 + 233x^5y^4 + 2335x^4y^4 + 13241x^3y^4+ 47129x^2y^4\\\\\n&   + 103477xy^4 + 120103y^4 + 4x^8y^3 + 40x^7y^3 + 371x^6y^3+ 2652x^5y^3\\\\\n&   + 13417x^4y^3 + 48520x^3y^3 + 124093x^2y^3 + 213428xy^3+ 209059y^3\\\\\n&  + 6x^9y^2 + 66x^8y^2 + 460x^7y^2 + 2512x^6y^2 + 10823x^5y^2 + 36693x^4y^2\\\\\n&  + 96706x^3y^2 + 193034x^2y^2 + 275765xy^2 + 235903y^2 + 4x^{10}y + 316x^8y \\\\\n&  + 1520x^7y + 5804x^6y + 18120x^5y + 46428x^4y + 96512x^3y + 158208x^2y \\\\\n&  + 191064xy + 48x^9y + 137976y + x^{11} + 13x^{10} + 87x^9 + 403x^8 + 1446x^7  \\\\\n&+ 4222x^6+ 10250x^5 + 20754x^4 + 34617x^3 + 46005x^2 + 44991x + 25627.\n\\end{aligned}\n\\]\n\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.8 BR de la Esfera de Poincare"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html",
+    "href": "capitulos/03-invariantes.html",
+    "title": "3. Invariantes Topológicos",
+    "section": "",
+    "text": "Esta sección es práctica: aprenderemos a usar SageMath para calcular los invariantes topológicos que clasifican la superficie cerrada donde se aloja el grafo:",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
+    "href": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
+    "title": "3. Invariantes Topológicos",
+    "section": "1. Conteo de Elementos (\\(V, E, F\\))",
+    "text": "1. Conteo de Elementos (\\(V, E, F\\))\nRecordemos que en un mapa combinatorio:\n\n\\(V\\): Ciclos de \\(\\sigma\\)\n\\(E\\): Ciclos de \\(\\rho\\) (o \\(|D|/2\\))\n\\(F\\): Ciclos de \\(\\varphi = \\rho \\sigma\\)\n\n\n\n\n\n\n\nNotaInterpretación: ¿Caras o Fronteras?\n\n\n\nEn un ribbon graph, los ciclos de la permutación \\(\\varphi\\) describen las componentes de frontera de la superficie con borde obtenida al engrosar el grafo. Si se tapan esas fronteras con discos, esas mismas componentes pasan a ser las caras del encaje en la superficie cerrada.\nPor ello, SageMath cuenta estos ciclos con number_boundaries(). En este curso, \\(b\\) denota el número de componentes de frontera y coincide con \\(F\\) cuando interpretamos el mapa sobre la superficie cerrada (\\(F=b\\)).\n\n\nSageMath nos permite extraer estos valores directamente del objeto RibbonGraph.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
+    "href": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
+    "title": "3. Invariantes Topológicos",
+    "section": "2. La Característica de Euler (\\(\\chi\\))",
+    "text": "2. La Característica de Euler (\\(\\chi\\))\nLa característica de Euler es el invariante más fundamental. Se define combinatoriamente como:\n\\[ \\chi = V - E + F \\]\nEsta es la característica de Euler de la superficie cerrada obtenida al pegar discos en todas las fronteras del grafo.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
+    "href": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
+    "title": "3. Invariantes Topológicos",
+    "section": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))",
+    "text": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))\nEl género \\(g\\) se calcula siempre a partir de la superficie cerrada asociada. La cuenta es la misma, solo cambia la interpretación de \\(F\\) y \\(b\\):\n\nEn el ribbon graph, los ciclos de \\(\\varphi\\) son fronteras, de modo que \\(b\\) es el número de componentes de frontera.\nAl tapar cada frontera con un disco, esas mismas componentes pasan a ser las caras \\(F\\) de la superficie cerrada.\n\nPor lo tanto, en la superficie cerrada se cumple:\n\\[ \\chi = V - E + F = V - E + b \\quad \\Rightarrow \\quad g = \\frac{2 - (V - E + b)}{2} \\]\nSageMath detecta automáticamente el número de componentes de frontera (\\(b\\)), y ese mismo valor coincide con \\(F\\) cuando se interpreta el mapa en la superficie cerrada.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nNotaNota sobre number_boundaries()\n\n\n\nEn la implementación de RibbonGraph de SageMath, el método number_boundaries() devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras \\(F\\). La fórmula funciona consistentemente.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
+    "href": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
+    "title": "3. Invariantes Topológicos",
+    "section": "4. Automatización: Una función de análisis",
+    "text": "4. Automatización: Una función de análisis\nComo ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#galería-de-ejemplos",
+    "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
+    "title": "3. Invariantes Topológicos",
+    "section": "5. Galería de Ejemplos",
+    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#ejercicios",
+    "href": "capitulos/03-invariantes.html#ejercicios",
+    "title": "3. Invariantes Topológicos",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Diseñador de Superficies\n\n\n\nUsa la función analizar_topologia para encontrar un sistema de rotación que genere una superficie de género 2 (Bitoro).\nPista: Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar \\(\\sigma\\) en un bouquet de 4 lazos.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Grafos Completos\n\n\n\nInvestiga el género de los grafos completos \\(K_n\\).\n\nVerifica que \\(K_3\\) tiene género 0.\nConstruye un sistema de rotación para \\(K_4\\) y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (\\(g=0\\))?\n¿Cuál es el género mínimo para \\(K_5\\)?\n\n\n\n\nPublicado el 09 de febrero de 2026",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "",
+    "text": "Autor: José Luis León Medina",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#sobre-este-proyecto",
+    "href": "index.html#sobre-este-proyecto",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Sobre este proyecto",
+    "text": "Sobre este proyecto\nLos sistemas de rotación son pares de permutaciones \\((\\sigma, \\rho)\\) que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el Teorema de Heffter-Edmonds.\n\nIdea principal\nUn sistema de rotación \\((\\sigma, \\rho)\\) contiene toda la información necesaria para:\n\nReconstruir el grafo subyacente (vértices y aristas)\nDeterminar el orden cíclico de semiaristas alrededor de cada vértice\nCalcular las caras mediante la permutación \\(\\varphi = \\rho\\sigma\\)\nObtener invariantes topológicos: género, característica de Euler, número de caras\nConstruir la superficie completa mediante engrosamiento (thickening)\n\nResultado fundamental: Álgebra de permutaciones ↔︎ Topología de superficies",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#contenido",
+    "href": "index.html#contenido",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Contenido",
+    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)\n\n\n\n2. Mapas Combinatorios\nDe la intuición geométrica a la formalización algebraica.\n\nAxiomática de Tutte: definición formal de mapa combinatorio\nTeorema de Realización Topológica\nAlgoritmo de trazado de caras (\\(\\varphi = \\rho\\sigma\\))\nUnicidad del encaje y el género como consecuencia\n\n\n\n3. Invariantes Topológicos\nCálculo computacional con SageMath.\n\nAutomatización del cálculo de \\(V, E, F\\)\nCaracterística de Euler y Género\nFunción de análisis topológico (analizar_topologia)\nExperimentación con grafos completos y superficies de género alto\n\n\n\n4. Equivalencia\nEl teorema fundamental que establece la correspondencia biunívoca.\n\nLectura del encaje: obtención de \\((\\sigma,\\rho)\\) desde un dibujo encajado\nTeorema de Heffter‑Edmonds y equivalencia por conjugación\nVerificación en SageMathCell del género en ejemplos concretos\nEjemplos de encajes equivalentes y no equivalentes (criterio por caras)\nTeorema de Whitney, Steinitz y conectividad 3‑conexa\nOrientabilidad y limitaciones del modelo\n\n\n\n5. Ejemplos\nVerificación computacional de equivalencia entre sistemas de rotación.\n\nEjemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición\nEjemplo de no-equivalencia: multiconjuntos de caras como invariante rápido\nDel problema al algoritmo: fuerza bruta vs. búsqueda con retroceso\nDiagramas de Heegaard de la Esfera de Poincaré como encajes celulares\nVerificación interactiva con SageMathCell\n\n\n\n6. Operaciones sobre Ribbon Graphs\nOperaciones fundamentales para transformar y analizar ribbon graphs en Sage.\n\nContracción de aristas: fusión de vértices preservando el género.\nDualidad: intercambio de vértices y caras (\\(V^*=F\\), \\(F^*=V\\)).\nBase de homología y cálculo del rango \\(\\mathrm{rank}(H_1) = 2g + b - 1\\).\nReducción: obtención del núcleo de Betti contrayendo árboles generadores.\n\n\n\n7. Polinomio de Bollobás-Riordan\nGeneralización del polinomio de Tutte que detecta la topología del encaje.\n\nDefinición, cálculo y optimización en Sage.\nLa variable \\(z\\) como detector del género.\nDistinción de encajes mediante el polinomio.\n\n\n\n8. BR del Diagrama de Poincaré\nCálculo computacional del polinomio para un caso de alta complejidad (\\(E=24\\)).\n\nSistema de rotación del diagrama de Heegaard (\\(V=12, E=24\\)).\nResultado explícito del polinomio \\(R(G; x, y, z)\\).",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#herramientas",
+    "href": "index.html#herramientas",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Herramientas",
+    "text": "Herramientas\nEste proyecto utiliza:\n\nSageMath 10.7 - Cálculos con RibbonGraph, PermutationGroupElement\nPython 3.13 - Scripts de análisis y visualización\nQuarto - Documentación interactiva con bloques de código ejecutables",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#referencias",
+    "href": "index.html#referencias",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Referencias",
+    "text": "Referencias\n\nGross, J. L., & Tucker, T. W. (1987). Topological Graph Theory\nLando, S. K., & Zvonkin, A. K. (2004). Graphs on Surfaces\nEdmonds, J. (1960). A combinatorial representation for polyhedral surfaces\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen\nSageMath - Ribbon Graphs Documentation\n\n\n\n2026",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html",
+    "href": "capitulos/11-lattice-ciclos.html",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "",
+    "text": "En este apartado estudiamos exclusivamente el lattice de ciclos asociado al espacio lente \\(L(p,q)\\). El punto de partida es aritmetico: la estructura topologica queda codificada por una reticula entera y por su clase bajo simetrias de \\(GL(2,\\mathbb Z)\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#definicion-del-lattice-de-ciclos",
+    "href": "capitulos/11-lattice-ciclos.html#definicion-del-lattice-de-ciclos",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Definicion del lattice de ciclos",
+    "text": "Definicion del lattice de ciclos\nPara \\(p \\ge 1\\) y \\(\\gcd(p,q)=1\\), definimos\n\\[\n\\Lambda_{p,q}\n=\n\\{(a,b)\\in\\mathbb Z^2 : a+bq\\equiv 0\\pmod p\\}.\n\\]\nInterpretacion operativa:\n\nEl par \\((a,b)\\) representa una combinacion de pasos en la red de doble lazo \\(G(p;\\pm 1, \\pm q)\\).\nLa congruencia \\(a+bq\\equiv 0\\) significa que ese desplazamiento regresa al mismo vertice modulo \\(p\\).\nPor eso \\(\\Lambda_{p,q}\\) se ve como la reticula de “ciclos cerrados” en coordenadas enteras.\n\n\n\n\n\n\n\nNotaVerificacion rapida de pertenencia\n\n\n\nPara decidir si \\((a,b)\\) esta en \\(\\Lambda_{p,q}\\), solo se evalua \\(a+bq\\) modulo \\(p\\).\nEjemplo para \\((p,q)=(17,3)\\):\n\n\\((14,1)\\): \\(14+1\\cdot 3=17\\equiv 0\\) entonces \\((14,1)\\in\\Lambda_{17,3}\\).\n\\((8,3)\\): \\(8+3\\cdot 3=17\\equiv 0\\) entonces \\((8,3)\\in\\Lambda_{17,3}\\).\n\\((5,1)\\): \\(5+1\\cdot 3=8\\not\\equiv 0\\) entonces \\((5,1)\\notin\\Lambda_{17,3}\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#ejemplo-guiado-l173",
+    "href": "capitulos/11-lattice-ciclos.html#ejemplo-guiado-l173",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Ejemplo guiado: L(17,3)",
+    "text": "Ejemplo guiado: L(17,3)\nTomamos\n\\[\n\\Lambda_{17,3}=\n\\{(a,b)\\in\\mathbb Z^2 : a+3b\\equiv 0\\pmod{17}\\}.\n\\]\nDos vectores utiles del lattice son\n\\[\n\\nu_1=(14,1), \\qquad \\nu_2=(-3,1).\n\\]\nEl determinante\n\\[\n\\det\\begin{pmatrix}14 & -3 \\\\ 1 & 1\\end{pmatrix}=14(1)-1(-3)=17,\n\\]\ncoincide con \\(p\\), como debe ocurrir en una base de indice \\(p\\).\nTambien aparece naturalmente el vector\n\\[\n\\nu_3=(8,3), \\quad 8+3\\cdot 3=17.\n\\]\nSe verifica de forma directa que:\n\n\\(\\nu_1,\\nu_2,\\nu_3\\in\\Lambda_{17,3}\\).\n\\(\\gcd(14,1)=\\gcd(-3,1)=\\gcd(8,3)=1\\) (son primitivos).\nCada uno recupera el mismo valor de \\(q\\) (siguiente proposicion).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#recuperar-q-desde-cualquier-vector-primitivo",
+    "href": "capitulos/11-lattice-ciclos.html#recuperar-q-desde-cualquier-vector-primitivo",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Recuperar q desde cualquier vector primitivo",
+    "text": "Recuperar q desde cualquier vector primitivo\nCualquier vector \\((a,b)\\in\\Lambda_{p,q}\\) cumple\n\\[\na+bq\\equiv 0\\pmod p.\n\\]\nSi \\(\\gcd(b,p)=1\\), entonces \\(b\\) tiene inverso modulo \\(p\\) y\n\\[\nq\\equiv -ab^{-1}\\pmod p.\n\\]\n\n\n\n\n\n\nImportanteProposicion (recuperacion de q)\n\n\n\nLa aplicacion\n\\[\n\\phi:\\{(a,b)\\in \\Lambda_{p,q}:\\gcd(b,p)=1\\}\\to (\\mathbb Z/p\\mathbb Z)^\\times,\n\\qquad\n\\phi(a,b)=-ab^{-1},\n\\]\nesta bien definida y es constante. De hecho,\n\\[\n\\phi(a,b)\\equiv q\\pmod p\n\\]\npara todo \\((a,b)\\) de su dominio.\n\n\nDemostracion. Como \\((a,b)\\in\\Lambda_{p,q}\\), se tiene \\(a+bq\\equiv 0\\pmod p\\). Multiplicando por \\(b^{-1}\\): \\(q\\equiv -ab^{-1}\\pmod p\\). No depende de elecciones adicionales. \\(\\square\\)\n\n\n\n\n\n\nTipObservacion\n\n\n\nTodo vector primitivo \\((a,b)\\in\\Lambda_{p,q}\\) satisface \\(\\gcd(b,p)=1\\). Si \\(p\\mid b\\), de \\(a+bq\\equiv 0\\) se obtiene \\(a\\equiv 0\\pmod p\\), contradiciendo \\(\\gcd(a,b)=1\\).\nConclusion: cualquier vector de una base entera de \\(\\Lambda_{p,q}\\) permite recuperar \\(q\\).\n\n\n\nComprobacion explicita en L(17,3)\n\nCon \\((a,b)=(14,1)\\): \\[q\\equiv -14\\cdot 1^{-1}\\equiv -14\\equiv 3\\pmod{17}.\\]\nCon \\((a,b)=(8,3)\\) y \\(3^{-1}\\equiv 6\\pmod{17}\\): \\[q\\equiv -8\\cdot 6=-48\\equiv 3\\pmod{17}.\\]\n\nAmbos dan el mismo resultado: \\(q\\equiv 3\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#simetrias-geométricas-y-orbita-q-pm-qpm1",
+    "href": "capitulos/11-lattice-ciclos.html#simetrias-geométricas-y-orbita-q-pm-qpm1",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Simetrias geométricas y orbita \\(q ~ \\pm q^{\\pm1}\\)",
+    "text": "Simetrias geométricas y orbita \\(q ~ \\pm q^{\\pm1}\\)\nLa clasificacion de espacios lente usa la relacion\n\\[\nq'\\equiv \\pm q^{\\pm1}\\pmod p.\n\\]\nEn el lattice, esto se implementa por matrices de simetria en \\(GL(2,\\mathbb Z)\\) (cambios de signo y permutaciones de coordenadas), es decir, la accion del grupo diedral \\(D_4\\) sobre \\(\\mathbb Z^2\\).\n\n\n\n\n\n\nNotaProposicion (accion D4 en lattices)\n\n\n\nSi \\(q'\\equiv \\pm q^{\\pm1}\\pmod p\\), existe \\(M\\in D_4\\subset GL(2,\\mathbb Z)\\) tal que\n\\[\n\\Lambda_{p,q'}=M(\\Lambda_{p,q}).\n\\]\n\n\nIdea de demostracion (generadores).\n\nCaso \\(q'=-q\\): el cambio \\((a,b)\\mapsto (a,-b)\\) transforma \\(a+b(-q)\\equiv 0\\) en \\(a-bq\\equiv 0\\).\nCaso \\(q'=q^{-1}\\): el intercambio \\((a,b)\\mapsto (b,a)\\) transforma \\(a+bq\\equiv 0\\) en \\(b+aq^{-1}\\equiv 0\\).\n\nComo estas operaciones generan la orbita \\(\\{\\pm q^{\\pm1}\\}\\), resulta la afirmacion.\n\n\n\n\n\n\nTipCorolario metrico (norma L1)\n\n\n\nBajo \\(q'\\equiv \\pm q^{\\pm1}\\) se conservan:\n\nMinimos sucesivos en norma \\(L_1\\).\nLa condicion de base \\(L_1\\)-reducida.\nEl multiconjunto \\[\\{\\|u\\|_1,\\|v\\|_1,\\|u-v\\|_1\\}\\] para bases reducidas.\n\nRazon: los elementos de \\(D_4\\) son isometrias de la norma \\(L_1\\) y preservan determinantes.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#teorema-de-clasificacion-aritmetica",
+    "href": "capitulos/11-lattice-ciclos.html#teorema-de-clasificacion-aritmetica",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Teorema de clasificacion aritmetica",
+    "text": "Teorema de clasificacion aritmetica\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nLa clase de equivalencia del lattice de ciclos bajo la accion de \\(D_4\\),\n\\[\n[\\Lambda_{p,q}]_{D_4}:=\\{M(\\Lambda_{p,q})\\;:\\;M\\in D_4\\},\n\\]\ndetermina completamente el tipo de homeomorfismo del espacio lente \\(L(p,q)\\).\n\n\nEsquema de prueba.\n\nPor la proposicion de recuperacion, cada representante \\(\\Lambda_{p,q'}\\) de la clase determina un parametro \\(q'\\pmod p\\).\nPor la proposicion de simetria, si \\(\\Lambda_{p,q'}=M(\\Lambda_{p,q})\\) con \\(M\\in D_4\\), entonces \\(q'\\equiv \\pm q^{\\pm1}\\pmod p\\); por tanto la clase \\([\\Lambda_{p,q}]_{D_4}\\) determina exactamente la orbita \\(\\mathcal O_q=\\{\\pm q^{\\pm1}\\}\\).\nLa clasificacion clasica de espacios lente dice: \\[L(p,q)\\cong L(p,q')\\iff q'\\in\\mathcal O_q.\\]\n\nLuego la clase \\([\\Lambda_{p,q}]_{D_4}\\) determina la clase topologica.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#cierre",
+    "href": "capitulos/11-lattice-ciclos.html#cierre",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Cierre",
+    "text": "Cierre\nEl mensaje central de este apartado es:\n\\[\n\\text{Lattice de ciclos } + \\text{ simetria } D_4\n\\Longrightarrow\n\\text{clasificacion aritmetica de } L(p,q).\n\\]\nPara uso docente, \\(L(17,3)\\) es un ejemplo excelente porque permite ver en la misma pantalla:\n\nla ecuacion congruencial del lattice,\nla recuperacion de \\(q\\) desde vectores,\ny la accion de simetrias que explican la clasificacion.",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/11-lattice-ciclos.html#ejercicios",
+    "href": "capitulos/11-lattice-ciclos.html#ejercicios",
+    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Recuperar q desde distintos vectores\n\n\n\nEn \\(\\Lambda_{17,3}\\) verifica que los vectores\n\\[\n(14,1),\\ (11,2),\\ (8,3),\\ (5,4)\n\\]\nson primitivos y pertenecen al lattice. Luego calcula\n\\[\nq\\equiv -ab^{-1}\\pmod{17}\n\\]\nen cada caso y comprueba que todos producen la misma clase modulo \\(17\\).\n\n\n\n\n\n\n\n\nTipEjercicio 2: Simetrias y orbitas\n\n\n\nPara \\(p=17\\) y \\(q=3\\):\n\nCalcula la orbita \\(\\mathcal O_q=\\{\\pm q^{\\pm1}\\}\\).\nDescribe de manera explicita cuatro matrices de \\(D_4\\) que lleven \\((a,b)\\) a \\((a,-b)\\), \\((-a,b)\\), \\((b,a)\\) y \\((-b,a)\\).\nVerifica en cada caso que la congruencia del lattice se transforma en un parametro de la orbita.\n\n\n\n\n\n\n\n\n\nTipEjercicio 3: Comparacion de bases en L(17,3)\n\n\n\nConsidera las bases\n\\[\nB_1=\\{(14,1),(-3,1)\\},\\qquad B_2=\\{(8,3),(-9,2)\\}.\n\\]\n\nVerifica que ambas generan subreticulas de indice \\(17\\).\nComprueba que ambas estan contenidas en \\(\\Lambda_{17,3}\\).\nDecide si existe \\(U\\in SL(2,\\mathbb Z)\\) con \\(B_2=B_1U\\).",
+    "crumbs": [
+      "Inicio",
+      "2. Espacios Lente",
+      "2.3 Lattice de Ciclos"
+    ]
+  },
+  {
+    "objectID": "capitulos/06-operaciones.html",
+    "href": "capitulos/06-operaciones.html",
+    "title": "6. Operaciones sobre Ribbon Graphs",
+    "section": "",
+    "text": "En los capítulos anteriores aprendimos a construir ribbon graphs y calcular invariantes topológicos. Este capítulo se enfoca en las operaciones principales sobre ribbon graphs que podemos verificar en Sage: contracción, dualidad y cálculo de base de homología.\n\n\nContracción de Aristas\nLa contracción de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.\n\n\n\n\n\n\nNotaDefinición: Contracción\n\n\n\nDado un ribbon graph \\(G = (\\sigma, \\rho)\\) y una arista no-loop \\(e = \\{d, \\rho(d)\\}\\) cuyos extremos son los vértices \\(u\\) y \\(v\\) (ciclos de \\(\\sigma\\)), la contracción \\(G/e\\) tiene:\n\nDarts: todos excepto \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\sigma\\): los ciclos de \\(u\\) y de \\(v\\) se fusionan, intercalando el orden cíclico de \\(v\\) donde estaba \\(\\rho(d)\\) dentro del ciclo de \\(u\\), y eliminando \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\rho\\): igual a \\(\\rho\\) restringida a los darts restantes\n\n\n\nEfecto topológico: Contraer una arista no-loop preserva el número de caras y la característica de Euler: \\[V(G/e) = V-1, \\quad E(G/e) = E-1, \\quad F(G/e) = F, \\quad \\chi(G/e) = \\chi(G)\\]\nEn particular, la contracción de una arista no-loop preserva el género.\nEjemplo: Tomamos el grafo theta en el toro y contraemos la arista \\(\\{1,2\\}\\):\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.\n\n\n\nDualidad\nLa dual de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.\n\n\n\n\n\n\nNotaConstrucción de la Dual\n\n\n\nDado \\(G = (\\sigma, \\rho)\\) con permutación de caras \\(\\varphi = \\rho\\sigma\\), la dual es: \\[G^* = (\\varphi,\\; \\rho)\\]\nLos vértices de \\(G^*\\) son las caras de \\(G\\), las aristas son las mismas, y las caras de \\(G^*\\) son los vértices de \\(G\\). En fórmulas: \\[V^* = F, \\quad E^* = E, \\quad F^* = V, \\quad g^* = g\\]\n\n\nEjemplo: Consideramos el grafo theta en el toro (\\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\)). Este grafo tiene \\(V=2\\) vértices, \\(E=3\\) aristas y \\(F=1\\) cara.\n¿Por qué el dual tiene 3 lazos? Al aplicar la dualidad (\\(V^*=F, E^*=E\\)), obtenemos un grafo \\(G^*\\) con 1 vértice (porque \\(F=1\\)) y 3 aristas (porque \\(E=3\\)). La única forma de disponer 3 aristas en un grafo con un solo vértice es que todas ellas sean lazos (bucles) que empiezan y terminan en ese mismo vértice.\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl toro del ejemplo tiene \\(V=2\\), \\(E=3\\), \\(F=1\\); su dual tiene \\(V^*=1\\), \\(E^*=3\\), \\(F^*=2\\) y el mismo género 1.\n\n\n\nBase de Homología\nLa base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género \\(g\\) con \\(b\\) componentes de frontera, el rango del primer grupo de homología es: \\[\\mathrm{rank}(H_1(S,\\mathbb{Z})) = 2g + b - 1\\]\nEl toro del ejemplo tiene género 1 y \\(b=1\\) componente de frontera (superficie cerrada), por lo que el rango esperado es \\(2(1) + 1 - 1 = 2\\):\n\n\n\nLos dos ciclos de la base corresponden a los dos “agujeros” fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.\n\n\n\nReducción (núcleo de Betti)\nEl método reduced() contrae aristas de un árbol generador y devuelve un ribbon graph topológicamente equivalente en el siguiente sentido preciso (documentación de Sage):\n\nLa permutación \\(\\sigma\\) del resultado tiene exactamente un ciclo no-singleton (un único vértice no aislado).\nLa permutación \\(\\rho\\) es producto de \\(\\beta_1\\) transposiciones disjuntas, donde \\(\\beta_1\\) es el primer número de Betti del grafo subyacente.\n\nPara un grafo conexo, \\(\\beta_1 = E - V + 1\\). Por tanto, tras reduced() no se conserva el número original de aristas: se conserva la información topológica esencial (género y fronteras), y las aristas pasan a ser las del bouquet mínimo.\n\n\n\n\n\n\nNotaImportante sobre conteos en Sage\n\n\n\nSi usas cycle_tuples(singletons=True) sobre G_red.sigma() o G_red.rho(), Sage incluye ciclos fijos (1-ciclos) en el dominio de la permutación. Eso puede dar valores como V=3, E=4 aunque el grafo reducido real tenga V=1, E=2.\nPara contar vértices/aristas del ribbon graph reducido, en este contexto usa cycle_tuples() sin singletons=True.\n\n\n\n\n\nEn este ejemplo, G_red.sigma() = (3,5,4,6) y G_red.rho() = (3,4)(5,6): hay 1 ciclo no-singleton en \\(\\sigma\\) y 2 transposiciones en \\(\\rho\\), es decir, un bouquet con 1 vértice y 2 lazos. El género y el número de fronteras se preservan.\n\n\n\n\nEstas operaciones —contracción, dualidad, reducción y cálculo de homología— son propiedades útiles documentadas en el manual de Sage para la clase RibbonGraph. En la siguiente sección estudiaremos el polinomio de Bollobás-Riordan como un invariante topológico-combinatorio implementable en SageMath.\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.6 Operaciones adicionales"
     ]
   },
   {
@@ -396,413 +806,147 @@
     ]
   },
   {
-    "objectID": "capitulos/06-operaciones.html",
-    "href": "capitulos/06-operaciones.html",
-    "title": "6. Operaciones sobre Ribbon Graphs",
+    "objectID": "capitulos/02-mapas-combinatorios.html",
+    "href": "capitulos/02-mapas-combinatorios.html",
+    "title": "2. Mapas Combinatorios",
     "section": "",
-    "text": "En los capítulos anteriores aprendimos a construir ribbon graphs y calcular invariantes topológicos. Este capítulo se enfoca en las operaciones principales sobre ribbon graphs que podemos verificar en Sage: contracción, dualidad y cálculo de base de homología.\n\n\nContracción de Aristas\nLa contracción de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.\n\n\n\n\n\n\nNotaDefinición: Contracción\n\n\n\nDado un ribbon graph \\(G = (\\sigma, \\rho)\\) y una arista no-loop \\(e = \\{d, \\rho(d)\\}\\) cuyos extremos son los vértices \\(u\\) y \\(v\\) (ciclos de \\(\\sigma\\)), la contracción \\(G/e\\) tiene:\n\nDarts: todos excepto \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\sigma\\): los ciclos de \\(u\\) y de \\(v\\) se fusionan, intercalando el orden cíclico de \\(v\\) donde estaba \\(\\rho(d)\\) dentro del ciclo de \\(u\\), y eliminando \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\rho\\): igual a \\(\\rho\\) restringida a los darts restantes\n\n\n\nEfecto topológico: Contraer una arista no-loop preserva el número de caras y la característica de Euler: \\[V(G/e) = V-1, \\quad E(G/e) = E-1, \\quad F(G/e) = F, \\quad \\chi(G/e) = \\chi(G)\\]\nEn particular, la contracción de una arista no-loop preserva el género.\nEjemplo: Tomamos el grafo theta en el toro y contraemos la arista \\(\\{1,2\\}\\):\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.\n\n\n\nDualidad\nLa dual de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.\n\n\n\n\n\n\nNotaConstrucción de la Dual\n\n\n\nDado \\(G = (\\sigma, \\rho)\\) con permutación de caras \\(\\varphi = \\rho\\sigma\\), la dual es: \\[G^* = (\\varphi,\\; \\rho)\\]\nLos vértices de \\(G^*\\) son las caras de \\(G\\), las aristas son las mismas, y las caras de \\(G^*\\) son los vértices de \\(G\\). En fórmulas: \\[V^* = F, \\quad E^* = E, \\quad F^* = V, \\quad g^* = g\\]\n\n\nEjemplo: Consideramos el grafo theta en el toro (\\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\)). Este grafo tiene \\(V=2\\) vértices, \\(E=3\\) aristas y \\(F=1\\) cara.\n¿Por qué el dual tiene 3 lazos? Al aplicar la dualidad (\\(V^*=F, E^*=E\\)), obtenemos un grafo \\(G^*\\) con 1 vértice (porque \\(F=1\\)) y 3 aristas (porque \\(E=3\\)). La única forma de disponer 3 aristas en un grafo con un solo vértice es que todas ellas sean lazos (bucles) que empiezan y terminan en ese mismo vértice.\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl toro del ejemplo tiene \\(V=2\\), \\(E=3\\), \\(F=1\\); su dual tiene \\(V^*=1\\), \\(E^*=3\\), \\(F^*=2\\) y el mismo género 1.\n\n\n\nBase de Homología\nLa base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género \\(g\\) con \\(b\\) componentes de frontera, el rango del primer grupo de homología es: \\[\\mathrm{rank}(H_1(S,\\mathbb{Z})) = 2g + b - 1\\]\nEl toro del ejemplo tiene género 1 y \\(b=1\\) componente de frontera (superficie cerrada), por lo que el rango esperado es \\(2(1) + 1 - 1 = 2\\):\n\n\n\nLos dos ciclos de la base corresponden a los dos “agujeros” fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.\n\n\n\nReducción (núcleo de Betti)\nEl método reduced() contrae aristas de un árbol generador y devuelve un ribbon graph topológicamente equivalente en el siguiente sentido preciso (documentación de Sage):\n\nLa permutación \\(\\sigma\\) del resultado tiene exactamente un ciclo no-singleton (un único vértice no aislado).\nLa permutación \\(\\rho\\) es producto de \\(\\beta_1\\) transposiciones disjuntas, donde \\(\\beta_1\\) es el primer número de Betti del grafo subyacente.\n\nPara un grafo conexo, \\(\\beta_1 = E - V + 1\\). Por tanto, tras reduced() no se conserva el número original de aristas: se conserva la información topológica esencial (género y fronteras), y las aristas pasan a ser las del bouquet mínimo.\n\n\n\n\n\n\nNotaImportante sobre conteos en Sage\n\n\n\nSi usas cycle_tuples(singletons=True) sobre G_red.sigma() o G_red.rho(), Sage incluye ciclos fijos (1-ciclos) en el dominio de la permutación. Eso puede dar valores como V=3, E=4 aunque el grafo reducido real tenga V=1, E=2.\nPara contar vértices/aristas del ribbon graph reducido, en este contexto usa cycle_tuples() sin singletons=True.\n\n\n\n\n\nEn este ejemplo, G_red.sigma() = (3,5,4,6) y G_red.rho() = (3,4)(5,6): hay 1 ciclo no-singleton en \\(\\sigma\\) y 2 transposiciones en \\(\\rho\\), es decir, un bouquet con 1 vértice y 2 lazos. El género y el número de fronteras se preservan.\n\n\n\n\nEstas operaciones —contracción, dualidad, reducción y cálculo de homología— son propiedades útiles documentadas en el manual de Sage para la clase RibbonGraph. En la siguiente sección estudiaremos el polinomio de Bollobás-Riordan como un invariante topológico-combinatorio implementable en SageMath.\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
+    "text": "En la sección anterior definimos el sistema de rotación \\((\\sigma, \\rho)\\). Es frecuente interpretar estas permutaciones como simples instrucciones para dibujar un grafo preexistente; sin embargo, esa interpretación es parcial.\nEn la topología combinatoria (y en el modelo de Mapas de Tutte), el par \\((\\sigma, \\rho)\\) contiene toda la información topológica. El encaje queda determinado de manera unívoca:",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.6 Operaciones adicionales"
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/11-lattice-ciclos.html",
-    "href": "capitulos/11-lattice-ciclos.html",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "",
-    "text": "En este apartado estudiamos exclusivamente el lattice de ciclos asociado al espacio lente \\(L(p,q)\\). El punto de partida es aritmetico: la estructura topologica queda codificada por una reticula entera y por su clase bajo simetrias de \\(GL(2,\\mathbb Z)\\).",
+    "objectID": "capitulos/02-mapas-combinatorios.html#axiomática-de-los-mapas-combinatorios",
+    "href": "capitulos/02-mapas-combinatorios.html#axiomática-de-los-mapas-combinatorios",
+    "title": "2. Mapas Combinatorios",
+    "section": "Axiomática de los Mapas Combinatorios",
+    "text": "Axiomática de los Mapas Combinatorios\nHasta ahora nos hemos apoyado en la intuición geométrica de “dibujar grafos”. A continuación formalizamos el encaje para que no dependa de la representación gráfica, sino de reglas combinatorias precisas.\n\nLos Axiomas de Tutte\n\n\n\n\n\n\nNotaDefinición: Mapa Combinatorio (Orientado)\n\n\n\nSea \\(D\\) un conjunto finito de elementos abstractos llamados dardos (o semiaristas).\nUn Mapa Combinatorio es una terna \\(M = (D, \\sigma, \\rho)\\) que satisface los siguientes tres axiomas:\n\nAxioma de la Arista (\\(\\rho\\)): \\(\\rho\\) es una permutación de los elementos de \\(D\\) tal que \\(\\rho^2 = \\text{id}\\) y \\(\\rho(d) \\neq d\\) para todo \\(d \\in D\\).\n\nInterpretación: \\(\\rho\\) empareja los dardos; cada par define una arista.\n\nAxioma del Vértice (\\(\\sigma\\)): \\(\\sigma\\) es una permutación arbitraria de \\(D\\).\n\nInterpretación: Los ciclos de \\(\\sigma\\) agrupan los dardos; cada ciclo define un vértice.\n\nAxioma de Conectividad: El grupo de permutaciones generado por \\(\\langle \\sigma, \\rho \\rangle\\) actúa transitivamente sobre \\(D\\).\n\nInterpretación: La acción transitiva garantiza que la estructura resultante sea conexa.\n\n\n\n\n\n\n\n\n\n\nNotaNota: Sistemas de Rotación vs. Mapas Combinatorios\n\n\n\nEn la sección anterior introdujimos el concepto de sistema de rotación como la pareja \\((\\sigma, \\rho)\\). En rigor, el conjunto \\(D\\) puede deducirse de los dominios de las permutaciones \\(\\sigma\\) y \\(\\rho\\), por lo que especificarlo explícitamente es redundante.\nPor tanto, las siguientes notaciones son equivalentes y se refieren al mismo objeto matemático:\n\nSistema de rotación: \\((\\sigma, \\rho)\\)\nMapa combinatorio: \\((D, \\sigma, \\rho)\\)\n\nEn este curso usaremos ambas terminologías indistintamente, siendo conscientes de que describen exactamente la misma estructura.\n\n\n\n\nLos Elementos Derivados\nA partir de estos axiomas, definimos los elementos topológicos. En lugar de depender de la representación visual, usamos una presentación puramente combinatoria inducida por las permutaciones.\n\nVértices (\\(V\\)): El conjunto de vértices \\(V(M)\\) se define como el conjunto de órbitas (ciclos) de la permutación \\(\\sigma\\). \\[V(M) = D / \\langle \\sigma \\rangle\\]\nAristas (\\(E\\)): El conjunto de aristas \\(E(M)\\) se define como el conjunto de órbitas de la permutación \\(\\rho\\). \\[E(M) = D / \\langle \\rho \\rangle\\]\nCaras (\\(F\\)): Definimos la permutación de caras \\(\\varphi\\) como la composición \\(\\varphi = \\rho \\sigma\\) (en notación de SageMath). El conjunto de caras \\(F(M)\\) se define como el conjunto de órbitas de \\(\\varphi\\). \\[F(M) = D / \\langle \\varphi \\rangle\\]\n\n\n\nConstrucción Geométrica: La Receta de Pegado\n\n\n\n\n\n\nImportanteTeorema Fundamental de los Mapas Combinatorios\n\n\n\nPara todo mapa combinatorio \\(M = (D, \\sigma, \\rho)\\), existe una única superficie compacta orientable cerrada \\(S\\) (salvo homeomorfismo) y un grafo \\(G\\) encajado celularmente en \\(S\\), tal que:\n\nLos vértices, aristas y caras de \\(M\\) corresponden biunívocamente a los de \\(G \\subset S\\).\nEl género \\(g\\) de la superficie \\(S\\) está determinado exactamente por la característica de Euler combinatoria: \\[2 - 2g = |V(M)| - |E(M)| + |F(M)|\\]\n\n\n\nMás allá del teorema abstracto, la realización topológica es un manual de instrucciones. Dado un mapa combinatorio \\(M = (D, \\sigma, \\rho)\\), construimos la superficie física paso a paso mediante un proceso de ensamblaje.\nImagina que estamos armando un rompecabezas tridimensional:\nPaso 1: Los Vértices (Discos)\nPor cada ciclo de la permutación \\(\\sigma\\), recortamos un disco topológico (un círculo de material).\n\nSi el ciclo tiene longitud \\(k\\), marcamos \\(k\\) segmentos de arco en el borde del disco.\nEstos segmentos corresponden a los dardos.\nLos etiquetamos siguiendo el orden cíclico que nos dicta \\(\\sigma\\) (leyendo, por convención, en sentido antihorario).\n\nPaso 2: Las Aristas (Cintas)\nPor cada ciclo de la permutación \\(\\rho\\) (que siempre es de la forma \\((d_i, d_j)\\)), recortamos una cinta rectangular o banda.\n\nPegamos un extremo de la cinta en el dardo \\(d_i\\).\nPegamos el otro extremo en el dardo \\(d_j\\).\nRegla de Orientación: Pegamos la cinta sin torcerla (para superficies orientables), asegurando que la orientación de los discos de los vértices se propague suavemente a través de la arista.\n\nAl terminar el Paso 2, tenemos lo que llamamos un Ribbon Graph (o grafo de cintas): un esqueleto con agujeros.\n\n\n\nRibbon Graph determinado por el mapa combinatorio \\(D=\\{1,2,3,4,5,6\\}\\), \\(\\sigma=(1,3,2)(4,5,6)\\),\n\\(\\rho=(1,4)(2,5)(3,6)\\). La permutación \\(\\rho\\sigma\\) determina que la superficie resultante es una esfera.\n\n\nPaso 3: Las Caras (Parches)\nAhora la superficie tiene “huecos” o fronteras (las regiones negras en la figura). Para cerrarla, necesitamos pegar discos adicionales (las caras). Pero, ¿dónde pegamos estos discos? Aquí entra nuestro algoritmo de trazado.",
     "crumbs": [
       "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
+      "1. Sistemas de Rotación",
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/11-lattice-ciclos.html#definicion-del-lattice-de-ciclos",
-    "href": "capitulos/11-lattice-ciclos.html#definicion-del-lattice-de-ciclos",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "Definicion del lattice de ciclos",
-    "text": "Definicion del lattice de ciclos\nPara \\(p \\ge 1\\) y \\(\\gcd(p,q)=1\\), definimos\n\\[\n\\Lambda_{p,q}\n=\n\\{(a,b)\\in\\mathbb Z^2 : a+bq\\equiv 0\\pmod p\\}.\n\\]\nInterpretacion operativa:\n\nEl par \\((a,b)\\) representa una combinacion de pasos en la red de doble lazo \\(G(p;\\pm 1, \\pm q)\\).\nLa congruencia \\(a+bq\\equiv 0\\) significa que ese desplazamiento regresa al mismo vertice modulo \\(p\\).\nPor eso \\(\\Lambda_{p,q}\\) se ve como la reticula de “ciclos cerrados” en coordenadas enteras.\n\n\n\n\n\n\n\nNotaVerificacion rapida de pertenencia\n\n\n\nPara decidir si \\((a,b)\\) esta en \\(\\Lambda_{p,q}\\), solo se evalua \\(a+bq\\) modulo \\(p\\).\nEjemplo para \\((p,q)=(17,3)\\):\n\n\\((14,1)\\): \\(14+1\\cdot 3=17\\equiv 0\\) entonces \\((14,1)\\in\\Lambda_{17,3}\\).\n\\((8,3)\\): \\(8+3\\cdot 3=17\\equiv 0\\) entonces \\((8,3)\\in\\Lambda_{17,3}\\).\n\\((5,1)\\): \\(5+1\\cdot 3=8\\not\\equiv 0\\) entonces \\((5,1)\\notin\\Lambda_{17,3}\\).",
+    "objectID": "capitulos/02-mapas-combinatorios.html#el-algoritmo-de-trazado-de-caras",
+    "href": "capitulos/02-mapas-combinatorios.html#el-algoritmo-de-trazado-de-caras",
+    "title": "2. Mapas Combinatorios",
+    "section": "El Algoritmo de Trazado de Caras",
+    "text": "El Algoritmo de Trazado de Caras\nPara descubrir la forma de los huecos que debemos parchar, caminamos por el borde del Ribbon Graph que acabamos de construir.\nImagina que eres un viajero caminando por el engrosamiento del grafo. Tu regla de oro es: “Mantener siempre el grafo a tu izquierda”.\nEsto define la permutación de las caras, que en nuestra notación es la composición:\n\\[ \\varphi = \\rho \\sigma \\]\nEn la convención de SageMath para ribbon graphs, esta es la fórmula utilizada internamente por el método boundary() de la clase RibbonGraph.\n\n\n\n\n\n\nImportanteConvención de Multiplicación (SageMath)\n\n\n\nEn este curso y en SageMath, la multiplicación de permutaciones se lee de izquierda a derecha. La expresión \\(\\varphi = \\rho \\sigma\\) significa: primero aplicamos \\(\\rho\\) y luego aplicamos \\(\\sigma\\).\n\n\n\n\n\n\n\n\nNotaNota sobre Convenciones Alternativas\n\n\n\nAlgunos textos usan \\(\\varphi = \\rho \\sigma^{-1}\\), \\(\\varphi = \\sigma^{-1} \\rho\\), o \\(\\varphi = (\\sigma\\rho)^{-1}\\). Todas estas convenciones dan el mismo número de caras, pero los ciclos específicos pueden diferir. Usamos \\(\\varphi = \\rho \\sigma\\) para coincidir exactamente con la implementación de SageMath y simplificar los cálculos (no hay que invertir σ).\n\n\n\nLa Receta Geométrica: Cruzar y Girar\nPara encontrar el ciclo de una cara, partimos de un dardo \\(d\\) y repetimos:\n\nCruzar (\\(\\rho\\)): Atravesamos la cinta (arista) para llegar al vértice vecino.\n\nGeométricamente: Viajamos por el borde de la cinta hasta el otro lado.\n\nGirar (\\(\\sigma\\)): Nos movemos a lo largo del borde del vértice hasta el siguiente dardo disponible.\n\nGeométricamente: Seguimos el contorno del disco del vértice.\n\n\nEl camino se cierra cuando volvemos al dardo original. Este ciclo define el perímetro exacto donde pegaremos un disco para crear una cara.",
     "crumbs": [
       "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
+      "1. Sistemas de Rotación",
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/11-lattice-ciclos.html#ejemplo-guiado-l173",
-    "href": "capitulos/11-lattice-ciclos.html#ejemplo-guiado-l173",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "Ejemplo guiado: L(17,3)",
-    "text": "Ejemplo guiado: L(17,3)\nTomamos\n\\[\n\\Lambda_{17,3}=\n\\{(a,b)\\in\\mathbb Z^2 : a+3b\\equiv 0\\pmod{17}\\}.\n\\]\nDos vectores utiles del lattice son\n\\[\n\\nu_1=(14,1), \\qquad \\nu_2=(-3,1).\n\\]\nEl determinante\n\\[\n\\det\\begin{pmatrix}14 & -3 \\\\ 1 & 1\\end{pmatrix}=14(1)-1(-3)=17,\n\\]\ncoincide con \\(p\\), como debe ocurrir en una base de indice \\(p\\).\nTambien aparece naturalmente el vector\n\\[\n\\nu_3=(8,3), \\quad 8+3\\cdot 3=17.\n\\]\nSe verifica de forma directa que:\n\n\\(\\nu_1,\\nu_2,\\nu_3\\in\\Lambda_{17,3}\\).\n\\(\\gcd(14,1)=\\gcd(-3,1)=\\gcd(8,3)=1\\) (son primitivos).\nCada uno recupera el mismo valor de \\(q\\) (siguiente proposicion).",
+    "objectID": "capitulos/02-mapas-combinatorios.html#la-unicidad-del-encaje",
+    "href": "capitulos/02-mapas-combinatorios.html#la-unicidad-del-encaje",
+    "title": "2. Mapas Combinatorios",
+    "section": "La Unicidad del Encaje",
+    "text": "La Unicidad del Encaje\nUna pregunta fundamental en topología es: ¿Podemos dibujar el mismo mapa combinatorio en superficies distintas?\nLa respuesta constructiva es NO.\nObserva el proceso anterior:\n\nLos discos de los vértices son fijos (dados por \\(\\sigma\\)).\nLas conexiones de las cintas son fijas (dadas por \\(\\rho\\)).\nPor tanto, los “huecos” que quedan están rígidamente determinados por la geometría del ensamblaje (\\(\\varphi = \\rho \\sigma\\)).\n\nAl pegar los discos en los huecos (Paso 3), cerramos la superficie. No hay libertad de elección; el mapa combinatorio es el plano de construcción de la superficie.\n\n\n\n\n\n\nNotaConclusión Topológica\n\n\n\nEl género \\(g\\) de la superficie resultante no es una propiedad que “elegimos”, sino una consecuencia inevitable de las permutaciones. Está forzado por la fórmula de Euler: \\[2 - 2g = |Ciclos(\\sigma)| - |Ciclos(\\rho)| + |Ciclos(\\rho\\sigma)|\\]\nUn sistema de rotación \\((\\sigma, \\rho)\\) pertenece a una y solo una superficie topológica.",
     "crumbs": [
       "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
+      "1. Sistemas de Rotación",
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/11-lattice-ciclos.html#recuperar-q-desde-cualquier-vector-primitivo",
-    "href": "capitulos/11-lattice-ciclos.html#recuperar-q-desde-cualquier-vector-primitivo",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "Recuperar q desde cualquier vector primitivo",
-    "text": "Recuperar q desde cualquier vector primitivo\nCualquier vector \\((a,b)\\in\\Lambda_{p,q}\\) cumple\n\\[\na+bq\\equiv 0\\pmod p.\n\\]\nSi \\(\\gcd(b,p)=1\\), entonces \\(b\\) tiene inverso modulo \\(p\\) y\n\\[\nq\\equiv -ab^{-1}\\pmod p.\n\\]\n\n\n\n\n\n\nImportanteProposicion (recuperacion de q)\n\n\n\nLa aplicacion\n\\[\n\\phi:\\{(a,b)\\in \\Lambda_{p,q}:\\gcd(b,p)=1\\}\\to (\\mathbb Z/p\\mathbb Z)^\\times,\n\\qquad\n\\phi(a,b)=-ab^{-1},\n\\]\nesta bien definida y es constante. De hecho,\n\\[\n\\phi(a,b)\\equiv q\\pmod p\n\\]\npara todo \\((a,b)\\) de su dominio.\n\n\nDemostracion. Como \\((a,b)\\in\\Lambda_{p,q}\\), se tiene \\(a+bq\\equiv 0\\pmod p\\). Multiplicando por \\(b^{-1}\\): \\(q\\equiv -ab^{-1}\\pmod p\\). No depende de elecciones adicionales. \\(\\square\\)\n\n\n\n\n\n\nTipObservacion\n\n\n\nTodo vector primitivo \\((a,b)\\in\\Lambda_{p,q}\\) satisface \\(\\gcd(b,p)=1\\). Si \\(p\\mid b\\), de \\(a+bq\\equiv 0\\) se obtiene \\(a\\equiv 0\\pmod p\\), contradiciendo \\(\\gcd(a,b)=1\\).\nConclusion: cualquier vector de una base entera de \\(\\Lambda_{p,q}\\) permite recuperar \\(q\\).\n\n\n\nComprobacion explicita en L(17,3)\n\nCon \\((a,b)=(14,1)\\): \\[q\\equiv -14\\cdot 1^{-1}\\equiv -14\\equiv 3\\pmod{17}.\\]\nCon \\((a,b)=(8,3)\\) y \\(3^{-1}\\equiv 6\\pmod{17}\\): \\[q\\equiv -8\\cdot 6=-48\\equiv 3\\pmod{17}.\\]\n\nAmbos dan el mismo resultado: \\(q\\equiv 3\\).",
+    "objectID": "capitulos/02-mapas-combinatorios.html#ejemplo-el-impacto-de-sigma-en-la-topología",
+    "href": "capitulos/02-mapas-combinatorios.html#ejemplo-el-impacto-de-sigma-en-la-topología",
+    "title": "2. Mapas Combinatorios",
+    "section": "Ejemplo: El Impacto de \\(\\sigma\\) en la Topología",
+    "text": "Ejemplo: El Impacto de \\(\\sigma\\) en la Topología\nConsideraremos dos mapas combinatorios distintos que comparten el mismo conjunto de dardos y la misma estructura de aristas, pero difieren en su permutación \\(\\sigma\\). Este ejemplo ilustra cómo una pequeña variación en \\(\\sigma\\) puede cambiar radicalmente la superficie de encaje.\nAmbos mapas tienen: - Conjunto de dardos: \\(D = \\{1, 2, 3, 4\\}\\) - Estructura de aristas: \\(\\rho = (1, 2)(3, 4)\\) (dos aristas, cada una un lazo)\n\nLa diferencia está en el orden de rotación alrededor del único vértice.\n\nMapa A: Encaje en la Esfera (\\(g=0\\))\nConsideremos el mapa combinatorio: \\[ M_A = (D, \\sigma_A, \\rho) \\quad \\text{donde} \\quad \\sigma_A = (1, 2, 3, 4) \\]\nCalculamos \\(\\varphi_A = \\rho \\sigma_A\\):\n\nPaso a paso (Cruzar \\(\\to\\) Girar):\n\n\\(1 \\xrightarrow{\\rho} 2 \\xrightarrow{\\sigma} 3\\). (Sigue \\(1 \\to 3\\))\n\\(3 \\xrightarrow{\\rho} 4 \\xrightarrow{\\sigma} 1\\). (Cierra el ciclo \\((1, 3)\\))\n\\(2 \\xrightarrow{\\rho} 1 \\xrightarrow{\\sigma} 2\\). (Ciclo cerrado \\((2)\\))\n\\(4 \\xrightarrow{\\rho} 3 \\xrightarrow{\\sigma} 4\\). (Ciclo cerrado \\((4)\\))\n\n\nResultado: \\(\\varphi = (1, 3)(2)(4)\\). Tenemos \\(F=3\\) caras (Roja, Verde, Azul).\n \nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\nMapa B: Encaje en el Toro (\\(g=1\\))\nConsideremos ahora un mapa combinatorio diferente: \\[ M_B = (D, \\sigma_B, \\rho) \\quad \\text{donde} \\quad \\sigma_B = (1, 3, 2, 4) \\]\nNotemos que \\(\\sigma_B\\) intercala las semiaristas en un orden distinto. Calculamos \\(\\varphi_B = \\rho \\sigma_B\\):\n\nPaso a paso (Cruzar \\(\\to\\) Girar):\n\n\\(1 \\xrightarrow{\\rho} 2 \\xrightarrow{\\sigma} 4\\).\n\\(4 \\xrightarrow{\\rho} 3 \\xrightarrow{\\sigma} 2\\).\n\n\\(2 \\xrightarrow{\\rho} 1 \\xrightarrow{\\sigma} 3\\).\n\\(3 \\xrightarrow{\\rho} 4 \\xrightarrow{\\sigma} 1\\).\n\n\nResultado: \\(\\varphi = (1, 4, 2, 3)\\). Tenemos \\(F=1\\) cara (Morada).\n\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nImportanteConclusión del Ejemplo\n\n\n\nHemos visto dos mapas combinatorios distintos:\n\nMapa \\(M_A\\): \\((D, \\sigma_A=(1,2,3,4), \\rho=(1,2)(3,4))\\) → Superficie: Esfera (\\(g=0\\), \\(F=3\\) caras)\nMapa \\(M_B\\): \\((D, \\sigma_B=(1,3,2,4), \\rho=(1,2)(3,4))\\) → Superficie: Toro (\\(g=1\\), \\(F=1\\) cara)\n\nAunque comparten el mismo conjunto de dardos \\(D\\) y la misma estructura de aristas \\(\\rho\\), una ligera variación en el sistema de rotación \\(\\sigma\\) (una transposición en el orden cíclico) produce superficies topológicamente distintas.\nEste ejemplo demuestra que \\(\\sigma\\) no es simplemente una “forma de dibujar” el grafo, sino que determina la topología intrínseca de la superficie de encaje.",
     "crumbs": [
       "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
+      "1. Sistemas de Rotación",
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/11-lattice-ciclos.html#simetrias-geométricas-y-orbita-q-pm-qpm1",
-    "href": "capitulos/11-lattice-ciclos.html#simetrias-geométricas-y-orbita-q-pm-qpm1",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "Simetrias geométricas y orbita \\(q ~ \\pm q^{\\pm1}\\)",
-    "text": "Simetrias geométricas y orbita \\(q ~ \\pm q^{\\pm1}\\)\nLa clasificacion de espacios lente usa la relacion\n\\[\nq'\\equiv \\pm q^{\\pm1}\\pmod p.\n\\]\nEn el lattice, esto se implementa por matrices de simetria en \\(GL(2,\\mathbb Z)\\) (cambios de signo y permutaciones de coordenadas), es decir, la accion del grupo diedral \\(D_4\\) sobre \\(\\mathbb Z^2\\).\n\n\n\n\n\n\nNotaProposicion (accion D4 en lattices)\n\n\n\nSi \\(q'\\equiv \\pm q^{\\pm1}\\pmod p\\), existe \\(M\\in D_4\\subset GL(2,\\mathbb Z)\\) tal que\n\\[\n\\Lambda_{p,q'}=M(\\Lambda_{p,q}).\n\\]\n\n\nIdea de demostracion (generadores).\n\nCaso \\(q'=-q\\): el cambio \\((a,b)\\mapsto (a,-b)\\) transforma \\(a+b(-q)\\equiv 0\\) en \\(a-bq\\equiv 0\\).\nCaso \\(q'=q^{-1}\\): el intercambio \\((a,b)\\mapsto (b,a)\\) transforma \\(a+bq\\equiv 0\\) en \\(b+aq^{-1}\\equiv 0\\).\n\nComo estas operaciones generan la orbita \\(\\{\\pm q^{\\pm1}\\}\\), resulta la afirmacion.\n\n\n\n\n\n\nTipCorolario metrico (norma L1)\n\n\n\nBajo \\(q'\\equiv \\pm q^{\\pm1}\\) se conservan:\n\nMinimos sucesivos en norma \\(L_1\\).\nLa condicion de base \\(L_1\\)-reducida.\nEl multiconjunto \\[\\{\\|u\\|_1,\\|v\\|_1,\\|u-v\\|_1\\}\\] para bases reducidas.\n\nRazon: los elementos de \\(D_4\\) son isometrias de la norma \\(L_1\\) y preservan determinantes.",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
-    ]
-  },
-  {
-    "objectID": "capitulos/11-lattice-ciclos.html#teorema-de-clasificacion-aritmetica",
-    "href": "capitulos/11-lattice-ciclos.html#teorema-de-clasificacion-aritmetica",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "Teorema de clasificacion aritmetica",
-    "text": "Teorema de clasificacion aritmetica\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nLa clase de equivalencia del lattice de ciclos bajo la accion de \\(D_4\\),\n\\[\n[\\Lambda_{p,q}]_{D_4}:=\\{M(\\Lambda_{p,q})\\;:\\;M\\in D_4\\},\n\\]\ndetermina completamente el tipo de homeomorfismo del espacio lente \\(L(p,q)\\).\n\n\nEsquema de prueba.\n\nPor la proposicion de recuperacion, cada representante \\(\\Lambda_{p,q'}\\) de la clase determina un parametro \\(q'\\pmod p\\).\nPor la proposicion de simetria, si \\(\\Lambda_{p,q'}=M(\\Lambda_{p,q})\\) con \\(M\\in D_4\\), entonces \\(q'\\equiv \\pm q^{\\pm1}\\pmod p\\); por tanto la clase \\([\\Lambda_{p,q}]_{D_4}\\) determina exactamente la orbita \\(\\mathcal O_q=\\{\\pm q^{\\pm1}\\}\\).\nLa clasificacion clasica de espacios lente dice: \\[L(p,q)\\cong L(p,q')\\iff q'\\in\\mathcal O_q.\\]\n\nLuego la clase \\([\\Lambda_{p,q}]_{D_4}\\) determina la clase topologica.",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
-    ]
-  },
-  {
-    "objectID": "capitulos/11-lattice-ciclos.html#cierre",
-    "href": "capitulos/11-lattice-ciclos.html#cierre",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
-    "section": "Cierre",
-    "text": "Cierre\nEl mensaje central de este apartado es:\n\\[\n\\text{Lattice de ciclos } + \\text{ simetria } D_4\n\\Longrightarrow\n\\text{clasificacion aritmetica de } L(p,q).\n\\]\nPara uso docente, \\(L(17,3)\\) es un ejemplo excelente porque permite ver en la misma pantalla:\n\nla ecuacion congruencial del lattice,\nla recuperacion de \\(q\\) desde vectores,\ny la accion de simetrias que explican la clasificacion.",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
-    ]
-  },
-  {
-    "objectID": "capitulos/11-lattice-ciclos.html#ejercicios",
-    "href": "capitulos/11-lattice-ciclos.html#ejercicios",
-    "title": "2.3 Lattice de Ciclos de L(p,q)",
+    "objectID": "capitulos/02-mapas-combinatorios.html#ejercicios",
+    "href": "capitulos/02-mapas-combinatorios.html#ejercicios",
+    "title": "2. Mapas Combinatorios",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Recuperar q desde distintos vectores\n\n\n\nEn \\(\\Lambda_{17,3}\\) verifica que los vectores\n\\[\n(14,1),\\ (11,2),\\ (8,3),\\ (5,4)\n\\]\nson primitivos y pertenecen al lattice. Luego calcula\n\\[\nq\\equiv -ab^{-1}\\pmod{17}\n\\]\nen cada caso y comprueba que todos producen la misma clase modulo \\(17\\).\n\n\n\n\n\n\n\n\nTipEjercicio 2: Simetrias y orbitas\n\n\n\nPara \\(p=17\\) y \\(q=3\\):\n\nCalcula la orbita \\(\\mathcal O_q=\\{\\pm q^{\\pm1}\\}\\).\nDescribe de manera explicita cuatro matrices de \\(D_4\\) que lleven \\((a,b)\\) a \\((a,-b)\\), \\((-a,b)\\), \\((b,a)\\) y \\((-b,a)\\).\nVerifica en cada caso que la congruencia del lattice se transforma en un parametro de la orbita.\n\n\n\n\n\n\n\n\n\nTipEjercicio 3: Comparacion de bases en L(17,3)\n\n\n\nConsidera las bases\n\\[\nB_1=\\{(14,1),(-3,1)\\},\\qquad B_2=\\{(8,3),(-9,2)\\}.\n\\]\n\nVerifica que ambas generan subreticulas de indice \\(17\\).\nComprueba que ambas estan contenidas en \\(\\Lambda_{17,3}\\).\nDecide si existe \\(U\\in SL(2,\\mathbb Z)\\) con \\(B_2=B_1U\\).",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.3 Lattice de Ciclos"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "",
-    "text": "Autor: José Luis León Medina",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#sobre-este-proyecto",
-    "href": "index.html#sobre-este-proyecto",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Sobre este proyecto",
-    "text": "Sobre este proyecto\nLos sistemas de rotación son pares de permutaciones \\((\\sigma, \\rho)\\) que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el Teorema de Heffter-Edmonds.\n\nIdea principal\nUn sistema de rotación \\((\\sigma, \\rho)\\) contiene toda la información necesaria para:\n\nReconstruir el grafo subyacente (vértices y aristas)\nDeterminar el orden cíclico de semiaristas alrededor de cada vértice\nCalcular las caras mediante la permutación \\(\\varphi = \\rho\\sigma\\)\nObtener invariantes topológicos: género, característica de Euler, número de caras\nConstruir la superficie completa mediante engrosamiento (thickening)\n\nResultado fundamental: Álgebra de permutaciones ↔︎ Topología de superficies",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#contenido",
-    "href": "index.html#contenido",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Contenido",
-    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)\n\n\n\n2. Mapas Combinatorios\nDe la intuición geométrica a la formalización algebraica.\n\nAxiomática de Tutte: definición formal de mapa combinatorio\nTeorema de Realización Topológica\nAlgoritmo de trazado de caras (\\(\\varphi = \\rho\\sigma\\))\nUnicidad del encaje y el género como consecuencia\n\n\n\n3. Invariantes Topológicos\nCálculo computacional con SageMath.\n\nAutomatización del cálculo de \\(V, E, F\\)\nCaracterística de Euler y Género\nFunción de análisis topológico (analizar_topologia)\nExperimentación con grafos completos y superficies de género alto\n\n\n\n4. Equivalencia\nEl teorema fundamental que establece la correspondencia biunívoca.\n\nLectura del encaje: obtención de \\((\\sigma,\\rho)\\) desde un dibujo encajado\nTeorema de Heffter‑Edmonds y equivalencia por conjugación\nVerificación en SageMathCell del género en ejemplos concretos\nEjemplos de encajes equivalentes y no equivalentes (criterio por caras)\nTeorema de Whitney, Steinitz y conectividad 3‑conexa\nOrientabilidad y limitaciones del modelo\n\n\n\n5. Ejemplos\nVerificación computacional de equivalencia entre sistemas de rotación.\n\nEjemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición\nEjemplo de no-equivalencia: multiconjuntos de caras como invariante rápido\nDel problema al algoritmo: fuerza bruta vs. búsqueda con retroceso\nDiagramas de Heegaard de la Esfera de Poincaré como encajes celulares\nVerificación interactiva con SageMathCell\n\n\n\n6. Operaciones sobre Ribbon Graphs\nOperaciones fundamentales para transformar y analizar ribbon graphs en Sage.\n\nContracción de aristas: fusión de vértices preservando el género.\nDualidad: intercambio de vértices y caras (\\(V^*=F\\), \\(F^*=V\\)).\nBase de homología y cálculo del rango \\(\\mathrm{rank}(H_1) = 2g + b - 1\\).\nReducción: obtención del núcleo de Betti contrayendo árboles generadores.\n\n\n\n7. Polinomio de Bollobás-Riordan\nGeneralización del polinomio de Tutte que detecta la topología del encaje.\n\nDefinición, cálculo y optimización en Sage.\nLa variable \\(z\\) como detector del género.\nDistinción de encajes mediante el polinomio.\n\n\n\n8. BR del Diagrama de Poincaré\nCálculo computacional del polinomio para un caso de alta complejidad (\\(E=24\\)).\n\nSistema de rotación del diagrama de Heegaard (\\(V=12, E=24\\)).\nResultado explícito del polinomio \\(R(G; x, y, z)\\).",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#herramientas",
-    "href": "index.html#herramientas",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Herramientas",
-    "text": "Herramientas\nEste proyecto utiliza:\n\nSageMath 10.7 - Cálculos con RibbonGraph, PermutationGroupElement\nPython 3.13 - Scripts de análisis y visualización\nQuarto - Documentación interactiva con bloques de código ejecutables",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#referencias",
-    "href": "index.html#referencias",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Referencias",
-    "text": "Referencias\n\nGross, J. L., & Tucker, T. W. (1987). Topological Graph Theory\nLando, S. K., & Zvonkin, A. K. (2004). Graphs on Surfaces\nEdmonds, J. (1960). A combinatorial representation for polyhedral surfaces\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen\nSageMath - Ribbon Graphs Documentation\n\n\n\n2026",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html",
-    "href": "capitulos/03-invariantes.html",
-    "title": "3. Invariantes Topológicos",
-    "section": "",
-    "text": "Esta sección es práctica: aprenderemos a usar SageMath para calcular los invariantes topológicos que clasifican la superficie cerrada donde se aloja el grafo:",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: El Caso del Segmento (Vértices de Valencia 1)\n\n\n\nEste ejercicio explora qué sucede cuando la permutación \\(\\sigma\\) tiene puntos fijos (ciclos de longitud 1).\nConsidera el mapa combinatorio más simple posible que no es un lazo: un segmento con dos extremos distintos.\n\nDardos: \\(D = \\{1, 2\\}\\)\nAristas: \\(\\rho = (1, 2)\\) (los dardos 1 y 2 forman la única arista).\nVértices: Queremos que el dardo 1 esté en un vértice y el dardo 2 en otro vértice distinto. Por tanto, \\(\\sigma\\) debe ser la permutación identidad: \\[\\sigma = (1)(2)\\] (Nota: Esto significa que \\(\\sigma(1)=1\\) y \\(\\sigma(2)=2\\). Geométricamente, son vértices terminales o “hojas”).\n\nTarea: Determine la realización geométrica de este mapa combinatorio.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Cálculo Manual\n\n\n\nToma el sistema de rotación:\n\n\\(\\sigma = (1,3,5,2,4,6)\\)\n\\(\\rho = (1,2)(3,4)(5,6)\\)\n\nCalcula manualmente la permutación de caras \\(\\varphi = \\rho\\sigma\\) y determina cuántas caras tiene este encaje.\n\n\n\n\n\n\n\n\nTipEjercicio 3: Exploración Visual\n\n\n\nConsidera el bouquet de 3 círculos: un vértice con 3 self-loops (6 semiaristas). \\(\\rho\\) está fijo como \\((1,2)(3,4)(5,6)\\).\n\nUsa el visualizador para probar diferentes permutaciones \\(\\sigma\\) (por ejemplo, \\((1,2,3,4,5,6)\\) vs \\((1,6,2,5,3,4)\\)).\nAnaliza cómo cambia la conectividad de las cintas azules.\nDetermina si existe un \\(\\sigma\\) que produzca una superficie con solo 1 cara.\n\n\n\n\n\n\n\n\n\nTipEjercicio 4: El Espectro del Género (SageMath)\n\n\n\nVamos a explorar qué tan “raro” es obtener una esfera cuando conectamos aristas al azar. Considera un grafo con 1 vértice y 5 lazos (\\(|D|=10\\)).\n\nDefine \\(\\rho = (1,2)(3,4)...(9,10)\\).\nEscribe un script que genere permutaciones \\(\\sigma\\) aleatorias que consistan en un solo ciclo de longitud 10 (garantizando 1 vértice).\n\nTip: Puedes generar una lista aleatoria p de números del 1 al 10 y crear el ciclo: sigma = PermutationGroupElement([tuple(p)]).\n\nEjecuta un bucle de 1000 iteraciones. En cada paso, calcula el género del mapa resultante usando RibbonGraph(sigma, rho).genus().\nAnálisis:\n\n¿Cuáles son los géneros mínimo y máximo que observas?\n¿Con qué frecuencia aparece el género 0 (esfera)? ¿Es el caso más común o el más raro?\n\n\nNota: Este ejercicio demuestra que, combinatoriamente, las superficies de género alto son mucho más abundantes que la esfera.",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
-    "href": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
-    "title": "3. Invariantes Topológicos",
-    "section": "1. Conteo de Elementos (\\(V, E, F\\))",
-    "text": "1. Conteo de Elementos (\\(V, E, F\\))\nRecordemos que en un mapa combinatorio:\n\n\\(V\\): Ciclos de \\(\\sigma\\)\n\\(E\\): Ciclos de \\(\\rho\\) (o \\(|D|/2\\))\n\\(F\\): Ciclos de \\(\\varphi = \\rho \\sigma\\)\n\n\n\n\n\n\n\nNotaInterpretación: ¿Caras o Fronteras?\n\n\n\nEn un ribbon graph, los ciclos de la permutación \\(\\varphi\\) describen las componentes de frontera de la superficie con borde obtenida al engrosar el grafo. Si se tapan esas fronteras con discos, esas mismas componentes pasan a ser las caras del encaje en la superficie cerrada.\nPor ello, SageMath cuenta estos ciclos con number_boundaries(). En este curso, \\(b\\) denota el número de componentes de frontera y coincide con \\(F\\) cuando interpretamos el mapa sobre la superficie cerrada (\\(F=b\\)).\n\n\nSageMath nos permite extraer estos valores directamente del objeto RibbonGraph.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
-    "href": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
-    "title": "3. Invariantes Topológicos",
-    "section": "2. La Característica de Euler (\\(\\chi\\))",
-    "text": "2. La Característica de Euler (\\(\\chi\\))\nLa característica de Euler es el invariante más fundamental. Se define combinatoriamente como:\n\\[ \\chi = V - E + F \\]\nEsta es la característica de Euler de la superficie cerrada obtenida al pegar discos en todas las fronteras del grafo.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
-    "href": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
-    "title": "3. Invariantes Topológicos",
-    "section": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))",
-    "text": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))\nEl género \\(g\\) se calcula siempre a partir de la superficie cerrada asociada. La cuenta es la misma, solo cambia la interpretación de \\(F\\) y \\(b\\):\n\nEn el ribbon graph, los ciclos de \\(\\varphi\\) son fronteras, de modo que \\(b\\) es el número de componentes de frontera.\nAl tapar cada frontera con un disco, esas mismas componentes pasan a ser las caras \\(F\\) de la superficie cerrada.\n\nPor lo tanto, en la superficie cerrada se cumple:\n\\[ \\chi = V - E + F = V - E + b \\quad \\Rightarrow \\quad g = \\frac{2 - (V - E + b)}{2} \\]\nSageMath detecta automáticamente el número de componentes de frontera (\\(b\\)), y ese mismo valor coincide con \\(F\\) cuando se interpreta el mapa en la superficie cerrada.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nNotaNota sobre number_boundaries()\n\n\n\nEn la implementación de RibbonGraph de SageMath, el método number_boundaries() devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras \\(F\\). La fórmula funciona consistentemente.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
-    "href": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
-    "title": "3. Invariantes Topológicos",
-    "section": "4. Automatización: Una función de análisis",
-    "text": "4. Automatización: Una función de análisis\nComo ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#galería-de-ejemplos",
-    "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
-    "title": "3. Invariantes Topológicos",
-    "section": "5. Galería de Ejemplos",
-    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#ejercicios",
-    "href": "capitulos/03-invariantes.html#ejercicios",
-    "title": "3. Invariantes Topológicos",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Diseñador de Superficies\n\n\n\nUsa la función analizar_topologia para encontrar un sistema de rotación que genere una superficie de género 2 (Bitoro).\nPista: Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar \\(\\sigma\\) en un bouquet de 4 lazos.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Grafos Completos\n\n\n\nInvestiga el género de los grafos completos \\(K_n\\).\n\nVerifica que \\(K_3\\) tiene género 0.\nConstruye un sistema de rotación para \\(K_4\\) y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (\\(g=0\\))?\n¿Cuál es el género mínimo para \\(K_5\\)?\n\n\n\n\nPublicado el 09 de febrero de 2026",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/08-br-diagrama-poincare.html",
-    "href": "capitulos/08-br-diagrama-poincare.html",
-    "title": "8. BR del Diagrama de Poincaré",
-    "section": "",
-    "text": "El cálculo del polinomio de Bollobás-Riordan para el diagrama de Heegaard de la esfera de Poincaré se realizó con la implementación paralela del script rápido de la sección anterior.\n\nUsamos el sistema de rotación:\n\\[\n\\begin{aligned}\n\\sigma &= (1,2,3,4)(5,6,7,8)(9,10,11,12)(13,14,15,16)(17,18,19,20)(21,22,23,24) \\\\\n       &\\phantom{=} (25,26,27,28)(29,30,31,32)(33,34,35,36)(37,38,39,40)(41,42,43,44)(45,46,47,48)\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\n\\rho &= (1,7)(2,36)(3,25)(4,48)(5,11)(6,40)(8,30)(9,15)(10,42)(12,34)(13,19)(14,38) \\\\\n     &\\phantom{=} (16,18)(17,23)(20,22)(21,27)(24,26)(28,32)(29,35)(31,45)(33,39)(37,43)(41,47)(44,46)\n\\end{aligned}\n\\]\nAquí \\(V=12\\) y \\(E=24\\), así que la suma recorre \\(2^{24}=16{,}777{,}216\\) subgrafos.\n\n\n\n\n\n\nNotaPolinomio obtenido\n\n\n\nEl exponente de \\(z\\) es \\(2g(A)\\) (caso orientable), por lo que aparecen potencias pares de \\(z:\\)\n\\[\n\\begin{aligned}\nR(G;x,y,z) &= P_0(x,y) + z^2 P_1(x,y) + z^4 P_2(x,y).\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_2(x,y) ={}& y^{13} + 24y^{12} + 268y^{11} + 6xy^{10} + 1838y^{10} + 110xy^9 + 8594y^9 \\\\\n&+ 8x^2y^8 + 892xy^8 + 28652y^8 + 108x^2y^7 + 4136xy^7 + 68844y^7\\\\\n&+ 8x^3y^6 + 596x^2y^6 + 11728xy^6 + 116692y^6 + 48x^3y^5 + 1592x^2y^5\\\\\n&+ 19680xy^5 + 129208y^5 + 96x^3y^4 + 1824x^2y^4 + 15712xy^4 + 72480y^4.\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_1(x,y) ={}& 8y^{11} + 13xy^{10} + 167y^{10} + 11x^2y^9 + 248xy^9 + 1629y^9 \\\\\n&+ 5x^3y^8 + 207x^2y^8 + 2223xy^8 + 9809y^8 + x^4y^7 + 104x^3y^7 \\\\\n&+ 1809x^2y^7 + 12240xy^7 + 40366y^7 + 30x^4y^6 + 966x^3y^6 + 9458x^2y^6 \\\\\n&+ 45278xy^6 + 118108y^6 + 4x^5y^5 + 370x^4y^5 + 5040x^3y^5 + 31724x^2y^5 \\\\\n&+ 115072xy^5 + 246750y^5 + 118x^5y^4 + 2016x^4y^4 + 15124x^3y^4 + 67448x^2y^4 \\\\\n&+ 195774xy^4 + 356096y^4 + 36x^6y^3 + 598x^5y^3 + 4874x^4y^3 + 24332x^3y^3 \\\\\n&+ 83464x^2y^3 + 201950xy^3 + 312266y^3 + 8x^7y^2 + 100x^6y^2 + 816x^5y^2 \\\\\n&+ 4364x^4y^2 + 16392x^3y^2 + 45244x^2y^2 + 89024xy^2 + 106196y^2.\n\\end{aligned}\n\\]\n\\[\n\\begin{aligned}\nP_0(x,y) ={}& 15y^9 + 49xy^8 + 279y^8 + 91x^2y^7 + 838xy^7 + 2439y^7 + 131x^3y^6+ 1455x^2y^6\\\\\n&  + 6745xy^6 + 13133y^6 + 168x^4y^5 + 1950x^3y^5 + 10860x^2y^5+ 32786xy^5\\\\\n&  + 47684y^5 + x^7y^4 + 9x^6y^4 + 233x^5y^4 + 2335x^4y^4 + 13241x^3y^4+ 47129x^2y^4\\\\\n&   + 103477xy^4 + 120103y^4 + 4x^8y^3 + 40x^7y^3 + 371x^6y^3+ 2652x^5y^3\\\\\n&   + 13417x^4y^3 + 48520x^3y^3 + 124093x^2y^3 + 213428xy^3+ 209059y^3\\\\\n&  + 6x^9y^2 + 66x^8y^2 + 460x^7y^2 + 2512x^6y^2 + 10823x^5y^2 + 36693x^4y^2\\\\\n&  + 96706x^3y^2 + 193034x^2y^2 + 275765xy^2 + 235903y^2 + 4x^{10}y + 316x^8y \\\\\n&  + 1520x^7y + 5804x^6y + 18120x^5y + 46428x^4y + 96512x^3y + 158208x^2y \\\\\n&  + 191064xy + 48x^9y + 137976y + x^{11} + 13x^{10} + 87x^9 + 403x^8 + 1446x^7  \\\\\n&+ 4222x^6+ 10250x^5 + 20754x^4 + 34617x^3 + 46005x^2 + 44991x + 25627.\n\\end{aligned}\n\\]\n\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.8 BR de la Esfera de Poincare"
-    ]
-  },
-  {
-    "objectID": "capitulos/07-bollobas-riordan.html",
-    "href": "capitulos/07-bollobas-riordan.html",
-    "title": "7. Polinomio de Bollobás-Riordan",
-    "section": "",
-    "text": "Este capítulo está dedicado al polinomio de Bollobás-Riordan, su interpretación topológica y su cálculo explícito con Sage.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.7 Polinomio de Bollobás-Riordan"
-    ]
-  },
-  {
-    "objectID": "capitulos/07-bollobas-riordan.html#motivación",
-    "href": "capitulos/07-bollobas-riordan.html#motivación",
-    "title": "7. Polinomio de Bollobás-Riordan",
-    "section": "Motivación",
-    "text": "Motivación\nEl polinomio de Tutte clásico es un invariante potente para grafos abstractos, pero no detecta la topología del encaje: dos ribbon graphs con el mismo grafo subyacente y el mismo polinomio de Tutte pueden encajarse en superficies de géneros distintos.\nEl polinomio de Bollobás-Riordan subsana esta limitación. Introduce una variable \\(z\\) cuyo exponente registra \\(\\gamma(F)=k(F)-f(F)+n(F)\\); en el caso orientable, \\(\\gamma(F)=2g(F)\\) (doble del género). Así, para grafos planos la variable \\(z\\) no aparece, mientras que para encajes en el toro o superficies de género mayor sí lo hace.\n\n\nDefinición formal\n\n\n\n\n\n\nNotaPolinomio de Bollobás-Riordan\n\n\n\nPara un subgrafo generador \\(F \\subseteq G\\) (mismo conjunto de vértices, subconjunto arbitrario de aristas), sean \\(k(F)\\), \\(e(F)\\), \\(v(F)\\), \\(f(F)\\) y \\(g(F)\\) su número de componentes conexas, aristas, vértices, caras (componentes de frontera de la cinta) y género, respectivamente. Definimos \\(r(F) = v(F) - k(F)\\) y \\(n(F) = e(F) - r(F)\\).\nEl polinomio de Bollobás-Riordan de un grafo \\(G\\) encajado celularmente en una superficie orientable es\n\\[\nR(G;x,y,z)\n=\n\\sum_{F \\subseteq G}\n(x-1)^{r(G)-r(F)}\\,y^{n(F)}\\,z^{k(F)-f(F)+n(F)},\n\\]\ndonde la suma recorre todos los subgrafos generadores \\(F\\) de \\(G\\).\n\n\nEn este capítulo usamos además la notación computacional \\(A \\subseteq E\\), con \\(F=(V,A)\\), equivalente a la definición anterior. Como \\(F\\) es spanning, siempre conserva todos los vértices de \\(G\\) y por eso puede tener vértices aislados.\nEn esa notación:\n\n\\(r(G)-r(F)=k(F)-k(G)\\) (porque \\(v(F)=v(G)\\))\n\\(n(F)=e(F)-r(F)=|A|-v(F)+k(F)\\)\n\\(k(F)-f(F)+n(F)=\\gamma(F)\\), y en superficies orientables \\(\\gamma(F)=2g(F)\\)\n\n\n\nInterpretación de los exponentes\n\n\n\n\n\n\n\nExponente\nSignificado\n\n\n\n\n\\(r(G)-r(F)\\)\nExponente de \\((x-1)\\); mide cuánto cae el rango al pasar de \\(G\\) a \\(F\\)\n\n\n\\(n(F)\\)\nExponente de \\(y\\); nulidad ciclomática de \\(F\\)\n\n\n\\(k(F)-f(F)+n(F)\\)\nExponente de \\(z\\); coincide con \\(\\gamma(F)\\), que en el caso orientable vale \\(2g(F)\\)\n\n\n\n\n\nCómo se implementa en Sage (por exponente)\nBuena parte de las piezas ya se construyó en capítulos anteriores (permutaciones \\(\\sigma\\), \\(\\rho\\) y la permutación de caras \\(\\varphi\\)). Aquí solo se integran para evaluar, subgrafo por subgrafo:\n\nv(F): número de ciclos de sigma.cycle_tuples(singletons=True).\ne(F): número de aristas activas en el subconjunto \\(A\\).\nk(F): componentes conexas del subgrafo \\((V,A)\\) con Union-Find sobre todos los vértices.\nf(F): ciclos de \\(\\varphi_A=\\rho_A\\circ\\sigma_A\\) en los darts activos, más los vértices aislados.\nr(F)=v(F)-k(F) y n(F)=e(F)-r(F).\nExponentes del monomio: \\((x-1)^{r(G)-r(F)}y^{n(F)}z^{k(F)-f(F)+n(F)}\\).\n\n\n\nEvaluación exacta por spanning subgraph\nLa siguiente celda muestra explícitamente la contribución de cada \\(F=(V,A)\\) para el theta en el toro. En la columna aislados se ve cuándo aparecen vértices aislados.\n\n\n\n\n\n\nImplementación en Sage\nLa fórmula de suma sobre subgrafos es directamente computable. Iteramos sobre los \\(2^m\\) subconjuntos de aristas y acumulamos cada término:\n\n\n\nLos resultados esperados son:\n\n\n\nRibbon graph\nGénero\n\\(R(G;\\, x, y, z)\\)\n\n\n\n\nToro (1 vértice, 2 loops)\n1\n\\(1 + 2y + y^2z^2\\)\n\n\nLoop en la esfera\n0\n\\(1 + y\\)\n\n\nGrafo theta en la esfera\n0\n\\(x + 2 + 3y + y^2\\)\n\n\nGrafo theta en el toro\n1\n\\(x + 2 + 3y + y^2z^2\\)\n\n\n\n\n\nEjemplo comparativo: grafo theta en esfera y toro\nCon el mismo grafo abstracto theta (dos vértices y tres aristas paralelas), dos encajes celulares producen polinomios distintos:\n\nEn la esfera: \\(\\sigma=(1,3,5)(2,6,4)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) \\[\nR_{\\text{theta, esfera}}(x,y,z)=x+2+3y+y^2.\n\\]\nEn el toro: \\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) \\[\nR_{\\text{theta, toro}}(x,y,z)=x+2+3y+y^2z^2.\n\\]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTipLa variable \\(z\\) y el género\n\n\n\nCompara los dos últimos renglones de la tabla: el grafo theta en la esfera da \\(x + 2 + 3y + y^2\\) (sin \\(z\\)), mientras que el mismo grafo theta encajado en el toro da \\(x + 2 + 3y + y^2 z^2\\). El único cambio es \\(y^2 \\to y^2 z^2\\), lo que refleja que el subgrafo completo (todas las aristas) tiene género 0 en la esfera y género 1 en el toro.\nPara grafos planarmente encajados, \\(\\gamma(A) = 0\\) para todo \\(A\\), de modo que \\(z\\) nunca aparece y \\(R(G; x, y, 1) = T(G; x, y+1)\\) recupera el polinomio de Tutte clásico.\n\n\nEvaluaciones especiales:\n\n\\(R(G; 1, 1, 1) = 2^m\\) cuenta todos los subconjuntos de aristas.\nPara encajes en la esfera, \\(z\\) no aparece y \\(R(G; x, y, 1) = T(G; x, y+1)\\) recupera Tutte.\nEl coeficiente \\([z^{2g}]R(G; 1, 1, z)\\) cuenta subgrafos de género \\(g\\) (en el caso orientable, los exponentes impares se anulan).\n\n\n\n\n\n\n\nAdvertenciaComplejidad computacional\n\n\n\nLa función bollobas_riordan itera sobre los \\(2^m\\) subconjuntos de aristas. Para cada subconjunto \\(A\\):\n\nconstruir \\(D_A\\): \\(O(|A|)\\)\ncalcular \\(k(A)\\) con Union-Find: \\(O(m\\,\\alpha(n))\\)\nconstruir \\(\\sigma_A\\) siguiendo \\(\\sigma\\) dart a dart: \\(O(|D_A| \\cdot n)\\) en el peor caso\ncontar ciclos de \\(\\varphi_A\\): \\(O(|D_A|)\\)\n\nEl coste total es \\(O(2^m \\cdot mn)\\), exponencial en el número de aristas.\n\n\n\n\\(m\\)\n\\(2^m\\)\nTiempo orientativo\n\n\n\n\n6\n64\ninstantáneo\n\n\n12\n4 096\n&lt; 1 s\n\n\n20\n1 048 576\nminutos\n\n\n30\n\\(\\approx 10^9\\)\nhoras\n\n\n\nEsto es esperable: calcular el polinomio de Tutte clásico ya es #P-difícil1 para grafos generales [Jaeger 1990], y el polinomio de Bollobás-Riordan extiende ese problema. La implementación anterior es clara y correcta para los ejemplos del curso (\\(m \\leq 6\\)); la siguiente sección presenta una versión optimizada que reduce el factor constante.\n\n\n\n\nImplementación optimizada\nEl cuello de botella real no son las llamadas a sigma(d) ni las operaciones de set, sino la aritmética de polinomios de Sage dentro del bucle:\nresult += (x-1)^(kA - kG) * y^(len(A) - n + kA) * z^gamma\nPara cada uno de los \\(2^m\\) subconjuntos esto ejecuta 3–4 operaciones sobre objetos MPolynomial de Sage (exponenciación, multiplicación, suma), cada una con un coste de decenas de microsegundos frente al microsegundo o menos de una operación Python pura. Con \\(2^6 = 64\\) subconjuntos, eso supone ya ~1–2 ms solo en esta línea.\nLa solución es sacar la aritmética de Sage fuera del bucle: acumular coeficientes enteros en un diccionario Python durante el bucle, y construir el polinomio una sola vez al final. El término \\((x-1)^k\\) se expande con el teorema del binomio usando aritmética entera pura:\n\\[\n(x-1)^k = \\sum_{j=0}^{k} \\binom{k}{j}(-1)^{k-j}\\, x^j\n\\]\n\n\n\nLa diferencia clave:\n\n\n\n\n\n\n\n\nAspecto\nbollobas_riordan (original)\nbollobas_riordan_rapido\n\n\n\n\nAritmética de polinomios\nDentro del bucle (\\(2^m\\) veces)\nFuera del bucle (una sola vez)\n\n\nTipo de acumulación\nSuma de objetos MPolynomial\nSuma de enteros Python en un dict\n\n\nExpansión de \\((x-1)^k\\)\nSage la calcula implícitamente\nTabla de binomios precalculada\n\n\nRobustez numérica\nPuede ocultar errores de conteo en exponentes\nVerifica que \\(\\gamma(A)=k-f+n\\) sea par y no negativa\n\n\nVértices aislados\nRecorre ciclos con any(...) en cada subconjunto\nMarcado explícito por vértice activo (bytearray)\n\n\nConstrucción final\nIncremental (costosa)\nUn único sum(...) al terminar\n\n\n\n\n\n\n\n\n\nEl polinomio como invariante de ribbon graphs\nUn resultado fundamental es que sistemas de rotación equivalentes tienen el mismo polinomio de Bollobás-Riordan. Esto se sigue de que la equivalencia es un isomorfismo de ribbon graphs: si \\(\\varphi \\sigma_1 \\varphi^{-1} = \\sigma_2\\) y \\(\\varphi \\rho \\varphi^{-1} = \\rho\\), entonces \\(\\varphi\\) permuta los subconjuntos de aristas biyectivamente preservando todos los invariantes del que depende \\(R\\): \\(k(A)\\), \\(\\gamma(A)\\) y \\(\\mathrm{bc}(A)\\).\nEn el capítulo 5 verificamos que el moño y el ojo son ribbon graphs equivalentes. Por este resultado, sus polinomios de Bollobás-Riordan deben ser iguales. El ejercicio 1 propone verificarlo computacionalmente.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.7 Polinomio de Bollobás-Riordan"
-    ]
-  },
-  {
-    "objectID": "capitulos/07-bollobas-riordan.html#ejercicios",
-    "href": "capitulos/07-bollobas-riordan.html#ejercicios",
-    "title": "7. Polinomio de Bollobás-Riordan",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: El moño y el ojo tienen el mismo polinomio\n\n\n\nUsa la función bollobas_riordan para calcular \\(R(\\text{moño}; x, y, z)\\) y \\(R(\\text{ojo}; x, y, z)\\) con los datos:\n\\[\\rho = (1,5)(4,8)(2,6)(3,7)(9,10)(11,12)\\] \\[\\sigma_1=(1,2,3,4)(5,10)(6,9)(8,12)(7,11), \\quad \\sigma_2=(1,4,3,2)(5,10)(6,9)(8,12)(7,11)\\]\n\n\n\n\n\n\n\n\n\n\n\nVerifica que \\(R(\\sigma_1, \\rho) = R(\\sigma_2, \\rho)\\) (ambos son equivalentes, luego el polinomio debe coincidir).\n¿Aparece \\(z\\) en el polinomio? ¿Qué dice eso del género del encaje?\nCompara con \\(R\\) del toro de 1 vértice y 2 loops: ¿son iguales o distintos los polinomios?\n\n\n\n\n\n\n\n\n\nTipEjercicio 2: Encaje planar vs. no planar del grafo theta\n\n\n\nEl grafo theta son dos vértices conectados por tres aristas paralelas. Tiene dos encajes celulares cualitativamente distintos:\n\nEn la esfera: \\(\\sigma_{\\mathrm{esf}} = (1,3,5)(2,6,4)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) — tres caras, género 0\nEn el toro: \\(\\sigma_{\\mathrm{tor}} = (1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\) — una cara, género 1\n\n\nCalcula el polinomio de Bollobás-Riordan de cada encaje.\n¿En qué término difieren? ¿Puede el polinomio de Tutte distinguirlos?\nEvalúa ambos polinomios en \\(z=0\\) y compara con el resultado esperado del caso planar.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.7 Polinomio de Bollobás-Riordan"
-    ]
-  },
-  {
-    "objectID": "capitulos/07-bollobas-riordan.html#resumen",
-    "href": "capitulos/07-bollobas-riordan.html#resumen",
-    "title": "7. Polinomio de Bollobás-Riordan",
+    "objectID": "capitulos/02-mapas-combinatorios.html#resumen",
+    "href": "capitulos/02-mapas-combinatorios.html#resumen",
+    "title": "2. Mapas Combinatorios",
     "section": "Resumen",
-    "text": "Resumen\n\nEl polinomio de Bollobás-Riordan generaliza el de Tutte: la variable \\(z\\) detecta \\(\\gamma(A)=k(A)-f(A)+n(A)\\) (que en orientables coincide con \\(2g(A)\\)) y está ausente en encajes planos.\nLa fórmula de suma sobre subgrafos es directamente computable en Sage iterando sobre los \\(2^m\\) subconjuntos de aristas.\nEl polinomio es un invariante de ribbon graphs: sistemas de rotación equivalentes dan el mismo polinomio.\nEl caso completo del diagrama de Heegaard de la esfera de Poincaré (\\(E=24\\)) se presenta en el capítulo 8 con validación reproducible y polinomio explícito.\n\nEl polinomio de Bollobás-Riordan es un área activa de investigación con conexiones a teoría de nudos (polinomios de nudos tipo HOMFLY-PT), física matemática (modelos de Potts en superficies), y combinatoria enumerativa de mapas.",
+    "text": "Resumen\n\nAxiomática: Un mapa combinatorio se define formalmente como una terna \\((D, \\sigma, \\rho)\\) que satisface axiomas algebraicos precisos, independientes del dibujo.\nTeorema de Realización: Existe una correspondencia biunívoca entre mapas combinatorios y superficies orientables con grafos encajados.\nAlgoritmo de Trazado: La permutación de caras se calcula como \\(\\varphi = \\rho \\sigma\\) (convención SageMath).\nInterpretación Geométrica: Las caras se recorren siguiendo la regla “Cruzar (\\(\\rho\\)) y Girar (\\(\\sigma\\))”.\nUnicidad: El par \\((\\sigma, \\rho)\\) determina unívocamente la topología de la superficie (el género es una consecuencia, no una elección).\n\nEn la siguiente sección utilizaremos este conteo de caras para calcular los invariantes topológicos (característica de Euler y género) directamente desde las permutaciones.",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.7 Polinomio de Bollobás-Riordan"
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/07-bollobas-riordan.html#referencias",
-    "href": "capitulos/07-bollobas-riordan.html#referencias",
-    "title": "7. Polinomio de Bollobás-Riordan",
+    "objectID": "capitulos/02-mapas-combinatorios.html#referencias",
+    "href": "capitulos/02-mapas-combinatorios.html#referencias",
+    "title": "2. Mapas Combinatorios",
     "section": "Referencias",
-    "text": "Referencias\n\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen, 323(1), 81–96.\nChmutov, S. (2009). Generalized duality for graphs on surfaces and the signed Bollobás–Riordan polynomial. Journal of Combinatorial Theory, Series B, 99(3), 617–638.\nEllis-Monaghan, J. A., & Moffatt, I. (2013). Graphs on Surfaces: Dualities, Polynomials, and Knots. Springer.\nJaeger, F., Vertigan, D. L., & Welsh, D. J. A. (1990). On the computational complexity of the Jones and Tutte polynomials. Mathematical Proceedings of the Cambridge Philosophical Society, 108(1), 35–53.\nSageMath – Ribbon Graphs",
+    "text": "Referencias\n\n[Tutte1979] W. T. Tutte, Combinatorial Oriented Maps, Canadian Journal of Mathematics, 31(5):986-1004, 1979. DOI:10.4153/CJM-1979-091-3\n\n\nPublicado el 09 de febrero de 2026",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.7 Polinomio de Bollobás-Riordan"
+      "1.2 Mapas Combinatorios"
     ]
   },
   {
-    "objectID": "capitulos/07-bollobas-riordan.html#footnotes",
-    "href": "capitulos/07-bollobas-riordan.html#footnotes",
-    "title": "7. Polinomio de Bollobás-Riordan",
-    "section": "Notas",
-    "text": "Notas\n\n\nLa clase de complejidad #P (Sharp-P) agrupa los problemas de conteo asociados a problemas de decisión en NP. Un problema es #P-difícil si calcular su solución es al menos tan complejo como contar las soluciones de cualquier problema en NP. En la práctica, implica que el tiempo de cómputo crece exponencialmente con el tamaño de la entrada y no se conocen algoritmos eficientes.↩︎",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.7 Polinomio de Bollobás-Riordan"
-    ]
-  },
-  {
-    "objectID": "capitulos/09-espacios-lente.html",
-    "href": "capitulos/09-espacios-lente.html",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "objectID": "capitulos/10-graficas-circulantes.html",
+    "href": "capitulos/10-graficas-circulantes.html",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
     "section": "",
-    "text": "En esta sección conectamos tres niveles de descripción de un espacio lente:\nLa idea central es que, para espacios lente, el grafo de Heegaard ya contiene toda la información topológica relevante.",
+    "text": "En el capítulo anterior identificamos el grafo abstracto de Heegaard de un espacio lente como un grafo circulante. Esta misma familia de grafos ha sido estudiada de forma independiente y muy extensa desde otro punto de vista: el de las redes de interconexión. En esa literatura, un circulante con dos generadores simétricos se conoce como una red de doble lazo no dirigida (undirected double-loop network), y se denota\n\\[G(n;\\, \\pm s_1,\\, \\pm s_2)\\]\ndonde \\(n\\) es el número de nodos, \\(1 \\leq s_1 &lt; s_2 &lt; n/2\\) son los pasos, y \\(\\gcd(n, s_1, s_2) = 1\\).\nAdoptar esta terminología nos permite conectar nuestros objetos topológicos con una rica teoría desarrollada para optimizar el diseño de redes. El estudio de estas redes fue propuesto originalmente por Wong y Coppersmith para la organización de memorias multimodulares y representan un punto intermedio práctico entre las redes de un solo lazo (anillos simples), que sufren de largos retardos y baja fiabilidad, y las redes con más de dos lazos, que requieren hardware costoso y control complejo. Gracias a este equilibrio, las redes de doble lazo se han utilizado en diversas aplicaciones, como en topologías de redes de computadoras (SONET, FDDI), y para el alineamiento de datos en procesadores SIMD.",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
+      "2.2 Grafos Circulantes de Doble Lazo"
     ]
   },
   {
-    "objectID": "capitulos/09-espacios-lente.html#caso-lente-descomposición-de-heegaard-de-género-1",
-    "href": "capitulos/09-espacios-lente.html#caso-lente-descomposición-de-heegaard-de-género-1",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
-    "section": "1) Caso lente: descomposición de Heegaard de género 1",
-    "text": "1) Caso lente: descomposición de Heegaard de género 1\nUn espacio lente \\(L(p,q)\\) (con \\(p \\ge 1\\) y \\(\\gcd(p,q)=1\\)) se obtiene al pegar dos toros sólidos a lo largo de su frontera. En el diagrama estándar de Heegaard de género 1 aparecen:\n\nuna curva meridiana \\(\\alpha\\) en el toro,\nuna curva simple cerrada \\(\\beta\\) de pendiente \\(p/q\\).\n\nEstas curvas se cortan en exactamente \\(p\\) puntos.\n\n\n\n\n\n\nNotaClasificación clásica de espacios lente\n\n\n\nDos espacios lente \\(L(p,q)\\) y \\(L(p',q')\\) son homeomorfos si y sólo si:\n\n\\(p = p'\\), y\n\\(q' \\equiv \\pm q^{\\pm 1}\\pmod p\\).\n\n\n\nEste criterio será el puente con la clasificación por grafos.\n\n\n\n\n\nvisualizacion del diagrama de Heegaard de L(3,2)\n\n\n\n\n\n\nsu representacion en un cuadrado fundamental.",
+    "objectID": "capitulos/10-graficas-circulantes.html#el-mosaico-en-forma-de-l",
+    "href": "capitulos/10-graficas-circulantes.html#el-mosaico-en-forma-de-l",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "section": "El Mosaico en Forma de L",
+    "text": "El Mosaico en Forma de L\n\nImportancia: Diagrama de Distancias Mínimas\nUn resultado fundamental de la teoría de redes de doble lazo es que el mosaico en forma de L codifica el diagrama de distancias mínimas (MDD) de la red. Esto es crucial para problemas de optimización, como encontrar la red con el diámetro mínimo (máximo retardo de transmisión), ya que el diámetro se puede calcular directamente a partir de los parámetros del mosaico [1].\nMás aún, se ha demostrado que dos redes de doble lazo que realizan la misma forma de L son isomorfas [2]. Esto establece una conexión profunda entre la geometría combinatoria del mosaico y la estructura de isomorfismo del grafo abstracto, un análogo en el mundo de las redes de lo que observamos en los espacios lente con los grafos de Heegaard [3].\n\n\n\nConstrucción del patrón\nPara el grafo \\(G(p;\\pm 1, \\pm q)\\), construimos el patrón de etiquetado en el plano entero siguiendo el procedimiento de Wong y Coppersmith:\n\nOrdenar los puntos del primer cuadrante \\(\\mathbb{Z}_{\\geq 0}^2\\) por distancia Manhattan creciente: \\[(0,0),\\;(1,0),\\;(0,1),\\;(2,0),\\;(1,1),\\;(0,2),\\;\\ldots\\]\nEn cada punto \\((x, y)\\), calcular \\(k \\equiv x + yq \\pmod{p}\\).\nSi \\(k\\) no ha aparecido antes, escribirlo en \\((x, y)\\); si ya apareció, dejar el punto en blanco.\nDetenerse cuando se hayan etiquetado los \\(p\\) valores \\(\\{0, 1, \\ldots, p-1\\}\\).\n\nLa región resultante tiene siempre forma de L y tesela el plano entero.\n\n\n\n\n\n\nNotaDefinición: Mosaico en Forma de L — \\(L(n;\\, a, b, r, s)\\)\n\n\n\nLa región obtenida por el procedimiento anterior se llama mosaico en forma de L con parámetros enteros \\(a, b, r, s\\) tales que\n\\[a, b \\geq 2, \\qquad 0 \\leq r &lt; a, \\qquad 0 \\leq s &lt; b, \\qquad n = ab - rs\\]\nSe escribe \\(L(n;\\, a, b, r, s)\\) y es el rectángulo \\(a \\times b\\) al que se le ha quitado el rectángulo \\(r \\times s\\) de una esquina.\n\n\n\n\n\n\n\n\nImportantePropiedad de teselación\n\n\n\nEl mosaico \\(L(n;\\,a,b,r,s)\\) tesela el plano \\(\\mathbb{Z}^2\\) sin solapamientos ni huecos. Los vectores de traslación que generan la teselación son los puntos de red nulos del reticulado, es decir, los puntos \\((x,y) \\in \\mathbb{Z}^2\\) con \\(x + yq \\equiv 0 \\pmod{p}\\) más cercanos al origen distintos de \\((0,0)\\).\nEsta propiedad es la base del algoritmo de enrutamiento óptimo en tiempo constante para redes de doble lazo.\n\n\n\n\nLemas estructurales\nSean \\(L(n;\\,a,b,r,s)\\) el mosaico determinado por \\(G(n;\\,1,q)\\). Entonces:\n\n\\(a &gt; r \\geq 0\\), \\(\\;b &gt; s \\geq 0\\), \\(\\;b \\geq r\\), \\(\\;a &gt; s\\), \\(\\;ab - rs = n\\)\n\\(-a\\cdot 1 + s\\cdot q \\equiv 0 \\pmod{n}\\)\n\\(-r\\cdot 1 + b\\cdot q \\equiv 0 \\pmod{n}\\)\n\\((a-r)\\cdot 1 + (b-s)\\cdot q \\equiv 0 \\pmod{n}\\)\n\nEstos puntos de red nulos \\((-a, s)\\), \\((-r, b)\\) y \\((a-r, b-s)\\) (o sus equivalentes positivos módulo traslaciones del reticulado) son exactamente los vértices del reticulado que genera la teselación periódica del plano.",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
+      "2.2 Grafos Circulantes de Doble Lazo"
     ]
   },
   {
-    "objectID": "capitulos/09-espacios-lente.html#del-diagrama-al-grafo-circulante",
-    "href": "capitulos/09-espacios-lente.html#del-diagrama-al-grafo-circulante",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
-    "section": "2) Del diagrama al grafo circulante",
-    "text": "2) Del diagrama al grafo circulante\nRecordemos la definición.\nDefinición (grafo circulante). Sea \\(n \\ge 1\\) y \\(S \\subset \\mathbb{Z}_n \\setminus \\{0\\}\\). El circulante \\(C_n(S)\\) tiene vértices \\(\\mathbb{Z}_n\\), y \\(i,j\\) son adyacentes si y sólo si \\(i-j \\pmod n \\in S\\).\nPara el diagrama estándar de \\(L(p,q)\\), el grafo de Heegaard asociado es\n\\(C_p(\\pm 1, \\pm q)\\).\nInterpretación combinatoria:\n\nlos \\(p\\) vértices son los \\(p\\) puntos de intersección \\(\\alpha \\cap \\beta\\),\nuna familia de aristas conecta \\(i\\) con \\(i\\pm1 \\pmod p\\),\nla otra familia conecta \\(i\\) con \\(i\\pm q \\pmod p\\).\n\nEn consecuencia, el grafo abstracto tiene:\n\n\\(V = p\\),\n\\(E = 2p\\),\nvalencia 4 en cada vértice.",
+    "objectID": "capitulos/10-graficas-circulantes.html#ejemplo-g13pm-1pm-5",
+    "href": "capitulos/10-graficas-circulantes.html#ejemplo-g13pm-1pm-5",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
+    "section": "Ejemplo: \\(G(13;\\,\\pm 1,\\,\\pm 5)\\)",
+    "text": "Ejemplo: \\(G(13;\\,\\pm 1,\\,\\pm 5)\\)\n\nConstrucción paso a paso\nAplicamos el procedimiento al grafo \\(G(13;\\,\\pm 1,\\, \\pm 5)\\) con \\(p=13\\), \\(q=5\\).\n\n\n\nPunto \\((x,y)\\)\n\\(x + 5y \\bmod 13\\)\n¿Nuevo?\n\n\n\n\n\\((0,0)\\)\n\\(0\\)\n✓\n\n\n\\((1,0)\\)\n\\(1\\)\n✓\n\n\n\\((0,1)\\)\n\\(5\\)\n✓\n\n\n\\((2,0)\\)\n\\(2\\)\n✓\n\n\n\\((1,1)\\)\n\\(6\\)\n✓\n\n\n\\((0,2)\\)\n\\(10\\)\n✓\n\n\n\\((3,0)\\)\n\\(3\\)\n✓\n\n\n\\((2,1)\\)\n\\(7\\)\n✓\n\n\n\\((1,2)\\)\n\\(11\\)\n✓\n\n\n\\((0,3)\\)\n\\(15 \\equiv 2\\)\n✗\n\n\n\\((4,0)\\)\n\\(4\\)\n✓\n\n\n\\((3,1)\\)\n\\(8\\)\n✓\n\n\n\\((2,2)\\)\n\\(12\\)\n✓\n\n\n\\((1,3)\\)\n\\(16 \\equiv 3\\)\n✗\n\n\n\\((4,1)\\)\n\\(9\\)\n✓ \\(\\;\\leftarrow\\) completo\n\n\n\nCon los 13 valores etiquetados, el mosaico resultante es \\(L(13;\\,5,\\,3,\\,2,\\,1)\\):\n\\[n = ab - rs = 5 \\cdot 3 - 2 \\cdot 1 = 13 \\checkmark\\]\nLa disposición es:\n\\[\\begin{array}{ccccc}\n\\boxed{10} & \\boxed{11} & \\boxed{12} & & \\\\\n\\boxed{5}  & \\boxed{6}  & \\boxed{7}  & \\boxed{8}  & \\boxed{9} \\\\\n\\boxed{0}  & \\boxed{1}  & \\boxed{2}  & \\boxed{3}  & \\boxed{4}\n\\end{array}\\]\n5 columnas en \\(y=0,1\\) y 3 columnas en \\(y=2\\); la esquina superior derecha de \\(r \\times s = 2 \\times 1\\) celdas queda recortada.\n\n\nVerificación de los lemas con \\(a=5,\\,b=3,\\,r=2,\\,s=1\\)\n\\[-a + sq = -5 + 1\\cdot 5 = 0 \\equiv 0 \\pmod{13} \\checkmark\\] \\[-r + bq = -2 + 3\\cdot 5 = 13 \\equiv 0 \\pmod{13} \\checkmark\\] \\[(a-r) + (b-s)q = 3 + 2\\cdot 5 = 13 \\equiv 0 \\pmod{13} \\checkmark\\]\nLos puntos de red nulos más próximos (en coordenadas positivas) son \\((8,\\,1)\\) y \\((3,\\,2)\\), con determinante \\(8\\cdot 2 - 1\\cdot 3 = 13 = p\\), confirmando que generan el reticulado correcto.\n\n\nDiagrama de la teselación\n\n\n\nTeselación del plano por el mosaico \\(L(13;\\,5,3,2,1)\\) para \\(G(13;\\,\\pm 1,\\,\\pm 5)\\).",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
+      "2.2 Grafos Circulantes de Doble Lazo"
     ]
   },
   {
-    "objectID": "capitulos/09-espacios-lente.html#clasificación-abstracta-el-grafo-ya-detecta-el-espacio",
-    "href": "capitulos/09-espacios-lente.html#clasificación-abstracta-el-grafo-ya-detecta-el-espacio",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
-    "section": "3) Clasificación abstracta: el grafo ya detecta el espacio",
-    "text": "3) Clasificación abstracta: el grafo ya detecta el espacio\n\n\n\n\n\n\nNotaTeorema\n\n\n\nSean \\(p \\ge 3\\) y \\(q,q'\\) coprimos con \\(p\\).\n\\(L(p,q) \\cong L(p,q')\\) si y sólo si \\(C_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\\) como grafos abstractos.\n\n\n\nIdea de la demostración\nUsamos un hecho conocido para circulantes de dos saltos (\\(S=\\{\\pm a,\\pm b\\}\\)):\n\\(C_p(S) \\cong C_p(S')\\) si y sólo si \\(S' = aS\\) para algún \\(a \\in \\mathbb{Z}_p^\\times\\).\nAplicando esto a \\(S=\\{\\pm1,\\pm q\\}\\) y \\(S'=\\{\\pm1,\\pm q'\\}\\):\n\\[\nC_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\n\\Longleftrightarrow\n\\{\\pm1,\\pm q\\} = \\{\\pm a,\\pm aq'\\}\n\\] para algún \\(a\\) invertible módulo \\(p\\).\nAhora hay dos posibilidades esenciales:\n\nSi \\(a \\equiv \\pm1 \\pmod p\\), entonces \\(q' \\equiv \\pm q \\pmod p\\).\nSi \\(a \\equiv \\pm q \\pmod p\\), entonces se fuerza \\(qq' \\equiv \\pm1 \\pmod p\\), es decir \\(q' \\equiv \\pm q^{-1} \\pmod p\\).\n\nPor tanto,\n\\[\nC_p(\\pm1,\\pm q) \\cong C_p(\\pm1,\\pm q')\n\\Longrightarrow q' \\equiv \\pm q^{\\pm1}\\pmod p.\n\\]\nY por la clasificación clásica de espacios lente, eso equivale a \\(L(p,q) \\cong L(p,q')\\).\nLa implicación inversa se obtiene eligiendo \\(a \\in \\{\\pm1,\\pm q'\\}\\) según el caso para producir la igualdad de conjuntos de conexiones.",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
-    ]
-  },
-  {
-    "objectID": "capitulos/09-espacios-lente.html#clasificación-como-grafos-encajados-en-el-toro",
-    "href": "capitulos/09-espacios-lente.html#clasificación-como-grafos-encajados-en-el-toro",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
-    "section": "4) Clasificación como grafos encajados en el toro",
-    "text": "4) Clasificación como grafos encajados en el toro\nAdemás del grafo abstracto, el diagrama de Heegaard determina un encaje celular en un toro.\nPara espacios lente, este encaje estándar es esencialmente único (una vez fijado el diagrama estándar). Con esto, se obtiene el análogo encajado:\n\n\n\n\n\n\nNotaTeorema\n\n\n\nSi \\(L(p,q)\\) y \\(L(p,q')\\) son homeomorfos, entonces sus grafos de Heegaard encajados \\(G_1 \\subset F_1\\) y \\(G_2 \\subset F_2\\) son equivalentes como grafos celulares en sus toros de Heegaard.\n\n\n\nIdea de la demostración\nQueremos probar una afirmación precisa: para todo \\(p \\ge 3\\) y todo \\(q\\) coprimo con \\(p\\), el grafo \\(G=C_p(\\pm1,\\pm q)\\) tiene exactamente dos encajes celulares en el toro como mapa orientado; estos dos se obtienen uno del otro invirtiendo la orientación.\nEl punto importante es que aquí sólo nos interesan los encajes toroidales. No hace falta clasificar todos los demás encajes posibles del grafo en otras superficies.\nEl grafo \\(G\\) tiene \\(V=p\\) vértices y \\(E=2p\\) aristas. Si un sistema de rotación produce un encaje en el toro, entonces su característica de Euler debe satisfacer \\[\nV-E+F=0,\n\\] y por tanto necesariamente \\[\nF=p.\n\\] Así, el problema consiste en determinar qué sistemas de rotación dan exactamente \\(p\\) caras.\nComo el grafo es circulante, la acción de \\(\\mathbb{Z}_p\\) transporta la rotación de un vértice a todos los demás. Por eso basta estudiar la rotación local en un vértice.\n\nSi \\(q \\not\\equiv \\pm1 \\pmod p\\), los cuatro saltos \\(\\pm1,\\pm q\\) son distintos. En este caso, la condición \\(F=p\\) fuerza exactamente dos órdenes cíclicos: \\[\n(+1,+q,-1,-q)\n\\qquad\\text{y}\\qquad\n(+1,-q,-1,+q).\n\\] Estos dos sistemas son inversos entre sí, luego representan el mismo encaje no orientado y los dos posibles encajes orientados.\nSi \\(q \\equiv \\pm1 \\pmod p\\), el grafo es un ciclo con aristas dobles. La teoría de ribbon graphs sigue aplicando sin cambios: un sistema de rotación en este multigrafo determina un encaje orientado. Lo que cambia es que ahora, en cada vértice, las cuatro semiaristas vienen en dos pares de aristas paralelas, uno hacia \\(i+1\\) y otro hacia \\(i-1\\).\nPara obtener un encaje toroidal con \\(F=p\\), en cada vértice esas dos parejas deben aparecer alternadas en el orden cíclico. Si dos aristas paralelas consecutivas quedan juntas, las caras se pegan de otra manera y ya no se obtiene el mosaico cuadrilateral del toro. Por tanto, salvo intercambio de las dos aristas paralelas dentro de cada pareja, sólo quedan dos órdenes locales toroidales: \\[\n(a_1,b_1,a_2,b_2)\n\\qquad\\text{y}\\qquad\n(a_1,b_2,a_2,b_1),\n\\] donde \\(a_1,a_2\\) son las dos aristas hacia \\(i+1\\) y \\(b_1,b_2\\) las dos aristas hacia \\(i-1\\). Estos dos órdenes son inversos entre sí, luego producen exactamente los dos encajes toroidales orientados.\n\nEn ambos casos, la conclusión es la misma: hay exactamente dos encajes celulares en el toro como mapas orientados, y un único encaje si no se distingue la orientación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\nEste experimento no intenta recorrer todos los sistemas de rotación posibles, porque eso hace más lenta la ejecución en SageCell. En cambio, muestra unas cuantas rotaciones locales representativas para el caso \\(L(3,2)\\) y permite verificar cuáles producen encajes toroidales. La columna “Género” se obtiene de la fórmula \\[\n\\chi = V-E+F = 2-2g,\n\\] así que:\n\n\\(\\chi=0\\) corresponde al toro (\\(g=1\\)),\n\\(\\chi=2\\) corresponde a la esfera (\\(g=0\\)).",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
-    ]
-  },
-  {
-    "objectID": "capitulos/09-espacios-lente.html#consecuencia-clasificación-vía-grafos-de-heegaard",
-    "href": "capitulos/09-espacios-lente.html#consecuencia-clasificación-vía-grafos-de-heegaard",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
-    "section": "5) Consecuencia: clasificación vía grafos de Heegaard",
-    "text": "5) Consecuencia: clasificación vía grafos de Heegaard\nComo síntesis de los dos teoremas anteriores:\n\n\n\n\n\n\nTipCorolario (clasificación vía grafos de Heegaard)\n\n\n\nDos espacios lente \\(L(p,q)\\) y \\(L(p,q')\\) son homeomorfos si y sólo si sus grafos de Heegaard son equivalentes.\n\n\nMensaje conceptual:\n\nen general, un grafo encajado puede contener más información que su versión abstracta,\npero en el caso lente, esa información extra no aporta nuevas clases de homeomorfismo.",
-    "crumbs": [
-      "Inicio",
-      "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
-    ]
-  },
-  {
-    "objectID": "capitulos/09-espacios-lente.html#referencias",
-    "href": "capitulos/09-espacios-lente.html#referencias",
-    "title": "Espacios Lente y sus Grafos de Heegaard",
+    "objectID": "capitulos/10-graficas-circulantes.html#referencias",
+    "href": "capitulos/10-graficas-circulantes.html#referencias",
+    "title": "Grafos Circulantes y Redes de Doble Lazo",
     "section": "Referencias",
-    "text": "Referencias\n\nFrías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). 3-manifold polynomials. arXiv:2510.06651 [math.GT]. https://doi.org/10.48550/arXiv.2510.06651\nMuzychuk, M., Klin, M., & Pöschel, R. (2001). The isomorphism problem for circulant graphs via schur ring theory. En Codes and Association Schemes (DIMACS Series in Discrete Mathematics and Theoretical Computer Science, vol. 56). AMS-DIMACS. https://bookstore.ams.org/dimacs-56\nBrody, E.J. (1960). The topological classification of the lens spaces. Annals of Mathematics, 71(1), 163–184. https://doi.org/10.2307/1969884",
+    "text": "Referencias\n\nHwang, F. K. (2001). A complementary survey on double-loop networks. Theoretical Computer Science, 263(1-2), 211–229. https://doi.org/10.1016/S0304-3975(00)00243-7\nChen, C., & Hwang, F. K. (2000). The Minimum Distance Diagram of Double-Loop Networks. IEEE Transactions on Computers, 49(9), 977–979. https://doi.org/10.1109/12.869029\nFrías, J., Gómez-Larrañaga, J. C., León-Medina, J. L., & Manjarrez-Gutiérrez, F. (2025). 3-manifold polynomials. arXiv:2510.06651 [math.GT]. https://doi.org/10.48550/arXiv.2510.06651",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
-      "2.1 Espacios Lente y Grafos de Heegaard"
+      "2.2 Grafos Circulantes de Doble Lazo"
     ]
   },
   {
