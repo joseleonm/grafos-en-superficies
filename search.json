@@ -232,7 +232,7 @@
     "href": "capitulos/12-estructura-polinomio.html#reducción-a-dominio-tipo-l",
     "title": "2.3 Estructura del Polinomio BR para L(p,q)",
     "section": "Reducción a dominio tipo L",
-    "text": "Reducción a dominio tipo L\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nTodo dominio fundamental asociado a un 2-núcleo mínimo de género 1 puede transformarse, mediante una secuencia de volteos admisibles, en una región ortogonal combinatoriamente equivalente a una \\(L\\).\n\n\nAdemás, si \\(\\ell_1\\le\\ell_2\\le\\ell_3\\) son las longitudes de las tres ramas del \\(\\Theta\\)-núcleo, entonces:",
+    "text": "Reducción a dominio tipo L\n\n\n\n\n\n\nImportanteTeorema\n\n\n\nTodo dominio fundamental asociado a un 2-núcleo mínimo de género 1 puede transformarse, mediante una secuencia de volteos admisibles, en una región ortogonal combinatoriamente equivalente a una \\(L\\).",
     "crumbs": [
       "Inicio",
       "2. Espacios Lente",
