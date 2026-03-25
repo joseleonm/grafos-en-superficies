@@ -32,7 +32,7 @@ $$
 R_{p,q}(x,y,z)=P_0(x,y)+z^2 P_2(x,y).
 $$
 
-- $P_0$: contribuciones de genus $0$.
+- $P_0$: contribuciones de género $0$.
 - $P_2$: contribuciones de género 1.
 
 ---
@@ -220,4 +220,4 @@ Además, si $\ell_1\le\ell_2\le\ell_3$ son las longitudes de las tres ramas del 
 
 ## Transición al siguiente apartado
 
-Con esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en genus $1$ (perfil $(S_t)$) y su poder de separación entre órbitas aritméticas.
+Con esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en género $1$ (perfil $(S_t)$) y su poder de separación entre órbitas aritméticas.
