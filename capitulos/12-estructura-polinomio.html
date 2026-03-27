@@ -33,6 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../capitulos/explorador-polinomios.qmd" rel="next">
 <link href="../capitulos/11-lattice-ciclos.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -43,7 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ad657b51485f85ef0f74ea69c18e2e50.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-8cb2197aa456e16d8c1e11a009b264a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -197,6 +198,11 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../capitulos/explorador-polinomios.qmd"> <i class="bi bi-graph-up" role="img">
+</i> 
+<span class="menu-text">Simulador BR de Espacios Lente</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -336,6 +342,13 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/explorador-polinomios.qmd" class="sidebar-item-text sidebar-link"><i class="bi bi-graph-up" role="img">
+</i> 
+ <span class="menu-text">Simulador BR de Espacios Lente</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -501,7 +514,7 @@ S_2=0 \iff q\equiv \pm1 \pmod p.
 </div>
 <div class="callout-body-container callout-body">
 <p><span class="math display">\[
-S_1 = p-\mathrm{cintura}(G_{p,q}).
+S_1 = p-\mathrm{Girth}(G_{p,q}).
 \]</span></p>
 </div>
 </div>
@@ -640,9 +653,18 @@ S(u,v)=\frac12\bigl(\|u\|_1+\|v\|_1+\|u-v\|_1\bigr)
 </div>
 <hr>
 </section>
-<section id="transición-al-siguiente-apartado" class="level2">
-<h2 class="anchored" data-anchor-id="transición-al-siguiente-apartado">Transición al siguiente apartado</h2>
-<p>Con esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en género <span class="math inline">\(1\)</span> (perfil <span class="math inline">\((S_t)\)</span>) y su poder de separación entre órbitas aritméticas.</p>
+<section id="la-forma-l-como-invariante-completo" class="level2">
+<h2 class="anchored" data-anchor-id="la-forma-l-como-invariante-completo">La forma L como invariante completo</h2>
+<p>Los resultados anteriores permiten leer directamente la geometría de la forma <span class="math inline">\(L\)</span> desde los coeficientes del polinomio BR:</p>
+<ul>
+<li><p><strong>Máximo exponente en <span class="math inline">\(x\)</span>:</strong> el valor <span class="math inline">\(S_2 = \max\{s : [x^s y^2 z^2] R \neq 0\}\)</span> satisface <span class="math display">\[S_2 = p + 1 - \tfrac{P}{2},\]</span> donde <span class="math inline">\(P\)</span> es el perímetro de la forma <span class="math inline">\(L\)</span> asociada al grafo <span class="math inline">\(G(p;\pm 1,\pm q)\)</span>.</p></li>
+<li><p><strong>Lado del cuadrado inscrito:</strong> el entero <span class="math inline">\(m\)</span> tal que el cuadrado de lado <span class="math inline">\(m\)</span> es el mayor inscrito en la forma <span class="math inline">\(L\)</span> queda codificado como el lado del bloque cuadrado en la descomposición de la <span class="math inline">\(L\)</span>.</p></li>
+<li><p><strong>Primer ascenso de nulidad:</strong> el primer valor de <span class="math inline">\(t\)</span> en que la nulidad sube a <span class="math inline">\(3\)</span> sin perder conectividad del ribbon codifica el brazo más corto de la forma <span class="math inline">\(L\)</span>.</p></li>
+<li><p><strong>Número de ascensos:</strong> la cantidad total de tales ascensos de nulidad sin desconexión codifica el número de hileras adicionales necesarias para construir la forma <span class="math inline">\(L\)</span> a partir del cuadrado de lado <span class="math inline">\(m\)</span>.</p></li>
+<li><p><strong>Máximo exponente en <span class="math inline">\(y\)</span>:</strong> el valor <span class="math inline">\(T_0 = \max\{t : [x^0 y^t z^0] R \neq 0\}\)</span> satisface <span class="math display">\[T_0 = p + 1 - \lambda_1(\Lambda_{p,q}),\]</span> donde <span class="math inline">\(\lambda_1(\Lambda_{p,q})\)</span> es la longitud del vector más corto no nulo de la lattice de ciclos <span class="math inline">\(\Lambda_{p,q}\)</span>.</p></li>
+<li><p><strong>Base de la lattice:</strong> los lados largos de la <span class="math inline">\(L\)</span> junto con los lados de la muesca codifican una base de <span class="math inline">\(\Lambda_{p,q}\)</span> de determinante <span class="math inline">\(p\)</span>.</p></li>
+</ul>
+<p>En conjunto, esta evidencia indica que el polinomio BR permite recuperar la forma <span class="math inline">\(L\)</span> sin ambigüedad y, con ella, la clase de homeomorfismo del espacio lente <span class="math inline">\(L(p,q)\)</span>.</p>
 
 
 </section>
@@ -1062,6 +1084,9 @@ S(u,v)=\frac12\bigl(\|u\|_1+\|v\|_1+\|u-v\|_1\bigr)
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../capitulos/explorador-polinomios.qmd" class="pagination-link" aria-label="Simulador BR de Espacios Lente">
+        <span class="nav-page-text">Simulador BR de Espacios Lente</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
