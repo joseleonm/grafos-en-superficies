@@ -14,8 +14,6 @@ Autor: José Luis León Medina
 ::: {.hero}
 # Sistemas de Rotación y Ribbon Graphs
 
-<!-- ### *De permutaciones a superficies mediante engrosamiento* -->
-
 Un enfoque combinatorio para entender encajes de grafos en superficies orientables.
 :::
 
@@ -23,18 +21,16 @@ Un enfoque combinatorio para entender encajes de grafos en superficies orientabl
 
 ## Sobre este proyecto
 
-Los **sistemas de rotación** son pares de permutaciones $(\sigma, \rho)$ que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el **Teorema de Heffter-Edmonds**.
+Los **sistemas de rotación** son pares de permutaciones $(\sigma, \rho)$ que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, y desarrolla su aplicación al estudio de los **espacios lente** mediante el polinomio de Bollobás-Riordan.
 
 ::: {.highlight-box}
 ### Idea principal
 
 Un sistema de rotación $(\sigma, \rho)$ contiene toda la información necesaria para:
 
-- Reconstruir el grafo subyacente (vértices y aristas)
-- Determinar el orden cíclico de semiaristas alrededor de cada vértice
-- Calcular las caras mediante la permutación $\varphi = \rho\sigma$
-- Obtener invariantes topológicos: género, característica de Euler, número de caras
-- Construir la superficie completa mediante engrosamiento (thickening)
+- Reconstruir el grafo subyacente y el orden cíclico de aristas en cada vértice
+- Calcular las caras mediante $\varphi = \rho\sigma$ y obtener el género de la superficie
+- Construir invariantes topológicos que distinguen encajes no equivalentes
 
 **Resultado fundamental:** Álgebra de permutaciones ↔ Topología de superficies
 :::
@@ -45,86 +41,31 @@ Un sistema de rotación $(\sigma, \rho)$ contiene toda la información necesaria
 
 ### [1. Sistemas de Rotación](capitulos/01-sistemas-rotacion.qmd)
 
-Introducción a los sistemas de rotación como modelo combinatorio de grafos encajados.
+Fundamentos combinatorios de los grafos encajados en superficies orientables: definición de sistemas de rotación y ribbon graphs, el Teorema de Heffter-Edmonds, cálculo de invariantes topológicos ($V, E, F$, género, característica de Euler) y operaciones fundamentales (dualidad, contracción, homología). Se incluye el **Polinomio de Bollobás-Riordan** como generalización del polinomio de Tutte que detecta la topología del encaje mediante la variable $z$.
 
-- Definición mediante permutaciones $\sigma$ y $\rho$
-- Semiaristas (darts) y orden cíclico
-- Ejemplos básicos con código SageMath
-- Construcción en Sage: `RibbonGraph(sigma, rho)`
+Capítulos: [Introducción](capitulos/01-sistemas-rotacion.qmd) · [Mapas Combinatorios](capitulos/02-mapas-combinatorios.qmd) · [Invariantes](capitulos/03-invariantes.qmd) · [Equivalencia](capitulos/04-teorema.qmd) · [Ejemplos](capitulos/05-ejemplos.qmd) · [Operaciones](capitulos/06-operaciones.qmd) · [Polinomio BR](capitulos/07-bollobas-riordan.qmd) · [BR del Diagrama de Poincaré](capitulos/08-br-diagrama-poincare.qmd)
 
-### [2. Mapas Combinatorios](capitulos/02-mapas-combinatorios.qmd)
+---
 
-De la intuición geométrica a la formalización algebraica.
+### [2. Espacios Lente](capitulos/09-espacios-lente.qmd)
 
-- Axiomática de Tutte: definición formal de mapa combinatorio
-- Teorema de Realización Topológica
-- Algoritmo de trazado de caras ($\varphi = \rho\sigma$)
-- Unicidad del encaje y el género como consecuencia
+Aplicación de la teoría a los **espacios lente** $L(p,q)$: sus grafos de Heegaard $G(p;\pm 1,\pm q)$ como grafos circulantes de doble lazo encajados en el toro, la lattice de ciclos $\Lambda_{p,q}$ y su geometría, y la estructura del polinomio BR en género $1$. Se estudia cómo los coeficientes del polinomio codifican la forma $L$ asociada al grafo, permitiendo recuperar la clase de homeomorfismo del espacio lente desde invariantes combinatorios puros.
 
-### [3. Invariantes Topológicos](capitulos/03-invariantes.qmd)
+Capítulos: [Espacios Lente y Grafos de Heegaard](capitulos/09-espacios-lente.qmd) · [Grafos Circulantes](capitulos/10-graficas-circulantes.qmd) · [Lattice de Ciclos](capitulos/11-lattice-ciclos.qmd) · [Estructura del Polinomio BR](capitulos/12-estructura-polinomio.qmd)
 
-Cálculo computacional con SageMath.
+---
 
-- Automatización del cálculo de $V, E, F$
-- Característica de Euler y Género
-- Función de análisis topológico (`analizar_topologia`)
-- Experimentación con grafos completos y superficies de género alto
+### [Simulador BR de Espacios Lente](capitulos/explorador-polinomios.qmd)
 
-
-### [4. Equivalencia](capitulos/04-teorema.qmd)
-
-El teorema fundamental que establece la correspondencia biunívoca.
-
-- Lectura del encaje: obtención de $(\sigma,\rho)$ desde un dibujo encajado
-- Teorema de Heffter‑Edmonds y equivalencia por conjugación
-- Verificación en SageMathCell del género en ejemplos concretos
-- Ejemplos de encajes equivalentes y no equivalentes (criterio por caras)
-- Teorema de Whitney, Steinitz y conectividad 3‑conexa
-- Orientabilidad y limitaciones del modelo
-
-### [5. Ejemplos](capitulos/05-ejemplos.qmd)
-
-Verificación computacional de equivalencia entre sistemas de rotación.
-
-- Ejemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición
-- Ejemplo de no-equivalencia: multiconjuntos de caras como invariante rápido
-- Del problema al algoritmo: fuerza bruta vs. búsqueda con retroceso
-- Diagramas de Heegaard de la Esfera de Poincaré como encajes celulares
-- Verificación interactiva con SageMathCell
-
-### [6. Operaciones sobre Ribbon Graphs](capitulos/06-operaciones.qmd)
-
-Operaciones fundamentales para transformar y analizar ribbon graphs en Sage.
-
-- Contracción de aristas: fusión de vértices preservando el género.
-- Dualidad: intercambio de vértices y caras ($V^*=F$, $F^*=V$).
-- Base de homología y cálculo del rango $\mathrm{rank}(H_1) = 2g + b - 1$.
-- Reducción: obtención del núcleo de Betti contrayendo árboles generadores.
-
-### [7. Polinomio de Bollobás-Riordan](capitulos/07-bollobas-riordan.qmd)
-
-Generalización del polinomio de Tutte que detecta la topología del encaje.
-
-- Definición, cálculo y optimización en Sage.
-- La variable $z$ como detector del género.
-- Distinción de encajes mediante el polinomio.
-
-### [8. BR del Diagrama de Poincaré](capitulos/08-br-diagrama-poincare.qmd)
-
-Cálculo computacional del polinomio para un caso de alta complejidad ($E=24$).
-
-- Sistema de rotación del diagrama de Heegaard ($V=12, E=24$).
-- Resultado explícito del polinomio $R(G; x, y, z)$.
+Base de datos interactiva con los polinomios de Bollobás-Riordan de todos los espacios lente $L(p,q)$ para $p \leq 20$, calculados con cómputo de alto rendimiento. Permite explorar los coeficientes con filtros por exponente y abre el visualizador gráfico de cada grafo $G(p;\pm 1,\pm q)$ sobre el toro fundamental.
 
 ---
 
 ## Herramientas
 
-Este proyecto utiliza:
-
-- **SageMath 10.7** - Cálculos con `RibbonGraph`, `PermutationGroupElement`
-- **Python 3.13** - Scripts de análisis y visualización
-- **Quarto** - Documentación interactiva con bloques de código ejecutables
+- **SageMath 10.7** — Cálculos con `RibbonGraph`, `PermutationGroupElement`
+- **Python 3.13** — Scripts de análisis, cálculo paralelo y visualización
+- **Quarto** — Documentación interactiva con bloques de código ejecutables
 
 ---
 
@@ -134,7 +75,6 @@ Este proyecto utiliza:
 - Lando, S. K., & Zvonkin, A. K. (2004). *Graphs on Surfaces*
 - Edmonds, J. (1960). *A combinatorial representation for polyhedral surfaces*
 - Bollobás, B., & Riordan, O. (2002). *A polynomial of graphs on surfaces*. Mathematische Annalen
-- [SageMath - Ribbon Graphs Documentation](https://doc.sagemath.org/html/en/reference/graphs/sage/graphs/ribbon_graph.html)
 
 ---
 

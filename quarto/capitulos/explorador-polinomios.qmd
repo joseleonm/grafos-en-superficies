@@ -1,0 +1,151 @@
+---
+title: "Simulador BR de Espacios Lente"
+subtitle: "Base de datos interactiva del polinomio de Bollobás-Riordan para L(p,q)"
+format:
+  html:
+    code-copy: false
+    include-after-body: br-explorer-script.html
+---
+
+::: {.callout-note appearance="simple"}
+Esta sección reúne el trabajo computacional del proyecto: el cálculo masivo de los polinomios de Bollobás-Riordan de los grafos de Heegaard de los espacios lente $L(p,q)$ para $p \leq 20$, junto con visualizadores interactivos para explorar su estructura. Selecciona un caso y usa el botón **Explorador interactivo** para abrir el simulador gráfico completo en una ventana nueva.
+:::
+
+
+```{=html}
+<style>
+#br-quick-explorer {
+  border: 1px solid var(--ribbon-light-gray);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0 2rem;
+  background: white;
+}
+
+#br-quick-explorer,
+#br-quick-explorer * {
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+}
+
+#br-quick-explorer h4 {
+  margin: 0 0 0.5rem;
+  color: var(--ribbon-primary-dark);
+  font-size: 1.2rem !important;
+}
+
+#br-quick-explorer .meta {
+  color: var(--ribbon-gray);
+  margin-bottom: 0.75rem;
+}
+
+#br-quick-explorer .controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+#br-quick-explorer label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+#br-quick-explorer select,
+#br-quick-explorer input[type="number"] {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--ribbon-light-gray);
+  border-radius: 0.35rem;
+  background: white;
+}
+
+#br-quick-explorer .checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+#br-quick-explorer .checks label {
+  font-weight: 500;
+  margin: 0;
+}
+
+#br-quick-explorer .summary {
+  margin: 0.5rem 0 0.75rem;
+  font-weight: 600;
+}
+
+#br-quick-explorer .table-wrap {
+  max-height: 460px;
+  overflow: auto;
+  border: 1px solid var(--ribbon-light-gray);
+  border-radius: 0.35rem;
+}
+
+#br-quick-explorer table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#br-quick-explorer th,
+#br-quick-explorer td {
+  border: 1px solid var(--ribbon-light-gray);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+
+#br-quick-explorer th {
+  background: rgba(30, 136, 229, 0.08);
+  color: var(--ribbon-dark);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#br-quick-explorer .explorer-link {
+  margin: 0.6rem 0 0.2rem;
+}
+#br-quick-explorer .explorer-link a {
+  display: inline-block;
+  background: #1d3557;
+  color: white;
+  padding: 0.3rem 0.85rem;
+  border-radius: 0.35rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92em;
+}
+#br-quick-explorer .explorer-link a:hover { background: #457b9d; }
+
+</style>
+
+<div id="br-quick-explorer">
+  <div class="meta">Cargando datos del explorador…</div>
+</div>
+
+<!-- El script del explorador se carga desde br-explorer-script.html (include-after-body)
+     para evitar que el filtro Lua de Quarto rompa las etiquetas <table> dentro del JS. -->
+```
+
+---
+
+## Sobre los datos
+
+Los polinomios se calcularon con `scripts/BR_lens_parallel.sage` usando multiprocessing y un módulo Cython. El JSON resultante (`quarto/data/BR_polynomials.json`) contiene todos los casos canónicos $L(p,q)$ calculados para $p \leq 20$. El explorador los carga directamente sin filtro de $p$.
+
+| $p$ | Clases de homeo. | Pares canónicos (aprox.) |
+|----:|:----------------:|-------------------------:|
+| 5   | 1                | 220                      |
+| 7   | 2                | 2 340                    |
+| 11  | 4                | 382 K                    |
+| 13  | 5                | 5 M                      |
+| 17  | 7                | 1 G                      |
+| 19  | 8                | 14 G                     |
+
+El cálculo hasta $p = 20$ fue posible gracias a las facilidades de cómputo de la **Supercomputadora de la Unidad CIMAT–Mérida**. Contar con esa infraestructura permitió extender los datos más allá de lo alcanzable en una computadora personal, cubriendo un rango suficiente para ilustrar los patrones estructurales del polinomio BR y haciéndolos accesibles al público en general.
