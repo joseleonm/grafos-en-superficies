@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4. Equivalencia – Sistemas de Rotación y Ribbon Graphs</title>
+<title>Simulador BR de Espacios Lente – Sistemas de Rotación y Ribbon Graphs</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../capitulos/05-ejemplos.html" rel="next">
-<link href="../capitulos/03-invariantes.html" rel="prev">
+<link href="../capitulos/12-estructura-polinomio.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -73,18 +72,13 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js"></script>
-<link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css">
-<script>
-window.addEventListener('load', function() {
-  sagecell.makeSagecell({
-    inputLocation: 'div.sage-cell',
-    evalButtonText: 'Ejecutar',
-    languages: ['sage'],
-    hide: []
-  });
-});
-</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&amp;family=Fira+Code:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<meta name="keywords" content="ribbon graphs, sistemas de rotación, teoría de grafos topológicos, genus, embeddings">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Simulador BR de Espacios Lente – Sistemas de Rotación y Ribbon Graphs">
+<meta property="og:description" content="Base de datos interactiva del polinomio de Bollobás-Riordan para L(p,q)">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -226,7 +220,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-sistemas-rotacion.html">1. Sistemas de Rotación</a></li><li class="breadcrumb-item"><a href="../capitulos/04-teorema.html">1.4 Teoremas Clave</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/explorador-polinomios.html">Simulador BR de Espacios Lente</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -255,13 +249,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">1. Sistemas de Rotación</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/01-sistemas-rotacion.html" class="sidebar-item-text sidebar-link">
@@ -282,7 +276,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-teorema.html" class="sidebar-item-text sidebar-link active">
+  <a href="../capitulos/04-teorema.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.4 Teoremas Clave</span></a>
   </div>
 </li>
@@ -349,7 +343,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/explorador-polinomios.html" class="sidebar-item-text sidebar-link"><i class="bi bi-graph-up" role="img">
+  <a href="../capitulos/explorador-polinomios.html" class="sidebar-item-text sidebar-link active"><i class="bi bi-graph-up" role="img">
 </i> 
  <span class="menu-text">Simulador BR de Espacios Lente</span></a>
   </div>
@@ -363,10 +357,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../capitulos/01-sistemas-rotacion.html">1. Sistemas de Rotación</a></li><li class="breadcrumb-item"><a href="../capitulos/04-teorema.html">1.4 Teoremas Clave</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">4. Equivalencia</h1>
-<p class="subtitle lead">La correspondencia biunívoca entre sistemas de rotación y encajes</p>
+<h1 class="title">Simulador BR de Espacios Lente</h1>
+<p class="subtitle lead">Base de datos interactiva del polinomio de Bollobás-Riordan para L(p,q)</p>
 </div>
 
 
@@ -383,237 +377,180 @@ window.Quarto = {
 </header>
 
 
-<p>Recordamos que dos encajes de grafos <span class="math inline">\(G_1 \subset S_1\)</span> y <span class="math inline">\(G_2 \subset S_2\)</span> son <strong>equivalentes</strong> si existe un homeomorfismo que preserva la orientación <span class="math inline">\(h: S_1 \to S_2\)</span> tal que <span class="math inline">\(h(G_1) = G_2\)</span>. Esto implica que <span class="math inline">\(h\)</span> induce un isomorfismo entre los grafos abstractos subyacentes.</p>
-<p>Además vimos que la <strong>Realización topológica</strong> (sección 2) proporciona una función explícita:</p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{Mapas Combinatorios} \quad &amp;\rightarrow \quad \text{Ribbon graphs}  \\
-(D,\sigma, \rho) \quad &amp;\mapsto \quad  (G,\iota)
-\end{aligned}
-\]</span></p>
-<p>Ahora veamos que la inversa de esta asignación está bien definida, salvo reetiquetado de dardos.</p>
-<section id="la-esquematización-de-un-grafo-encajado" class="level2">
-<h2 class="anchored" data-anchor-id="la-esquematización-de-un-grafo-encajado">La esquematización de un grafo encajado</h2>
-<p>Dado un grafo ya encajado en una superficie, se puede “leer” el encaje recorriendo las fronteras de las caras para obtener su mapa combinatorio. Esta es la dirección que se usa para analizar un mapa ya existente.</p>
-<p>Para ello, como vimos en la sección 1, se subdivide cada arista del grafo encajado para crear un par de semiaristas (dardos) y se etiquetan. Luego:</p>
-<ol type="1">
-<li>En cada vértice, la orientación de la superficie induce un orden cíclico único de los dardos incidentes. La colección de estos ciclos disjuntos define la permutación <strong><code>σ</code></strong> (sigma).</li>
-<li>Cada arista original corresponde a un par de dardos. La colección de estas parejas (transposiciones) define la permutación <strong><code>ρ</code></strong> (rho).</li>
-</ol>
-<p>El par <code>(σ, ρ)</code> es el mapa combinatorio o esquema asociado al encaje.</p>
-</section>
-<section id="ejemplo" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo">Ejemplo</h2>
-<p>Consideremos el siguiente grafo encajado en el toro.</p>
-<div style="text-align:center">
-<p><a href="../imagenes/toro.html"><img src="../imagenes/grafotoro.png" class="img-fluid" style="width:60.0%"></a></p>
-</div>
-<p>Después de cortarlo alrededor de un meridiano y una longitud fijas, obtenemos su cuadrado fundamental:</p>
-<div style="text-align:center">
-<p><img src="../imagenes/grafotorodiagrama.png" class="img-fluid" style="width:70.0%"></p>
-</div>
-<p>Del diagrama con identificaciones ahora se ve claro que el sistema de rotación asociado es: <span class="math display">\[
-\begin{aligned}
-\sigma&amp;=(1234)(5678)(9\,10\,11\,12) \\
-\rho &amp;= (1\,7)(2\,8)(3\,9)(4\,10)(5\,11)(6\,12)
-\end{aligned}
-\]</span></p>
-<p>Este es un sistema de rotación válido y podemos verificar que en efecto produce un encaje en el toro con el siguiente código mínimo:</p>
-<p><strong>Prueba el código directamente aquí</strong> (haz clic en “Ejecutar”):</p>
-<div class="sage-cell">
-<script type="text/x-sage">
-sigma = "(1,2,3,4)(5,6,7,8)(9,10,11,12)"
-rho = "(1,7)(2,8)(3,9)(4,10)(5,11)(6,12)"
-
-def verifica_toro(sigma, rho):
-    if isinstance(sigma, str): sigma = PermutationGroupElement(sigma)
-    if isinstance(rho, str): rho = PermutationGroupElement(rho)
-
-    R = RibbonGraph(sigma, rho)
-    phi = rho * sigma
-
-    V = len(sigma.cycle_tuples(singletons=True))
-    E = len(rho.cycle_tuples(singletons=True))
-    F = len(phi.cycle_tuples(singletons=True))
-    chi = V - E + F
-    g = R.genus()
-    b = R.number_boundaries()
-
-    print(f"V={V}, E={E}, F={F}, χ={chi}, b={b}, g={g}")
-    print("Encaje en el toro (al cerrar las caras)." if g == 1 else "No es toro.")
-
-verifica_toro(sigma, rho)
-</script>
-</div>
-<p>Sin embargo, notar que la asignación del mapa combinatorio no es única, pues podríamos reetiquetar los números y se preserva la misma combinatoria. Por eso imponemos la siguiente clase de equivalencia:</p>
-<section id="equivalencia-de-sistemas-de-rotación" class="level3">
-<h3 class="anchored" data-anchor-id="equivalencia-de-sistemas-de-rotación">Equivalencia de Sistemas de Rotación</h3>
-<p>Dos sistemas de rotación <span class="math inline">\((\sigma_1, \rho_1)\)</span> sobre un conjunto de semiaristas <span class="math inline">\(D_1\)</span> y <span class="math inline">\((\sigma_2, \rho_2)\)</span> sobre <span class="math inline">\(D_2\)</span> son <strong>equivalentes</strong> (o isomorfos) si existe una biyección <span class="math inline">\(\tau: D_1 \to D_2\)</span> tal que:</p>
-<p><span class="math display">\[
-\sigma_2 = \tau \sigma_1 \tau^{-1} \quad \text{y} \quad \rho_2 = \tau \rho_1 \tau^{-1}
-\]</span></p>
-<p>Esta biyección <span class="math inline">\(\tau\)</span> preserva toda la estructura combinatoria: mapea vértices a vértices (ciclos de <span class="math inline">\(\sigma\)</span>) y aristas a aristas (ciclos de <span class="math inline">\(\rho\)</span>).</p>
-</section>
-</section>
-<section id="el-teorema-de-heffter-edmonds" class="level2">
-<h2 class="anchored" data-anchor-id="el-teorema-de-heffter-edmonds">El Teorema de Heffter-Edmonds</h2>
-<p>El <strong>Teorema de Heffter-Edmonds</strong> es la piedra angular de la teoría de grafos topológicos. No solo establece que todo sistema de rotación genera una superficie, sino que la correspondencia es estructuralmente perfecta: clasifica los encajes salvo equivalencia.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Importante</span>Teorema de Heffter-Edmonds
+<div class="callout-body-container">
+<p>Esta sección reúne el trabajo computacional del proyecto: el cálculo masivo de los polinomios de Bollobás-Riordan de los grafos de Heegaard de los espacios lente <span class="math inline">\(L(p,q)\)</span> para <span class="math inline">\(p \leq 20\)</span>, junto con visualizadores interactivos para explorar su estructura. Selecciona un caso y usa el botón <strong>Explorador interactivo</strong> para abrir el simulador gráfico completo en una ventana nueva.</p>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Existe una correspondencia biunívoca entre:</p>
-<ol type="1">
-<li>Clases de equivalencia de <strong>sistemas de rotación</strong> <span class="math inline">\((\sigma, \rho)\)</span>.</li>
-<li>Clases de equivalencia de <strong>encajes celulares</strong> de grafos en superficies orientables.</li>
-</ol>
-<p>Esto significa que el álgebra de las permutaciones <span class="math inline">\((\sigma, \rho)\)</span> captura <strong>toda</strong> la información topológica del encaje, sin pérdida ni ambigüedad.</p>
 </div>
-</div>
-<section id="importancia-histórica-y-práctica" class="level3">
-<h3 class="anchored" data-anchor-id="importancia-histórica-y-práctica">Importancia Histórica y Práctica</h3>
-<p>Este resultado transforma problemas topológicos en problemas puramente combinatorios:</p>
-<ul>
-<li><strong>Heffter (1891):</strong> Primeros trabajos sobre encajes de grafos en superficies.</li>
-<li><strong>Edmonds (1960):</strong> Formulación moderna en términos de permutaciones.</li>
-<li><strong>Ringel (1974):</strong> En su libro <em>Map Color Theorem</em>, presenta una demostración constructiva basada en “esquemas”, enfatizando que la rotación induce directamente las fronteras de las caras.</li>
-<li>También conocido como el teorema de representación de superficies</li>
-</ul>
-<hr>
-<p>La inyectividad de la correspondencia (unicidad) se demuestra reconstruyendo el sistema de rotación a partir del encaje. Dado un grafo <span class="math inline">\(G\)</span> encajado celularmente en una superficie orientada <span class="math inline">\(S\)</span>:</p>
-<ol type="1">
-<li><strong>Lectura Local:</strong> Para cada vértice <span class="math inline">\(v\)</span>, consideramos un entorno pequeño homeomorfo a un disco. La orientación global de <span class="math inline">\(S\)</span> induce una orientación en la frontera de este disco (por ejemplo, sentido antihorario).</li>
-<li><strong>Orden Cíclico:</strong> Las aristas incidentes a <span class="math inline">\(v\)</span> cruzan la frontera de este disco en puntos específicos. Al recorrer la frontera en el sentido inducido, leemos la secuencia de aristas. Esto define la permutación <span class="math inline">\(\sigma_v\)</span> de manera única.</li>
-<li><strong>Invariancia:</strong> Si dos encajes son equivalentes, existe un homeomorfismo que preserva la orientación entre las superficies. Este homeomorfismo preserva necesariamente el orden cíclico de las aristas en cada vértice. Por lo tanto, dos encajes equivalentes producen el mismo sistema de rotación (salvo reetiquetado).</li>
-</ol>
-<p>Esta construcción demuestra que el sistema de rotación es un <strong>invariante completo</strong> del encaje.</p>
-<hr>
-</section>
-<section id="ejemplo-encajes-idénticos-de-un-mismo-grafo" class="level3">
-<h3 class="anchored" data-anchor-id="ejemplo-encajes-idénticos-de-un-mismo-grafo">Ejemplo: Encajes idénticos de un mismo grafo</h3>
-<p>Consideremos algunos encajes del siguiente árbol.</p>
 <style>
-.uvwx-grid {
+#br-quick-explorer {
+  border: 1px solid var(--ribbon-light-gray);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0 2rem;
+  background: white;
+}
+
+#br-quick-explorer,
+#br-quick-explorer * {
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+}
+
+#br-quick-explorer h4 {
+  margin: 0 0 0.5rem;
+  color: var(--ribbon-primary-dark);
+  font-size: 1.2rem !important;
+}
+
+#br-quick-explorer .meta {
+  color: var(--ribbon-gray);
+  margin-bottom: 0.75rem;
+}
+
+#br-quick-explorer .controls {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
-.uvwx-item {
-  text-align: center;
+
+#br-quick-explorer label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
 }
-.uvwx-item img {
+
+#br-quick-explorer select,
+#br-quick-explorer input[type="number"] {
   width: 100%;
-  height: auto;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--ribbon-light-gray);
+  border-radius: 0.35rem;
+  background: white;
 }
-.uvwx-item p {
-  margin: 0.5rem 0 0;
+
+#br-quick-explorer .checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
 }
-@media (max-width: 680px) {
-  .uvwx-grid {
-    grid-template-columns: 1fr;
-  }
+
+#br-quick-explorer .checks label {
+  font-weight: 500;
+  margin: 0;
 }
+
+#br-quick-explorer .summary {
+  margin: 0.5rem 0 0.75rem;
+  font-weight: 600;
+}
+
+#br-quick-explorer .table-wrap {
+  max-height: 460px;
+  overflow: auto;
+  border: 1px solid var(--ribbon-light-gray);
+  border-radius: 0.35rem;
+}
+
+#br-quick-explorer table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#br-quick-explorer th,
+#br-quick-explorer td {
+  border: 1px solid var(--ribbon-light-gray);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+
+#br-quick-explorer th {
+  background: rgba(30, 136, 229, 0.08);
+  color: var(--ribbon-dark);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#br-quick-explorer .explorer-link {
+  margin: 0.6rem 0 0.2rem;
+}
+#br-quick-explorer .explorer-link a {
+  display: inline-block;
+  background: #1d3557;
+  color: white;
+  padding: 0.3rem 0.85rem;
+  border-radius: 0.35rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92em;
+}
+#br-quick-explorer .explorer-link a:hover { background: #457b9d; }
+
 </style>
-<div class="uvwx-grid">
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwx.png" alt="sigma=(1234), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_1=(1234) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwxrotado.png" alt="sigma=(1234), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_2=(1234) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwxreflejado.png" alt="sigma=(4321), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_3=(4321) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
-  <div class="uvwx-item">
-    <img src="../imagenes/uvwxswap.png" alt="sigma=(1234), rho=(15)(26)(37)(48)">
-    <p>\( \sigma_4=(1423) \), \( \rho=(15)(26)(37)(48) \)</p>
-  </div>
+
+<div id="br-quick-explorer">
+  <div class="meta">Cargando datos del explorador…</div>
 </div>
-<p><br></p>
-<p>Podemos verificar que en efecto dan un encaje de género 0:</p>
-<p><strong>Prueba el código directamente aquí</strong> (haz clic en “Ejecutar”):</p>
-<div class="sage-cell">
-<script type="text/x-sage">
-sigma = PermutationGroupElement('(1,2,3,4)')
-rho = PermutationGroupElement('(1,5)(2,6)(3,7)(4,8)')
-R = RibbonGraph(sigma, rho)
 
-phi = rho * sigma
-
-V = len(sigma.cycle_tuples(singletons=True))
-E = len(rho.cycle_tuples(singletons=True))
-F = len(phi.cycle_tuples(singletons=True))
-
-print(f"Vértices (V): {V}")
-print(f"Aristas  (E): {E}")
-print(f"Caras    (F): {F}")
-print(f"φ = ρσ: {phi}")
-print(f"Ciclos de φ: {phi.cycle_tuples(singletons=True)}")
-
-g = R.genus()
-b = R.number_boundaries()
-print(f"Género (g): {g}")
-print(f"Fronteras (b): {b}")
-</script>
-</div>
-<p>Los <strong>Sistemas 1 y 2</strong> son idénticos: <span class="math inline">\(\sigma_1=\sigma_2\)</span> y <span class="math inline">\(\rho\)</span> es el mismo. La etiqueta “rotado” solo cambia el dibujo, pero no el orden cíclico de los dardos, así que el sistema combinatorio no cambia.</p>
-<p>El <strong>Sistema 3</strong> tiene <span class="math inline">\(\sigma_3=(4321)=\sigma_1^{-1}\)</span>, que corresponde a un reflejo. En este caso son equivalentes porque existe una biyección de dardos que conjuga uno en el otro y además preserva <span class="math inline">\(\rho\)</span>. Toma <span class="math display">\[
-\phi=(2\,4)(6\,8).
-\]</span> Entonces <span class="math display">\[
-\phi\,\sigma_1\,\phi^{-1}=(1\,4\,3\,2)=\sigma_3,
-\]</span> y como <span class="math inline">\(\phi\)</span> solo intercambia las parejas <span class="math inline">\((2,4)\)</span> y <span class="math inline">\((6,8)\)</span>, se verifica <span class="math display">\[
-\phi\,\rho\,\phi^{-1}=\rho.
-\]</span></p>
-<p>Para el <strong>Sistema 4</strong> con <span class="math inline">\(\sigma_4=(1\,4\,2\,3)\)</span>, también hay equivalencia con el Sistema 1. Toma <span class="math display">\[
-\phi=(2\,4\,3)(6\,8\,7).
-\]</span> Entonces <span class="math display">\[
-\phi\,\sigma_1\,\phi^{-1}=(1\,4\,2\,3)=\sigma_4,
-\]</span> y además <span class="math inline">\(\phi\)</span> preserva <span class="math inline">\(\rho\)</span> porque solo permuta las parejas <span class="math inline">\((2,6)\)</span>, <span class="math inline">\((3,7)\)</span>, <span class="math inline">\((4,8)\)</span> entre sí, así que <span class="math display">\[
-\phi\,\rho\,\phi^{-1}=\rho.
-\]</span> Por lo tanto, los cuatro sistemas representan el mismo ribbon graph (misma clase de isomorfismo).</p>
-<p>En este ejemplo, la equivalencia es relativamente simple de verificar porque el grafo es muy simétrico y tiene pocos vértices. El Teorema de Heffter-Edmonds garantiza que la correspondencia entre sistemas de rotación y encajes es perfecta, pero en casos más complicados, determinar si dos sistemas son equivalentes puede requerir verificación computacional más sofisticada.</p>
+<!-- El script del explorador se carga desde br-explorer-script.html (include-after-body)
+     para evitar que el filtro Lua de Quarto rompa las etiquetas <table> dentro del JS. -->
 <hr>
-</section>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Ejercicio 2: Calcule el mapa combinatorio del siguiente grafo encajado.
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><img src="../imagenes/esferaPoincare.png" class="img-fluid" style="width:90.0%"></p>
-</div>
-</div>
-</section>
-<section id="resumen" class="level2">
-<h2 class="anchored" data-anchor-id="resumen">Resumen</h2>
-<ul>
-<li><strong>Lectura del encaje:</strong> Desde un dibujo encajado se obtiene <span class="math inline">\((\sigma,\rho)\)</span> leyendo el orden cíclico de dardos en cada vértice.</li>
-<li><strong>Correspondencia fundamental:</strong> Sistemas de rotación, ribbon graphs y encajes celulares describen el mismo objeto (Teorema de Heffter‑Edmonds).</li>
-<li><strong>Verificación computacional:</strong> Se calculan <span class="math inline">\(V,E,F,\chi,g\)</span> con SageMath para confirmar el género de ejemplos concretos.</li>
-<li><strong>Equivalencia de sistemas:</strong> Dos sistemas <span class="math inline">\((\sigma_1, \rho_1)\)</span> y <span class="math inline">\((\sigma_2, \rho_2)\)</span> son equivalentes si existe <span class="math inline">\(\phi\)</span> tal que <span class="math inline">\(\phi\sigma_1\phi^{-1}=\sigma_2\)</span> y <span class="math inline">\(\phi\rho_1\phi^{-1}=\rho_2\)</span>.</li>
-<li><strong>Ejemplos simples:</strong> Para grafos simétricos como el árbol de 4 hojas, las equivalencias son directas de verificar.</li>
-</ul>
-<p>En el siguiente capítulo exploraremos ejemplos más complicados donde la equivalencia no es inmediatamente obvia y requerirá herramientas computacionales más avanzadas.</p>
-<div style="text-align: center; margin-top: 3em; color: #94a3b8; font-size: 0.9em;">
-<p>Publicado el 13 de febrero de 2026</p>
-</div>
+<section id="sobre-los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="sobre-los-datos">Sobre los datos</h2>
+<p>Los polinomios se calcularon con <code>scripts/BR_lens_parallel.sage</code> usando multiprocessing y un módulo Cython. El JSON resultante (<code>quarto/data/BR_polynomials.json</code>) contiene todos los casos canónicos <span class="math inline">\(L(p,q)\)</span> calculados para <span class="math inline">\(p \leq 20\)</span>. El explorador los carga directamente sin filtro de <span class="math inline">\(p\)</span>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: center;">Clases de homeo.</th>
+<th style="text-align: right;">Pares canónicos (aprox.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">220</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: right;">2 340</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: right;">382 K</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: right;">5 M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: right;">1 G</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: right;">14 G</td>
+</tr>
+</tbody>
+</table>
+<p>El cálculo hasta <span class="math inline">\(p = 20\)</span> fue posible gracias a las facilidades de cómputo de la <strong>Supercomputadora de la Unidad CIMAT–Mérida</strong>. Contar con esa infraestructura permitió extender los datos más allá de lo alcanzable en una computadora personal, cubriendo un rango suficiente para ilustrar los patrones estructurales del polinomio BR y haciéndolos accesibles al público en general.</p>
 
 
 </section>
@@ -628,68 +565,6 @@ print(f"Fronteras (b): {b}")
       icon: icon
     };
     anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
-    }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copiado");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copiado");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
-    }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
-    });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
-    }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
         var filterRegex = new RegExp("https:\/\/joseleonm\.github\.io\/grafos-en-superficies");
@@ -1028,14 +903,11 @@ print(f"Fronteras (b): {b}")
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../capitulos/03-invariantes.html" class="pagination-link" aria-label="1.3 Invariantes Topológicos">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1.3 Invariantes Topológicos</span>
+      <a href="../capitulos/12-estructura-polinomio.html" class="pagination-link" aria-label="2.4 Estructura del Polinomio BR">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.4 Estructura del Polinomio BR</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../capitulos/05-ejemplos.html" class="pagination-link" aria-label="1.5 Ejemplos Detallados">
-        <span class="nav-page-text">1.5 Ejemplos Detallados</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

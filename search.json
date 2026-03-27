@@ -420,137 +420,15 @@
     ]
   },
   {
-    "objectID": "capitulos/03-invariantes.html",
-    "href": "capitulos/03-invariantes.html",
-    "title": "3. Invariantes Topológicos",
+    "objectID": "capitulos/06-operaciones.html",
+    "href": "capitulos/06-operaciones.html",
+    "title": "6. Operaciones sobre Ribbon Graphs",
     "section": "",
-    "text": "Esta sección es práctica: aprenderemos a usar SageMath para calcular los invariantes topológicos que clasifican la superficie cerrada donde se aloja el grafo:",
+    "text": "En los capítulos anteriores aprendimos a construir ribbon graphs y calcular invariantes topológicos. Este capítulo se enfoca en las operaciones principales sobre ribbon graphs que podemos verificar en Sage: contracción, dualidad y cálculo de base de homología.\n\n\nContracción de Aristas\nLa contracción de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.\n\n\n\n\n\n\nNotaDefinición: Contracción\n\n\n\nDado un ribbon graph \\(G = (\\sigma, \\rho)\\) y una arista no-loop \\(e = \\{d, \\rho(d)\\}\\) cuyos extremos son los vértices \\(u\\) y \\(v\\) (ciclos de \\(\\sigma\\)), la contracción \\(G/e\\) tiene:\n\nDarts: todos excepto \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\sigma\\): los ciclos de \\(u\\) y de \\(v\\) se fusionan, intercalando el orden cíclico de \\(v\\) donde estaba \\(\\rho(d)\\) dentro del ciclo de \\(u\\), y eliminando \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\rho\\): igual a \\(\\rho\\) restringida a los darts restantes\n\n\n\nEfecto topológico: Contraer una arista no-loop preserva el número de caras y la característica de Euler: \\[V(G/e) = V-1, \\quad E(G/e) = E-1, \\quad F(G/e) = F, \\quad \\chi(G/e) = \\chi(G)\\]\nEn particular, la contracción de una arista no-loop preserva el género.\nEjemplo: Tomamos el grafo theta en el toro y contraemos la arista \\(\\{1,2\\}\\):\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.\n\n\n\nDualidad\nLa dual de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.\n\n\n\n\n\n\nNotaConstrucción de la Dual\n\n\n\nDado \\(G = (\\sigma, \\rho)\\) con permutación de caras \\(\\varphi = \\rho\\sigma\\), la dual es: \\[G^* = (\\varphi,\\; \\rho)\\]\nLos vértices de \\(G^*\\) son las caras de \\(G\\), las aristas son las mismas, y las caras de \\(G^*\\) son los vértices de \\(G\\). En fórmulas: \\[V^* = F, \\quad E^* = E, \\quad F^* = V, \\quad g^* = g\\]\n\n\nEjemplo: Consideramos el grafo theta en el toro (\\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\)). Este grafo tiene \\(V=2\\) vértices, \\(E=3\\) aristas y \\(F=1\\) cara.\n¿Por qué el dual tiene 3 lazos? Al aplicar la dualidad (\\(V^*=F, E^*=E\\)), obtenemos un grafo \\(G^*\\) con 1 vértice (porque \\(F=1\\)) y 3 aristas (porque \\(E=3\\)). La única forma de disponer 3 aristas en un grafo con un solo vértice es que todas ellas sean lazos (bucles) que empiezan y terminan en ese mismo vértice.\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl toro del ejemplo tiene \\(V=2\\), \\(E=3\\), \\(F=1\\); su dual tiene \\(V^*=1\\), \\(E^*=3\\), \\(F^*=2\\) y el mismo género 1.\n\n\n\nBase de Homología\nLa base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género \\(g\\) con \\(b\\) componentes de frontera, el rango del primer grupo de homología es: \\[\\mathrm{rank}(H_1(S,\\mathbb{Z})) = 2g + b - 1\\]\nEl toro del ejemplo tiene género 1 y \\(b=1\\) componente de frontera (superficie cerrada), por lo que el rango esperado es \\(2(1) + 1 - 1 = 2\\):\n\n\n\nLos dos ciclos de la base corresponden a los dos “agujeros” fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.\n\n\n\nReducción (núcleo de Betti)\nEl método reduced() contrae aristas de un árbol generador y devuelve un ribbon graph topológicamente equivalente en el siguiente sentido preciso (documentación de Sage):\n\nLa permutación \\(\\sigma\\) del resultado tiene exactamente un ciclo no-singleton (un único vértice no aislado).\nLa permutación \\(\\rho\\) es producto de \\(\\beta_1\\) transposiciones disjuntas, donde \\(\\beta_1\\) es el primer número de Betti del grafo subyacente.\n\nPara un grafo conexo, \\(\\beta_1 = E - V + 1\\). Por tanto, tras reduced() no se conserva el número original de aristas: se conserva la información topológica esencial (género y fronteras), y las aristas pasan a ser las del bouquet mínimo.\n\n\n\n\n\n\nNotaImportante sobre conteos en Sage\n\n\n\nSi usas cycle_tuples(singletons=True) sobre G_red.sigma() o G_red.rho(), Sage incluye ciclos fijos (1-ciclos) en el dominio de la permutación. Eso puede dar valores como V=3, E=4 aunque el grafo reducido real tenga V=1, E=2.\nPara contar vértices/aristas del ribbon graph reducido, en este contexto usa cycle_tuples() sin singletons=True.\n\n\n\n\n\nEn este ejemplo, G_red.sigma() = (3,5,4,6) y G_red.rho() = (3,4)(5,6): hay 1 ciclo no-singleton en \\(\\sigma\\) y 2 transposiciones en \\(\\rho\\), es decir, un bouquet con 1 vértice y 2 lazos. El género y el número de fronteras se preservan.\n\n\n\n\nEstas operaciones —contracción, dualidad, reducción y cálculo de homología— son propiedades útiles documentadas en el manual de Sage para la clase RibbonGraph. En la siguiente sección estudiaremos el polinomio de Bollobás-Riordan como un invariante topológico-combinatorio implementable en SageMath.\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
-    "href": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
-    "title": "3. Invariantes Topológicos",
-    "section": "1. Conteo de Elementos (\\(V, E, F\\))",
-    "text": "1. Conteo de Elementos (\\(V, E, F\\))\nRecordemos que en un mapa combinatorio:\n\n\\(V\\): Ciclos de \\(\\sigma\\)\n\\(E\\): Ciclos de \\(\\rho\\) (o \\(|D|/2\\))\n\\(F\\): Ciclos de \\(\\varphi = \\rho \\sigma\\)\n\n\n\n\n\n\n\nNotaInterpretación: ¿Caras o Fronteras?\n\n\n\nEn un ribbon graph, los ciclos de la permutación \\(\\varphi\\) describen las componentes de frontera de la superficie con borde obtenida al engrosar el grafo. Si se tapan esas fronteras con discos, esas mismas componentes pasan a ser las caras del encaje en la superficie cerrada.\nPor ello, SageMath cuenta estos ciclos con number_boundaries(). En este curso, \\(b\\) denota el número de componentes de frontera y coincide con \\(F\\) cuando interpretamos el mapa sobre la superficie cerrada (\\(F=b\\)).\n\n\nSageMath nos permite extraer estos valores directamente del objeto RibbonGraph.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
-    "href": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
-    "title": "3. Invariantes Topológicos",
-    "section": "2. La Característica de Euler (\\(\\chi\\))",
-    "text": "2. La Característica de Euler (\\(\\chi\\))\nLa característica de Euler es el invariante más fundamental. Se define combinatoriamente como:\n\\[ \\chi = V - E + F \\]\nEsta es la característica de Euler de la superficie cerrada obtenida al pegar discos en todas las fronteras del grafo.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
-    "href": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
-    "title": "3. Invariantes Topológicos",
-    "section": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))",
-    "text": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))\nEl género \\(g\\) se calcula siempre a partir de la superficie cerrada asociada. La cuenta es la misma, solo cambia la interpretación de \\(F\\) y \\(b\\):\n\nEn el ribbon graph, los ciclos de \\(\\varphi\\) son fronteras, de modo que \\(b\\) es el número de componentes de frontera.\nAl tapar cada frontera con un disco, esas mismas componentes pasan a ser las caras \\(F\\) de la superficie cerrada.\n\nPor lo tanto, en la superficie cerrada se cumple:\n\\[ \\chi = V - E + F = V - E + b \\quad \\Rightarrow \\quad g = \\frac{2 - (V - E + b)}{2} \\]\nSageMath detecta automáticamente el número de componentes de frontera (\\(b\\)), y ese mismo valor coincide con \\(F\\) cuando se interpreta el mapa en la superficie cerrada.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nNotaNota sobre number_boundaries()\n\n\n\nEn la implementación de RibbonGraph de SageMath, el método number_boundaries() devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras \\(F\\). La fórmula funciona consistentemente.",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
-    "href": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
-    "title": "3. Invariantes Topológicos",
-    "section": "4. Automatización: Una función de análisis",
-    "text": "4. Automatización: Una función de análisis\nComo ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#galería-de-ejemplos",
-    "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
-    "title": "3. Invariantes Topológicos",
-    "section": "5. Galería de Ejemplos",
-    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "capitulos/03-invariantes.html#ejercicios",
-    "href": "capitulos/03-invariantes.html#ejercicios",
-    "title": "3. Invariantes Topológicos",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Diseñador de Superficies\n\n\n\nUsa la función analizar_topologia para encontrar un sistema de rotación que genere una superficie de género 2 (Bitoro).\nPista: Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar \\(\\sigma\\) en un bouquet de 4 lazos.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Grafos Completos\n\n\n\nInvestiga el género de los grafos completos \\(K_n\\).\n\nVerifica que \\(K_3\\) tiene género 0.\nConstruye un sistema de rotación para \\(K_4\\) y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (\\(g=0\\))?\n¿Cuál es el género mínimo para \\(K_5\\)?\n\n\n\n\nPublicado el 09 de febrero de 2026",
-    "crumbs": [
-      "Inicio",
-      "1. Sistemas de Rotación",
-      "1.3 Invariantes Topológicos"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "",
-    "text": "Autor: José Luis León Medina",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#sobre-este-proyecto",
-    "href": "index.html#sobre-este-proyecto",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Sobre este proyecto",
-    "text": "Sobre este proyecto\nLos sistemas de rotación son pares de permutaciones \\((\\sigma, \\rho)\\) que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, establecida por el Teorema de Heffter-Edmonds.\n\nIdea principal\nUn sistema de rotación \\((\\sigma, \\rho)\\) contiene toda la información necesaria para:\n\nReconstruir el grafo subyacente (vértices y aristas)\nDeterminar el orden cíclico de semiaristas alrededor de cada vértice\nCalcular las caras mediante la permutación \\(\\varphi = \\rho\\sigma\\)\nObtener invariantes topológicos: género, característica de Euler, número de caras\nConstruir la superficie completa mediante engrosamiento (thickening)\n\nResultado fundamental: Álgebra de permutaciones ↔︎ Topología de superficies",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#contenido",
-    "href": "index.html#contenido",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Contenido",
-    "text": "Contenido\n\n1. Sistemas de Rotación\nIntroducción a los sistemas de rotación como modelo combinatorio de grafos encajados.\n\nDefinición mediante permutaciones \\(\\sigma\\) y \\(\\rho\\)\nSemiaristas (darts) y orden cíclico\nEjemplos básicos con código SageMath\nConstrucción en Sage: RibbonGraph(sigma, rho)\n\n\n\n2. Mapas Combinatorios\nDe la intuición geométrica a la formalización algebraica.\n\nAxiomática de Tutte: definición formal de mapa combinatorio\nTeorema de Realización Topológica\nAlgoritmo de trazado de caras (\\(\\varphi = \\rho\\sigma\\))\nUnicidad del encaje y el género como consecuencia\n\n\n\n3. Invariantes Topológicos\nCálculo computacional con SageMath.\n\nAutomatización del cálculo de \\(V, E, F\\)\nCaracterística de Euler y Género\nFunción de análisis topológico (analizar_topologia)\nExperimentación con grafos completos y superficies de género alto\n\n\n\n4. Equivalencia\nEl teorema fundamental que establece la correspondencia biunívoca.\n\nLectura del encaje: obtención de \\((\\sigma,\\rho)\\) desde un dibujo encajado\nTeorema de Heffter‑Edmonds y equivalencia por conjugación\nVerificación en SageMathCell del género en ejemplos concretos\nEjemplos de encajes equivalentes y no equivalentes (criterio por caras)\nTeorema de Whitney, Steinitz y conectividad 3‑conexa\nOrientabilidad y limitaciones del modelo\n\n\n\n5. Ejemplos\nVerificación computacional de equivalencia entre sistemas de rotación.\n\nEjemplo ilustrativo: el moño y el ojo son equivalentes pese a la intuición\nEjemplo de no-equivalencia: multiconjuntos de caras como invariante rápido\nDel problema al algoritmo: fuerza bruta vs. búsqueda con retroceso\nDiagramas de Heegaard de la Esfera de Poincaré como encajes celulares\nVerificación interactiva con SageMathCell\n\n\n\n6. Operaciones sobre Ribbon Graphs\nOperaciones fundamentales para transformar y analizar ribbon graphs en Sage.\n\nContracción de aristas: fusión de vértices preservando el género.\nDualidad: intercambio de vértices y caras (\\(V^*=F\\), \\(F^*=V\\)).\nBase de homología y cálculo del rango \\(\\mathrm{rank}(H_1) = 2g + b - 1\\).\nReducción: obtención del núcleo de Betti contrayendo árboles generadores.\n\n\n\n7. Polinomio de Bollobás-Riordan\nGeneralización del polinomio de Tutte que detecta la topología del encaje.\n\nDefinición, cálculo y optimización en Sage.\nLa variable \\(z\\) como detector del género.\nDistinción de encajes mediante el polinomio.\n\n\n\n8. BR del Diagrama de Poincaré\nCálculo computacional del polinomio para un caso de alta complejidad (\\(E=24\\)).\n\nSistema de rotación del diagrama de Heegaard (\\(V=12, E=24\\)).\nResultado explícito del polinomio \\(R(G; x, y, z)\\).",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#herramientas",
-    "href": "index.html#herramientas",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Herramientas",
-    "text": "Herramientas\nEste proyecto utiliza:\n\nSageMath 10.7 - Cálculos con RibbonGraph, PermutationGroupElement\nPython 3.13 - Scripts de análisis y visualización\nQuarto - Documentación interactiva con bloques de código ejecutables",
-    "crumbs": [
-      "Inicio"
-    ]
-  },
-  {
-    "objectID": "index.html#referencias",
-    "href": "index.html#referencias",
-    "title": "Sistemas de Rotación y Ribbon Graphs",
-    "section": "Referencias",
-    "text": "Referencias\n\nGross, J. L., & Tucker, T. W. (1987). Topological Graph Theory\nLando, S. K., & Zvonkin, A. K. (2004). Graphs on Surfaces\nEdmonds, J. (1960). A combinatorial representation for polyhedral surfaces\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen\nSageMath - Ribbon Graphs Documentation\n\n\n\n2026",
-    "crumbs": [
-      "Inicio"
+      "1.6 Operaciones adicionales"
     ]
   },
   {
@@ -650,15 +528,159 @@
     ]
   },
   {
-    "objectID": "capitulos/06-operaciones.html",
-    "href": "capitulos/06-operaciones.html",
-    "title": "6. Operaciones sobre Ribbon Graphs",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
     "section": "",
-    "text": "En los capítulos anteriores aprendimos a construir ribbon graphs y calcular invariantes topológicos. Este capítulo se enfoca en las operaciones principales sobre ribbon graphs que podemos verificar en Sage: contracción, dualidad y cálculo de base de homología.\n\n\nContracción de Aristas\nLa contracción de una arista fusiona sus dos extremos en un único vértice, preservando el orden cíclico de los darts restantes.\n\n\n\n\n\n\nNotaDefinición: Contracción\n\n\n\nDado un ribbon graph \\(G = (\\sigma, \\rho)\\) y una arista no-loop \\(e = \\{d, \\rho(d)\\}\\) cuyos extremos son los vértices \\(u\\) y \\(v\\) (ciclos de \\(\\sigma\\)), la contracción \\(G/e\\) tiene:\n\nDarts: todos excepto \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\sigma\\): los ciclos de \\(u\\) y de \\(v\\) se fusionan, intercalando el orden cíclico de \\(v\\) donde estaba \\(\\rho(d)\\) dentro del ciclo de \\(u\\), y eliminando \\(d\\) y \\(\\rho(d)\\)\nNueva \\(\\rho\\): igual a \\(\\rho\\) restringida a los darts restantes\n\n\n\nEfecto topológico: Contraer una arista no-loop preserva el número de caras y la característica de Euler: \\[V(G/e) = V-1, \\quad E(G/e) = E-1, \\quad F(G/e) = F, \\quad \\chi(G/e) = \\chi(G)\\]\nEn particular, la contracción de una arista no-loop preserva el género.\nEjemplo: Tomamos el grafo theta en el toro y contraemos la arista \\(\\{1,2\\}\\):\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl resultado es un ribbon graph con un solo vértice y dos loops que todavía representa un toro (género 1). La contracción no cambia la superficie subyacente cuando la arista no es un loop.\n\n\n\nDualidad\nLa dual de un ribbon graph intercambia los roles de los vértices y las caras, preservando las aristas.\n\n\n\n\n\n\nNotaConstrucción de la Dual\n\n\n\nDado \\(G = (\\sigma, \\rho)\\) con permutación de caras \\(\\varphi = \\rho\\sigma\\), la dual es: \\[G^* = (\\varphi,\\; \\rho)\\]\nLos vértices de \\(G^*\\) son las caras de \\(G\\), las aristas son las mismas, y las caras de \\(G^*\\) son los vértices de \\(G\\). En fórmulas: \\[V^* = F, \\quad E^* = E, \\quad F^* = V, \\quad g^* = g\\]\n\n\nEjemplo: Consideramos el grafo theta en el toro (\\(\\sigma=(1,3,5)(2,4,6)\\), \\(\\rho=(1,2)(3,4)(5,6)\\)). Este grafo tiene \\(V=2\\) vértices, \\(E=3\\) aristas y \\(F=1\\) cara.\n¿Por qué el dual tiene 3 lazos? Al aplicar la dualidad (\\(V^*=F, E^*=E\\)), obtenemos un grafo \\(G^*\\) con 1 vértice (porque \\(F=1\\)) y 3 aristas (porque \\(E=3\\)). La única forma de disponer 3 aristas en un grafo con un solo vértice es que todas ellas sean lazos (bucles) que empiezan y terminan en ese mismo vértice.\n\n\n\n\n\n\n\n\n\n\n\n\n\nEl toro del ejemplo tiene \\(V=2\\), \\(E=3\\), \\(F=1\\); su dual tiene \\(V^*=1\\), \\(E^*=3\\), \\(F^*=2\\) y el mismo género 1.\n\n\n\nBase de Homología\nLa base de homología de la superficie subyacente a un ribbon graph se puede calcular directamente con Sage. Para una superficie orientable de género \\(g\\) con \\(b\\) componentes de frontera, el rango del primer grupo de homología es: \\[\\mathrm{rank}(H_1(S,\\mathbb{Z})) = 2g + b - 1\\]\nEl toro del ejemplo tiene género 1 y \\(b=1\\) componente de frontera (superficie cerrada), por lo que el rango esperado es \\(2(1) + 1 - 1 = 2\\):\n\n\n\nLos dos ciclos de la base corresponden a los dos “agujeros” fundamentales del toro: el camino a lo largo del tubo y el camino alrededor del tubo.\n\n\n\nReducción (núcleo de Betti)\nEl método reduced() contrae aristas de un árbol generador y devuelve un ribbon graph topológicamente equivalente en el siguiente sentido preciso (documentación de Sage):\n\nLa permutación \\(\\sigma\\) del resultado tiene exactamente un ciclo no-singleton (un único vértice no aislado).\nLa permutación \\(\\rho\\) es producto de \\(\\beta_1\\) transposiciones disjuntas, donde \\(\\beta_1\\) es el primer número de Betti del grafo subyacente.\n\nPara un grafo conexo, \\(\\beta_1 = E - V + 1\\). Por tanto, tras reduced() no se conserva el número original de aristas: se conserva la información topológica esencial (género y fronteras), y las aristas pasan a ser las del bouquet mínimo.\n\n\n\n\n\n\nNotaImportante sobre conteos en Sage\n\n\n\nSi usas cycle_tuples(singletons=True) sobre G_red.sigma() o G_red.rho(), Sage incluye ciclos fijos (1-ciclos) en el dominio de la permutación. Eso puede dar valores como V=3, E=4 aunque el grafo reducido real tenga V=1, E=2.\nPara contar vértices/aristas del ribbon graph reducido, en este contexto usa cycle_tuples() sin singletons=True.\n\n\n\n\n\nEn este ejemplo, G_red.sigma() = (3,5,4,6) y G_red.rho() = (3,4)(5,6): hay 1 ciclo no-singleton en \\(\\sigma\\) y 2 transposiciones en \\(\\rho\\), es decir, un bouquet con 1 vértice y 2 lazos. El género y el número de fronteras se preservan.\n\n\n\n\nEstas operaciones —contracción, dualidad, reducción y cálculo de homología— son propiedades útiles documentadas en el manual de Sage para la clase RibbonGraph. En la siguiente sección estudiaremos el polinomio de Bollobás-Riordan como un invariante topológico-combinatorio implementable en SageMath.\n\n\n\n\n Volver arribaReutilizaciónCC BY-NC-SA 4.0",
+    "text": "Autor: José Luis León Medina",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#sobre-este-proyecto",
+    "href": "index.html#sobre-este-proyecto",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Sobre este proyecto",
+    "text": "Sobre este proyecto\nLos sistemas de rotación son pares de permutaciones \\((\\sigma, \\rho)\\) que codifican completamente un encaje celular de un grafo en una superficie orientable. Este proyecto explora la correspondencia biunívoca entre sistemas de rotación y ribbon graphs, y desarrolla su aplicación al estudio de los espacios lente mediante el polinomio de Bollobás-Riordan.\n\nIdea principal\nUn sistema de rotación \\((\\sigma, \\rho)\\) contiene toda la información necesaria para:\n\nReconstruir el grafo subyacente y el orden cíclico de aristas en cada vértice\nCalcular las caras mediante \\(\\varphi = \\rho\\sigma\\) y obtener el género de la superficie\nConstruir invariantes topológicos que distinguen encajes no equivalentes\n\nResultado fundamental: Álgebra de permutaciones ↔︎ Topología de superficies",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#contenido",
+    "href": "index.html#contenido",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Contenido",
+    "text": "Contenido\n\n1. Sistemas de Rotación\nFundamentos combinatorios de los grafos encajados en superficies orientables: definición de sistemas de rotación y ribbon graphs, el Teorema de Heffter-Edmonds, cálculo de invariantes topológicos (\\(V, E, F\\), género, característica de Euler) y operaciones fundamentales (dualidad, contracción, homología). Se incluye el Polinomio de Bollobás-Riordan como generalización del polinomio de Tutte que detecta la topología del encaje mediante la variable \\(z\\).\nCapítulos: Introducción · Mapas Combinatorios · Invariantes · Equivalencia · Ejemplos · Operaciones · Polinomio BR · BR del Diagrama de Poincaré\n\n\n\n2. Espacios Lente\nAplicación de la teoría a los espacios lente \\(L(p,q)\\): sus grafos de Heegaard \\(G(p;\\pm 1,\\pm q)\\) como grafos circulantes de doble lazo encajados en el toro, la lattice de ciclos \\(\\Lambda_{p,q}\\) y su geometría, y la estructura del polinomio BR en género \\(1\\). Se estudia cómo los coeficientes del polinomio codifican la forma \\(L\\) asociada al grafo, permitiendo recuperar la clase de homeomorfismo del espacio lente desde invariantes combinatorios puros.\nCapítulos: Espacios Lente y Grafos de Heegaard · Grafos Circulantes · Lattice de Ciclos · Estructura del Polinomio BR\n\n\n\nSimulador BR de Espacios Lente\nBase de datos interactiva con los polinomios de Bollobás-Riordan de todos los espacios lente \\(L(p,q)\\) para \\(p \\leq 20\\), calculados con cómputo de alto rendimiento. Permite explorar los coeficientes con filtros por exponente y abre el visualizador gráfico de cada grafo \\(G(p;\\pm 1,\\pm q)\\) sobre el toro fundamental.",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#herramientas",
+    "href": "index.html#herramientas",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Herramientas",
+    "text": "Herramientas\n\nSageMath 10.7 — Cálculos con RibbonGraph, PermutationGroupElement\nPython 3.13 — Scripts de análisis, cálculo paralelo y visualización\nQuarto — Documentación interactiva con bloques de código ejecutables",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "index.html#referencias",
+    "href": "index.html#referencias",
+    "title": "Sistemas de Rotación y Ribbon Graphs",
+    "section": "Referencias",
+    "text": "Referencias\n\nGross, J. L., & Tucker, T. W. (1987). Topological Graph Theory\nLando, S. K., & Zvonkin, A. K. (2004). Graphs on Surfaces\nEdmonds, J. (1960). A combinatorial representation for polyhedral surfaces\nBollobás, B., & Riordan, O. (2002). A polynomial of graphs on surfaces. Mathematische Annalen\n\n\n\n2026",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html",
+    "href": "capitulos/03-invariantes.html",
+    "title": "3. Invariantes Topológicos",
+    "section": "",
+    "text": "Esta sección es práctica: aprenderemos a usar SageMath para calcular los invariantes topológicos que clasifican la superficie cerrada donde se aloja el grafo:",
     "crumbs": [
       "Inicio",
       "1. Sistemas de Rotación",
-      "1.6 Operaciones adicionales"
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
+    "href": "capitulos/03-invariantes.html#conteo-de-elementos-v-e-f",
+    "title": "3. Invariantes Topológicos",
+    "section": "1. Conteo de Elementos (\\(V, E, F\\))",
+    "text": "1. Conteo de Elementos (\\(V, E, F\\))\nRecordemos que en un mapa combinatorio:\n\n\\(V\\): Ciclos de \\(\\sigma\\)\n\\(E\\): Ciclos de \\(\\rho\\) (o \\(|D|/2\\))\n\\(F\\): Ciclos de \\(\\varphi = \\rho \\sigma\\)\n\n\n\n\n\n\n\nNotaInterpretación: ¿Caras o Fronteras?\n\n\n\nEn un ribbon graph, los ciclos de la permutación \\(\\varphi\\) describen las componentes de frontera de la superficie con borde obtenida al engrosar el grafo. Si se tapan esas fronteras con discos, esas mismas componentes pasan a ser las caras del encaje en la superficie cerrada.\nPor ello, SageMath cuenta estos ciclos con number_boundaries(). En este curso, \\(b\\) denota el número de componentes de frontera y coincide con \\(F\\) cuando interpretamos el mapa sobre la superficie cerrada (\\(F=b\\)).\n\n\nSageMath nos permite extraer estos valores directamente del objeto RibbonGraph.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
+    "href": "capitulos/03-invariantes.html#la-característica-de-euler-chi",
+    "title": "3. Invariantes Topológicos",
+    "section": "2. La Característica de Euler (\\(\\chi\\))",
+    "text": "2. La Característica de Euler (\\(\\chi\\))\nLa característica de Euler es el invariante más fundamental. Se define combinatoriamente como:\n\\[ \\chi = V - E + F \\]\nEsta es la característica de Euler de la superficie cerrada obtenida al pegar discos en todas las fronteras del grafo.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
+    "href": "capitulos/03-invariantes.html#el-género-g-y-la-frontera-b",
+    "title": "3. Invariantes Topológicos",
+    "section": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))",
+    "text": "3. El Género (\\(g\\)) y la Frontera (\\(b\\))\nEl género \\(g\\) se calcula siempre a partir de la superficie cerrada asociada. La cuenta es la misma, solo cambia la interpretación de \\(F\\) y \\(b\\):\n\nEn el ribbon graph, los ciclos de \\(\\varphi\\) son fronteras, de modo que \\(b\\) es el número de componentes de frontera.\nAl tapar cada frontera con un disco, esas mismas componentes pasan a ser las caras \\(F\\) de la superficie cerrada.\n\nPor lo tanto, en la superficie cerrada se cumple:\n\\[ \\chi = V - E + F = V - E + b \\quad \\Rightarrow \\quad g = \\frac{2 - (V - E + b)}{2} \\]\nSageMath detecta automáticamente el número de componentes de frontera (\\(b\\)), y ese mismo valor coincide con \\(F\\) cuando se interpreta el mapa en la superficie cerrada.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):\n\n\n\n\n\n\n\n\n\nNotaNota sobre number_boundaries()\n\n\n\nEn la implementación de RibbonGraph de SageMath, el método number_boundaries() devuelve el número de caras del mapa. Si interpretamos el mapa como una superficie con borde (antes de pegar los discos de las caras), estas caras son precisamente los bordes. Si lo interpretamos como superficie cerrada (después de pegar), son las caras \\(F\\). La fórmula funciona consistentemente.",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
+    "href": "capitulos/03-invariantes.html#automatización-una-función-de-análisis",
+    "title": "3. Invariantes Topológicos",
+    "section": "4. Automatización: Una función de análisis",
+    "text": "4. Automatización: Una función de análisis\nComo ejercicio de programación en SageMath, vamos a encapsular todo esto en una función reutilizable que nos dé un “reporte topológico” de cualquier sistema de rotación.\nPrueba el código directamente aquí (haz clic en “Ejecutar”):",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#galería-de-ejemplos",
+    "href": "capitulos/03-invariantes.html#galería-de-ejemplos",
+    "title": "3. Invariantes Topológicos",
+    "section": "5. Galería de Ejemplos",
+    "text": "5. Galería de Ejemplos\nVeamos cómo se comportan los invariantes en distintos casos.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\(\\sigma\\)\n\\(\\rho\\)\n\\(V\\)\n\\(E\\)\n\\(F\\)\n\\(\\chi\\)\n\\(g\\)\nSuperficie\n\n\n\n\n\\((1,6)(2,3)(4,5)\\)\n\\((1,2)(3,4)(5,6)\\)\n\\(3\\)\n\\(3\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera\n\n\n\\((1,3,2,4)\\)\n\\((1,2)(3,4)\\)\n\\(1\\)\n\\(2\\)\n\\(1\\)\n\\(0\\)\n\\(1\\)\nToro\n\n\n\\((1,2)\\)\n\\((1,2)\\)\n\\(1\\)\n\\(1\\)\n\\(2\\)\n\\(2\\)\n\\(0\\)\nEsfera",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/03-invariantes.html#ejercicios",
+    "href": "capitulos/03-invariantes.html#ejercicios",
+    "title": "3. Invariantes Topológicos",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n\n\n\n\n\nTipEjercicio 1: Diseñador de Superficies\n\n\n\nUsa la función analizar_topologia para encontrar un sistema de rotación que genere una superficie de género 2 (Bitoro).\nPista: Necesitarás al menos 4 aristas (8 semiaristas) para tener suficiente “material” topológico. Intenta modificar \\(\\sigma\\) en un bouquet de 4 lazos.\n\n\n\n\n\n\n\n\nTipEjercicio 2: Grafos Completos\n\n\n\nInvestiga el género de los grafos completos \\(K_n\\).\n\nVerifica que \\(K_3\\) tiene género 0.\nConstruye un sistema de rotación para \\(K_4\\) y determina el género de la superficie resultante. ¿Es posible obtener un encaje en la esfera (\\(g=0\\))?\n¿Cuál es el género mínimo para \\(K_5\\)?\n\n\n\n\nPublicado el 09 de febrero de 2026",
+    "crumbs": [
+      "Inicio",
+      "1. Sistemas de Rotación",
+      "1.3 Invariantes Topológicos"
+    ]
+  },
+  {
+    "objectID": "capitulos/explorador-polinomios.html",
+    "href": "capitulos/explorador-polinomios.html",
+    "title": "Simulador BR de Espacios Lente",
+    "section": "",
+    "text": "Esta sección reúne el trabajo computacional del proyecto: el cálculo masivo de los polinomios de Bollobás-Riordan de los grafos de Heegaard de los espacios lente \\(L(p,q)\\) para \\(p \\leq 20\\), junto con visualizadores interactivos para explorar su estructura. Selecciona un caso y usa el botón Explorador interactivo para abrir el simulador gráfico completo en una ventana nueva.",
+    "crumbs": [
+      "Inicio",
+      "Simulador BR de Espacios Lente"
+    ]
+  },
+  {
+    "objectID": "capitulos/explorador-polinomios.html#sobre-los-datos",
+    "href": "capitulos/explorador-polinomios.html#sobre-los-datos",
+    "title": "Simulador BR de Espacios Lente",
+    "section": "Sobre los datos",
+    "text": "Sobre los datos\nLos polinomios se calcularon con scripts/BR_lens_parallel.sage usando multiprocessing y un módulo Cython. El JSON resultante (quarto/data/BR_polynomials.json) contiene todos los casos canónicos \\(L(p,q)\\) calculados para \\(p \\leq 20\\). El explorador los carga directamente sin filtro de \\(p\\).\n\n\n\n\\(p\\)\nClases de homeo.\nPares canónicos (aprox.)\n\n\n\n\n5\n1\n220\n\n\n7\n2\n2 340\n\n\n11\n4\n382 K\n\n\n13\n5\n5 M\n\n\n17\n7\n1 G\n\n\n19\n8\n14 G\n\n\n\nEl cálculo hasta \\(p = 20\\) fue posible gracias a las facilidades de cómputo de la Supercomputadora de la Unidad CIMAT–Mérida. Contar con esa infraestructura permitió extender los datos más allá de lo alcanzable en una computadora personal, cubriendo un rango suficiente para ilustrar los patrones estructurales del polinomio BR y haciéndolos accesibles al público en general.",
+    "crumbs": [
+      "Inicio",
+      "Simulador BR de Espacios Lente"
     ]
   },
   {
