@@ -110,7 +110,7 @@ Esto permite hablar de la frontera superior de cada rebanada relevante.
 ## Proposición
 
 $$
-S_1 = p-\mathrm{cintura}(G_{p,q}).
+S_1 = p-\mathrm{Girth}(G_{p,q}).
 $$
 :::
 
@@ -217,6 +217,24 @@ Todo dominio fundamental asociado a un 2-núcleo mínimo de género 1 puede tran
 ---
 
 
-## Transición al siguiente apartado
+## La forma L como invariante completo
 
-Con esta estructura ya fijada, el siguiente paso natural es estudiar la sucesión extremal completa en género $1$ (perfil $(S_t)$) y su poder de separación entre órbitas aritméticas.
+Los resultados anteriores permiten leer directamente la geometría de la forma $L$ desde los coeficientes del polinomio BR:
+
+- **Máximo exponente en $x$:** el valor $S_2 = \max\{s : [x^s y^2 z^2] R \neq 0\}$ satisface
+$$S_2 = p + 1 - \tfrac{P}{2},$$
+donde $P$ es el perímetro de la forma $L$ asociada al grafo $G(p;\pm 1,\pm q)$.
+
+- **Lado del cuadrado inscrito:** el entero $m$ tal que el cuadrado de lado $m$ es el mayor inscrito en la forma $L$ queda codificado como el lado del bloque cuadrado en la descomposición de la $L$.
+
+- **Primer ascenso de nulidad:** el primer valor de $t$ en que la nulidad sube a $3$ sin perder conectividad del ribbon codifica el brazo más corto de la forma $L$.
+
+- **Número de ascensos:** la cantidad total de tales ascensos de nulidad sin desconexión codifica el número de hileras adicionales necesarias para construir la forma $L$ a partir del cuadrado de lado $m$.
+
+- **Máximo exponente en $y$:** el valor $T_0 = \max\{t : [x^0 y^t z^0] R \neq 0\}$ satisface
+$$T_0 = p + 1 - \lambda_1(\Lambda_{p,q}),$$
+donde $\lambda_1(\Lambda_{p,q})$ es la longitud del vector más corto no nulo de la lattice de ciclos $\Lambda_{p,q}$.
+
+- **Base de la lattice:** los lados largos de la $L$ junto con los lados de la muesca codifican una base de $\Lambda_{p,q}$ de determinante $p$.
+
+En conjunto, esta evidencia indica que el polinomio BR permite recuperar la forma $L$ sin ambigüedad y, con ella, la clase de homeomorfismo del espacio lente $L(p,q)$.

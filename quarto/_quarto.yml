@@ -4,6 +4,7 @@ project:
   resources:
     - data/
     - imagenes/br_*.html
+    - imagenes/L*.html
     - imagenes/br_index.html
 
 website:
@@ -52,6 +53,10 @@ website:
             file: capitulos/11-lattice-ciclos.qmd
           - text: "2.4 Estructura del Polinomio BR"
             file: capitulos/12-estructura-polinomio.qmd
+
+      - text: "Simulador BR de Espacios Lente"
+        icon: graph-up
+        file: capitulos/explorador-polinomios.qmd
     right:
       - icon: github
         href: https://github.com/joseleonm/grafos-en-superficies
@@ -95,6 +100,10 @@ website:
             file: capitulos/11-lattice-ciclos.qmd
           - text: "2.4 Estructura del Polinomio BR"
             file: capitulos/12-estructura-polinomio.qmd
+
+      - text: "Simulador BR de Espacios Lente"
+        icon: graph-up
+        file: capitulos/explorador-polinomios.qmd
 
   page-footer:
     center: |
