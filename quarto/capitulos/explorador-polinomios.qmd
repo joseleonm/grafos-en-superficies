@@ -139,13 +139,13 @@ Esta sección reúne el trabajo computacional del proyecto: el cálculo masivo d
 
 Los polinomios se calcularon con `scripts/BR_lens_parallel.sage` usando multiprocessing y un módulo Cython. El JSON resultante (`quarto/data/BR_polynomials.json`) contiene todos los casos canónicos $L(p,q)$ calculados para $p \leq 20$. El explorador los carga directamente sin filtro de $p$.
 
-| $p$ | Clases de homeo. | Pares canónicos (aprox.) |
-|----:|:----------------:|-------------------------:|
-| 5   | 1                | 220                      |
-| 7   | 2                | 2 340                    |
-| 11  | 4                | 382 K                    |
-| 13  | 5                | 5 M                      |
-| 17  | 7                | 1 G                      |
-| 19  | 8                | 14 G                     |
+| $p$ | Clases de homeo. | Pares canónicos (aprox.) | CPU (1 núcleo) |
+|----:|:----------------:|-------------------------:|---------------:|
+| 5   | 1                | 220                      | < 0.1 s        |
+| 7   | 2                | 2 340                    | ~0.5 s         |
+| 11  | 4                | 382 K                    | ~5 s           |
+| 13  | 5                | 5 M                      | ~60 s          |
+| 17  | 7                | 1 G                      | horas          |
+| 19  | 8                | 14 G                     | días           |
 
 El cálculo hasta $p = 20$ fue posible gracias a las facilidades de cómputo de la **Supercomputadora de la Unidad CIMAT–Mérida**. Contar con esa infraestructura permitió extender los datos más allá de lo alcanzable en una computadora personal, cubriendo un rango suficiente para ilustrar los patrones estructurales del polinomio BR y haciéndolos accesibles al público en general.
