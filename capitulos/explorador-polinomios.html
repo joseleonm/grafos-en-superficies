@@ -515,6 +515,7 @@ window.Quarto = {
 <th style="text-align: right;"><span class="math inline">\(p\)</span></th>
 <th style="text-align: center;">Clases de homeo.</th>
 <th style="text-align: right;">Pares canónicos (aprox.)</th>
+<th style="text-align: right;">CPU (1 núcleo)</th>
 </tr>
 </thead>
 <tbody>
@@ -522,31 +523,37 @@ window.Quarto = {
 <td style="text-align: right;">5</td>
 <td style="text-align: center;">1</td>
 <td style="text-align: right;">220</td>
+<td style="text-align: right;">&lt; 0.1 s</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">7</td>
 <td style="text-align: center;">2</td>
 <td style="text-align: right;">2 340</td>
+<td style="text-align: right;">~0.5 s</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">11</td>
 <td style="text-align: center;">4</td>
 <td style="text-align: right;">382 K</td>
+<td style="text-align: right;">~5 s</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">13</td>
 <td style="text-align: center;">5</td>
 <td style="text-align: right;">5 M</td>
+<td style="text-align: right;">~60 s</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">17</td>
 <td style="text-align: center;">7</td>
 <td style="text-align: right;">1 G</td>
+<td style="text-align: right;">horas</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">19</td>
 <td style="text-align: center;">8</td>
 <td style="text-align: right;">14 G</td>
+<td style="text-align: right;">días</td>
 </tr>
 </tbody>
 </table>
@@ -556,6 +563,233 @@ window.Quarto = {
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Volver arriba</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reutilización</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
+<script>
+(async function () {
+  const root = document.getElementById('br-quick-explorer');
+  if (!root) return;
+
+  const candidates = [
+    '../data/BR_polynomials.json',
+    '/data/BR_polynomials.json',
+    '/grafos-en-superficies/data/BR_polynomials.json'
+  ];
+
+  let db = null;
+  let sourcePath = null;
+  const errors = [];
+
+  for (const path of candidates) {
+    try {
+      const response = await fetch(path, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const json = await response.json();
+      if (!json || !Array.isArray(json.cases)) throw new Error("JSON sin campo 'cases'");
+      db = json;
+      sourcePath = path;
+      break;
+    } catch (err) {
+      errors.push(`${path} → ${err && err.message ? err.message : String(err)}`);
+    }
+  }
+
+  if (!db || db.cases.length === 0) {
+    root.innerHTML = `
+      <h4>Explorador rápido (estable)</h4>
+      <p><strong>No se pudo cargar BR_polynomials.json.</strong></p>
+      <p>Ejecuta <code>sage scripts/BR_lens_spaces.sage</code> y recarga la página.</p>
+      <pre style="white-space: pre-wrap">${errors.join('\n')}</pre>
+    `;
+    return;
+  }
+
+  const cases = db.cases.slice().sort((a, b) => (a.p - b.p) || (a.q - b.q));
+
+  root.innerHTML = `
+    <div class="meta">Fuente: <code>${sourcePath}</code> · Casos cargados: <strong>${cases.length}</strong></div>
+
+    <div class="controls">
+      <div>
+        <label for="br-case">Caso L(p,q)</label>
+        <select id="br-case"></select>
+      </div>
+      <div>
+        <label for="br-sort">Orden</label>
+        <select id="br-sort">
+          <option value="zyx">z, y, x (predeterminado)</option>
+          <option value="x">x (desc)</option>
+          <option value="y">y (desc)</option>
+          <option value="z">z (desc)</option>
+          <option value="coef">|coef| (desc)</option>
+        </select>
+      </div>
+      <div>
+        <label for="br-ex-min">exp(x) mínimo</label>
+        <input id="br-ex-min" type="number" min="0" step="1" />
+      </div>
+      <div>
+        <label for="br-ex-max">exp(x) máximo</label>
+        <input id="br-ex-max" type="number" min="0" step="1" />
+      </div>
+      <div>
+        <label for="br-ey-min">exp(y) mínimo</label>
+        <input id="br-ey-min" type="number" min="0" step="1" />
+      </div>
+      <div>
+        <label for="br-ey-max">exp(y) máximo</label>
+        <input id="br-ey-max" type="number" min="0" step="1" />
+      </div>
+    </div>
+
+    <div class="checks">
+      <label><input id="br-z0" type="checkbox" checked /> Incluir z<sup>0</sup></label>
+      <label><input id="br-z2" type="checkbox" checked /> Incluir z<sup>2</sup></label>
+    </div>
+
+    <div id="br-summary" class="summary"></div>
+    <div id="br-link" class="explorer-link"></div>
+    <div class="table-wrap">
+      \u003ctable\u003e
+        \u003cthead\u003e
+          <tr>
+            <th>Coef.</th>
+            <th>exp x</th>
+            <th>exp y</th>
+            <th>exp z</th>
+            <th>Monomio</th>
+          </tr>
+        \u003c/thead\u003e
+        \u003ctbody id="br-body">\u003c/tbody\u003e
+      \u003c/table\u003e
+    </div>
+  `;
+
+  const selectCase = root.querySelector('#br-case');
+  const sortMode = root.querySelector('#br-sort');
+  const exMin = root.querySelector('#br-ex-min');
+  const exMax = root.querySelector('#br-ex-max');
+  const eyMin = root.querySelector('#br-ey-min');
+  const eyMax = root.querySelector('#br-ey-max');
+  const z0 = root.querySelector('#br-z0');
+  const z2 = root.querySelector('#br-z2');
+  const summary = root.querySelector('#br-summary');
+  const linkDiv = root.querySelector('#br-link');
+  const body = root.querySelector('#br-body');
+
+  function typesetMath(target) {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+      window.MathJax.typesetPromise([target]).catch(() => {});
+    }
+  }
+
+  for (const c of cases) {
+    const opt = document.createElement('option');
+    opt.value = c.label;
+    opt.textContent = c.label;
+    selectCase.appendChild(opt);
+  }
+
+  function monomialLatex(ex, ey, ez, coef) {
+    const hasVars = ex > 0 || ey > 0 || ez > 0;
+    if (!hasVars) return String(coef);
+
+    let out = '';
+    if (coef === -1) out += '-';
+    else if (coef !== 1) out += String(coef);
+
+    if (ex > 0) out += ex === 1 ? 'x' : `x^{${ex}}`;
+    if (ey > 0) out += ey === 1 ? 'y' : `y^{${ey}}`;
+    if (ez > 0) out += ez === 1 ? 'z' : `z^{${ez}}`;
+
+    return out || '1';
+  }
+
+  function updateBounds(c) {
+    exMin.value = 0;
+    exMax.value = c.max_ex;
+    eyMin.value = 0;
+    eyMax.value = c.max_ey;
+    exMin.max = c.max_ex;
+    exMax.max = c.max_ex;
+    eyMin.max = c.max_ey;
+    eyMax.max = c.max_ey;
+  }
+
+  function render() {
+    const c = cases.find(x => x.label === selectCase.value) || cases[0];
+
+    const xmin = Math.max(0, Number(exMin.value || 0));
+    const xmax = Math.max(xmin, Number(exMax.value || c.max_ex));
+    const ymin = Math.max(0, Number(eyMin.value || 0));
+    const ymax = Math.max(ymin, Number(eyMax.value || c.max_ey));
+
+    const allowedZ = [];
+    if (z0.checked) allowedZ.push(0);
+    if (z2.checked) allowedZ.push(2);
+
+    let terms = c.terms.filter(([ex, ey, ez]) => {
+      if (allowedZ.length > 0 && !allowedZ.includes(ez)) return false;
+      if (ex < xmin || ex > xmax || ey < ymin || ey > ymax) return false;
+      return true;
+    });
+
+    if (sortMode.value === 'x') {
+      terms = terms.slice().sort((a, b) => b[0] - a[0] || b[1] - a[1] || b[2] - a[2]);
+    } else if (sortMode.value === 'y') {
+      terms = terms.slice().sort((a, b) => b[1] - a[1] || b[0] - a[0] || b[2] - a[2]);
+    } else if (sortMode.value === 'z') {
+      terms = terms.slice().sort((a, b) => b[2] - a[2] || b[0] - a[0] || b[1] - a[1]);
+    } else if (sortMode.value === 'coef') {
+      terms = terms.slice().sort((a, b) => Math.abs(b[3]) - Math.abs(a[3]));
+    } else {
+      terms = terms.slice().sort((a, b) => b[2] - a[2] || b[1] - a[1] || b[0] - a[0]);
+    }
+
+    summary.textContent = `Caso: ${c.label} · términos totales: ${c.n_terms} · términos filtrados: ${terms.length}`;
+
+    // ── Enlace al explorador interactivo ─────────────────────────────────────
+    linkDiv.innerHTML =
+      `<a href="../imagenes/L${c.p}_${c.q}.html" target="_blank">` +
+      `&#128279; Explorador interactivo G(${c.p};&nbsp;&plusmn;1,&nbsp;&plusmn;${c.q})</a>`;
+
+    const maxRows = 1500;
+    const clipped = terms.length > maxRows;
+    const visibleTerms = clipped ? terms.slice(0, maxRows) : terms;
+
+    body.innerHTML = visibleTerms.map(([ex, ey, ez, coef]) => `
+      <tr>
+        <td>${coef}</td>
+        <td>${ex}</td>
+        <td>${ey}</td>
+        <td>${ez}</td>
+        <td>\\(${monomialLatex(ex, ey, ez, coef)}\\)</td>
+      </tr>
+    `).join('');
+
+    if (clipped) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td colspan="5"><em>Se muestran ${maxRows} de ${terms.length} términos (ajusta filtros para reducir).</em></td>`;
+      body.appendChild(tr);
+    }
+
+    typesetMath(body);
+  }
+
+  selectCase.addEventListener('change', () => {
+    const c = cases.find(x => x.label === selectCase.value) || cases[0];
+    updateBounds(c);
+    render();
+  });
+
+  [sortMode, exMin, exMax, eyMin, eyMax, z0, z2].forEach(el => {
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  selectCase.value = cases[0].label;
+  updateBounds(cases[0]);
+  render();
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
