@@ -14,58 +14,52 @@ ARCHIVOS NECESARIOS (todos en el mismo directorio):
     setup_BR.py             ← script de compilación Cython
 
 ══════════════════════════════════════════════════════════════════════
-INSTRUCCIONES DE INSTALACIÓN EN SERVIDOR (Linux, una sola vez)
+INSTRUCCIONES DE INSTALACIÓN (Linux/macOS, una sola vez)
 ══════════════════════════════════════════════════════════════════════
 
-1. COPIAR ARCHIVOS AL SERVIDOR:
-       scp BR_lens_parallel.sage BR_lens_worker.py \
-           BR_lens_core.pyx setup_BR.py  usuario@servidor:/ruta/destino/
-
-2. INSTALAR SAGE (si no está):
+1. INSTALAR SAGE (si no está):
        # Ubuntu/Debian:
        sudo apt install sagemath
-       # O conda:
+       # Conda:
        conda install -c conda-forge sage
 
-3. VERIFICAR DEPENDENCIAS PYTHON (Cython y numpy deben estar en el sage):
+2. VERIFICAR DEPENDENCIAS (Cython y numpy deben estar en el entorno Sage):
        sage -c "import Cython; import numpy; print('OK')"
 
-4. COMPILAR EL MÓDULO CYTHON (obligatorio, una vez por máquina):
-       cd /ruta/destino/
+3. COMPILAR EL MÓDULO CYTHON (obligatorio, una vez por máquina):
+       cd /ruta/al/directorio/
        sage -c "import subprocess, sys; subprocess.run([sys.executable, 'setup_BR.py', 'build_ext', '--inplace'], check=True)"
-       # Alternativa directa con el python3 de sage:
+       # Alternativa directa:
        $(sage --python) setup_BR.py build_ext --inplace
-       # Verifica que se generó el .so:
+       # Verificar que se generó el .so:
        ls BR_lens_core*.so
 
-5. AJUSTAR P_LIST Y N_WORKERS (ver sección "Configuración" al final):
-       P_LIST    = [17]        # primos a calcular
-       N_WORKERS = None        # None = cpu_count() automático
+4. AJUSTAR P_LIST, N_WORKERS y OUT_JSON (ver sección CONFIGURACIÓN al final).
 
-6. CORRER (puede tardar horas para p=17; usar screen/tmux):
-       screen -S BR17
+5. CORRER (puede tardar horas para p grandes; se recomienda screen/tmux):
+       screen -S BR
        sage BR_lens_parallel.sage
-       # Ctrl+A, D  para desacoplar y dejar correr en background
+       # Ctrl+A, D  para desacoplar
 
    O con nohup:
-       nohup sage BR_lens_parallel.sage > BR_p17.log 2>&1 &
-       tail -f BR_p17.log   # monitorear progreso
+       nohup sage BR_lens_parallel.sage > BR.log 2>&1 &
+       tail -f BR.log
 
 ══════════════════════════════════════════════════════════════════════
-TIEMPOS ESPERADOS (con Cython compilado)
+TIEMPOS APROXIMADOS (con Cython compilado, referencia orientativa)
 ══════════════════════════════════════════════════════════════════════
 
-    p=13  (4 clases):  ~50s   en Mac mini 8 cores
-                       ~20s   en servidor 32 cores
+    p=13  (4 clases):  ~50s   en laptop 8 cores
+                       ~20s   en servidor 24 cores
 
-    p=17  (4 clases):  ~85 min  en Mac mini 8 cores
-                       ~22 min  en servidor 32 cores
-                       ~11 min  en servidor 64 cores
+    p=17  (5 clases):  ~12 min  en servidor 12 cores
+                       ~6 min   en servidor 24 cores
 
-    p=19  (5 clases):  días en Mac mini — SOLO servidor 64+ cores
+    p=19  (5 clases):  ~2 h   en servidor 12 cores
+    p=20  (3 clases):  ~5 h   en servidor 12 cores
 
-NOTA GPU: La GPU (CUDA/Metal) NO ayuda. El cálculo es lógica discreta
-          en CPU. Lo que importa es el número de cores CPU del servidor.
+NOTA GPU: La GPU no ayuda. El cálculo es lógica discreta en CPU;
+          el rendimiento escala linealmente con el número de cores.
 
 ══════════════════════════════════════════════════════════════════════
 VERIFICACIÓN DE CORRECTITUD
@@ -77,9 +71,9 @@ experimentalmente: los polinomios de clases homeomorfas coinciden y los
 de clases no-homeomorfas difieren.
 
 SALIDA:
-    - Consola con progreso
-    - quarto/data/BR_polynomials.json  (actualizado tras cada polinomio)
-    - BR_lens_spaces_FECHA.json + .tex  (al terminar todo)
+    - Consola con progreso detallado
+    - BR_polynomials.json  (ruta configurable vía OUT_JSON; se actualiza
+      tras cada polinomio y hace MERGE con resultados previos)
 """
 
 import time, json, os, sys
@@ -91,7 +85,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import BR_lens_worker
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Copiar utilidades de BR_lens_spaces.sage (sin dependencias entre sí)
+# Utilidades: ribbon graph de Heegaard, collares y clases de homeomorfismo
 # ─────────────────────────────────────────────────────────────────────────────
 
 def build_heegaard(p, q):
@@ -361,7 +355,9 @@ def guardar_web_json(results, outpath):
     existing.update(new_cases)
     cases = [v for _, v in sorted(existing.items())]
 
-    os.makedirs(os.path.dirname(outpath), exist_ok=True)
+    dirpath = os.path.dirname(outpath)
+    if dirpath:
+        os.makedirs(dirpath, exist_ok=True)
     data = {
         "generated": datetime.now().isoformat(),
         "description": "Bollobás-Riordan polynomials R(G_{p,q}; x,y,z) "
@@ -385,21 +381,18 @@ if __name__ == "__main__":
     # CONFIGURACIÓN — ajustar antes de correr
     # ══════════════════════════════════════════════════════════════════════
     #
-    # Para regenerar solo p=17 en el Mac mini (~45 min, 8 cores):
-    #   P_LIST    = [17]
-    #   N_WORKERS = None   # usa cpu_count() = 8
-    #
-    # Para el servidor (p=3..20, ajustar N_WORKERS a los cores disponibles):
-    #   P_LIST    = list(range(3, 21))
-    #   N_WORKERS = <num_cores_servidor>
-    #
-    # NOTA: guardar_web_json hace MERGE — los casos ya calculados (p≤16)
-    # se conservan. Solo se sobreescriben los casos en P_LIST.
+    # P_LIST    : valores de p a calcular. Para p grande usar un servidor
+    #             con muchos cores (p=19 ~2h, p=20 ~5h con 12 cores).
+    # N_WORKERS : número de procesos paralelos. None = cpu_count() automático.
+    # OUT_JSON  : ruta del archivo JSON de salida. Se hace MERGE con
+    #             resultados previos; los casos no incluidos en P_LIST
+    #             se conservan intactos.
     # ══════════════════════════════════════════════════════════════════════
-    P_LIST    = [17]              # ← CAMBIAR según necesidad (ver arriba)
-    VERIFICAR = True              # Verifica contra Tutte (solo activo para p ≤ 11)
-    N_WORKERS = None              # None = cpu_count() automático
-    OUTDIR    = os.path.dirname(os.path.abspath(__file__))
+    P_LIST    = [3, 5, 7, 11, 13]   # valores de p a calcular
+    VERIFICAR = True                 # verifica R(x,y,1)=T(x,y+1) para p ≤ 11
+    N_WORKERS = None                 # None = usar todos los cores disponibles
+    OUT_JSON  = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "BR_polynomials.json")
 
     n_workers_actual = N_WORKERS if N_WORKERS is not None else cpu_count()
     print("=" * 65)
@@ -409,8 +402,6 @@ if __name__ == "__main__":
 
     results    = {}
     total_time = 0.0
-    _project_root = os.path.dirname(OUTDIR)
-    _web_json     = os.path.join(_project_root, "quarto", "data", "BR_polynomials.json")
 
     for p in P_LIST:
         print(f"\n{'─'*65}")
@@ -431,7 +422,7 @@ if __name__ == "__main__":
             if VERIFICAR and p <= 11:
                 verificar(p, q, poly, verbose=True)
 
-            guardar_web_json(results, _web_json)
+            guardar_web_json(results, OUT_JSON)
 
     print(f"\n{'='*65}")
     print(f"  {len(results)} polinomios  |  tiempo total: {total_time:.1f}s")
