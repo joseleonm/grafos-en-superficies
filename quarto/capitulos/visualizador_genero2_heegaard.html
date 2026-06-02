@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Editor combinatorio tipo Heegaard - grafos celulares en genero g</title>
+<style>
+  :root{--ink:#10213a;--muted:#4d607f;--panel:#fff;}
+  *{box-sizing:border-box;}
+	  body{margin:0;color:var(--ink);background:linear-gradient(180deg,#f4f7fb,#eaf2ff);font-size:17px;
+	    font-family:Georgia,Cambria,"Times New Roman",serif;}
+  .topbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;
+    border-bottom:1px solid #cfd8ea;background:linear-gradient(90deg,#fff,#f7fbff);position:sticky;top:0;z-index:5;}
+	  .title{font-size:1.08rem;color:#12284b;font-weight:700;margin-right:8px;}
+	  button,select,label{border:1px solid #c6d2ea;background:#fff;color:#17345f;border-radius:8px;padding:6px 9px;
+	    font-family:inherit;font-size:1rem;cursor:pointer;}
+  label{cursor:default;border:none;background:transparent;}
+  button.active{border-color:#1d4ed8;color:#fff;background:#1d4ed8;}
+  button.primary{border-color:#2d5fb2;color:#fff;background:#2d5fb2;}
+	  .shell{display:grid;grid-template-columns:minmax(460px,64%) minmax(300px,36%);gap:10px;padding:10px;
+	    min-height:calc(100vh - 64px);}
+  .panel{background:var(--panel);border:1px solid #d7dfef;border-radius:14px;
+    box-shadow:0 8px 26px rgba(16,33,58,.07);overflow:hidden;display:flex;flex-direction:column;}
+  .panel-head{padding:9px 12px;border-bottom:1px solid #e2e8f4;color:#17345f;font-weight:700;
+    background:linear-gradient(90deg,#fff,#f4f8ff);}
+	  #cv{width:100%;height:min(86vh,940px);display:block;background:#fbfdff;cursor:crosshair;}
+	  .hint{padding:9px 12px;color:var(--muted);font-size:.92rem;border-top:1px solid #e6ecf8;background:#fcfeff;}
+	  .status{padding:8px 12px;color:#17345f;font-size:.94rem;border-top:1px solid #e6ecf8;background:#f7fbff;}
+	  .invbox{padding:10px 12px;}
+	  .invgrid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:1.02rem;}
+	  .invgrid b{color:#17345f;}
+	  .big{font-size:1.8rem;font-weight:700;color:#12284b;}
+	  .codeish{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;background:#f6f9ff;
+	    border:1px solid #d7e2f5;border-radius:8px;padding:9px;white-space:pre-wrap;max-height:42vh;overflow:auto;margin:0 12px 12px;}
+  .ok{color:#12734d;font-weight:700;} .no{color:#d7263d;font-weight:700;}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="title">Diagrama tipo Heegaard &mdash; grafo celular, mapa combinatorio automatico</div>
+    <label>Asas (marco)</label>
+    <select id="genus"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+    <label>Ejemplo</label>
+    <select id="preset"><option value="">Nuevo</option><option value="poincare">Esfera de Poincare</option></select>
+    <button id="tool-vertex" class="active">Anadir vertice</button>
+    <button id="tool-edge">Anadir arista</button>
+    <button id="tool-move">Mover</button>
+    <button id="undo">Deshacer</button>
+    <button id="clear">Limpiar</button>
+    <button id="export" class="primary">Exportar</button>
+  </div>
+  <div class="shell">
+    <section class="panel">
+      <div class="panel-head">Diagrama: meridianos (circulos pareados = asas) + grafo</div>
+      <canvas id="cv"></canvas>
+      <div id="status" class="status"></div>
+      <div class="hint"><b>Vertice</b>: click cerca de una circunferencia meridiana; se proyecta a la circunferencia y aparece tambien su copia identificada en la circunferencia pareja. Los numeros visibles se reinician en cada circunferencia; el id global interno se conserva para el motor. <b>Arista</b>: click en una copia de vertice, clicks intermedios, click en una copia final. <b>Mover</b>: arrastra una copia; su identificada se actualiza automaticamente.</div>
+    </section>
+    <section class="panel">
+      <div class="panel-head">Mapa combinatorio extraido</div>
+      <div class="invbox">
+        <div class="invgrid">
+          <b>Vertices V</b><span id="iv"></span>
+          <b>Aristas E</b><span id="ie"></span>
+          <b>Caras F</b><span id="if"></span>
+	          <b>Caracteristica &chi;</b><span id="ichi"></span>
+	          <b>Componentes</b><span id="icomp"></span>
+	          <b>Cruces visuales</b><span id="icross"></span>
+	          <b>Celular</b><span id="icell"></span>
+	        </div>
+        <div style="margin-top:10px">Genero del encaje (calculado): <span id="ig" class="big"></span></div>
+        <div style="font-size:.8rem;color:var(--muted);margin-top:4px">g del encaje = (2&middot;componentes &minus; &chi;)/2, a partir del sistema de rotacion &sigma; y la involucion &alpha;. El mapa combina las curvas dibujadas con los arcos meridianos automaticos del cociente.</div>
+      </div>
+      <div class="panel-head" style="border-top:1px solid #e2e8f4">Sistema de rotacion &sigma; (orden ccw de aristas por vertice)</div>
+      <div id="rot" class="codeish"></div>
+	      <div class="panel-head" style="border-top:1px solid #e2e8f4">Caras (ciclos de &sigma;&compfn;&alpha;)</div>
+	      <div id="faces" class="codeish"></div>
+	      <div class="panel-head" style="border-top:1px solid #e2e8f4">Permutaciones &sigma; y &alpha; (dardos globales)</div>
+	      <div id="perms" class="codeish"></div>
+	    </section>
+  </div>
+
+<script>
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+/* ===== mundo / canvas ===== */
+function fit(){const dpr=window.devicePixelRatio||1;const r=cv.getBoundingClientRect();
+  cv.width=Math.floor(r.width*dpr);cv.height=Math.floor(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);return [r.width,r.height];}
+function mapp(w,h){return {cx:w/2,cy:h/2,R:0.54*Math.min(w,h)};}
+function w2c(p,M){return [M.cx+p[0]*M.R,M.cy-p[1]*M.R];}
+function c2w(px,py,M){return [(px-M.cx)/M.R,-(py-M.cy)/M.R];}
+function curM(){const r=cv.getBoundingClientRect();return mapp(r.width,r.height);}
+
+/* ===== meridianos (portales) ===== */
+let G=2;
+let portals=[]; // {cx,cy,r,partner,label,color,sign}
+const PAL=['#d7263d','#0b5fff','#12734d','#e07a00','#7b2fb5'];
+const LET=['A','B','C','D','E'];
+function buildPortals(g){
+  G=g; portals=[];
+  const n=2*g, BR=0.6, pr=Math.min(0.17, 1.4/n);
+  for(let j=0;j<n;j++){
+    const ang=Math.PI/2 - 2*Math.PI*j/n;
+    const k=j<g?j:j-g; // pareja
+    portals.push({cx:BR*Math.cos(ang),cy:BR*Math.sin(ang),r:pr,
+      partner:(j+g)%n, label:LET[k]+(j<g?'+':'−'), color:PAL[k%PAL.length], sign:j<g?1:-1});
+  }
+}
+function identify(i,phi){return {circle:portals[i].partner, phi:-phi};}
+function portalPoint(i,phi){const P=portals[i];return [P.cx+P.r*Math.cos(phi), P.cy+P.r*Math.sin(phi)];}
+
+/* ===== estado del grafo ===== */
+let vertices=[]; // {circle,phi,pcircle,pphi,x,y,px,py,label,displayLabel,pair}
+let edges=[];    // {a,b,strokes:[[pt,...],...]}  pt=[x,y]
+let openEdge=null, tool='vertex', dragIdx=null, hoverPt=null, nextLabel=1;
+let nextDisplayByPair=[];
+let history=[];
+const PRESETS={
+  poincare:{
+    genus:2,
+    vertices:[[1,"A+",0.3124661936937069,1],[2,"A+",-2.640565537228535,2],[3,"A+",3.0104806766164964,3],[4,"A+",1.6493144917404605,4],[5,"A+",-0.7141217566941063,5],[6,"B+",1.027659819831491,1],[7,"B+",0.5133062719162982,2],[8,"B+",-0.12975239356592339,3],[9,"B+",-0.5314747142083633,4],[10,"B+",2.1064784403955144,5],[11,"B+",2.5840824278871395,6],[12,"B+",1.57533535812238,7]],
+    edges:[[1,"a",10,"b",[[[0.161768317947,0.652259078719],[-0.68677271269,-0.146186512143]]]],[2,"a",6,"a",[[[-0.149105244453,0.518344466956],[0.687860023483,0.145535618574]]]],[3,"a",12,"a",[[[-0.168540912191,0.622225231561],[0.599228367324,0.169998248765]]]],[4,"a",3,"b",[[[-0.01333437688,0.769476235482],[-0.168540912191,-0.622225231561]]]],[5,"a",12,"b",[[[0.128463686062,0.48865781858],[-0.600771632676,-0.169998248765]]]],[1,"b",9,"b",[[[0.161768317947,-0.652259078719],[-0.453449695386,0.086156881429]]]],[2,"b",10,"a",[[[-0.149105244453,-0.518344466956],[0.51322728731,0.146186512143]]]],[4,"b",11,"b",[[[-0.01333437688,-0.769476235482],[-0.744257752947,-0.089942763549]]]],[5,"b",11,"a",[[[0.128463686062,-0.48865781858],[0.455742247053,0.089942763549]]]],[7,"a",6,"b",[[[0.748091367928,0.083480217688],[-0.512139976517,-0.145535618574]]]],[8,"a",7,"b",[[[0.768570973466,-0.021996065662],[-0.451908632072,-0.083480217688]]]],[9,"a",8,"b",[[[0.746550304614,-0.086156881429],[-0.431429026534,0.021996065662]]]]]
+  }
+};
+
+function resetDisplayCounters(){nextDisplayByPair=Array.from({length:G},()=>1);}
+function portalPairIndex(circle){return circle % G;}
+function rebuildDisplayCountersFromVertices(){
+  resetDisplayCounters();
+  for(const v of vertices){
+    const pair=v.pair ?? portalPairIndex(v.circle);
+    nextDisplayByPair[pair]=Math.max(nextDisplayByPair[pair], v.displayLabel+1);
+  }
+}
+
+function snapToPortalBoundary(p,M,tolPx=24){
+  let best=null,bd=tolPx;
+  const Pp=w2c(p,M);
+  for(let i=0;i<portals.length;i++){
+    const P=portals[i], C=w2c([P.cx,P.cy],M), rp=P.r*M.R;
+    const d=Math.abs(Math.hypot(Pp[0]-C[0],Pp[1]-C[1])-rp);
+    if(d<bd){
+      const phi=Math.atan2(p[1]-P.cy,p[0]-P.cx);
+      bd=d; best={circle:i,phi,point:portalPoint(i,phi)};
+    }
+  }
+  return best;
+}
+function vertexPoint(v,side){return side==='b'?[v.px,v.py]:[v.x,v.y];}
+function vertexCenterFor(v,side){return side==='b'?[v.px,v.py]:[v.x,v.y];}
+function setVertexFromSide(v,side,circle,phi){
+  const id=identify(circle,phi);
+  const [x,y]=portalPoint(circle,phi);
+  const [px,py]=portalPoint(id.circle,id.phi);
+  if(side==='b'){
+    v.circle=id.circle; v.phi=id.phi; v.x=px; v.y=py;
+    v.pcircle=circle; v.pphi=phi; v.px=x; v.py=y;
+  }else{
+    v.circle=circle; v.phi=phi; v.x=x; v.y=y;
+    v.pcircle=id.circle; v.pphi=id.phi; v.px=px; v.py=py;
+  }
+}
+function addVertexOnPortal(hit){
+  const id=identify(hit.circle,hit.phi);
+  const [x,y]=portalPoint(hit.circle,hit.phi);
+  const [px,py]=portalPoint(id.circle,id.phi);
+  const pair=portalPairIndex(hit.circle);
+  vertices.push({circle:hit.circle,phi:hit.phi,pcircle:id.circle,pphi:id.phi,x,y,px,py,label:nextLabel++,displayLabel:nextDisplayByPair[pair]++,pair});
+  history.push({t:'v'});
+}
+function circleIndexByLabel(label){return portals.findIndex(P=>P.label===label);}
+function loadPreset(name){
+  const preset=PRESETS[name];
+  if(!preset)return;
+  buildPortals(preset.genus);
+  document.getElementById('genus').value=String(preset.genus);
+  vertices=[];edges=[];openEdge=null;hoverPt=null;dragIdx=null;history=[];
+  nextLabel=1;resetDisplayCounters();
+  for(const [label,circleLabel,phi,displayLabel] of preset.vertices){
+    const circle=circleIndexByLabel(circleLabel);
+    if(circle<0)continue;
+    const id=identify(circle,phi);
+    const [x,y]=portalPoint(circle,phi);
+    const [px,py]=portalPoint(id.circle,id.phi);
+    const pair=portalPairIndex(circle);
+    vertices.push({circle,phi,pcircle:id.circle,pphi:id.phi,x,y,px,py,label,displayLabel,pair});
+    nextLabel=Math.max(nextLabel,label+1);
+  }
+  rebuildDisplayCountersFromVertices();
+  const byId=new Map(vertices.map((v,i)=>[v.label,i]));
+  for(const [a,aside,b,bside,strokes] of preset.edges){
+    if(!byId.has(a)||!byId.has(b))continue;
+    edges.push({a:byId.get(a),b:byId.get(b),aside,bside,strokes});
+  }
+  setTool('move');
+  render();
+}
+function clearDiagram(){
+  vertices=[];edges=[];openEdge=null;hoverPt=null;dragIdx=null;nextLabel=1;history=[];
+  resetDisplayCounters();
+  setTool('vertex');
+  render();
+}
+function nearestVertexHit(p,M,tolPx=14){let best=null,bd=tolPx;const Pp=w2c(p,M);
+  for(let i=0;i<vertices.length;i++){
+    for(const side of ['a','b']){
+      const Pi=w2c(vertexPoint(vertices[i],side),M);
+      const d=Math.hypot(Pi[0]-Pp[0],Pi[1]-Pp[1]);
+      if(d<bd){bd=d;best={idx:i,side,point:vertexPoint(vertices[i],side)};}
+    }
+  }
+  return best;
+}
+function nearestVertex(p,M,tolPx=14){const h=nearestVertexHit(p,M,tolPx);return h?h.idx:-1;}
+
+function vertexDisplayLabels(){
+  return vertices.map(v=>({a:String(v.displayLabel),b:String(v.displayLabel)}));
+}
+function sideKey(i,side){return `${i}:${side||'a'}`;}
+function usedVertexSideSet(){
+  const used=new Set();
+  for(const e of edges){
+    used.add(sideKey(e.a,e.aside));
+    used.add(sideKey(e.b,e.bside));
+  }
+  if(openEdge)used.add(sideKey(openEdge.a,openEdge.aside));
+  return used;
+}
+function vertexName(i,side='a',labels=null){
+  const L=labels||vertexDisplayLabels();
+  const v=vertices[i];
+  const ci=side==='b'?v.pcircle:v.circle;
+  return `${portals[ci].label}:${L[i][side]||'?'}#${v.label}`;
+}
+
+/* ===== motor combinatorio: sigma, alpha, caras, genero ===== */
+function normAngle(a){const t=2*Math.PI; return ((a%t)+t)%t;}
+function canonicalCircleForPair(pair){return pair;}
+function arcStrokeOnPortal(circle,phi0,phi1){
+  let a0=normAngle(phi0), a1=normAngle(phi1);
+  if(a1<=a0)a1+=2*Math.PI;
+  const steps=Math.max(8,Math.ceil((a1-a0)/(Math.PI/18)));
+  const pts=[];
+  for(let k=0;k<=steps;k++)pts.push(portalPoint(circle,a0+(a1-a0)*k/steps));
+  return pts;
+}
+function meridianArcEdges(){
+  const byCircle=Array.from({length:G},()=>[]);
+  for(let i=0;i<vertices.length;i++){
+    const v=vertices[i];
+    for(const side of ['a','b']){
+      const circle=side==='a'?v.circle:v.pcircle;
+      const pair=portalPairIndex(circle);
+      const canonical=canonicalCircleForPair(pair);
+      if(circle!==canonical)continue;
+      const phi=side==='a'?v.phi:v.pphi;
+      byCircle[pair].push({idx:i,side,phi,sortPhi:normAngle(phi)});
+    }
+  }
+  const arcs=[];
+  for(let pair=0;pair<byCircle.length;pair++){
+    const circle=canonicalCircleForPair(pair);
+    const pts=byCircle[pair].sort((a,b)=>a.sortPhi-b.sortPhi);
+    if(!pts.length)continue;
+    for(let i=0;i<pts.length;i++){
+      const a=pts[i], b=pts[(i+1)%pts.length];
+      arcs.push({
+        kind:'meridian', circle,
+        a:a.idx,b:b.idx,aside:a.side,bside:b.side,
+        strokes:[arcStrokeOnPortal(circle,a.phi,b.phi)]
+      });
+    }
+  }
+  return arcs;
+}
+function mapEdges(){
+  const drawn=edges.map(e=>({...e,kind:'curve'}));
+  const meridian=meridianArcEdges();
+  return {all:drawn.concat(meridian),drawn,meridian};
+}
+function tangentVectorInQuotient(vIdx,side,p){
+  const v=vertices[vIdx];
+  const c=side==='b'?v.pcircle:v.circle;
+  const phi=side==='b'?v.pphi:v.phi;
+  const q=vertexPoint(v,side);
+  const vec=[p[0]-q[0],p[1]-q[1]];
+  const canonical=canonicalCircleForPair(portalPairIndex(c));
+  if(c===canonical)return vec;
+  const radial=[Math.cos(phi),Math.sin(phi)];
+  const tangent=[-Math.sin(phi),Math.cos(phi)];
+  const radialPart=vec[0]*radial[0]+vec[1]*radial[1];
+  const tangentPart=vec[0]*tangent[0]+vec[1]*tangent[1];
+  const cphi=-phi;
+  const cradial=[Math.cos(cphi),Math.sin(cphi)];
+  const ctangent=[-Math.sin(cphi),Math.cos(cphi)];
+  return [
+    radialPart*cradial[0]-tangentPart*ctangent[0],
+    radialPart*cradial[1]-tangentPart*ctangent[1]
+  ];
+}
+function vAngle(v,p,side='a'){
+  const vec=tangentVectorInQuotient(v,side,p);
+  return Math.atan2(vec[1],vec[0]);
+}
+function curveSegments(){
+  const segs=[];
+  for(let e=0;e<edges.length;e++){
+    const E=edges[e];
+    for(let s=0;s<E.strokes.length;s++){
+      const st=E.strokes[s];
+      for(let i=0;i<st.length-1;i++){
+        segs.push({edge:e,stroke:s,seg:i,p:st[i],q:st[i+1]});
+      }
+    }
+  }
+  return segs;
+}
+function segmentIntersection(a,b,eps=1e-9){
+  const p=a.p, r=[a.q[0]-a.p[0],a.q[1]-a.p[1]];
+  const q=b.p, s=[b.q[0]-b.p[0],b.q[1]-b.p[1]];
+  const cross=(u,v)=>u[0]*v[1]-u[1]*v[0];
+  const sub=(u,v)=>[u[0]-v[0],u[1]-v[1]];
+  const rxs=cross(r,s), qmp=sub(q,p), qmpxr=cross(qmp,r);
+  if(Math.abs(rxs)<eps&&Math.abs(qmpxr)<eps){
+    const rr=r[0]*r[0]+r[1]*r[1];
+    if(rr<eps)return null;
+    const t0=(qmp[0]*r[0]+qmp[1]*r[1])/rr;
+    const t1=t0+(s[0]*r[0]+s[1]*r[1])/rr;
+    const lo=Math.max(0,Math.min(t0,t1)), hi=Math.min(1,Math.max(t0,t1));
+    if(hi-lo>1e-4)return {type:'overlap'};
+    return null;
+  }
+  if(Math.abs(rxs)<eps)return null;
+  const t=cross(qmp,s)/rxs, u=cross(qmp,r)/rxs;
+  if(t>1e-4&&t<1-1e-4&&u>1e-4&&u<1-1e-4){
+    return {type:'cross',point:[p[0]+t*r[0],p[1]+t*r[1]]};
+  }
+  return null;
+}
+function unmarkedCurveIntersections(){
+  const segs=curveSegments();
+  const hits=[];
+  for(let i=0;i<segs.length;i++){
+    for(let j=i+1;j<segs.length;j++){
+      const a=segs[i], b=segs[j];
+      if(a.edge===b.edge&&a.stroke===b.stroke&&Math.abs(a.seg-b.seg)<=1)continue;
+      const hit=segmentIntersection(a,b);
+      if(hit)hits.push({...hit,a:a.edge,b:b.edge});
+    }
+  }
+  return hits;
+}
+function computeMap(){
+  const edgeSets=mapEdges();
+  const allEdges=edgeSets.all;
+  const unmarked=unmarkedCurveIntersections();
+  // darts: 2 por arista. dart id = 2*e (lado a), 2*e+1 (lado b)
+  const darts=[]; // {edge,end,vertex,angle}
+  for(let e=0;e<allEdges.length;e++){
+    const E=allEdges[e]; const sA=E.strokes[0], sB=E.strokes[E.strokes.length-1];
+    const pA = sA.length>1 ? sA[1] : (sB.length>1?sB[sB.length-2]:vertexPoint(vertices[E.b],E.bside||'a'));
+    const pB = sB.length>1 ? sB[sB.length-2] : (sA.length>1?sA[1]:vertexPoint(vertices[E.a],E.aside||'a'));
+    darts[2*e]   = {edge:e,end:'a',vertex:E.a,side:E.aside||'a',kind:E.kind,angle:vAngle(E.a,pA,E.aside||'a')};
+    darts[2*e+1] = {edge:e,end:'b',vertex:E.b,side:E.bside||'a',kind:E.kind,angle:vAngle(E.b,pB,E.bside||'a')};
+  }
+  // sigma: por vertice, ordenar darts ccw
+  const byV={}; for(let v=0;v<vertices.length;v++)byV[v]=[];
+  for(let d=0;d<darts.length;d++) byV[darts[d].vertex].push(d);
+  const sigmaNext={};
+  const rotLists={};
+  function rotationAtVertex(ds){
+    const curveA=ds.filter(d=>darts[d].kind==='curve'&&darts[d].side==='a');
+    const curveB=ds.filter(d=>darts[d].kind==='curve'&&darts[d].side==='b');
+    const merOut=ds.filter(d=>darts[d].kind==='meridian'&&darts[d].end==='a');
+    const merIn=ds.filter(d=>darts[d].kind==='meridian'&&darts[d].end==='b');
+    if(curveA.length===1&&curveB.length===1&&merOut.length===1&&merIn.length===1){
+      return [merOut[0],curveA[0],merIn[0],curveB[0]];
+    }
+    return ds.slice().sort((x,y)=>darts[x].angle-darts[y].angle);
+  }
+  for(let v=0;v<vertices.length;v++){const r=rotationAtVertex(byV[v]);
+    rotLists[v]=r; for(let i=0;i<r.length;i++) sigmaNext[r[i]]=r[(i+1)%r.length];}
+  const alpha={}; for(let e=0;e<allEdges.length;e++){alpha[2*e]=2*e+1;alpha[2*e+1]=2*e;}
+  // caras
+  const seen=new Set(); const faces=[];
+  for(let d0=0;d0<darts.length;d0++){ if(seen.has(d0))continue; const cyc=[]; let d=d0;
+    do{ seen.add(d); cyc.push(d); d=sigmaNext[alpha[d]]; }while(d!==d0 && d!==undefined);
+    faces.push(cyc); }
+  // componentes (union-find sobre vertices via aristas)
+  const par=[...Array(vertices.length).keys()];
+  const find=x=>{while(par[x]!==x){par[x]=par[par[x]];x=par[x];}return x;};
+  for(const E of allEdges){const ra=find(E.a),rb=find(E.b);if(ra!==rb)par[rb]=ra;}
+  const compMap={};
+  for(let v=0;v<vertices.length;v++){
+    const r=find(v);
+    if(!compMap[r])compMap[r]=[];
+    compMap[r].push(v);
+  }
+  const components=Object.values(compMap);
+  const C=Math.max(1,components.length);
+  const V=vertices.length,Ee=allEdges.length,Fc=darts.length?faces.length:0;
+  const chi=V-Ee+Fc;
+  const g=(2*C-chi)/2;
+  const genusMatchesFrame = Math.abs(g-G)<1e-9;
+  const cellularProblems=[];
+  if(Ee<=0)cellularProblems.push('grafo vacio');
+  if(components.length>1)cellularProblems.push(`${components.length} componentes`);
+  if(Ee>0 && !genusMatchesFrame)cellularProblems.push(`genero ${g} != marco ${G}`);
+  const cellular = cellularProblems.length===0;
+  const cellularReason = cellular ? 'si' : cellularProblems.join('; ');
+  return {V,E:Ee,drawnE:edgeSets.drawn.length,meridianE:edgeSets.meridian.length,F:Fc,chi,C,g,cellular,cellularReason,components,faces,rotLists,darts,allEdges,meridianEdges:edgeSets.meridian,unmarked};
+}
+function cyclesToText(cycles){return cycles.map(c=>`(${c.join(' ')})`).join(' ');}
+function permutationSummary(m,vlabels){
+  const sigmaCycles=Object.values(m.rotLists).filter(r=>r.length).map(r=>r.map(d=>d+1));
+  const alphaPairs=m.allEdges.map((_,i)=>[2*i+1,2*i+2]);
+  const edgeRows=m.allEdges.map((e,i)=>{
+    const a=vertexName(e.a,e.aside||'a',vlabels);
+    const b=vertexName(e.b,e.bside||'a',vlabels);
+    const kind=e.kind==='meridian'?`meridiano ${portals[e.circle].label}`:'curva';
+    return `e${i+1} ${kind}: d${2*i+1} ${a}  --  d${2*i+2} ${b}`;
+  });
+  const sageLabels=Object.fromEntries(edgeRows.map((row,i)=>[i+1,row.replaceAll('"','\\"')]));
+  return [
+    `sigma = ${cyclesToText(sigmaCycles)}`,
+    `alpha = ${cyclesToText(alphaPairs)}`,
+    '',
+    'Sage/Python:',
+    `sigma_cycles = ${JSON.stringify(sigmaCycles)}`,
+    `alpha_pairs = ${JSON.stringify(alphaPairs)}`,
+    `edge_labels = ${JSON.stringify(sageLabels,null,2)}`,
+    '',
+    'Dardos por arista:',
+    edgeRows.join('\n')
+  ].join('\n');
+}
+
+/* ===== render ===== */
+function smooth(ctx,pts){ if(pts.length<2)return;
+  ctx.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]); }
+function drawStroke(stroke,M,col,wid,dash){
+  if(stroke.length<2)return;
+  ctx.beginPath();ctx.setLineDash(dash||[]);ctx.strokeStyle=col;ctx.lineWidth=wid;ctx.lineJoin='round';
+  const pc=stroke.map(p=>w2c(p,M)); smooth(ctx,pc); ctx.stroke();ctx.setLineDash([]);
+}
+function render(){
+  const [w,h]=fit();const M=mapp(w,h); ctx.clearRect(0,0,w,h);
+  const vlabels=vertexDisplayLabels();
+  const used=usedVertexSideSet();
+  // meridianos
+  for(const P of portals){const c=w2c([P.cx,P.cy],M);const rp=P.r*M.R;
+    ctx.beginPath();ctx.arc(c[0],c[1],rp,0,2*Math.PI);
+    ctx.fillStyle=P.color+'14';ctx.fill();
+    ctx.lineWidth=2.4;ctx.strokeStyle=P.color;ctx.stroke();
+    // flecha de orientacion
+    ctx.beginPath();ctx.arc(c[0],c[1],rp,-0.5,0.2);ctx.strokeStyle=P.color;ctx.lineWidth=3;ctx.stroke();
+    const ae=0.2,tip=[c[0]+rp*Math.cos(ae),c[1]+rp*Math.sin(ae)];
+    ctx.beginPath();ctx.moveTo(tip[0],tip[1]);
+    ctx.lineTo(tip[0]-7*Math.cos(ae-0.5),tip[1]-7*Math.sin(ae-0.5));
+    ctx.lineTo(tip[0]-7*Math.cos(ae+0.5),tip[1]-7*Math.sin(ae+0.5));ctx.closePath();ctx.fillStyle=P.color;ctx.fill();
+    ctx.fillStyle=P.color;ctx.font='600 14px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(P.label,c[0],c[1]);
+  }
+  // aristas
+  for(const e of edges){for(const st of e.strokes){drawStroke(st,M,'#222',2.2);}}
+  if(openEdge){for(const st of openEdge.strokes)drawStroke(st,M,'#6a3fb5',2.2);
+    drawStroke(openEdge.cur,M,'#6a3fb5',2.2);
+    if(hoverPt&&openEdge.cur.length)drawStroke([openEdge.cur[openEdge.cur.length-1],hoverPt],M,'#6a3fb5',1.5,[5,4]);}
+  // vertices pareados
+  for(let i=0;i<vertices.length;i++){
+    const v=vertices[i];
+    const ca=w2c([v.x,v.y],M), cb=w2c([v.px,v.py],M);
+    for(const [c,ci,side] of [[ca,v.circle,'a'],[cb,v.pcircle,'b']]){
+      const sel=openEdge&&openEdge.a===i&&(openEdge.aside||'a')===side;
+      const isUsed=used.has(sideKey(i,side));
+      if(isUsed||sel){
+        ctx.beginPath();ctx.arc(c[0],c[1],15,0,2*Math.PI);
+        ctx.strokeStyle=sel?'#6a3fb5':'#111827';ctx.lineWidth=2;ctx.stroke();
+      }
+      ctx.beginPath();ctx.arc(c[0],c[1],12,0,2*Math.PI);
+      ctx.fillStyle=sel?'#6a3fb5':(isUsed?portals[ci].color:'#fff');ctx.fill();
+      ctx.lineWidth=isUsed?2.2:2;ctx.strokeStyle=isUsed?'#fff':portals[ci].color;ctx.stroke();
+      ctx.fillStyle=(sel||isUsed)?'#fff':portals[ci].color;ctx.font='700 14px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(vlabels[i][side],c[0],c[1]);
+    }
+  }
+  updatePanel();
+}
+function updatePanel(){
+  const m=computeMap();
+  document.getElementById('iv').textContent=m.V;
+  document.getElementById('ie').textContent=`${m.E} (${m.drawnE} curvas + ${m.meridianE} meridianos)`;
+  document.getElementById('if').textContent=m.F;
+  document.getElementById('ichi').textContent=m.chi;
+  document.getElementById('icomp').textContent=m.C;
+  document.getElementById('icross').innerHTML=m.unmarked.length?`<span class="no">${m.unmarked.length} (advertencia)</span>`:'<span class="ok">0</span>';
+  document.getElementById('icell').innerHTML=m.cellular?'<span class="ok">si</span>':`<span class="no">no (${m.cellularReason})</span>`;
+  document.getElementById('ig').textContent=Number.isInteger(m.g)?m.g:m.g.toFixed(1);
+  // rotacion
+  const vlabels=vertexDisplayLabels();
+  let rs='';
+  for(let v=0;v<vertices.length;v++){const r=m.rotLists[v]||[];
+    const seq=r.map(d=>{
+      const dd=m.darts[d];const e=m.allEdges[dd.edge];
+      const other=dd.end==='a'?e.b:e.a;
+      const oside=dd.end==='a'?(e.bside||'a'):(e.aside||'a');
+      return vertexName(other,oside,vlabels);
+    });
+    rs+=`id ${vertices[v].label} (${vertexName(v,'a',vlabels)} / ${vertexName(v,'b',vlabels)}): [ ${seq.join(' ')} ]\n`;}
+  document.getElementById('rot').textContent=rs||'(sin vertices)';
+  let fs='';
+  m.faces.forEach((f,i)=>{const seq=f.map(d=>{const dd=m.darts[d];const e=m.allEdges[dd.edge];const side=dd.end==='a'?(e.aside||'a'):(e.bside||'a');return vertexName(dd.vertex,side,vlabels);});
+    fs+=`F${i+1} (long ${f.length}): ${seq.join(' -> ')}\n`;});
+  document.getElementById('faces').textContent=fs||'(sin caras)';
+  document.getElementById('perms').textContent=permutationSummary(m,vlabels);
+  document.getElementById('status').textContent=
+    `V=${m.V} E=${m.E} (${m.drawnE}+${m.meridianE}) F=${m.F} chi=${m.chi} | genero encaje=${m.g} | herramienta: ${tool}`+
+    (m.unmarked.length?` | advertencia visual: ${m.unmarked.length} cruces de curvas en pantalla`:'')+
+    (openEdge?`  | dibujando desde ${vertexName(openEdge.a,openEdge.aside||'a',vlabels)}`:'');
+}
+
+/* ===== interaccion ===== */
+function evt(ev){const r=cv.getBoundingClientRect();const M=mapp(r.width,r.height);
+  return c2w(ev.clientX-r.left,ev.clientY-r.top,M);}
+function finishEdge(hit){openEdge.cur.push(hit.point);openEdge.strokes.push(openEdge.cur);
+  edges.push({a:openEdge.a,b:hit.idx,aside:openEdge.aside,bside:hit.side,strokes:openEdge.strokes});
+  history.push({t:'e'});openEdge=null;}
+cv.addEventListener('mousedown',(ev)=>{
+  const p=evt(ev),M=curM();
+  if(tool==='vertex'){
+    const hit=snapToPortalBoundary(p,M);
+    if(hit){addVertexOnPortal(hit);render();}
+    else{document.getElementById('status').textContent='Los vertices deben colocarse cerca de alguna circunferencia meridiana.';}
+  }
+  else if(tool==='edge'){
+    const vh=nearestVertexHit(p,M);
+    if(!openEdge){ if(!vh)return; openEdge={a:vh.idx,aside:vh.side,strokes:[],cur:[vh.point]};render();return;}
+    if(vh){
+      const sameStart=vh.idx===openEdge.a && vh.side===openEdge.aside;
+      if(!sameStart || openEdge.cur.length>1||openEdge.strokes.length>0){finishEdge(vh);render();}
+      return;
+    }
+    openEdge.cur.push(p);render();
+  }else if(tool==='move'){dragIdx=nearestVertexHit(p,M);}
+});
+cv.addEventListener('mousemove',(ev)=>{const p=evt(ev);
+  if(tool==='edge'&&openEdge){hoverPt=p;render();}
+  if(tool==='move'&&dragIdx){
+    const v=vertices[dragIdx.idx];
+    const baseCircle=dragIdx.side==='b'?v.pcircle:v.circle;
+    const P=portals[baseCircle];
+    const phi=Math.atan2(p[1]-P.cy,p[0]-P.cx);
+    setVertexFromSide(v,dragIdx.side,baseCircle,phi);
+    render();
+  }});
+window.addEventListener('mouseup',()=>{dragIdx=null;});
+cv.addEventListener('dblclick',()=>{if(openEdge){openEdge=null;render();}});
+window.addEventListener('keydown',(e)=>{if(e.key==='Escape'&&openEdge){openEdge=null;render();}});
+
+/* ===== controles ===== */
+function setTool(t){tool=t;openEdge=null;hoverPt=null;
+  for(const id of ['vertex','edge','move'])document.getElementById('tool-'+id).classList.toggle('active',id===t);render();}
+document.getElementById('tool-vertex').onclick=()=>setTool('vertex');
+document.getElementById('tool-edge').onclick=()=>setTool('edge');
+document.getElementById('tool-move').onclick=()=>setTool('move');
+document.getElementById('preset').onchange=(e)=>{if(e.target.value)loadPreset(e.target.value);else clearDiagram();};
+document.getElementById('genus').onchange=(e)=>{document.getElementById('preset').value='';buildPortals(parseInt(e.target.value));clearDiagram();};
+document.getElementById('clear').onclick=()=>{document.getElementById('preset').value='';clearDiagram();};
+document.getElementById('undo').onclick=()=>{const h=history.pop();if(!h)return;
+  if(h.t==='e')edges.pop();
+  else{const v=vertices.pop();if(v){nextLabel--;const vi=vertices.length;edges=edges.filter(e=>e.a!==vi&&e.b!==vi);rebuildDisplayCountersFromVertices();}}
+  openEdge=null;render();};
+document.getElementById('export').onclick=()=>{
+  const m=computeMap();
+  const vlabels=vertexDisplayLabels();
+  const data={genus_frame:G,vertices:vertices.map((v,i)=>({
+      internalId:v.label,
+      side1:{circle:portals[v.circle].label,displayLabel:vlabels[i].a,phi:v.phi,x:v.x,y:v.y},
+      side2:{circle:portals[v.pcircle].label,displayLabel:vlabels[i].b,phi:v.pphi,x:v.px,y:v.py}
+    })),
+    edges:edges.map(e=>({
+      a:vertices[e.a].label,b:vertices[e.b].label,aside:e.aside||'a',bside:e.bside||'a',
+      segments:e.strokes.length,strokes:e.strokes
+    })),
+    meridian_edges:m.meridianEdges.map(e=>({
+      circle:portals[e.circle].label,
+      a:vertices[e.a].label,aside:e.aside||'a',
+      b:vertices[e.b].label,bside:e.bside||'a'
+    })),
+    combinatorial_edges:m.allEdges.map(e=>({
+      kind:e.kind,
+      circle:e.circle==null?null:portals[e.circle].label,
+      a:vertices[e.a].label,aside:e.aside||'a',
+      b:vertices[e.b].label,bside:e.bside||'a'
+    })),
+    combinatorics:{
+      V:m.V,E:m.E,drawn_edges:m.drawnE,meridian_edges:m.meridianE,F:m.F,chi:m.chi,components:m.C,genus:m.g,cellular:m.cellular,
+      rotation_rule:'heegaard_alternating_meridian_curve',
+      unmarked_curve_intersections:m.unmarked.length,
+      component_vertices:m.components.map(comp=>comp.map(i=>vertices[i].label))
+    },
+    permutations:{
+      sigma_cycles:Object.values(m.rotLists).filter(r=>r.length).map(r=>r.map(d=>d+1)),
+      alpha_pairs:m.allEdges.map((_,i)=>[2*i+1,2*i+2])
+    },
+    unmarked_curve_intersections:m.unmarked.map(h=>({type:h.type,edgeA:h.a+1,edgeB:h.b+1,point:h.point||null})),
+    darts:m.darts.map((d,i)=>{
+      const e=m.allEdges[d.edge];
+      return {
+        dart:i+1,edge:d.edge+1,edgeKind:e.kind,vertex:vertices[d.vertex].label,
+        side:d.side,angle:d.angle
+      };
+    }),
+    faces:m.faces.map(f=>f.map(d=>d+1)),
+    rotation_system:Object.fromEntries(Object.entries(m.rotLists).map(([v,r])=>
+      [vertices[v].label, r.map(d=>{const dd=m.darts[d];const e=m.allEdges[dd.edge];return vertices[dd.end==='a'?e.b:e.a].label;})])),
+    display_labels:vertices.map((v,i)=>({
+      internalId:v.label,
+      side1:`${portals[v.circle].label}:${vlabels[i].a}`,
+      side2:`${portals[v.pcircle].label}:${vlabels[i].b}`
+    }))};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='diagrama_heegaard_g'+G+'.json';a.click();};
+window.addEventListener('resize',render);
+buildPortals(2); resetDisplayCounters(); render();
+</script>
+</body>
+</html>
