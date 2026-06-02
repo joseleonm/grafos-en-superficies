@@ -6,6 +6,7 @@ project:
     - imagenes/br_*.html
     - imagenes/L*.html
     - imagenes/br_index.html
+    - capitulos/visualizador_genero2_heegaard.html
 
 website:
   title: "Sistemas de Rotación y Ribbon Graphs"
